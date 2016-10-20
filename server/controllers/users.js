@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
-var Friend = mongoose.model('Friend');
+var User = mongoose.model('User');
 module.exports = {
 	index: function(req, res) {
-		Friend.find({}, function(err, data) {
+		User.find({}, function(err, data) {
 			if (err) 
 				res.json(err)
 			else
@@ -10,8 +10,8 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		var friend = new Friend(req.body)
-		friend.save(function(err, data) {
+		var user = new User(req.body)
+		user.save(function(err, data) {
 			if (err) 
 				res.json(err)
 			else
@@ -19,7 +19,7 @@ module.exports = {
 		});
 	},
 	update: function(req, res) {
-		Friend.update({_id: req.params.id}, {$set: {
+		User.update({_id: req.params.id}, {$set: {
 			first_name: req.body.first_name,
 			last_name: req.body.last_name,
 			birthday: req.body.birthday
@@ -31,7 +31,7 @@ module.exports = {
 		});
 	},
 	delete: function(req, res) {
-		Friend.remove({_id: req.params.id}, function(err, data) {
+		User.remove({_id: req.params.id}, function(err, data) {
 			if (err) 
 				res.json(err)
 			else
@@ -39,7 +39,7 @@ module.exports = {
 		});
 	},
 	show: function(req, res) {
-		Friend.findOne({_id: req.params.id}, function(err, data) {
+		User.findOne({_id: req.params.id}, function(err, data) {
 			if (err) 
 				res.json(err)
 			else

@@ -1,0 +1,22 @@
+{
+  "name": "shop",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Philip Vo <philiptranbavo@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/PhilipVo/shop",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.5.8",
+    "angular": "^1.5.8",
+    "angular-messages": "^1.5.8"
+  }
+}
