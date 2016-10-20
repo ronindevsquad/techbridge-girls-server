@@ -1,0 +1,18 @@
+<a href="#/new">New Friend</a><br><br>
+<input type="text" placeholder="Filter: Birthday" ng-model="_filter">
+<table>
+	<thead>
+			<th>Name</th>
+			<th>Show</th>
+			<th>Update</th>
+			<th>Delete</th>
+	</thead>
+	<tbody>
+		<tr ng-repeat="friend in friends | filter:{'birthday': _filter}">
+			<td>{{ friend.first_name }} {{ friend.last_name }}</td>
+			<td><a href="#/show/{{friend._id}}">show</a></td>
+			<td><a href="#/edit/{{friend._id}}">edit</a></td>
+			<td><a href="#/delete" ng-click="delete(friend._id)">delete</a></td>
+		</tr>
+	</tbody>
+</table>
