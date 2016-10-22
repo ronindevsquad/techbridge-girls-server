@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="one-half column">
+		<h5><b>Register</b></h5>
+		<form ng-submit="register()">
+			<label>Username:</label>
+			<input type="text" ng-model="new_user.username">
+			<label>Email:</label>				
+			<input type="text" ng-model="new_user.email">
+			<label>Password:</label>				
+			<input type="password" ng-model="new_user.password">
+			<label>Confirm password:</label>				
+			<input type="password" ng-model="new_user.confirm_password"><br>
+			<input class="button-primary" type="submit" value="Register">
+		</form>			
+	</div>
+
+	<div class="one-half column">
+		<h5><b>Login</b></h5>
+		<form ng-submit="login()">
+			<label>Username:</label>			
+			<input type="text" ng-model="user.username">
+			<label>Password:</label>				
+			<input type="password" ng-model="user.password"><br>
+			<input class="button-primary" type="submit" value="Login">
+		</form>			
+	</div>		
+</div>

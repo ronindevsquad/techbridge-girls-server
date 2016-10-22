@@ -5,4 +5,4 @@ var PostSchema = new mongoose.Schema({
 	image: {type: String, required: true},
 	links: [{type: Schema.Types.ObjectId, ref: 'Link'}]
 }, {timestamps: true});
-var Post = mongoose.model('Post', PostSchema);
+mongoose.model('Post', PostSchema);

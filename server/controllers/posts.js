@@ -4,9 +4,12 @@ var Post = mongoose.model('Post');
 var Link = mongoose.model('Link');
 module.exports = {
 	index: function(req, res) {
-		Post.find({}, function(err, data) {
-			if (err) 
-				res.json(err)
+		Post.find()
+		.populate('_user')
+		.populate('links')
+		.exec(function(err, data) {
+			if (err)
+				res.json(error);
 			else
 				res.json(data);
 		});
@@ -41,8 +44,8 @@ module.exports = {
 				post.save(function(err, post) {
 					if (err)
 						res.json(err);
-					// Then update the user's posts:
 					else {
+						// Then update the user's posts:
 						user.posts.push(post);
 						user.save(function(err, data) {
 							if (err)

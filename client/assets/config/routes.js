@@ -3,20 +3,15 @@ app.config(function ($routeProvider) {
 	$routeProvider
 	.when('/',{
 		templateUrl: 'partials/index.html',
-		controller: 'newController'		
-	})	
-	.when('/new',{
-		templateUrl: 'partials/new.html',
-		controller: 'newController'
+		controller: 'indexController'		
 	})
-	.when('/edit/:id',{
-		templateUrl: 'partials/edit.html',
-		controller: 'editController'
-	})	
-	.when('/show/:id',{
-		templateUrl: 'partials/show.html',
-		controller: 'editController'
+	.when('/login',{
+		templateUrl: 'partials/login.html',
+		controller: 'loginController'
 	})
+	.when('/post',{
+		templateUrl: 'partials/post.html',
+	})	
 	.otherwise({
 		redirectTo: '/'
 	});
