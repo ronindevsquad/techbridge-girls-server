@@ -1,3 +1,7 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
 .error {
 	color: red;
 }
@@ -8,3 +12,30 @@
 	margin-top: 25%;
 	text-align: center;
 }
+	#login input{
+		margin: -1px;
+		width: 300px;
+	}
+	#login #bottom_form{
+		/*border-top: none;*/
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+	#login #top_form{
+		/*border-top: none;*/
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+	#login .middle_form{
+		border-radius: 0px;
+	}
+	#login #login_submit{
+		margin-top: 20px;
+		background-color: #fa560d;
+		border: none;
+		width: 300px;
+	}
+	#login a{
+		text-decoration: none;
+		color: #fa560d;
+	}
