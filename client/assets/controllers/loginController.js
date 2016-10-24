@@ -4,9 +4,14 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 		$location.url('/')
 
 	$scope.login = function() {
+		$scope.login_error = null;		
 		usersFactory.login($scope.user, function(data) {
 			if (data.errors)
-				console.log(data.errors[0])
+				for (key in data.errors) {
+					console.log(data.errors[key].message);
+					$scope.login_error = data.errors[key].message;
+					break;
+				}
 			else {
 				$cookies.put('username', data.username);
 				$location.url('/');
