@@ -4,33 +4,20 @@
 	<a ng-hide="username" href="#/login">Login/Register</a>
 	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 </nav>
-
-<div class="row">
-	<div class="one-half column">
-		<h5><b>Register</b></h5>
-		<form ng-submit="create()">
-			<label>Username:</label>
-			<input type="text" ng-model="new_user.username" minlength="2" required>
-			<label>Email:</label>				
-			<input type="email" ng-model="new_user.email" required>
-			<label>Password:</label>				
-			<input type="password" ng-model="new_user.password" required>
-			<label>Confirm password:</label>				
-			<input type="password" ng-model="new_user.confirm_password" required><br>
-			<input class="button-primary" type="submit" value="Register">
-			<p class="error" ng-bind="create_error"></p>
-		</form>
-	</div>
-
-	<div class="one-half column">
-		<h5><b>Login</b></h5>
+	<div id='login' class="one-half column offset-by-three login_box">
+		<h5><b>Welcome to <span>Froxxi</span></b></h5>
 		<form ng-submit="login()">
-			<label>Username:</label>			
-			<input type="text" ng-model="user.username" required>
-			<label>Password:</label>				
-			<input type="password" ng-model="user.password" required><br>
+
+			<input type="text" placeholder='username or email' ng-model="user.username" required>
+			<br>
+			<input type="password" placeholder='password' ng-model="user.password" required><br>
 			<input class="button-primary" type="submit" value="Login">
 			<p class="error" ng-bind="login_error"></p>
-		</form>			
-	</div>		
+		</form>
+		<p>
+			Forgot Password? <a href="#/reset">Reset Password</a>
+			<br>
+			or <a href="#/register">Sign Up</a>
+		</p>
+	</div>
 </div>

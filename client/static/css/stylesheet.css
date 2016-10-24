@@ -1,3 +1,10 @@
 .error {
 	color: red;
 }
+
+/*Login Styles*/
+
+#login{
+	margin-top: 25%;
+	text-align: center;
+}

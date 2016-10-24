@@ -1,0 +1,25 @@
+<!-- Navbar -->
+<nav>
+	<a href="#/">Home</a>
+	<a ng-hide="username" href="#/login">Login/Register</a>
+	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
+</nav>
+
+<div class="row">
+	<div id='login' class="one-half column offset-by-three">
+		<h5><b>Welcome to <span>Froxxi</span></b></h5>
+		<form ng-submit="create()">
+			<input type="text" placeholder='username' ng-model="new_user.username" minlength="2" required>
+			<br>
+			<input type="email" placeholder='email' ng-model="new_user.email" required>
+			<br>
+			<input type="password" placeholder='password' ng-model="new_user.password" required>
+			<br>
+			<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required><br>
+			<input class="button-primary" type="submit" value="Register">
+			<p class="error" ng-bind="create_error"></p>
+		</form>
+		<p>
+			Already have an account? <a href="#/login">Log in</a>
+		</p>
+	</div>
