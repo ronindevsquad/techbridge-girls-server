@@ -3,7 +3,7 @@ app.config(function ($routeProvider) {
 	$routeProvider
 	.when('/',{
 		templateUrl: 'partials/index.html',
-		controller: 'indexController'		
+		controller: 'indexController'
 	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
@@ -11,8 +11,12 @@ app.config(function ($routeProvider) {
 	})
 	.when('/post',{
 		templateUrl: 'partials/post.html',
-		controller: 'postController'		
-	})	
+		controller: 'postController'
+	})
+	.when('/register',{
+		templateUrl: 'partials/register.html',
+		controller: 'loginController'
+	})
 	.otherwise({
 		redirectTo: '/'
 	});
