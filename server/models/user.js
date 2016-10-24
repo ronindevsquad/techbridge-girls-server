@@ -49,41 +49,6 @@ UserSchema.pre('save', function(next) {
 	});
 });
 
-UserSchema.methods.create_user = function(callback) {
-	var user = this;
-	console.log(user)
-	console.log(user.password, user.confirm_password)
-	if (user.password != user.confirm_password)
-		callback({errors: {password: {message: "Passwords do not match."}}});
-	else {
-		// Check for unique username:
-		user.findOne({username: user.username}, function(err, data) {
-			if (err)
-				callback(err);
-			else if (data)
-				callback({errors: {username: {message: "Username already registered."}}});
-			else {
-				// Check for unique email:
-				user.findOne({email: user.email}, function(err, data) {
-					if (err)
-						callback(err);
-					else if (data)
-						callback({errors: {email: {message: "Email already in use."}}});
-					else {
-						user.save(function(err, data) {
-							if (err) 
-								callback(err);
-							else
-								callback(null, data);
-						});
-					}
-				});
-			}
-		});
-	}
-
-};
-
 UserSchema.methods.comparePassword = function(candidatePassword, callback) {
 		bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
 				if (err)
