@@ -47,3 +47,27 @@ body{
 		text-decoration: none;
 		color: #fa560d;
 	}
+	#login .white_text{
+		color:white;
+	}
+
+/*Index page*/
+.rounded_corner_img{
+	border-radius: 10px;
+}
+
+/* Add image button css */
+.blur{
+	filter:blur(10px);
+}
+
+.upload_image{
+	position: absolute;
+	z-index: 500;
+	left: 40%;
+	top: 40%;
+}
+
+.hidden{
+	display: none;
+}

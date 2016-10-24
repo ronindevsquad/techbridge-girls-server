@@ -1,10 +1,13 @@
 app.controller('loginController', function ($scope, $location, $cookies, usersFactory) {
+	//STYLING SETTING FOR PAGE CHANGE
+	$('body').css('background-color', '#4F4F4F');
+	//
 	$scope.username = $cookies.get('username');
 	if ($scope.username)
 		$location.url('/')
 
 	$scope.login = function() {
-		$scope.login_error = null;		
+		$scope.login_error = null;
 		usersFactory.login($scope.user, function(data) {
 			if (data.errors)
 				for (key in data.errors) {
@@ -20,7 +23,7 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 	}
 	$scope.logout = function() {
 		$cookies.remove('username');
-	}	
+	}
 	$scope.create = function() {
 		$scope.create_error = null;
 		usersFactory.create($scope.new_user, function(data) {
