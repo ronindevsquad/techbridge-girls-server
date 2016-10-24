@@ -6,8 +6,16 @@
 	color: red;
 }
 
-/*Login Styles*/
+/*Background for login and registration pages (testing)*/
+body{
+	background-color: #4F4F4F;
+}
+#shoptheworld{
+	z-index: -1;
+	position: absolute;
+}
 
+/*Login Styles*/
 #login{
 	margin-top: 25%;
 	text-align: center;

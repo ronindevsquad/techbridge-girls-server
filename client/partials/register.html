@@ -4,10 +4,10 @@
 	<a ng-hide="username" href="#/login">Login/Register</a>
 	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 </nav>
-
+<img id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
 <div class="row">
 	<div id='login' class="one-half column offset-by-four">
-		<h5><b>Welcome to <span>Froxxi</span></b></h5>
+		<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
 		<form ng-submit="create()">
 			<input id="top_form" type="text" placeholder='username' ng-model="new_user.username" minlength="2" required>
 			<br>
@@ -17,7 +17,7 @@
 			<br>
 			<input id="bottom_form" type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
 			<br>
-			<input id="login_submit" class="button-primary" type="submit" value="Register">
+			<input id="login_submit" class="button-primary" type="submit" value="Sign Up">
 			<p class="error" ng-bind="create_error"></p>
 		</form>
 		<p>
