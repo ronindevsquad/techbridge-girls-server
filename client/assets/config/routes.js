@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'ngMessages']);
+var app = angular.module('app', ['ngRoute', 'ngMessages', 'ngCookies']);
 app.config(function ($routeProvider) {
 	$routeProvider
 	.when('/',{
@@ -11,6 +11,7 @@ app.config(function ($routeProvider) {
 	})
 	.when('/post',{
 		templateUrl: 'partials/post.html',
+		controller: 'postController'		
 	})	
 	.otherwise({
 		redirectTo: '/'

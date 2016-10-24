@@ -1,21 +1,36 @@
-app.controller('loginController', function ($scope, $location, usersFactory) {
-	// usersFactory.index(function(friends) {
-	// 	$scope.friends = friends;
-	// });
+app.controller('loginController', function ($scope, $location, $cookies, usersFactory) {
+	$scope.username = $cookies.get('username');
+	if ($scope.username)
+		$location.url('/')
 
 	$scope.login = function() {
-		usersFactory.login($scope.user, function() {
-			$location.url('/');
+		usersFactory.login($scope.user, function(data) {
+			if (data.errors)
+				console.log(data.errors[0])
+			else {
+				$cookies.put('username', data.username);
+				$location.url('/');
+			}
 		});
 	}
-	$scope.register = function() {
-		usersFactory.create($scope.new_user, function() {
-			$location.url('/');
-		});
-	}
+	$scope.logout = function() {
+		$cookies.remove('username');
+	}	
 	$scope.create = function() {
-		usersFactory.create($scope.new_user, function() {
-			$location.url('/');
+		$scope.create_error = null;
+		usersFactory.create($scope.new_user, function(data) {
+			console.log(data)
+			if (data.errors)
+				for (key in data.errors) {
+					console.log(data.errors[key].message);
+					$scope.create_error = data.errors[key].message;
+					break;
+				}
+			else {
+				console.log(data)
+				$cookies.put('username', data.username);
+				$location.url('/');
+			}
 		});
 	}
 })

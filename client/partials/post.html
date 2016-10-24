@@ -1,4 +1,11 @@
-<form class="offset-by-one ten columns" ng-submit="post()">
+<!-- Navbar -->
+<nav>
+	<a href="#/">Home</a>
+	<a ng-hide="username" href="#/login">Login/Register</a>
+	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
+</nav>
+
+<form class="" ng-submit="create()">
 	<label>Image:</label>
 	<input type="file" ng-model="post.image"><br>
 	<label>Description:</label>

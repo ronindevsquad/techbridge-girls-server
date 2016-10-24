@@ -12,33 +12,43 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		if (req.body.password != req.body.confirm_password)
-				res.json({error: "Passwords do not match."});
-
-		var user = new User(req.body);
-
-		// Check for unique email:
-		User.findOne({email: user.email}, function(err, data) {
+		var user = new User(req.body)
+		user.create_user(function(err, data) {
 			if (err)
 				res.json(err);
-			else if (data.length > 0)
-				res.json({error: "Email already registered."});
-
-			// Check for unique username:
-			User.findOne({username: user.username}, function(err, data) {
-				if (err)
-					res.json(err);
-				else if (data.length > 0)
-					res.json({error: "Username already in use."});
-
-				user.save(function(err, data) {
-					if (err) 
-						res.json(err);
-					else
-						res.json(data);
-				});
-			});
+			else
+				res.json(data);
 		});
+		// if (req.body.password != req.body.confirm_password)
+		// 	res.json({errors: {password: {message: "Passwords do not match."}}});
+		// else {
+		// 	var user = new User(req.body);
+
+		// 	// Check for unique username:
+		// 	User.findOne({username: user.username}, function(err, data) {
+		// 		if (err)
+		// 			res.json(err);
+		// 		else if (data)
+		// 			res.json({errors: {username: {message: "Username already registered."}}});
+		// 		else {
+		// 			// Check for unique email:
+		// 			User.findOne({email: user.email}, function(err, data) {
+		// 				if (err)
+		// 					res.json(err);
+		// 				else if (data)
+		// 					res.json({errors: {email: {message: "Email already in use."}}});
+		// 				else {
+		// 					user.save(function(err, data) {
+		// 						if (err) 
+		// 							res.json(err);
+		// 						else
+		// 							res.json(data);
+		// 					});
+		// 				}
+		// 			});
+		// 		}
+		// 	});
+		// }
 	},
 	update: function(req, res) {
 		User.update({_id: req.params.id}, {$set: {
@@ -73,13 +83,15 @@ module.exports = {
 		User.findOne({username: req.body.username}, function(err, data) {
 			if (err) 
 				res.json(err);
+			else if (!data)
+				res.json({errors: {username: {message: "Username does not exist."}}});
 			else {
 				// Check valid password:
-				user.comparePassword(req.body.password, function(err, isMatch) {
+				data.comparePassword(req.body.password, function(err, isMatch) {
 					if (err)
 						res.json(err);
 					else if (!isMatch)
-						res.json({error: "Username/password does not match."});
+						res.json({errors: {password: {message: "Username/password does not match."}}});
 					else
 						res.json(data);
 				});

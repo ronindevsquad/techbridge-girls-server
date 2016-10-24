@@ -25,7 +25,7 @@ app.factory('usersFactory', function($http) {
 				callback(res.data);
 			});
 		},
-		register: function(data, callback) {
+		login: function(data, callback) {
 			$http.post('/login', data).then(function(res) {
 				callback(res.data);
 			});

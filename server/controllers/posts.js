@@ -9,7 +9,7 @@ module.exports = {
 		.populate('links')
 		.exec(function(err, data) {
 			if (err)
-				res.json(error);
+				res.json(err);
 			else
 				res.json(data);
 		});
@@ -19,7 +19,7 @@ module.exports = {
 		// Find the user:
 		User.findOne({_id: TEMP_ID}, function(err, user) {
 			if (err)
-				res.json(error);
+				res.json(err);
 			else {
 				var post = new Post({
 					_user: user._id,
