@@ -90,6 +90,7 @@ module.exports = {
 						res.json({errors: {password: {message: "Username/password does not match."}}});
 					else {
 						var token = jwt.sign({username: data.username}, 'secret_key');
+						console.log(token);
 						res.json(token);
 					}
 				});
