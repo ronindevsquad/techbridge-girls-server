@@ -17,7 +17,7 @@ $('#backFromImageSelectionButton').click(function(){
 // 	$('body').css('background-color','white')
 // });
 </script>
-<div id='blurme' class="container">
+<div id='blurme'>
 	<nav>
 		<a href="#/">Home</a>
 		<a ng-show="username" href="#/post">Post</a>
@@ -27,7 +27,8 @@ $('#backFromImageSelectionButton').click(function(){
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<input class='search_bar' type="text" name="search" placeholder="Search">
-	<h3>Trending</h3>
+	<h1 class="bringshoot">Trending</h1>
+	<hr>
 	<div class="ten columns">
 		<img class='rounded_corner_img' src="http://placekitten.com/250/300">
 		<img class='rounded_corner_img' src="http://placekitten.com/250/301">
@@ -38,16 +39,26 @@ $('#backFromImageSelectionButton').click(function(){
 		<img class='rounded_corner_img' src="http://placekitten.com/250/306">
 		<img class='rounded_corner_img' src="http://placekitten.com/250/307">
 		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
 	</div>
 	<div class="one column">
-		<p>
-			Froxxi
-		</p>
+			<span id="froxxi" class="bringshoot">froxxi</span>
 		<button type="button" name="button">Favorites</button>
 		<button id='add_picture_button' type="button" name="button">Add</button>
 		<button type="button" name="button">Profile</button>
 	</div>
-</div> <!--end of container-->
+</div> <!--end of blurme-->
 <hr>
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <div class="upload_image hidden">

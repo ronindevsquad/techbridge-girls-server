@@ -2,10 +2,22 @@
 	padding: 0px;
 	margin: 0px;
 }
+@font-face {
+    font-family: bringshoot;
+    src: url(static/fonts/bringshoot.otf);
+}
 .error {
 	color: red;
 }
 
+/*GENERAL FONT CSS CLASSES AND STYLES*/
+.bringshoot{
+	font-family: bringshoot;
+}
+
+#froxxi{
+	font-size: 55px;
+}
 /*Background for login and registration pages (testing)*/
 body{
 	background-color: #4F4F4F;
@@ -54,18 +66,19 @@ body{
 /*Index page*/
 .rounded_corner_img{
 	border-radius: 10px;
+	width: 32%;
 }
 
 /* Add image button css */
 .blur{
-	filter:blur(10px) grayscale(50%);
+	filter:blur(10px) grayscale(80%);
 }
 
 .upload_image{
 	position: absolute;
 	z-index: 500;
 	left: 40%;
-	top: 40%;
+	top: 300px;
 }
 
 .hidden{
