@@ -1,22 +1,22 @@
-var users = require('../controllers/users.js');
-var posts = require('../controllers/posts.js');
-var links = require('../controllers/links.js');
+var users = require('../controllers/users.js'),
+posts = require('../controllers/posts.js'),
+links = require('../controllers/links.js');
 
 module.exports = function(app) {
 	// USERS
-	app.get('/users', users.index);
-	app.get('/users/:id', users.show);
+	// app.get('/users', users.index);
+	app.get('/api/users/:id', users.show);
 	app.post('/users', users.create);
-	app.put('/users/:id', users.update);
-	app.delete('/users/:id', users.delete);
+	app.put('/api/users/:id', users.update);
+	app.delete('/api/users/:id', users.delete);
 	app.post('/login', users.login);
 
 	// POSTS
 	app.get('/posts', posts.index);
 	app.get('/posts/:id', posts.show);
-	app.post('/posts', posts.create);
-	app.put('/posts/:id', posts.update);
-	app.delete('/posts/:id', posts.delete);
+	app.post('/api/posts', posts.create);
+	app.put('/api/posts/:id', posts.update);
+	app.delete('/api/posts/:id', posts.delete);
 
 	// LINKS
 	app.get('/links', links.index);

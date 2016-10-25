@@ -4,4 +4,9 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 	$scope.logout = function() {
 		$cookies.remove('username');
 	}
+	$scope.create = function() {
+		postsFactory.create($scope.post, function(data) {
+
+		});
+	}
 })

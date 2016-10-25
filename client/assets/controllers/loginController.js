@@ -6,6 +6,12 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 	if ($scope.username)
 		$location.url('/')
 
+	var getPayloadFromToken = function(token) {
+		var base64Url = token.split('.')[1];
+		var base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse(window.atob(base64));
+	}
+
 	$scope.login = function() {
 		$scope.login_error = null;
 		usersFactory.login($scope.user, function(data) {
@@ -15,13 +21,16 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					$scope.login_error = data.errors[key].message;
 					break;
 				}
-			else {
-				$cookies.put('username', data.username);
+			else {				
+				var payload = getPayloadFromToken(data);
+				$cookies.put('token', data);
+				$cookies.put('username', payload.username);
 				$location.url('/');
 			}
 		});
 	}
 	$scope.logout = function() {
+		$cookies.remove('token');
 		$cookies.remove('username');
 	}
 	$scope.create = function() {
@@ -35,8 +44,9 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					break;
 				}
 			else {
-				console.log(data)
-				$cookies.put('username', data.username);
+				var payload = getPayloadFromToken(data);
+				$cookies.put('token', data);
+				$cookies.put('username', payload.username);
 				$location.url('/');
 			}
 		});

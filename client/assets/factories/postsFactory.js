@@ -1,4 +1,4 @@
-app.factory('postsFactory', function($http) {
+app.factory('postsFactory', function($http, $cookies) {
 	return {
 		index: function(callback) {
 			$http.get('/posts').then(function(res) {
@@ -11,15 +11,25 @@ app.factory('postsFactory', function($http) {
 			});
 		},
 		create: function(data, callback) {
-			$http.post('/posts', data).then(function(res) {
-				callback();
+			$http.post('/api/posts', data, {
+				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+			}).then(function(res) {
+				callback(res.data);
 			});
 		},
 		update: function(data, callback) {
-			$http.put(`/posts/${data._id}`, data).then(callback());
+			$http.put(`/api/posts/${data._id}`, data, {
+				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}				
+			}).then(function(res) {
+				callback();				
+			});
 		},
-		delete: function(id) {
-			$http.delete(`/posts/${id}`);
+		delete: function(id, callback) {
+			$http.delete(`/api/posts/${id}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			});
 		}
 	}
 })
