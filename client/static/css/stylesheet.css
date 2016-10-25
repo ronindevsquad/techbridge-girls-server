@@ -10,13 +10,17 @@
 	color: red;
 }
 
-/*GENERAL FONT CSS CLASSES AND STYLES*/
+/*GENERAL FONT CSS CLASSES AND STYLES AND ICONS*/
 .bringshoot{
 	font-family: bringshoot;
 }
 
 #froxxi{
 	font-size: 55px;
+}
+
+.glyphicon-search:before{
+	content:"\e003"
 }
 /*Background for login and registration pages (testing)*/
 body{
