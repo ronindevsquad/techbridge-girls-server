@@ -3,7 +3,6 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 	$('body').css('background-color', 'white');
 	//
 	$scope.username = $cookies.get('username');
-	console.log("new controller");
 	$scope.logout = function() {
 		$cookies.remove('username');
 	}

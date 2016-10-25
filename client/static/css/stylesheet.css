@@ -58,7 +58,7 @@ body{
 
 /* Add image button css */
 .blur{
-	filter:blur(10px);
+	filter:blur(10px) grayscale(50%);
 }
 
 .upload_image{
@@ -70,4 +70,19 @@ body{
 
 .hidden{
 	display: none;
+}
+
+#backFromImageSelectionButton{
+	background-color: white;
+}
+
+.upload_image label{
+	color: white;
+}
+
+.search_bar{
+	width: 100%;
+}
+.search_bar:focus{
+	outline: none;
 }

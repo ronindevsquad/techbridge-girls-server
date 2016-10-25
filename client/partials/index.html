@@ -3,11 +3,18 @@
 $('#add_picture_button').click(function(){
 	$('#blurme').toggleClass('blur')
 	$('.upload_image').toggleClass('hidden');
+	$('body').css('background-color','#4A4A4A')
 
 });
 $('#backFromImageSelectionButton').click(function(){
 	$('#blurme').toggleClass('blur')
 	$('.upload_image').toggleClass('hidden');
+	$('body').css('background-color','white')
+});
+$('body').click(function(){
+	$('#blurme').toggleClass('blur')
+	$('.upload_image').toggleClass('hidden');
+	$('body').css('background-color','white')
 });
 </script>
 <div id='blurme' class="container">
@@ -17,17 +24,20 @@ $('#backFromImageSelectionButton').click(function(){
 		<a ng-hide="username" href="#/login">Login/Register</a>
 		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 	</nav>
-	<h1>Welcome<span ng-if="username">, {{username}}</span></h1>
+	<!-- Commented out to make room for search bar -->
+	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
+	<input class='search_bar' type="text" name="search" placeholder="Search">
+	<h3>Trending</h3>
 	<div class="ten columns">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
-		<img class='rounded_corner_img' src="http://placehold.it/200x250">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/300">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/301">
+		<img class='rounded_corner_img' src="http://placekitten.com/251/302">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/303">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/304">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/305">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/306">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/307">
+		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
 	</div>
 	<div class="one column">
 		<p>
@@ -41,9 +51,9 @@ $('#backFromImageSelectionButton').click(function(){
 <hr>
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <div class="upload_image hidden">
-	<button id="backFromImageSelectionButton"><< Back</button>
 	<form>
 		<label>+ Upload an Image</label>
-		<input type="file" ng-model="post.image">
+		<input type="file" ng-model="post.image" value="Select Photo">
 	</form>
+	<button id="backFromImageSelectionButton"><< Back</button>
 </div>
