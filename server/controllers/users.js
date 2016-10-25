@@ -1,5 +1,6 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var mongoose = require('mongoose'),
+bcrypt = require('bcrypt'),
+jwt = require('jsonwebtoken');
 
 var User = mongoose.model('User');
 module.exports = {
@@ -34,8 +35,10 @@ module.exports = {
 							user.save(function(err, data) {
 								if (err) 
 									res.json(err);
-								else
-									res.json(data);
+								else {
+									var token = jwt.sign({username: data.username}, 'secret_key');
+									res.json(token);
+								}
 							});
 						}
 					});
@@ -85,8 +88,10 @@ module.exports = {
 						res.json(err);
 					else if (!isMatch)
 						res.json({errors: {password: {message: "Username/password does not match."}}});
-					else
-						res.json(data);
+					else {
+						var token = jwt.sign({username: data.username}, 'secret_key');
+						res.json(token);
+					}
 				});
 			}
 		});

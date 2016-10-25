@@ -5,7 +5,7 @@ var UserSchema = new mongoose.Schema({
 	username: {type: String, required: true,
 		validate: {
 			validator: function(value) {
-				return /^[a-z0-9](?=.{3,32})/i.test(value);
+				return /^[a-z0-9]{3,32}$/i.test(value);
 			},
 			message: "Username must be alphanumeric and at least four characters long."
 		}
@@ -37,24 +37,22 @@ UserSchema.pre('save', function(next) {
 	bcrypt.genSalt(10, function(err, salt) {
 		if (err)
 			return next(err);
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			console.log("err:", err)
-			console.log("hash:", hash)
 
-			if (err)
-				return next(err);
-			user.password = hash;
-			next();
+		bcrypt.hash(user.password, salt, function(err, hash) {
+		if (err)
+			return next(err);
+		user.password = hash;
+		next();
 		});
 	});
 });
 
 UserSchema.methods.comparePassword = function(candidatePassword, callback) {
-		bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-				if (err)
-					return callback(err);
-				callback(null, isMatch);
-		});
+	bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+		if (err)
+			return callback(err);
+		callback(null, isMatch);
+	});
 };
 
 mongoose.model('User', UserSchema);

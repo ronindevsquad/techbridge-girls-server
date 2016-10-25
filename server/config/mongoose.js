@@ -1,9 +1,9 @@
-var mongoose      = require('mongoose'),
-		fs            = require('fs'),
-		path          = require('path'),
-		models_path   = path.join( __dirname, "../models"),
-		reg           = new RegExp( ".js$", "i" ),
-		dbURI         = 'mongodb://localhost/shopdb';
+var mongoose = require('mongoose'),
+fs = require('fs'),
+path = require('path'),
+models_path = path.join( __dirname, "../models"),
+reg = new RegExp( ".js$", "i" ),
+dbURI = 'mongodb://localhost/shopdb';
 
 mongoose.Promise = global.Promise;
 mongoose.connect( dbURI );
