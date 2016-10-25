@@ -4,7 +4,7 @@
 }
 @font-face {
     font-family: bringshoot;
-    src: url(static/fonts/bringshoot.otf);
+    src: url(/static/fonts/bringshoot.otf);
 }
 .error {
 	color: red;
@@ -27,6 +27,14 @@
 
 .glyphicon-search:before{
 	content:"\e003"
+}
+
+.orange_background{
+	background-color: #FF5326;
+	border-color: #FF5326;
+}
+.nav_button{
+	width:150px;
 }
 /*Background for login and registration pages (testing)*/
 body{
@@ -108,4 +116,10 @@ body{
 }
 .search_bar:focus{
 	outline: none;
+}
+
+/*Add html css*/
+.center{
+	margin: 100px;
+	text-align: center;
 }
