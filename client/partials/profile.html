@@ -1,0 +1,47 @@
+<script src="./../static/js/navbarControls.js"></script>
+
+<div id='blurme' class="row">
+	<!-- Navbar -->
+	<nav>
+		<a href="#/">Home</a>
+		<a ng-show="username" href="#/post">Post</a>
+		<a ng-hide="username" href="#/login">Login/Register</a>
+		<a href="#/add">Add Page</a>
+		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
+	</nav>
+
+	<!-- Commented out to make room for search bar -->
+	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
+	<h1 class="bringshoot">{{ page }}</h1>
+	<hr>
+	<div class="ten columns">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/349/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/224/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/156/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/300/fashion/">
+	</div>
+
+	<!-- Side nav -->
+	<div class="one column">
+			<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
+			<a href="#/favorites"><button class='nav_button' ng-class="{'orange_background': page==='favorites'}" type="button" name="button">Favorites</button></a>
+			<button id='add_picture_button' class='nav_button' type="button" name="button">Add</button>
+			<a href="#/profile"><button class='nav_button' ng-class="{'orange_background': page==='profile'}" type="button" name="button">Profile</button></a>
+	</div>
+</div> <!--end of blurme-->
+<!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
+<div class="upload_image hidden">
+	<form>
+		<label>+ Upload an Image</label>
+		<input type="file" ng-model="post.image" value="Select Photo">
+	</form>
+	<button id="backFromImageSelectionButton"><< Back</button>
+</div>
