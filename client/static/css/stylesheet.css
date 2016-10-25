@@ -1,10 +1,88 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
 .error {
 	color: red;
 }
 
-/*Login Styles*/
+/*Background for login and registration pages (testing)*/
+body{
+	background-color: #4F4F4F;
+}
+#shoptheworld{
+	z-index: -1;
+	position: absolute;
+}
 
+/*Login Styles*/
 #login{
 	margin-top: 25%;
 	text-align: center;
+}
+	#login input{
+		margin: -1px;
+		width: 300px;
+	}
+	#login #bottom_form{
+		/*border-top: none;*/
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+	#login #top_form{
+		/*border-top: none;*/
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+	#login .middle_form{
+		border-radius: 0px;
+	}
+	#login #login_submit{
+		margin-top: 20px;
+		background-color: #fa560d;
+		border: none;
+		width: 300px;
+	}
+	#login a{
+		text-decoration: none;
+		color: #fa560d;
+	}
+	#login .white_text{
+		color:white;
+	}
+
+/*Index page*/
+.rounded_corner_img{
+	border-radius: 10px;
+}
+
+/* Add image button css */
+.blur{
+	filter:blur(10px) grayscale(50%);
+}
+
+.upload_image{
+	position: absolute;
+	z-index: 500;
+	left: 40%;
+	top: 40%;
+}
+
+.hidden{
+	display: none;
+}
+
+#backFromImageSelectionButton{
+	background-color: white;
+}
+
+.upload_image label{
+	color: white;
+}
+
+.search_bar{
+	width: 100%;
+}
+.search_bar:focus{
+	outline: none;
 }
