@@ -1,6 +1,8 @@
 app.controller('loginController', function ($scope, $location, $cookies, usersFactory) {
 	//STYLING SETTING FOR PAGE CHANGE
-	$('body').css('background-color', '#4F4F4F');
+	$('body').css('background-image', "url('static/images/loginregistrationbackground.png')");
+	$('body').css('background-size', 'cover');
+	$('body').css('background-repeat', 'no-repeat');
 	//
 	$scope.username = $cookies.get('username');
 	if ($scope.username)
@@ -21,7 +23,7 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					$scope.login_error = data.errors[key].message;
 					break;
 				}
-			else {				
+			else {
 				var payload = getPayloadFromToken(data);
 				$cookies.put('token', data);
 				$cookies.put('username', payload.username);
