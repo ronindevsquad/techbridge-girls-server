@@ -1,4 +1,3 @@
-<!-- Navbar -->
 <script type="text/javascript">
 $('#add_picture_button').click(function(){
 	$('#blurme').toggleClass('blur')
@@ -17,13 +16,15 @@ $('#backFromImageSelectionButton').click(function(){
 // 	$('body').css('background-color','white')
 // });
 </script>
-<div id='blurme'>
+<div id='blurme' class="row">
+	<!-- Navbar -->
 	<nav>
 		<a href="#/">Home</a>
 		<a ng-show="username" href="#/post">Post</a>
 		<a ng-hide="username" href="#/login">Login/Register</a>
 		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 	</nav>
+
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<i>\e003</i>
@@ -50,6 +51,8 @@ $('#backFromImageSelectionButton').click(function(){
 		<img class='rounded_corner_img' src="http://lorempixel.com/250/305/fashion/">
 		<img class='rounded_corner_img' src="http://lorempixel.com/250/306/fashion/">
 	</div>
+
+	<!-- Side nav -->
 	<div class="one column">
 			<span id="froxxi" class="bringshoot">froxxi</span>
 		<button type="button" name="button">Favorites</button>
