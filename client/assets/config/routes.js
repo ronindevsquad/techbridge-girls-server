@@ -9,13 +9,17 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/login.html',
 		controller: 'loginController'
 	})
-	.when('/post',{
-		templateUrl: 'partials/post.html',
-		controller: 'postController'
-	})
 	.when('/register',{
 		templateUrl: 'partials/register.html',
 		controller: 'loginController'
+	})
+	.when('/user/:username',{
+		templateUrl: 'partials/user.html',
+		controller: 'userController'
+	})
+	.when('/post/:id',{
+		templateUrl: 'partials/post.html',
+		controller: 'postController'
 	})
 	.otherwise({
 		redirectTo: '/'

@@ -4,7 +4,7 @@
 }
 @font-face {
     font-family: bringshoot;
-    src: url(static/fonts/bringshoot.otf);
+    src: url(../fonts/bringshoot.otf);
 }
 .error {
 	color: red;
