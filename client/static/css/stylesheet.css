@@ -19,6 +19,12 @@
 	font-size: 55px;
 }
 
+#froxxi_link{
+	font-size: 55px;
+	text-decoration: none;
+	color: #d0cece;
+}
+
 .glyphicon-search:before{
 	content:"\e003"
 }

@@ -17,6 +17,14 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/register.html',
 		controller: 'loginController'
 	})
+	.when('/favorites',{
+		templateUrl: 'partials/profile.html',
+		controller: 'favoritesController'
+	})
+	.when('/profile',{
+		templateUrl: 'partials/profile.html',
+		controller: 'profileController'
+	})
 	.otherwise({
 		redirectTo: '/'
 	});
