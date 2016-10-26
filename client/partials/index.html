@@ -1,27 +1,10 @@
-<script type="text/javascript">
-$('#add_picture_button').click(function(){
-	$('#blurme').toggleClass('blur')
-	$('.upload_image').toggleClass('hidden');
-	$('body').css('background-color','#4A4A4A')
-
-});
-$('#backFromImageSelectionButton').click(function(){
-	$('#blurme').toggleClass('blur')
-	$('.upload_image').toggleClass('hidden');
-	$('body').css('background-color','white')
-});
-// $('body').click(function(){
-// 	$('#blurme').toggleClass('blur')
-// 	$('.upload_image').toggleClass('hidden');
-// 	$('body').css('background-color','white')
-// });
-</script>
 <div id='blurme' class="row">
 	<!-- Navbar -->
 	<nav>
 		<a href="#/">Home</a>
 		<a ng-show="username" href="#/post">Post</a>
 		<a ng-hide="username" href="#/login">Login/Register</a>
+		<a href="#/add">Add Page</a>
 		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 	</nav>
 
@@ -31,38 +14,27 @@ $('#backFromImageSelectionButton').click(function(){
 	<h1 class="bringshoot">Trending</h1>
 	<hr>
 	<div class="ten columns">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/300">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/301">
-		<img class='rounded_corner_img' src="http://placekitten.com/251/302">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/303">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/304">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/305">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/306">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/307">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
-		<img class='rounded_corner_img' src="http://placekitten.com/250/308">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/349/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/341/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/342/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/343/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/344/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/345/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/346/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/347/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/348/fashion/">
+		<img class='rounded_corner_img' src="http://lorempixel.com/250/349/fashion/">
 	</div>
 
 	<!-- Side nav -->
-	<div class="one column">
-			<span id="froxxi" class="bringshoot">froxxi</span>
-		<button type="button" name="button">Favorites</button>
-		<button id='add_picture_button' type="button" name="button">Add</button>
-		<button type="button" name="button">Profile</button>
+	<div class="one column" style="position:fixed; right:15%;">
+		<span id="froxxi" class="bringshoot">froxxi</span>
+		<a href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
+		<button class='nav_button' id='add_picture_button' type="button" name="button">Add</button>
+		<a href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a>
+		<button class='nav_button' type="button" name="button">Categories</button>
 	</div>
 </div> <!--end of blurme-->
-<hr>
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <div class="upload_image hidden">
 	<form>

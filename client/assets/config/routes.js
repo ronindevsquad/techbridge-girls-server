@@ -13,9 +13,13 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/register.html',
 		controller: 'loginController'
 	})
-	.when('/user/:username',{
-		templateUrl: 'partials/user.html',
-		controller: 'userController'
+	.when('/favorites',{
+		templateUrl: 'partials/profile.html',
+		controller: 'favoritesController'
+	})
+	.when('/profile/:id',{
+		templateUrl: 'partials/profile.html',
+		controller: 'profileController'
 	})
 	.when('/post/:id',{
 		templateUrl: 'partials/post.html',

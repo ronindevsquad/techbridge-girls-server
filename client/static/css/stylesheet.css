@@ -10,13 +10,31 @@
 	color: red;
 }
 
-/*GENERAL FONT CSS CLASSES AND STYLES*/
+/*GENERAL FONT CSS CLASSES AND STYLES AND ICONS*/
 .bringshoot{
 	font-family: bringshoot;
 }
 
 #froxxi{
 	font-size: 55px;
+}
+
+#froxxi_link{
+	font-size: 55px;
+	text-decoration: none;
+	color: #d0cece;
+}
+
+.glyphicon-search:before{
+	content:"\e003"
+}
+
+.orange_background{
+	background-color: #FF5326;
+	border-color: #FF5326;
+}
+.nav_button{
+	width:150px;
 }
 /*Background for login and registration pages (testing)*/
 body{
@@ -98,4 +116,10 @@ body{
 }
 .search_bar:focus{
 	outline: none;
+}
+
+/*Add html css*/
+.center{
+	margin: 100px;
+	text-align: center;
 }

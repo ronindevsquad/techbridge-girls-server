@@ -1,22 +1,18 @@
-<!-- Navbar -->
-<nav>
-	<a href="#/">Home</a>
-	<a href="#/logout" ng-click="logout()">Logout</a>
-</nav>
+<div id='blurme' class="row">
+	<!-- Navbar -->
+  <nav>
+		<a href="#/">Home</a>
+		<a ng-show="username" href="#/post">Post</a>
+		<a ng-hide="username" href="#/login">Login/Register</a>
+		<a href="#/add">Add Page</a>
+		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
+	</nav>
 
-<div class="row">
-	<div class="ten columns ">
-		Image here
-	</div>
-	<!-- Side nav -->
-	<div class="one column">
-		<p>
-			Froxxi
-		</p>
-		<button type="button" name="button">Favorites</button>
-		<button id='add_picture_button' type="button" name="button">Add</button>
-		<button type="button" name="button">Profile</button>
-	</div>
-</div> <!--end of container-->
 
+<div class="center">
+  <img class='rounded_corner_img' src="http://lorempixel.com/250/349/fashion/">
+  <h2>Add Tag</h2>
+  <input type="text" placeholder="Paste url Here"/>
+  <br />
+  <a href="#/"><button>Back</button></a>
 </div>
