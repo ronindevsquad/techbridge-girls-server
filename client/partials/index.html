@@ -50,13 +50,10 @@ $('body').css('background-image', "none");
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <script src="/static/js/navbarControls.js"></script>
 <div class="upload_image hidden">
-	<form ng-submit="post1()">
+	<form ng-submit="post();">
 		<label>+ Upload an Image</label>
-		<input type="file" ng-model="post.image" name="image">
-		<br>
-		<input type="hidden" name="name" value="Test">
-		<input type="text" name="test" value="test" ng-model='post.text'>
-		<input type="submit" name="submit" value="Post Image" style="background-color:white;">
+		<input type="file" fileread="post.image" value="Select Photo">
+		<input type="submit" name="" value="Pick Photo">
 	</form>
 	<button id="backFromImageSelectionButton"><< Back</button>
 </div>

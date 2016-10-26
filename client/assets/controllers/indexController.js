@@ -9,4 +9,11 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 			$location.url(`/post/${data._id}`)
 		});
 	}
+
+	$scope.post = function(){
+		console.log($scope.post.image + "");
+		postsFactory.create($scope.post.image, function(input){
+			console.log(input);
+		});
+	};
 });
