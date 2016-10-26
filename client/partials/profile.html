@@ -39,9 +39,13 @@
 </div> <!--end of blurme-->
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <div class="upload_image hidden">
-	<form>
+	<form ng-submit="post1()">
 		<label>+ Upload an Image</label>
-		<input type="file" ng-model="post.image" value="Select Photo">
+		<input type="file" ng-model="post.image" name="image">
+		<br>
+		<input type="hidden" name="name" value="Test">
+		<input type="text" name="test" value="test" ng-model='post.text'>
+		<input type="submit" name="submit" value="Post Image" style="background-color:white;">
 	</form>
 	<button id="backFromImageSelectionButton"><< Back</button>
 </div>

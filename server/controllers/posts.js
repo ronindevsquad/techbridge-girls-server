@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var multer  = require('multer')
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Link = mongoose.model('Link');
@@ -64,7 +65,7 @@ module.exports = {
 			last_name: req.body.last_name,
 			birthday: req.body.birthday
 		}}, function(err, data) {
-			if (err) 
+			if (err)
 				res.json(err)
 			else
 				res.json(data);
@@ -72,7 +73,7 @@ module.exports = {
 	},
 	delete: function(req, res) {
 		Post.remove({_id: req.params.id}, function(err, data) {
-			if (err) 
+			if (err)
 				res.json(err)
 			else
 				res.json(data);
@@ -80,7 +81,7 @@ module.exports = {
 	},
 	show: function(req, res) {
 		Post.findOne({_id: req.params.id}, function(err, data) {
-			if (err) 
+			if (err)
 				res.json(err)
 			else
 				res.json(data);
