@@ -1,9 +1,15 @@
+<script>
+	$('body').css('background-image', "url('static/images/loginregistrationbackground.png')");
+	$('body').css('background-size', 'cover');
+	$('body').css('background-repeat', 'no-repeat');	
+</script>
+
 <!-- Navbar -->
 <nav>
 	<a href="#/">Home</a>
 	<a ng-show="username" href="#/post">Post</a>
 	<a ng-hide="username" href="#/login">Login/Register</a>
-	<a href="#/add">Add Page</a>
+	<a href="#/post">Add Page</a>
 	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
 </nav>
 

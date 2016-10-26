@@ -20,9 +20,9 @@ app.factory('postsFactory', function($http, $cookies) {
 		},
 		update: function(data, callback) {
 			$http.put(`/api/posts/${data._id}`, data, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}				
+				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
-				callback();				
+				callback();
 			});
 		},
 		delete: function(id, callback) {
