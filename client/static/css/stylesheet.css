@@ -16,10 +16,14 @@
 }
 
 #froxxi{
+	padding-left: 32px;
+	width:150px;
 	font-size: 55px;
 }
 
 #froxxi_link{
+	padding-left: 32px;
+	width:150px;
 	font-size: 55px;
 	text-decoration: none;
 	color: #d0cece;
@@ -40,6 +44,16 @@
 .navbar{
 	position:fixed;
 	right:15%;
+}
+
+nav a:last-child{
+	border-right: none;
+}
+nav a{
+	padding-left: 10px;
+	padding-right: 10px;
+	border-right: solid black 1px;
+	text-decoration: none;
 }
 /*Background for login and registration pages (testing)*/
 body{
