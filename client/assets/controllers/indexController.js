@@ -7,4 +7,8 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 	$scope.logout = function() {
 		$cookies.remove('username');
 	}
+
+	$scope.post = function(){
+		console.log($scope.form);
+	};
 });
