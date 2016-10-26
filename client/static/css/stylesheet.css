@@ -36,6 +36,11 @@
 .nav_button{
 	width:150px;
 }
+
+.navbar{
+	position:fixed;
+	right:15%;
+}
 /*Background for login and registration pages (testing)*/
 body{
 	background-color: #4F4F4F;
