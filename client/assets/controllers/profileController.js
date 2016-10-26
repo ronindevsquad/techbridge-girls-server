@@ -5,5 +5,4 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 	$scope.logout = function() {
 		$cookies.remove('username');
 	}
-	}
 });
