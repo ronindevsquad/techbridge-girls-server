@@ -9,6 +9,9 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 	}
 
 	$scope.post = function(){
-		console.log($scope.form);
+		console.log($scope.post.image + "");
+		postsFactory.create($scope.post.image, function(input){
+			console.log(input);
+		});
 	};
 });
