@@ -19,25 +19,20 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		var payload = getPayload(req.headers);
-		if (payload.username != req.body._user.username)
-			res.send(403);
-		else {
-			username = payload.username;
-			console.log("=============")
-			console.log("A FILE WAS UPLOADED, DETAILS ARE BELOW:")
-			console.log("image extention is: " + req.body.data.split('\/')[1].split(';')[0])
-			var imageExtention = "." + req.body.data.split('\/')[1].split(';')[0];
-			var imageFileName = "out";
-			var imagePathandFileName = "./client/static/images/"+ imageFileName + imageExtention;
-			var base64Data = req.body.data.split(',')[1];
-			console.log("image file path and name: " + imagePathandFileName);
-			console.log(base64Data);
-			console.log("=============")
-			fs.writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
-				console.log(err);
-			});
-		}
+		var username = getPayload(req.headers).username;
+		console.log("=============")
+		console.log("A FILE WAS UPLOADED, DETAILS ARE BELOW:")
+		console.log("image extention is: " + req.body.data.split('\/')[1].split(';')[0])
+		var imageExtention = "." + req.body.data.split('\/')[1].split(';')[0];
+		var imageFileName = "out";
+		var imagePathandFileName = "./client/static/images/"+ imageFileName + imageExtention;
+		var base64Data = req.body.data.split(',')[1];
+		console.log("image file path and name: " + imagePathandFileName);
+		console.log(base64Data);
+		console.log("=============")
+		fs.writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
+			console.log(err);
+		});
 		// User.findOne({_id: TEMP_ID}, function(err, user) {
 		// 	if (err)
 		// 		res.json(err);
