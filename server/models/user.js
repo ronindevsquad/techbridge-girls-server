@@ -26,7 +26,8 @@ var UserSchema = new mongoose.Schema({
 			message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."
 		}
 	},
-	posts: [{type: Schema.Types.ObjectId, ref: 'Post'}]
+	posts: [{type: Schema.Types.ObjectId, ref: 'Post'}],
+	favorites: [{type: Schema.Types.ObjectId, ref: 'Post'}]
 }, {timestamps: true});
 
 UserSchema.pre('save', function(next) {

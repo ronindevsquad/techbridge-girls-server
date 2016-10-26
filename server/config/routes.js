@@ -5,10 +5,10 @@ links = require('../controllers/links.js');
 module.exports = function(app) {
 	// USERS
 	// app.get('/users', users.index);
-	app.get('/api/users/:id', users.show);
+	app.get('/api/users/:username', users.show);
 	app.post('/users', users.create);
-	app.put('/api/users/:id', users.update);
-	app.delete('/api/users/:id', users.delete);
+	app.put('/api/users/:username', users.update);
+	app.delete('/api/users/:username', users.delete);
 	app.post('/login', users.login);
 
 	// POSTS

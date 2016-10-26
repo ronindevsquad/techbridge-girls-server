@@ -17,6 +17,9 @@
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<h1 class="bringshoot">Edit Post</h1>
+	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>	
+	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot">{{post._user.username}}}</h1>
+
 	<hr>
 	<div class="ten columns">
 		<img class='rounded_corner_img' src="https://i.gyazo.com/578967ba91232f4f5503c6850a562ceb.png">
@@ -25,11 +28,11 @@
 			<a href=""><img src="https://i.gyazo.com/939c46dc4e2a06f4f20ab0135845d674.png"></a><button>Remove Link</button>
 		</div>
 		<hr>
-		<form ng-submit="">
+		<form ng-show="username == post._user.username" ng-submit="">
 			<input type="text" placeholder="https://www..."><br>
 			<input class="button-primary" type="submit" value="Add link">
 			<a href="#/"><button>Home</button></a>
-			<a href="#/"><button>Delete Post</button></a>
+			<a href="#/"><button>Remove Post</button></a>
 		</form>
 	</div>
 

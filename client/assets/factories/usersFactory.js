@@ -5,8 +5,8 @@ app.factory('usersFactory', function($http, $cookies) {
 		// 		callback(res.data);
 		// 	});
 		// },
-		show: function(id, callback) {
-			$http.get(`/api/users/${id}`, {
+		show: function(username, callback) {
+			$http.get(`/api/users/${username}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
@@ -18,14 +18,14 @@ app.factory('usersFactory', function($http, $cookies) {
 			});
 		},
 		update: function(data, callback) {
-			$http.put(`/api/users/${data._id}`, data, {
+			$http.put(`/api/users/${data.username}`, data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);				
 			});
 		},
-		delete: function(id, callback) {
-			$http.delete(`/api/users/${id}`, {
+		delete: function(username, callback) {
+			$http.delete(`/api/users/${username}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);

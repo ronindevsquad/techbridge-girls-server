@@ -1,6 +1,7 @@
-var mongoose = require('mongoose'),
-bcrypt = require('bcrypt'),
-jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var getPayload = require('./GetPayload.js');
 
 var User = mongoose.model('User');
 module.exports = {
@@ -47,27 +48,37 @@ module.exports = {
 		}
 	},
 	update: function(req, res) {
-		User.update({_id: req.params.id}, {$set: {
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			birthday: req.body.birthday
-		}}, function(err, data) {
-			if (err) 
-				res.json(err);
-			else
-				res.json(data);
-		});
+		var payload = getPayload(req.headers);
+		if (payload.username != req.body.username)
+			res.send(403)
+		else
+			User.update({username: req.params.username}, {$set: {
+				posts: req.body.posts,
+				favorites: req.body.favorites
+			}}, function(err, data) {
+				if (err) 
+					res.json(err);
+				else
+					res.json(data);
+			});
 	},
 	delete: function(req, res) {
-		User.remove({_id: req.params.id}, function(err, data) {
-			if (err) 
-				res.json(err);
-			else
-				res.json(data);
-		});
+		var payload = getPayload(req.headers);
+		if (payload.username != req.body.username)
+			res.send(403)
+		else
+			User.remove({username: req.params.username}, function(err, data) {
+				if (err) 
+					res.json(err);
+				else
+					res.json(data);
+			});
 	},
 	show: function(req, res) {
-		User.findOne({_id: req.params.id}, function(err, data) {
+		User.findOne({username: req.params.username})
+		.populate('posts')
+		.populate('favorites')
+		.exec(function(err, data) {
 			if (err) 
 				res.json(err);
 			else

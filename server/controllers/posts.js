@@ -1,8 +1,11 @@
 var mongoose = require('mongoose');
-var multer  = require('multer')
+var multer  = require('multer');
+var getPayload = require('./GetPayload.js');
+
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Link = mongoose.model('Link');
+
 module.exports = {
 	index: function(req, res) {
 		Post.find()
@@ -16,11 +19,8 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		var TEMP_ID;
+		res.send(200);
 		// Find the user:
-
-		console.log(req.body);
-
 		// User.findOne({_id: TEMP_ID}, function(err, user) {
 		// 	if (err)
 		// 		res.json(err);
@@ -63,27 +63,35 @@ module.exports = {
 		// });
 	},
 	update: function(req, res) {
-		Post.update({_id: req.params.id}, {$set: {
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			birthday: req.body.birthday
-		}}, function(err, data) {
-			if (err)
-				res.json(err)
-			else
-				res.json(data);
-		});
+		var payload = getPayload(req.headers);
+		if (payload.username != req.body._user.username)
+			res.send(403)
+		else
+			Post.update({_id: req.params.id}, {$set: {
+				links: req.body.links
+			}}, function(err, data) {
+				if (err)
+					res.json(err)
+				else
+					res.json(data);
+			});
 	},
 	delete: function(req, res) {
-		Post.remove({_id: req.params.id}, function(err, data) {
-			if (err)
-				res.json(err)
-			else
-				res.json(data);
-		});
+		var payload = getPayload(req.headers);
+		if (payload.username != req.body._user.username)
+			res.send(403)
+		else		
+			Post.remove({_id: req.params.id}, function(err, data) {
+				if (err)
+					res.json(err)
+				else
+					res.json(data);
+			});
 	},
 	show: function(req, res) {
-		Post.findOne({_id: req.params.id}, function(err, data) {
+		Post.findOne({_id: req.params.id})
+		.populate('_user')
+		.exec(function(err, data) {
 			if (err)
 				res.json(err)
 			else
