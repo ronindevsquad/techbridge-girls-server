@@ -15,7 +15,7 @@ app.config(function ($routeProvider) {
 	})
 	.when('/favorites',{
 		templateUrl: 'partials/profile.html',
-		controller: 'favoritesController'
+		controller: 'favoriteController'
 	})
 	.when('/profile/:id',{
 		templateUrl: 'partials/profile.html',

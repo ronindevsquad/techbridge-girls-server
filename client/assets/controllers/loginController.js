@@ -1,9 +1,4 @@
 app.controller('loginController', function ($scope, $location, $cookies, usersFactory) {
-	//STYLING SETTING FOR PAGE CHANGE
-	$('body').css('background-image', "url('static/images/loginregistrationbackground.png')");
-	$('body').css('background-size', 'cover');
-	$('body').css('background-repeat', 'no-repeat');
-	//
 	$scope.username = $cookies.get('username');
 	if ($scope.username)
 		$location.url('/')
