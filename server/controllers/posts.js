@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var multer  = require('multer')
+var fs = require('fs');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Link = mongoose.model('Link');
@@ -18,9 +18,20 @@ module.exports = {
 	create: function(req, res) {
 		var TEMP_ID;
 		// Find the user:
-
-		console.log(req.body);
-
+		// console.log(req.body.data);
+		console.log("=============")
+		console.log("A FILE WAS UPLOADED, DETAILS ARE BELOW:")
+		console.log("image extention is: " + req.body.data.split('\/')[1].split(';')[0])
+		var imageExtention = "." + req.body.data.split('\/')[1].split(';')[0];
+		var imageFileName = "out";
+		var imagePathandFileName = "./client/static/images/"+ imageFileName + imageExtention;
+		var base64Data = req.body.data.split(',')[1];
+		console.log("image file path and name: " + imagePathandFileName);
+		console.log(base64Data);
+		console.log("=============")
+		require("fs").writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
+		  console.log(err);
+		});
 		// User.findOne({_id: TEMP_ID}, function(err, user) {
 		// 	if (err)
 		// 		res.json(err);
