@@ -1,4 +1,4 @@
-app.controller('favoritesController', function ($scope, $location, $routeParams, $cookies, usersFactory, postsFactory) {
+app.controller('favoriteController', function ($scope, $location, $routeParams, $cookies, postsFactory) {
 	//STYLING SETTING FOR PAGE CHANGE
 	$('body').css('background-color', 'white');
 	$('body').css('background-image', "none");

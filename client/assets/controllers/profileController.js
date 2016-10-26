@@ -1,4 +1,4 @@
-app.controller('profileController', function ($scope, $location, $routeParams, $cookies, usersFactory, postsFactory) {
+app.controller('profileController', function ($scope, $location, $routeParams, $cookies, postsFactory) {
 	//STYLING SETTING FOR PAGE CHANGE
 	$('body').css('background-color', 'white');
 	$('body').css('background-image', "none");

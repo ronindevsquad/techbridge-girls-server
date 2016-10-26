@@ -9,10 +9,6 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/login.html',
 		controller: 'loginController'
 	})
-	.when('/post',{
-		templateUrl: 'partials/post.html',
-		controller: 'postController'
-	})
 	.when('/register',{
 		templateUrl: 'partials/register.html',
 		controller: 'loginController'
@@ -21,13 +17,13 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/profile.html',
 		controller: 'favoritesController'
 	})
-	.when('/profile',{
+	.when('/profile/:id',{
 		templateUrl: 'partials/profile.html',
 		controller: 'profileController'
 	})
-	.when('/add',{
-		templateUrl: 'partials/add.html',
-		controller: 'addController'
+	.when('/post/:id',{
+		templateUrl: 'partials/post.html',
+		controller: 'postController'
 	})
 	.otherwise({
 		redirectTo: '/'
