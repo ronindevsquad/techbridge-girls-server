@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var multer  = require('multer');
 var getPayload = require('./GetPayload.js');
+var fs = require('fs');
 
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
-var Link = mongoose.model('Link');
 
 module.exports = {
 	index: function(req, res) {
@@ -19,8 +19,25 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		res.send(200);
-		// Find the user:
+		var payload = getPayload(req.headers);
+		if (payload.username != req.body._user.username)
+			res.send(403);
+		else {
+			username = payload.username;
+			console.log("=============")
+			console.log("A FILE WAS UPLOADED, DETAILS ARE BELOW:")
+			console.log("image extention is: " + req.body.data.split('\/')[1].split(';')[0])
+			var imageExtention = "." + req.body.data.split('\/')[1].split(';')[0];
+			var imageFileName = "out";
+			var imagePathandFileName = "./client/static/images/"+ imageFileName + imageExtention;
+			var base64Data = req.body.data.split(',')[1];
+			console.log("image file path and name: " + imagePathandFileName);
+			console.log(base64Data);
+			console.log("=============")
+			fs.writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
+				console.log(err);
+			});
+		}
 		// User.findOne({_id: TEMP_ID}, function(err, user) {
 		// 	if (err)
 		// 		res.json(err);
@@ -65,7 +82,7 @@ module.exports = {
 	update: function(req, res) {
 		var payload = getPayload(req.headers);
 		if (payload.username != req.body._user.username)
-			res.send(403)
+			res.send(403);
 		else
 			Post.update({_id: req.params.id}, {$set: {
 				links: req.body.links
@@ -79,7 +96,7 @@ module.exports = {
 	delete: function(req, res) {
 		var payload = getPayload(req.headers);
 		if (payload.username != req.body._user.username)
-			res.send(403)
+			res.send(403);
 		else		
 			Post.remove({_id: req.params.id}, function(err, data) {
 				if (err)
@@ -93,7 +110,7 @@ module.exports = {
 		.populate('_user')
 		.exec(function(err, data) {
 			if (err)
-				res.json(err)
+				res.json(err);
 			else
 				res.json(data);
 		});
