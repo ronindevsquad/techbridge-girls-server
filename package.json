@@ -2,6 +2,7 @@
   "name": "shop",
   "description": "",
   "dependencies": {
+    "atob": "^2.0.3",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.13.1",
     "express": "~4.10.0",

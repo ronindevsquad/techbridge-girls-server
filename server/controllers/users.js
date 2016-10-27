@@ -34,7 +34,7 @@ module.exports = {
 							res.json({errors: {email: {message: "Email already in use."}}});
 						else {
 							user.save(function(err, data) {
-								if (err) 
+								if (err)
 									res.json(err);
 								else {
 									var token = jwt.sign({username: data.username}, 'secret_key');
@@ -56,7 +56,7 @@ module.exports = {
 				posts: req.body.posts,
 				favorites: req.body.favorites
 			}}, function(err, data) {
-				if (err) 
+				if (err)
 					res.json(err);
 				else
 					res.json(data);
@@ -68,7 +68,7 @@ module.exports = {
 			res.send(403)
 		else
 			User.remove({username: req.params.username}, function(err, data) {
-				if (err) 
+				if (err)
 					res.json(err);
 				else
 					res.json(data);
@@ -79,7 +79,7 @@ module.exports = {
 		.populate('posts')
 		.populate('favorites')
 		.exec(function(err, data) {
-			if (err) 
+			if (err)
 				res.json(err);
 			else
 				res.json(data);
@@ -88,7 +88,7 @@ module.exports = {
 	login: function(req, res) {
 		// Get user by username:
 		User.findOne({username: req.body.username}, function(err, data) {
-			if (err) 
+			if (err)
 				res.json(err);
 			else if (!data)
 				res.json({errors: {username: {message: "Username does not exist."}}});
