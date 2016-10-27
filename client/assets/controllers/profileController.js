@@ -3,13 +3,14 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 	$scope.username = $cookies.get('username');
 	var index = function(){
 		usersFactory.show($scope.username,function(data){
-			$scope.posts = data;
+			$scope.posts = data.posts;
 			console.log($scope.posts);
 		});
 	};
 	index();
-	if (!$scope.username)
+	if (!$scope.username){
 		$location.url('/');
+	}
 
 	usersFactory.show($scope.username, function(data) {
 		$scope.posts = data.posts;

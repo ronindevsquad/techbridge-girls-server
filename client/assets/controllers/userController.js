@@ -1,6 +1,6 @@
-app.controller('profileController', function ($scope, $location, $routeParams, $cookies, usersFactory) {
+app.controller('userController', function ($scope, $location, $routeParams, $cookies, usersFactory) {
 	$scope.page = "profile";
-	$scope.username = $cookies.get('username');
+	$scope.username = $routeParams.username;
 	if (!$scope.username)
 		$location.url('/');
 

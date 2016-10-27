@@ -75,6 +75,7 @@ module.exports = {
 			});
 	},
 	show: function(req, res) {
+		console.log("inside profile page.");
 		User.findOne({username: req.params.username})
 		.populate('posts')
 		.populate('favorites')

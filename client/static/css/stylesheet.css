@@ -55,6 +55,10 @@ nav a{
 	border-right: solid black 1px;
 	text-decoration: none;
 }
+
+#pick_photo{
+	background-color: white;
+}
 /*Background for login and registration pages (testing)*/
 body{
 	background-color: #4F4F4F;

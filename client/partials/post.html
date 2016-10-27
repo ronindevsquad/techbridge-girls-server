@@ -18,7 +18,7 @@
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<h1 class="bringshoot">Edit Post</h1>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>
-	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot">{{post._user.username}}}</h1>
+	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot">{{post._user.username}}'s posts</h1>
 
 	<hr>
 	<div class="ten columns">
@@ -41,7 +41,7 @@
 		<span id="froxxi" class="bringshoot">froxxi</span>
 		<a href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
 		<button class='nav_button' id='add_picture_button' type="button" name="button">Add</button>
-		<a href="#/profile/{{username}}"><button class='nav_button' type="button" name="button">Profile</button></a>
+		<a href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a>
 		<button class='nav_button' type="button" name="button">Categories</button>
 	</div>
 </div> <!--end of blurme-->
