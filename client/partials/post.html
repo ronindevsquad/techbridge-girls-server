@@ -16,9 +16,8 @@
 
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
-	<h1 class="bringshoot">Edit Post</h1>
+	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot">{{post._user.username}}'s post</h1></a>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>
-	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot">{{post._user.username}}'s posts</h1>
 
 	<hr>
 	<div class="ten columns">
