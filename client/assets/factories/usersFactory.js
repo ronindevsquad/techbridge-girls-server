@@ -21,7 +21,7 @@ app.factory('usersFactory', function($http, $cookies) {
 			$http.put(`/api/users/${data.username}`, data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
-				callback(res.data);				
+				callback(res.data);
 			});
 		},
 		delete: function(username, callback) {
@@ -35,6 +35,6 @@ app.factory('usersFactory', function($http, $cookies) {
 			$http.post('/login', data).then(function(res) {
 				callback(res.data);
 			});
-		}		
+		}
 	}
 })

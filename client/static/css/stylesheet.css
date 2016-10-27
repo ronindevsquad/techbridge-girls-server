@@ -102,11 +102,31 @@ body{
 
 /*Index page*/
 .rounded_corner_img{
+	vertical-align: top;
 	border-radius: 10px;
-	width: 32%;
+	width: 30%;
 	padding:2px 2px;
 }
 
+.image_overlay_button{
+	width: 20%;
+	z-index: 5;
+	position: absolute;
+	right: 1em;
+	background-image: url(/static/images/save_icon.png);
+	background-size: contain;
+	background-repeat: no-repeat;;
+	border: none;
+	/*float: left;*/
+}
+
+.post{
+	display: inline;
+	position: relative;
+}
+.post:hover .image_overlay_button{
+	display: inline;
+}
 /* Add image button css */
 .blur{
 	filter:blur(10px) grayscale(80%);

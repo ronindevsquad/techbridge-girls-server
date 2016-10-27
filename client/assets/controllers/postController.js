@@ -16,15 +16,15 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 		$scope.post.links.push($scope.link);
 		postsFactory.update($scope.post, function(data) {
 			console.log('Data is:', data)
-			$scope.post = data.post;			
+			$scope.post = data.post;
 		});
 	}
 	$scope.remove_link = function(index) {
 		$scope.post.links.splice(index, 1);
 		postsFactory.update($scope.post, function(data) {
 			console.log('Data is:', data)
-			$scope.post = data.post;			
-		});		
+			$scope.post = data.post;
+		});
 	}
 	$scope.logout = function() {
 		$cookies.remove('token');
