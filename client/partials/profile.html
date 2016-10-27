@@ -15,10 +15,10 @@
 
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
-	<h1 class="bringshoot">{{ username }}</h1>
+	<h1 class="bringshoot">{{ username }}'s posts</h1>
 	<hr>
 	<div class="ten columns">
-		<div ng-repeat="post in posts" class="post">
+		<div ng-repeat="post in posts|orderBy:'-createdAt'" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{ post.image }}"></a>
 			<button class='image_overlay_button hidden' type="button" name="button"></button>
 		</div>
@@ -31,7 +31,7 @@
 			<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 			<a href="#/favorites"><button class='nav_button' ng-class="{'orange_background': page==='favorites'}" type="button" name="button">Favorites</button></a>
 			<button id='add_picture_button' class='nav_button' type="button" name="button">Add</button>
-			<a href="#/profile/{{username}}"><button class='nav_button' ng-class="{'orange_background': page==='profile'}" type="button" name="button">Profile</button></a>
+			<a href="#/profile"><button class='nav_button' ng-class="{'orange_background': page==='profile'}" type="button" name="button">Profile</button></a>
 		</div>
 	</div>
 </div> <!--end of blurme-->
@@ -41,7 +41,7 @@
 	<form ng-submit="post();">
 		<label>+ Upload an Image</label>
 		<input type="file" fileread="post.image" value="Select Photo" accept="image/png, image/jpeg">
-		<input type="submit" name="" value="Pick Photo">
+		<input id="pick_photo" type="submit" name="" value="Pick Photo">
 	</form>
 	<button id="backFromImageSelectionButton"><< Back</button>
 </div>

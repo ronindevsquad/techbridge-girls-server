@@ -33,7 +33,7 @@ $('body').css('background-image', "none");
 			<script src="../static/js/navbarControls.js"></script>
 			<a href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
 			<button class='nav_button' id='add_picture_button' type="button" name="button">Add</button>
-			<a href="#/profile/{{username}}"><button class='nav_button' type="button" name="button">Profile</button></a>
+			<a href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a>
 			<button class='nav_button' type="button" name="button">Categories</button>
 		</div>
 		<div ng-hide="username">
@@ -47,7 +47,7 @@ $('body').css('background-image', "none");
 	<form ng-submit="post();">
 		<label>+ Upload an Image</label>
 		<input type="file" fileread="post.image" value="Select Photo" accept="image/png, image/jpeg">
-		<input type="submit" name="" value="Pick Photo">
+		<input id="pick_photo" type="submit" name="" value="Pick Photo">
 	</form>
 	<button id="backFromImageSelectionButton"><< Back</button>
 </div>

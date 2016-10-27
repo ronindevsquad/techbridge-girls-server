@@ -18,7 +18,9 @@ module.exports = {
 		// 		res.json(data);
 		// });
 
-		Post.find({},function(err, data){
+		Post.find({})
+		.sort({createdAt:-1})
+		.exec(function(err, data){
 			if (err){
 				res.json(err);
 			} else {
@@ -103,6 +105,7 @@ module.exports = {
 			});
 	},
 	show: function(req, res) {
+		console.log("sorting");
 		Post.findOne({_id: req.params.id})
 		.populate('_user')
 		.exec(function(err, data) {

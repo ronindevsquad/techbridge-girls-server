@@ -7,7 +7,7 @@ app.factory('postsFactory', function($http, $cookies) {
 		},
 		show: function(id, callback) {
 			$http.get(`/posts/${id}`).then(function(res) {
-				callback(res);
+				callback(res.data);
 			});
 		},
 		create: function(data, callback) {
