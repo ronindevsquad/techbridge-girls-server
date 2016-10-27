@@ -23,6 +23,7 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 				var payload = getPayloadFromToken(data);
 				$cookies.put('token', data);
 				$cookies.put('username', payload.username);
+				// $cookies.put('api_key', 'uid2900-36524230-6');
 				$location.url('/');
 			}
 		});
@@ -40,6 +41,7 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 				var payload = getPayloadFromToken(data);
 				$cookies.put('token', data);
 				$cookies.put('username', payload.username);
+				// $cookies.put('api_key', 'uid2900-36524230-6');				
 				$location.url('/');
 			}
 		});
@@ -47,5 +49,6 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 	$scope.logout = function() {
 		$cookies.remove('token');
 		$cookies.remove('username');
+		// $cookies.remove('api_key');
 	}
-})
+});
