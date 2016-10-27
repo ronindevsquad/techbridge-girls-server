@@ -113,6 +113,10 @@ body{
 	position: absolute;
 	/*bottom: 1em;*/
 	right: 1em;
+	background-image: url(/static/images/save_icon.png);
+	background-size: contain;
+	background-repeat: no-repeat;;
+	border: none;
 	/*float: left;*/
 }
 
