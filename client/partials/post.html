@@ -24,14 +24,14 @@
 		<!-- REPLACE THIS IMAGE HERE -->
 		<!-- REPLACE THIS IMAGE HERE -->
 		<!-- REPLACE THIS IMAGE HERE -->
-		<img class='rounded_corner_img' src="https://i.gyazo.com/578967ba91232f4f5503c6850a562ceb.png">
+		<img class='rounded_corner_img' src="{{post.image}}">
 		<!-- REPLACE THIS IMAGE HERE -->
 		<!-- REPLACE THIS IMAGE HERE -->
 		<!-- REPLACE THIS IMAGE HERE -->
 		<div ng-repeat="item in items track by $index" class="row">
 			<a href="">
 				<div class="six columns">
-					<h4 ng-bind="item.name"></h4>
+					<a href="{{item.url}}"><h4 ng-bind="item.name"></h4></a>
 					<h5>{{item.price}} <span class="u-pull-right">{{item.brand}}</span></h5>
 				</div>
 				<div class="four columns">
@@ -45,11 +45,11 @@
 
 		<hr>
 
-		<form ng-show="username == post._user.username" ng-submit="">
-			<input type="text" placeholder="https://www..."><br>
+		<form ng-show="username == post._user.username" ng-submit="update()">
+			<input ng-model='link' type="text" placeholder="https://www..."><br>
 			<input class="button-primary" type="submit" value="Add link">
 			<a href="#/"><button>Home</button></a>
-			<a href="#/"><button>Remove Post</button></a>
+			<a href="#/"><button ng-click="remove_post();">Remove Post</button></a>
 		</form>
 	</div>
 

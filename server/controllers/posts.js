@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var multer  = require('multer');
 var fs = require('fs');
 var getPayload = require('./GetPayload.js');
 
@@ -29,6 +28,7 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
+		console.log(req.headers);
 		var username = getPayload(req.headers).username;
 		User.findOne({username: username}, function(err, user) {
 			if (err)
@@ -47,7 +47,6 @@ module.exports = {
 				var imagePathandFileName = "./client/static/images/userphotos/" + imageFileName + imageExtention;
 				var base64Data = req.body.data.split(',')[1];
 				console.log("image file path and name: " + imagePathandFileName);
-				console.log(base64Data);
 				console.log("=============")
 				fs.writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
 					console.log(err);
@@ -71,10 +70,11 @@ module.exports = {
 							if (err)
 								res.json(err);
 							else
-								res.json(data);
+								res.json(post);
 						});
 					}
 				});
+				//end of save post
 			}
 		});
 	},
@@ -94,15 +94,28 @@ module.exports = {
 	},
 	delete: function(req, res) {
 		var payload = getPayload(req.headers);
-		if (payload.username != req.body._user.username)
-			res.send(403);
-		else
-			Post.remove({_id: req.params.id}, function(err, data) {
-				if (err)
-					res.json(err)
-				else
-					res.json(data);
-			});
+
+		Post.findOne({_id: req.params.id}, function(err, post){
+			if (err){
+				res.json(err);
+			} else {
+				User.findOne({_id: post._user}, function(err, user){
+					if (err){
+						res.json(err);
+					} else {
+						if (payload.username != user.username)
+							res.send(403);
+						else
+							Post.remove({_id: req.params.id}, function(err, data) {
+								if (err)
+									res.json(err)
+								else
+									res.json(data);
+							});
+					}
+				});
+			}
+		});
 	},
 	show: function(req, res) {
 		console.log("sorting");

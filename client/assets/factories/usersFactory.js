@@ -7,7 +7,7 @@ app.factory('usersFactory', function($http, $cookies) {
 		// },
 		show: function(username, callback) {
 			$http.get(`/api/users/${username}`, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
@@ -17,16 +17,24 @@ app.factory('usersFactory', function($http, $cookies) {
 				callback(res.data);
 			});
 		},
+		addFavorite: function(id, callback) {
+			console.log("factory received id: "+id);
+			$http.put(`/users/favorites/${id}`, {
+					headers: {'authorization': `Bearer ${$cookies.get('token')}`}
+			}).then(function(res) {
+				callback();
+			});
+		},
 		update: function(data, callback) {
 			$http.put(`/api/users/${data.username}`, data, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
 		},
 		delete: function(username, callback) {
 			$http.delete(`/api/users/${username}`, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});

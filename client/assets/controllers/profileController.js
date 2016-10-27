@@ -12,11 +12,6 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 		$location.url('/');
 	}
 
-	usersFactory.show($scope.username, function(data) {
-		$scope.posts = data.posts;
-		$scope.favorites = data.favorites;
-	});
-
 	$scope.post = function(){
 		postsFactory.create($scope.post.image, function(data){
 			$location.url(`/post/${data._id}`)
