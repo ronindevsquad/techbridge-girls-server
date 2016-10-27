@@ -104,6 +104,7 @@ body{
 .rounded_corner_img{
 	border-radius: 10px;
 	width: 32%;
+	padding:2px 2px;
 }
 
 /* Add image button css */
