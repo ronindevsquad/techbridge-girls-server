@@ -31,7 +31,7 @@
 		<div ng-repeat="item in items track by $index" class="row">
 			<a href="">
 				<div class="six columns">
-					<h4 ng-bind="item.name"></h4>
+					<a href="{{item.url}}"><h4 ng-bind="item.name"></h4></a>
 					<h5>{{item.price}} <span class="u-pull-right">{{item.brand}}</span></h5>
 				</div>
 				<div class="four columns">
@@ -46,7 +46,7 @@
 		<hr>
 
 		<form ng-show="username == post._user.username" ng-submit="update()">
-			<input type="text" placeholder="https://www..."><br>
+			<input ng-model='link' type="text" placeholder="https://www..."><br>
 			<input class="button-primary" type="submit" value="Add link">
 			<a href="#/"><button>Home</button></a>
 			<a href="#/"><button ng-click="remove_post();">Remove Post</button></a>

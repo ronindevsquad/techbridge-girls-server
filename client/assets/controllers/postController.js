@@ -11,12 +11,14 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 		else {
 			$scope.post = data;
 			for (var i = 0; i < data.links.length; i++) {
+				var link = data.links[i];
 				var id = data.links[i].split('/').slice(-1)[0].split('?')[0];
 				$http.get(`http://api.shopstyle.com/api/v2/products/${id}?pid=uid2900-36524230-6`)
 				.then(function(res) {
 					if (!res.data.errorCode) {
 						$scope.items.push({
-							url: data.links[i],
+							// url: data.links[i],
+							url: link,
 							name: res.data.unbrandedName,
 							brand: res.data.brand.name,
 							price: res.data.priceLabel,
