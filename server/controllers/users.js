@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 var getPayload = require('./GetPayload.js');
 
 var User = mongoose.model('User');
+var Post = mongoose.model('Post');
+
 module.exports = {
 	index: function(req, res) {
 		User.find({}, function(err, data) {
@@ -11,6 +13,29 @@ module.exports = {
 				res.json(err);
 			else
 				res.json(data);
+		});
+	},
+	addFavorite: function(req, res) {
+		console.log(req.body.headers);
+		var payload = getPayload(req.body.headers);
+		console.log("favorite add request sent")
+
+		if (!payload.username) //if the user is not signed in they can't favorite
+			res.send(403)
+		else
+		Post.findOne({_id:req.params.id}, function(err,post){
+			if (err) {
+				console.log(err)
+			}else{
+				User.update({username: payload.username}, {$push: {
+					favorites: post._id
+				}}, function(err, data) {
+					if (err)
+					res.json(err);
+					else
+					res.json(data);
+				});
+			}
 		});
 	},
 	create: function(req, res) {

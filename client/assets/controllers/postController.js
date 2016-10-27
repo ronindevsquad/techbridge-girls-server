@@ -6,11 +6,9 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 	// Get post and items:
 	$scope.items = [];
 	postsFactory.show($routeParams.id, function(data) {
-		console.log(data);
 		if (data.errors || !data.image)
 			$location.url('/');
 		else {
-			console.log("inside");
 			$scope.post = data;
 			for (var i = 0; i < data.links.length; i++) {
 				var id = data.links[i].split('/').slice(-1)[0].split('?')[0];
@@ -34,20 +32,22 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 		console.log("Link:", $scope.link)
 		$scope.post.links.push($scope.link);
 		postsFactory.update($scope.post, function(data) {
-			console.log('Data is:', data)
+			// console.log('Data is:', data)
 			$scope.post = data;
 		});
 	}
+
 	$scope.remove_link = function(index) {
 		$scope.post.links.splice(index, 1);
 		postsFactory.update($scope.post, function(data) {
-			console.log('Data is:', data)
+			// console.log('Data is:', data)
 			$scope.post = data;
 		});
 	}
+
 	$scope.remove_post = function() {
 		postsFactory.delete($scope.post._id, function(data) {
-			console.log('Data is:', data)
+			// console.log('Data is:', data)
 			$location.url('/')
 		});
 	}

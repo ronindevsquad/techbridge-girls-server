@@ -12,21 +12,21 @@ app.factory('postsFactory', function($http, $cookies) {
 		},
 		create: function(data, callback) {
 			$http.post('/api/posts', {data:data}, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
 		},
 		update: function(data, callback) {
 			$http.put(`/api/posts/${data._id}`, data, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback();
 			});
 		},
 		delete: function(id, callback) {
 			$http.delete(`/api/posts/${id}`, {
-				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
+				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
