@@ -11,7 +11,7 @@ app.factory('postsFactory', function($http, $cookies) {
 			});
 		},
 		create: function(data, callback) {
-			$http.post('/api/posts', data, {
+			$http.post('/api/posts', {data:data}, {
 				headers: {'Authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
