@@ -102,6 +102,7 @@ body{
 
 /*Index page*/
 .rounded_corner_img{
+	vertical-align: top;
 	border-radius: 10px;
 	width: 30%;
 	padding:2px 2px;
@@ -111,7 +112,6 @@ body{
 	width: 20%;
 	z-index: 5;
 	position: absolute;
-	/*bottom: 1em;*/
 	right: 1em;
 	background-image: url(/static/images/save_icon.png);
 	background-size: contain;
@@ -123,6 +123,9 @@ body{
 .post{
 	display: inline;
 	position: relative;
+}
+.post:hover .image_overlay_button{
+	display: inline;
 }
 /* Add image button css */
 .blur{
