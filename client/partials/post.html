@@ -16,18 +16,35 @@
 
 	<!-- Commented out to make room for search bar -->
 	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
-	<h1 class="bringshoot">Edit Post</h1>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>	
-	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot">{{post._user.username}}}</h1>
+	<a ng-show="username != post._user.username" href="#/user/{{post._user.username}}"></a><h1 class="bringshoot" ng-bind="post._user.username"></h1>
 
 	<hr>
 	<div class="ten columns">
-		<img class='rounded_corner_img' src="https://i.gyazo.com/578967ba91232f4f5503c6850a562ceb.png">
-		<div>
-			<a href=""><img src="https://i.gyazo.com/7eb118a800857476562eebc5b9bc60f8.png"></a><button>Remove Link</button>
-			<a href=""><img src="https://i.gyazo.com/939c46dc4e2a06f4f20ab0135845d674.png"></a><button>Remove Link</button>
+		<!-- REPLACE THIS IMAGE HERE -->
+		<!-- REPLACE THIS IMAGE HERE -->
+		<!-- REPLACE THIS IMAGE HERE -->
+		<img class='rounded_corner_img' src="https://i.gyazo.com/578967ba91232f4f5503c6850a562ceb.png">		
+		<!-- REPLACE THIS IMAGE HERE -->
+		<!-- REPLACE THIS IMAGE HERE -->
+		<!-- REPLACE THIS IMAGE HERE -->
+		<div ng-repeat="item in items track by $index" class="row">
+			<a href="">
+				<div class="six columns">
+					<h4 ng-bind="item.name"></h4>
+					<h5>{{item.price}} <span class="u-pull-right">{{item.brand}}</span></h5>
+				</div>
+				<div class="four columns">
+					<img src="{{item.image}}">
+				</div>
+				<div class="five columns">
+				<button ng-action="remove_link($index)"><h4><b>X</b></h4></button>
+				</div>
+			</a>
 		</div>
+
 		<hr>
+
 		<form ng-show="username == post._user.username" ng-submit="">
 			<input type="text" placeholder="https://www..."><br>
 			<input class="button-primary" type="submit" value="Add link">
