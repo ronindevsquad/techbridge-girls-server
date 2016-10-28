@@ -7,8 +7,9 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 		});
 	};
 	index();
-	$scope.addFavorite = function(id){
-		usersFactory.addFavorite(id, function(){
+
+	$scope.toggleFavorite = function(id){
+		usersFactory.toggleFavorite(id, function(){
 			//no callback needed if you add a favorite.
 		});
 	}

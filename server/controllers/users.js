@@ -15,28 +15,52 @@ module.exports = {
 				res.json(data);
 		});
 	},
-	addFavorite: function(req, res) {
-		console.log(req.body.headers);
+	toggleFavorite : function(req, res) {
 		var payload = getPayload(req.body.headers);
-		console.log("favorite add request sent")
+		var newFavorites = [];  
 
-		if (!payload.username) //if the user is not signed in they can't favorite
-			res.send(403)
-		else
-		Post.findOne({_id:req.params.id}, function(err,post){
-			if (err) {
-				console.log(err)
-			}else{
-				User.update({username: payload.username}, {$push: {
-					favorites: post._id
-				}}, function(err, data) {
-					if (err)
+		if (!payload.username){ //if the user is not signed in they can't favorite
+			res.send(403)		
+		} else {
+			User.findOne({username: payload.username}, function(err, user){
+				if (err){
 					res.json(err);
-					else
-					res.json(data);
-				});
-			}
-		});
+				} else {
+					for(var i = 0; i < user.favorites.length; i++){
+						if(user.favorites[i] != req.params.id){
+							newFavorites.push(user.favorites[i]);
+						}
+					}
+					if (newFavorites.length != user.favorites.length){
+						user.favorites = newFavorites;
+					} else {
+						user.favorites.push(req.params.id);
+					}
+					user.save(function(err){
+						if(err){
+							res.json(err);
+						}
+					});
+				}
+			});
+		} 
+
+		// else
+		// Post.findOne({_id:req.params.id}, function(err,post){
+		// 	if (err) {
+		// 		console.log(err)
+		// 	}else{
+
+		// 		User.update({username: payload.username}, {$push: {
+		// 			favorites: post._id
+		// 		}}, function(err, data) {
+		// 			if (err)
+		// 			res.json(err);
+		// 			else
+		// 			res.json(data);
+		// 		});
+		// 	}
+		// });
 	},
 	create: function(req, res) {
 		if (req.body.password != req.body.confirm_password)
