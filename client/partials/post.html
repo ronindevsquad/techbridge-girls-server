@@ -5,7 +5,7 @@
 </script>
 
 <div id='blurme' class="row">
-	<a ng-show="username" class='profile_link' ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
+	<a class='profile_link' ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>
 
 	<hr>
@@ -47,6 +47,7 @@
 	</div>
 
 	<!-- Side nav -->
+<<<<<<< HEAD
 	<div class="one column" style="position:fixed; right:15%;">
 		<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 		<a ng-show="username" href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
@@ -54,6 +55,16 @@
 		<a ng-show="username" href="#/logout" ng-click="logout()"><button class='nav_button' type="button" name="button">Log Out</button></a>
 		<a ng-hide="username" href="#/login"><button type="button" name="button">Log In</button></a>
 	</div>
+=======
+		<div class="one column navbar">
+			<div ng-if='username'>
+				<script src="../static/js/navbarControls.js"></script>
+				<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
+				<a href="#/favorites"><img src="/static/images/favorites.png" alt="" /></a>
+			<a href="#/profile"><img src="/static/images/profile_button.png" alt="" /></a>
+			</div>
+		</div>
+>>>>>>> dd6c02c3cd2dce419ad0fb5e2d3c4307e645a77c
 </div> <!--end of blurme-->
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
 <div class="upload_image hidden">
