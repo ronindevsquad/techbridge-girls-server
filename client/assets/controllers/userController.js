@@ -1,5 +1,5 @@
 app.controller('userController', function ($scope, $location, $routeParams, $cookies, usersFactory) {
-	$scope.page;
+	$scope.page = 'posts';
 	$scope.username = $routeParams.username;
 	if (!$scope.username)
 		$location.url('/');
@@ -8,7 +8,17 @@ app.controller('userController', function ($scope, $location, $routeParams, $coo
 		$scope.posts = data.posts;
 		$scope.favorites = data.favorites;
 	});
-
+	$scope.toggle = function() {
+		if ($scope.page == 'posts')
+				$scope.page = 'favorites';
+		else
+			$scope.page = 'posts';
+	}
+	$scope.toggleFavorite = function(id){
+		usersFactory.toggleFavorite(id, function(data){
+			
+		});
+	}
 	$scope.logout = function() {
 		$cookies.remove('token');
 		$cookies.remove('username');
