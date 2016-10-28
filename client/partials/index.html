@@ -22,7 +22,7 @@ $('body').css('background-image', "none");
 	<div class="ten columns ">
 		<div ng-repeat="post in posts" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{post.image}}"></a>
-			<button ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-if="username" ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden' type="button" name="button"></button>
 		</div>
 	</div>
 
