@@ -4,15 +4,13 @@
 </script>
 
 <div id='blurme' class="row">
-	<!-- Commented out to make room for search bar -->
-	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<h1 class="bringshoot">Your Profile</h1>
 
 	<hr>
 	<div class="ten columns">
 		<div ng-repeat="post in posts|orderBy:'-createdAt'" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{ post.image }}"></a>
-			<button ng-click="toggleFavorite(post._id);" class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-show="username" ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden'></button>
 		</div>
 	</div>
 

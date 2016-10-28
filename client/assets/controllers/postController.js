@@ -1,7 +1,5 @@
-app.controller('postController', function ($scope, $route, $location, $routeParams, $cookies, $http, postsFactory, usersFactory) {
+app.controller('postController', function ($scope, $route, $location, $routeParams, $cookies, $http, usersFactory, postsFactory) {
 	$scope.username = $cookies.get('username');
-	if (!$scope.username)
-		$location.url('/');
 
 	// Get post and items:
 	$scope.items = [];
@@ -30,6 +28,11 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 		}
 	});
 
+	$scope.toggleFavorite = function(id){
+		usersFactory.toggleFavorite(id, function(data){
+			
+		});
+	}
 	$scope.update = function() {
 		console.log('here')
 		$scope.post.links.push($scope.link);
@@ -37,7 +40,6 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 			$route.reload()
 		});
 	}
-
 	$scope.remove_link = function(index) {
 		$scope.post.links.splice(index, 1);
 		$scope.items.splice(index,1);
