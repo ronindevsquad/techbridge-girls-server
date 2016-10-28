@@ -4,7 +4,6 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 	var index = function(){
 		usersFactory.show($scope.username,function(data){
 			$scope.posts = data.posts;
-			console.log($scope.posts);
 		});
 	};
 	index();
@@ -16,6 +15,12 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 		postsFactory.create($scope.post.image, function(data){
 			$location.url(`/post/${data._id}`)
 		});
+	}
+
+	$scope.toggleFavorite = function(id){
+	usersFactory.toggleFavorite(id, function(data){
+		//
+	});
 	}
 
 	$scope.remove_post = function(index) {

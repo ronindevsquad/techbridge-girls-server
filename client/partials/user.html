@@ -5,12 +5,13 @@
 
 <!-- POSTS -->
 <div ng-show="page==='posts'" id='blurme' class="row">
+	<h3 ng-show="username" class="bringshoot u-pull-right">Signed in as {{username}}</h3>
 	<h1 class="bringshoot">{{ username }}'s posts</h1>
 	<hr>
 	<div class="ten columns">
 		<div ng-repeat="post in posts" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{ post.image }}"></a>
-			<button ng-show="username" ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden' type="button" name="button"></button>
 		</div>
 	</div>
 
@@ -21,6 +22,7 @@
 			<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 			<button ng-click="toggle()" class='nav_button user_favorites_button' ng-class="{'orange_background': page==='posts'}" type="button" name="button">{{username}}'s Posts</button>
 			<button ng-click="toggle()" class='nav_button user_favorites_button' ng-class="{'orange_background': page==='favorites'}" type="button" name="button">{{username}}'s Favorites</button>
+			<a href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>			
 		</div>
 	</div>
 </div> <!--end of blurme-->
@@ -32,7 +34,7 @@
 	<div class="ten columns">
 		<div ng-repeat="favorite in favorites" class="post">
 			<a href="#/post/{{ favorite._id }}"><img class='rounded_corner_img' src="{{ favorite.image }}"></a>
-			<button ng-show="username" ng-click='toggleFavorite(favorite._id)' class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-click='toggleFavorite(favorite._id)' class='image_overlay_button hidden' type="button" name="button"></button>
 		</div>
 	</div>
 
@@ -43,6 +45,7 @@
 			<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 			<button ng-click="toggle()" class='nav_button user_favorites_button' ng-class="{'orange_background': page==='posts'}" type="button" name="button">{{username}}'s Posts</button>
 			<button ng-click="toggle()" class='nav_button user_favorites_button' ng-class="{'orange_background': page==='favorites'}" type="button" name="button">{{username}}'s Favorites</button>			
+			<a href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>
 		</div>
 	</div>
 </div> <!--end of blurme-->

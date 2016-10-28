@@ -5,7 +5,8 @@ $('body').css('background-image', "none");
 </script>
 
 <div id='blurme' class="row">
-	<input class='search_bar' type="text" name="search" placeholder="Search">
+	<!-- <input class='search_bar' type="text" name="search" placeholder="Search"> -->
+	<h3 ng-show="username" class="bringshoot u-pull-right">Signed in as {{username}}</h3>
 	<h1 class="bringshoot">Trending</h1>
 	<hr>
 	<div class="ten columns ">
@@ -25,8 +26,8 @@ $('body').css('background-image', "none");
 			<a href="#/favorites"><img src="/static/images/favorites.png" alt="" /></a>
 			<a href=""><img id=add_picture_button src="/static/images/add_button.png" alt="" /></a>
 			<a href="#/profile"><img src="/static/images/profile_button.png" alt="" /></a>
-			<a ng-show="username" href="#/logout" ng-click="logout()"><button id='log_out_button'  name="button">Log Out</button></a>
-			<!-- <a href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a> -->
+			<a href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>
+
 
 		</div>
 		<div ng-hide="username">

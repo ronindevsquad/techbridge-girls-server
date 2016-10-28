@@ -4,6 +4,7 @@
 </script>
 
 <div id='blurme' class="row">
+	<h3 ng-show="username" class="bringshoot u-pull-right">Signed in as {{username}}</h3>
 	<h1 class="bringshoot">Your Profile</h1>
 
 	<hr>
@@ -22,6 +23,7 @@
 				<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 				<a href="#/favorites"><img src="/static/images/favorites_selected.png" alt="" /></a>
 			<a href="#/profile"><img src="/static/images/profile_button.png" alt="" /></a>
+			<a href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>
 			</div>
 		</div>
 	</div>
@@ -34,6 +36,7 @@
 				<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
 				<a href="#/favorites"><img src="/static/images/favorites.png" alt="" /></a>
 			<a href="#/profile"><img src="/static/images/profile_selected.png" alt="" /></a>
+			<a href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>
 			</div>
 		</div>
 	</div>

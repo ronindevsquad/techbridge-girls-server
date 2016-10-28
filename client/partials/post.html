@@ -5,7 +5,8 @@
 </script>
 
 <div id='blurme' class="row">
-	<a class='profile_link' ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
+	<h3 ng-show="username" class="bringshoot u-pull-right">Signed in as {{username}}</h3>
+	<a class='profile_link' ng-show="username && username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>
 
 	<hr>
@@ -31,7 +32,8 @@
 				</div>
 				</a>
 				<div class="five columns">
-				<button ng-show="username == post._user.username" ng-click="remove_link($index)"><h4><b>X</b></h4></button>
+				<!-- <button ng-show="username == post._user.username" ng-click="remove_link($index)"><h4><b>X</b></h4></button> -->
+				<a href="" ng-show="username == post._user.username" ng-click="remove_link($index)" ng-click=""><img src="/static/images/cancel_button.png" alt="" /></a>
 				</div>
 			</a>
 		</div>
@@ -49,9 +51,9 @@
 	<!-- Side nav -->
 	<div class="one column" style="position:fixed; right:15%;">
 		<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
-		<a href="#/favorites"><img src="/static/images/favorites.png" alt="" /></a>
-		<a href="#/profile"><img src="/static/images/profile_button.png" alt="" /></a>
-		<a ng-show="username" href="#/logout" ng-click="logout()"><button class='nav_button' type="button" name="button">Log Out</button></a>
+		<a ng-show="username" href="#/favorites"><img src="/static/images/favorites.png" alt="" /></a>
+		<a ng-show="username" href="#/profile"><img src="/static/images/profile_button.png" alt="" /></a>
+		<a ng-show="username" href="#/logout"><img ng-click="logout();" src="/static/images/logout.png" alt="" id='log_out_button'/></a>
 		<a ng-hide="username" href="#/login"><button type="button" name="button">Log In</button></a>
 	</div>
 </div> <!--end of blurme-->

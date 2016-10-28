@@ -19,23 +19,26 @@ module.exports = {
 		var payload = getPayload(req.body.headers);
 		var newFavorites = [];  
 
-		if (!payload.username){ //if the user is not signed in they can't favorite
+		if (!payload.username) { //if the user is not signed in they can't favorite
 			res.send(403)		
-		} else {
+		}
+		else {
 			User.findOne({username: payload.username}, function(err, user){
-				if (err){
+				if (err)
 					res.json(err);
-				} else {
-					for(var i = 0; i < user.favorites.length; i++){
+				else {
+					for(var i = 0; i < user.favorites.length; i++) {
 						if(user.favorites[i] != req.params.id){
 							newFavorites.push(user.favorites[i]);
 						}
 					}
 					if (newFavorites.length != user.favorites.length){
 						user.favorites = newFavorites;
-					} else {
+					}
+					else {
 						user.favorites.push(req.params.id);
 					}
+
 					user.save(function(err, data){
 						if(err){
 							res.json(err);

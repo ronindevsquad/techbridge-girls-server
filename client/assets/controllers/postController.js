@@ -48,6 +48,12 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 		});
 	}
 
+	$scope.toggleFavorite = function(id){
+	usersFactory.toggleFavorite(id, function(){
+		//no callback needed if you add a favorite.
+	});
+	}
+
 	$scope.remove_post = function() {
 		postsFactory.delete($scope.post._id, function(data) {
 			// console.log('Data is:', data)

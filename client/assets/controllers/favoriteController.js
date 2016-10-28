@@ -1,4 +1,4 @@
-app.controller('favoriteController',function($scope, $location, $routeParams, $cookies, usersFactory, postsFactory){
+app.controller('favoriteController',function($route, $scope, $location, $routeParams, $cookies, usersFactory, postsFactory){
   $scope.username = $cookies.get('username');
   $scope.page = "favorites";
   var index = function(){
@@ -19,6 +19,13 @@ app.controller('favoriteController',function($scope, $location, $routeParams, $c
 	$scope.post = function(){
 		postsFactory.create($scope.post.image, function(data){
 			$location.url(`/post/${data._id}`)
+		});
+	}
+
+	$scope.toggleFavorite = function(id){
+		usersFactory.toggleFavorite(id, function(data){
+			$scope.posts = data.favorites;
+			$route.reload();
 		});
 	}
 
