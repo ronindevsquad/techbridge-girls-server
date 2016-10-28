@@ -6,6 +6,13 @@
     font-family: bringshoot;
     src: url(../fonts/bringshoot.otf);
 }
+
+@media all and (max-width: 568px) {
+	#shoptheworld {
+		display: none;
+	}
+}
+
 .error {
 	color: red;
 }
@@ -66,8 +73,8 @@ body{
 
 #shoptheworld{
 	z-index: -1;
-	width: 70%;
-	top: 50%;
+	/*width: 100%;*/
+	margin-top: 50%;
 }
 
 html, body, .ng-scope {
