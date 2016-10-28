@@ -1,4 +1,4 @@
-app.controller('postController', function ($scope, $location, $routeParams, $cookies, $http, postsFactory) {
+app.controller('postController', function ($scope, $route, $location, $routeParams, $cookies, $http, postsFactory) {
 	$scope.username = $cookies.get('username');
 	if (!$scope.username)
 		$location.url('/');
@@ -31,19 +31,21 @@ app.controller('postController', function ($scope, $location, $routeParams, $coo
 	});
 
 	$scope.update = function() {
-		console.log("Link:", $scope.link)
 		$scope.post.links.push($scope.link);
+		console.log("After push:"+$scope.post.links);
 		postsFactory.update($scope.post, function(data) {
-			// console.log('Data is:', data)
-			$scope.post = data;
+			// $scope.items.push(data[0].links[-1]);
+			$route.reload()
+			console.log('Updated new link:', data)
 		});
 	}
 
 	$scope.remove_link = function(index) {
+		console.log("removing link");
 		$scope.post.links.splice(index, 1);
+		$scope.items.splice(index,1);
 		postsFactory.update($scope.post, function(data) {
-			// console.log('Data is:', data)
-			$scope.post = data;
+			// $scope.post = data;
 		});
 	}
 

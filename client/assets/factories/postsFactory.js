@@ -21,7 +21,8 @@ app.factory('postsFactory', function($http, $cookies) {
 			$http.put(`/api/posts/${data._id}`, data, {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
-				callback();
+				callback(res.data);
+				console.log(res);
 			});
 		},
 		delete: function(id, callback) {

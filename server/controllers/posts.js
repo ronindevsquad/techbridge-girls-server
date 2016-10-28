@@ -89,7 +89,15 @@ module.exports = {
 				if (err)
 					res.json(err)
 				else
-					res.json(data);
+					Post.find({_id:req.params.id}, function(err, post){
+						if(err) {res.json(err)}
+						else{
+							console.log(post);
+							res.json(post);
+						}
+					});
+
+				console.log(data);
 			});
 	},
 	delete: function(req, res) {
