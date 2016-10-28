@@ -14,7 +14,14 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 		});
 	}
 	$scope.post = function(){
+		$scope.image_error = null;
 		postsFactory.create($scope.post_image, function(data){
+			if (data.errors)
+				for (key in data.errors) {
+					$scope.image_error = data.errors[key].message;
+					break;
+				}
+			else
 			$location.url(`/post/${data._id}`)
 		});
 	}

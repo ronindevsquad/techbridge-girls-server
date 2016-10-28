@@ -32,6 +32,8 @@ module.exports = {
 		User.findOne({username: username}, function(err, user) {
 			if (err)
 				res.json(err);
+			else if (!req.body.data)
+				res.json({errors: {image: {message: 'No photo selected.'}}})
 			else {
 				var post = new Post({
 					_user: user._id,
@@ -80,12 +82,10 @@ module.exports = {
 					Post.find({_id:req.params.id}, function(err, post){
 						if(err) {res.json(err)}
 						else{
-							console.log(post);
 							res.json(post);
 						}
 					});
 
-				console.log(data);
 			});
 	},
 	delete: function(req, res) {

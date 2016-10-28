@@ -39,8 +39,9 @@ $('body').css('background-image', "none");
 <div class="upload_image hidden">
 	<form ng-submit="post();">
 		<label>+ Upload an Image</label>
-		<input type="file" fileread="post_image" value="Select Photo" accept="image/png, image/jpeg">
+		<input type="file" fileread="post_image" value="Select Photo" accept="image/png, image/jpeg, image/jpg">
 		<input id="pick_photo" type="submit" name="" value="Pick Photo">
+		<p class="error" ng-bind="image_error"></p>
 	</form>
 	<button id="backFromImageSelectionButton"><< Back</button>
 </div>

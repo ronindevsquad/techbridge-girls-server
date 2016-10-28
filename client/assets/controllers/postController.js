@@ -15,15 +15,16 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 				.then(function(res) {
 					if (!res.data.errorCode) {
 						$scope.items.push({
-							// url: data.links[i],
-							url: link,
+							url: data.links[$scope.items.length],
+							// url: link,
 							name: res.data.unbrandedName,
 							brand: res.data.brand.name,
 							price: res.data.priceLabel,
 							image: res.data.image.sizes.Large.url
 						});
 					}
-				})
+					console.log($scope.items)
+				});
 			}
 		}
 	});

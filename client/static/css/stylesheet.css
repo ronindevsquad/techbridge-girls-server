@@ -178,11 +178,12 @@ html, body, .ng-scope {
 }
 
 .image_overlay_button{
-	opacity: 0.9;
+	opacity: 0.8;
 	width: 20%;
 	z-index: 5;
 	position: absolute;
 	right: 1em;
+	top: 0.5em;
 	background-image: url(/static/images/save_icon.png);
 	background-size: contain;
 	background-repeat: no-repeat;;
