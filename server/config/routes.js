@@ -8,7 +8,7 @@ module.exports = function(app) {
 	app.get('/api/users/:username', users.show);
 	app.post('/users', users.create);
 	app.put('/api/users/:username', users.update);
-	app.put('/users/favorites/:id', users.addFavorite); //add a favorite
+	app.put('/users/favorites/:id', users.toggleFavorite); //add a favorite
 	app.delete('/api/users/:username', users.delete);
 	app.post('/login', users.login);
 

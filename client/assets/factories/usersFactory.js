@@ -17,8 +17,7 @@ app.factory('usersFactory', function($http, $cookies) {
 				callback(res.data);
 			});
 		},
-		addFavorite: function(id, callback) {
-			console.log("factory received id: "+id);
+		toggleFavorite: function(id, callback) {
 			$http.put(`/users/favorites/${id}`, {
 					headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {

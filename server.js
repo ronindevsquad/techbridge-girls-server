@@ -14,7 +14,6 @@ app.use('/api', expressJwt({secret: 'secret_key'}))
 //TESTING OUT FILE SIZE LIMITS
 app.use(bp.json({limit: "10mb"}));
 app.use(bp.urlencoded({ limit: "10mb", extended: true }));
-console.log("body parser limits increased");
 //
 
 require('./server/config/mongoose.js'),
