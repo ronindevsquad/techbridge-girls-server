@@ -4,18 +4,11 @@
 	$('body').css('background-repeat', 'no-repeat');
 </script>
 
-<!-- Navbar -->
-<!-- <nav>
-	<a href="#/">Home</a>
-	<a ng-show="username" href="#/post">Post</a>
-	<a ng-hide="username" href="#/login">Login/Register</a>
-	<a href="#/post">Add Page</a>
-	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
-</nav> -->
-
-<img id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
 <div class="row">
-	<div id='login' class="one-half column offset-by-four">
+	<div class="four columns">
+		<img class="u-max-full-width" id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
+	</div>
+	<div id='login' class="four columns login_box">
 		<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
 		<form ng-submit="create()">
 			<input id="top_form" type="text" placeholder='username' ng-model="new_user.username" minlength="2" required>
