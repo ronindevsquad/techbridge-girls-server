@@ -4,7 +4,6 @@ app.controller('favoriteController',function($scope, $location, $routeParams, $c
   var index = function(){
 		usersFactory.show($scope.username,function(data){
 			$scope.posts = data.favorites;
-			console.log($scope.posts);
 		});
 	};
 	index();

@@ -13,7 +13,7 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 			for (var i = 0; i < data.links.length; i++) {
 				var link = data.links[i];
 				var id = data.links[i].split('/').slice(-1)[0].split('?')[0];
-				$http.get(`http://api.shopstyle.com/api/v2/products/${id}?pid=uid2900-36524230-6`)
+				$http.get(`https://api.shopstyle.com/api/v2/products/${id}?pid=uid2900-36524230-6`)
 				.then(function(res) {
 					if (!res.data.errorCode) {
 						$scope.items.push({
@@ -31,17 +31,14 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 	});
 
 	$scope.update = function() {
+		console.log('here')
 		$scope.post.links.push($scope.link);
-		console.log("After push:"+$scope.post.links);
 		postsFactory.update($scope.post, function(data) {
-			// $scope.items.push(data[0].links[-1]);
 			$route.reload()
-			console.log('Updated new link:', data)
 		});
 	}
 
 	$scope.remove_link = function(index) {
-		console.log("removing link");
 		$scope.post.links.splice(index, 1);
 		$scope.items.splice(index,1);
 		postsFactory.update($scope.post, function(data) {

@@ -22,7 +22,6 @@ app.factory('postsFactory', function($http, $cookies) {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
-				console.log(res);
 			});
 		},
 		delete: function(id, callback) {
