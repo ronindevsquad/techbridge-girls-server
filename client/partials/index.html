@@ -5,24 +5,13 @@ $('body').css('background-image', "none");
 </script>
 
 <div id='blurme' class="row">
-	<!-- Navbar -->
-	<!-- <nav>
-		<a href="#/">Home</a>
-		<a ng-show="username" href="#/post">Post</a>
-		<a ng-hide="username" href="#/login">Login/Register</a>
-		<a href="#/add">Add Page</a>
-		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
-	</nav> -->
-
-	<!-- Commented out to make room for search bar -->
-	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
 	<input class='search_bar' type="text" name="search" placeholder="Search">
 	<h1 class="bringshoot">Trending</h1>
 	<hr>
 	<div class="ten columns ">
 		<div ng-repeat="post in posts" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{post.image}}"></a>
-			<button ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-show="username" ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden grayscale'></button>
 		</div>
 	</div>
 

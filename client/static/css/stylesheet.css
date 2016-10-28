@@ -179,6 +179,7 @@ html, body, .ng-scope {
 }
 
 .image_overlay_button{
+	opacity: 0.9;
 	width: 20%;
 	z-index: 5;
 	position: absolute;

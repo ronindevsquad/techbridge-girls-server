@@ -36,10 +36,12 @@ module.exports = {
 					} else {
 						user.favorites.push(req.params.id);
 					}
-					user.save(function(err){
+					user.save(function(err, data){
 						if(err){
 							res.json(err);
 						}
+						else
+							res.json(data);
 					});
 				}
 			});

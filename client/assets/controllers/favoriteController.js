@@ -11,6 +11,11 @@ app.controller('favoriteController',function($scope, $location, $routeParams, $c
 		$location.url('/');
 	}
 
+	$scope.toggleFavorite = function(id){
+		usersFactory.toggleFavorite(id, function(data){
+			$scope.posts = data.favorites;
+		});
+	}
 	$scope.post = function(){
 		postsFactory.create($scope.post.image, function(data){
 			$location.url(`/post/${data._id}`)

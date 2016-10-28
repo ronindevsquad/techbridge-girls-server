@@ -21,7 +21,7 @@ app.factory('usersFactory', function($http, $cookies) {
 			$http.put(`/users/favorites/${id}`, {
 					headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
-				callback();
+				callback(res.data);
 			});
 		},
 		update: function(data, callback) {

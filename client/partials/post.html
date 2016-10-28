@@ -5,35 +5,20 @@
 </script>
 
 <div id='blurme' class="row">
-	<!-- Navbar -->
-	<nav>
-		<a href="#/">Home</a>
-		<a ng-show="username" href="#/post">Post</a>
-		<a ng-hide="username" href="#/login">Login/Register</a>
-		<a href="#/add">Add Page</a>
-		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
-	</nav>
-
-	<!-- Commented out to make room for search bar -->
-	<!-- <h1>Welcome<span ng-if="username">, {{username}}</span></h1> -->
-	<a class='profile_link' ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
+	<a ng-show="username" class='profile_link' ng-show="username != post._user.username" href="#/user/{{post._user.username}}"><h1 class="bringshoot ">{{post._user.username}}'s posts</h1></a>
 	<h1 ng-show="username == post._user.username" class="bringshoot">Edit Post</h1>
 
 	<hr>
 	<div class="ten columns centered_content">
-		<!-- REPLACE THIS IMAGE HERE -->
-		<!-- REPLACE THIS IMAGE HERE -->
-		<!-- REPLACE THIS IMAGE HERE -->
 		<div class="post_top_container">
 			<div class='post_title' ng-show="username !== post._user.username">
 				<span class="bringshoot post_owner_name">{{post._user.username}}</span>
-				<button class="image_overlay_button_post" type="button" name="button"></button>
 			</div>
-			<img id='post_image' class='rounded_corner_img' src="{{post.image}}">
+			<div class="post">
+				<img id='post_image' class='rounded_corner_img' src="{{post.image}}">
+				<button ng-show="username" ng-click='toggleFavorite(post._id)' class='image_overlay_button hidden'></button>
+			</div>
 		</div>
-		<!-- REPLACE THIS IMAGE HERE -->
-		<!-- REPLACE THIS IMAGE HERE -->
-		<!-- REPLACE THIS IMAGE HERE -->
 		<div ng-repeat="item in items track by $index" class="row">
 			<a href="">
 				<a class="link_product_name" href="{{item.url}}">
@@ -63,9 +48,11 @@
 
 	<!-- Side nav -->
 	<div class="one column" style="position:fixed; right:15%;">
-			<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>		<a href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
-		<a href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a>
-
+		<a href="#/" id="froxxi_link"><span class="bringshoot">froxxi</span></a>
+		<a ng-show="username" href="#/favorites"><button class='nav_button' type="button" name="button">Favorites</button></a>
+		<a ng-show="username" href="#/profile"><button class='nav_button' type="button" name="button">Profile</button></a>
+		<a ng-show="username" href="#/logout" ng-click="logout()"><button class='nav_button' type="button" name="button">Log Out</button></a>
+		<a ng-hide="username" href="#/login"><button type="button" name="button">Log In</button></a>
 	</div>
 </div> <!--end of blurme-->
 <!-- <img ng-repeat="post in posts" src="data:image/jpeg;base64{post.image}"> -->
