@@ -4,30 +4,33 @@
 	$('body').css('background-repeat', 'no-repeat');	
 </script>
 
-<!-- Navbar -->
-<nav>
-	<a href="#/">Home</a>
-	<a ng-show="username" href="#/post">Post</a>
-	<a ng-hide="username" href="#/login">Login/Register</a>
-	<a href="#/post">Add Page</a>
-	<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
-</nav>
-<img id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
-<div id='login' class="one-half column offset-by-four login_box">
-	<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
-	<form ng-submit="login()">
+<div class="row">
+	<!-- Navbar -->
+	<nav>
+		<a href="#/">Home</a>
+		<a ng-show="username" href="#/post">Post</a>
+		<a ng-hide="username" href="#/login">Login/Register</a>
+		<a href="#/post">Add Page</a>
+		<a ng-show="username" href="#/logout" ng-click="logout()">Logout</a>
+	</nav>
+	<div class="four columns">
+		<img id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
+	</div>
+	<div id='login' class="four columns  login_box">
+		<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
+		<form ng-submit="login()">
 
-		<input id='top_form'type="text" placeholder='username or email' ng-model="user.username" required>
-		<br>
-		<input id='bottom_form' type="password" placeholder='password' ng-model="user.password" required>
-		<br>
-		<input id='login_submit' class="button-primary" type="submit" value="Log In">
-		<p class="error" ng-bind="login_error"></p>
-	</form>
-	<p class="white_text">
-		Forgot Password? <a href="#/reset">Reset Password</a>
-		<br>
-		or <a href="#/register">Sign Up</a>
-	</p>
-</div>
+			<input id='top_form'type="text" placeholder='username or email' ng-model="user.username" required>
+			<br>
+			<input id='bottom_form' type="password" placeholder='password' ng-model="user.password" required>
+			<br>
+			<input id='login_submit' class="button-primary" type="submit" value="Log In">
+			<p class="error" ng-bind="login_error"></p>
+		</form>
+		<p class="white_text">
+			Forgot Password? <a href="#/reset">Reset Password</a>
+			<br>
+			or <a href="#/register">Sign Up</a>
+		</p>
+	</div>
 </div>

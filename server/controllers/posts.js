@@ -28,7 +28,6 @@ module.exports = {
 		});
 	},
 	create: function(req, res) {
-		console.log(req.headers);
 		var username = getPayload(req.headers).username;
 		User.findOne({username: username}, function(err, user) {
 			if (err)
@@ -39,26 +38,15 @@ module.exports = {
 					image:""
 				});
 
-				console.log("=============")
-				console.log("A FILE WAS UPLOADED, DETAILS ARE BELOW:")
-				console.log("image extention is: " + req.body.data.split('\/')[1].split(';')[0])
 				var imageExtention = "." + req.body.data.split('\/')[1].split(';')[0];
 				var imageFileName = post._id+"";
 				var imagePathandFileName = "./client/static/images/userphotos/" + imageFileName + imageExtention;
 				var base64Data = req.body.data.split(',')[1];
-				console.log("image file path and name: " + imagePathandFileName);
-				console.log("=============")
 				fs.writeFile(imagePathandFileName, base64Data, 'base64', function(err) {
 					console.log(err);
 				});
 				post.image = imagePathandFileName.split('/client')[1];
 
-
-
-
-
-
-				console.log(post._id);
 				// Now save the post:
 				post.save(function(err, post) {
 					if (err)
@@ -118,7 +106,6 @@ module.exports = {
 		});
 	},
 	show: function(req, res) {
-		console.log("sorting");
 		Post.findOne({_id: req.params.id})
 		.populate('_user')
 		.exec(function(err, data) {

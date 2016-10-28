@@ -16,29 +16,27 @@ module.exports = {
 		});
 	},
 	addFavorite: function(req, res) {
-		console.log(req.body.headers);
 		var payload = getPayload(req.body.headers);
-		console.log("favorite add request sent")
 
 		if (!payload.username) //if the user is not signed in they can't favorite
 			res.send(403)
 		else
 		Post.findOne({_id:req.params.id}, function(err,post){
 			if (err) {
-				console.log(err)
-			}else{
+				res.json(err);
+			}
+			else
 				User.update({username: payload.username}, {$push: {
 					favorites: post._id
 				}}, function(err, data) {
 					if (err)
-					res.json(err);
+						res.json(err);
 					else
-					res.json(data);
+						res.json(data);
 				});
-			}
 		});
-	},
-	create: function(req, res) {
+},
+create: function(req, res) {
 		if (req.body.password != req.body.confirm_password)
 			res.json({errors: {password: {message: "Passwords do not match."}}});
 		else {
@@ -100,7 +98,6 @@ module.exports = {
 			});
 	},
 	show: function(req, res) {
-		console.log("inside profile page.");
 		User.findOne({username: req.params.username})
 		.populate('posts')
 		.populate('favorites')
@@ -127,7 +124,6 @@ module.exports = {
 						res.json({errors: {password: {message: "Username/password does not match."}}});
 					else {
 						var token = jwt.sign({username: data.username}, 'secret_key');
-						console.log(token);
 						res.json(token);
 					}
 				});

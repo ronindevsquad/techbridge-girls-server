@@ -63,9 +63,15 @@ nav a{
 body{
 	background-color: #4F4F4F;
 }
+
 #shoptheworld{
 	z-index: -1;
-	position: absolute;
+	width: 70%;
+	top: 50%;
+}
+
+html, body, .ng-scope {
+  height: 100%;
 }
 
 /*Login Styles*/
