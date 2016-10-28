@@ -1,4 +1,4 @@
-app.controller('postController', function ($scope, $route, $location, $routeParams, $cookies, $http, postsFactory) {
+app.controller('postController', function ($scope, $route, $location, $routeParams, $cookies, $http, postsFactory, usersFactory) {
 	$scope.username = $cookies.get('username');
 	if (!$scope.username)
 		$location.url('/');
@@ -44,6 +44,12 @@ app.controller('postController', function ($scope, $route, $location, $routePara
 		postsFactory.update($scope.post, function(data) {
 			// $scope.post = data;
 		});
+	}
+
+	$scope.toggleFavorite = function(id){
+	usersFactory.toggleFavorite(id, function(){
+		//no callback needed if you add a favorite.
+	});
 	}
 
 	$scope.remove_post = function() {

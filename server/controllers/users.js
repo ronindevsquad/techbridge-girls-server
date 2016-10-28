@@ -43,6 +43,19 @@ module.exports = {
 					});
 				}
 			});
+
+			//------------------------------------------------
+
+			User.findOne({username: payload.username})
+			.populate('posts')
+			.populate('favorites')
+			.exec(function(err, data){
+				if(err){
+					res.json(err);
+				} else {
+					res.json(data);
+				}
+			});
 		} 
 	},
 	create: function(req, res) {

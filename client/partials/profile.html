@@ -12,7 +12,7 @@
 	<div class="ten columns">
 		<div ng-repeat="post in posts|orderBy:'-createdAt'" class="post">
 			<a href="#/post/{{ post._id }}"><img class='rounded_corner_img' src="{{ post.image }}"></a>
-			<button class='image_overlay_button hidden' type="button" name="button"></button>
+			<button ng-click="toggleFavorite(post._id);" class='image_overlay_button hidden' type="button" name="button"></button>
 		</div>
 	</div>
 

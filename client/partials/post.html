@@ -20,7 +20,7 @@
 		<div class="post_top_container">
 			<div class='post_title' ng-show="username !== post._user.username">
 				<span class="bringshoot post_owner_name">{{post._user.username}}</span>
-				<button class="image_overlay_button_post" type="button" name="button"></button>
+				<button ng-click="toggleFavorite(post._id)" class="image_overlay_button_post" type="button" name="button"></button>
 			</div>
 			<img id='post_image' class='rounded_corner_img' src="{{post.image}}">
 		</div>
@@ -39,7 +39,8 @@
 				</div>
 				</a>
 				<div class="five columns">
-				<button ng-show="username == post._user.username" ng-click="remove_link($index)"><h4><b>X</b></h4></button>
+				<!-- <button ng-show="username == post._user.username" ng-click="remove_link($index)"><h4><b>X</b></h4></button> -->
+				<a href="" ng-show="username == post._user.username" ng-click="remove_link($index)" ng-click=""><img src="/static/images/cancel_button.png" alt="" /></a>
 				</div>
 			</a>
 		</div>
