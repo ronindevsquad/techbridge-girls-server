@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var getPayload = require('./GetPayload.js');
+var getPayload = require('./getPayload.js');
 
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');

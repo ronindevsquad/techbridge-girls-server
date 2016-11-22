@@ -1,12 +1,12 @@
 {
-  "name": "shop",
+  "name": "dirt",
   "description": "",
   "main": "",
   "authors": [
     "Philip Vo <philiptranbavo@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/PhilipVo/shop",
+  "homepage": "https://github.com/PhilipVo/dirt",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -17,7 +17,6 @@
   "dependencies": {
     "angular-route": "^1.5.8",
     "angular": "^1.5.8",
-    "angular-messages": "^1.5.8",
     "angular-cookies": "^1.5.8",
     "jquery": "^3.1.1"
   }
