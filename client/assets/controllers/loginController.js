@@ -14,7 +14,6 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 		usersFactory.create($scope.new_user, function(data) {
 			if (data.errors)
 				for (key in data.errors) {
-					console.log(data.errors[key].message);
 					$scope.create_error = data.errors[key].message;
 					break;
 				}

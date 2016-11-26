@@ -22,7 +22,7 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 					break;
 				}
 			else
-			$location.url(`/post/${data._id}`)
+			$location.url(`/post/${data.id}`)
 		});
 	}
 	$scope.logout = function() {

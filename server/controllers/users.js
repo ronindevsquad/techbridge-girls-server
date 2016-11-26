@@ -1,121 +1,121 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-var getPayload = require('./getPayload.js');
+// var mongoose = require('mongoose');
+// var bcrypt = require('bcrypt');
+// var jwt = require('jsonwebtoken');
+// var getPayload = require('./getPayload');
 
-var User = mongoose.model('User');
-var Post = mongoose.model('Post');
+// var User = mongoose.model('User');
+// var Post = mongoose.model('Post');
+
+var user = require('../models/user');
+var post = require('../models/post');
 
 module.exports = {
 	index: function(req, res) {
-		User.find({}, function(err, data) {
+		user.index(function(err, data) {
 			if (err)
 				res.json(err);
 			else
 				res.json(data);
 		});
 	},
-	toggleFavorite : function(req, res) {
-		var payload = getPayload(req.body.headers);
-		var newFavorites = [];  
+	// toggleFavorite : function(req, res) {
+	// 	var payload = getPayload(req.body.headers);
+	// 	var newFavorites = [];  
 
-		if (!payload.username) { //if the user is not signed in they can't favorite
-			res.send(403)		
-		}
-		else {
-			User.findOne({username: payload.username}, function(err, user){
-				if (err)
-					res.json(err);
-				else {
-					for(var i = 0; i < user.favorites.length; i++) {
-						if(user.favorites[i] != req.params.id){
-							newFavorites.push(user.favorites[i]);
-						}
-					}
-					if (newFavorites.length != user.favorites.length){
-						user.favorites = newFavorites;
-					}
-					else {
-						user.favorites.push(req.params.id);
-					}
+	// 	if (!payload.username) { //if the user is not signed in they can't favorite
+	// 		res.send(403)		
+	// 	}
+	// 	else {
+	// 		User.findOne({username: payload.username}, function(err, user){
+	// 			if (err)
+	// 				res.json(err);
+	// 			else {
+	// 				for(var i = 0; i < user.favorites.length; i++) {
+	// 					if(user.favorites[i] != req.params.id){
+	// 						newFavorites.push(user.favorites[i]);
+	// 					}
+	// 				}
+	// 				if (newFavorites.length != user.favorites.length){
+	// 					user.favorites = newFavorites;
+	// 				}
+	// 				else {
+	// 					user.favorites.push(req.params.id);
+	// 				}
 
-					user.save(function(err, data){
-						if(err){
-							res.json(err);
-						}
-						else
-							res.json(data);
-					});
-				}
-			});
-		} 
-	},
+	// 				user.save(function(err, data){
+	// 					if(err){
+	// 						res.json(err);
+	// 					}
+	// 					else
+	// 						res.json(data);
+	// 				});
+	// 			}
+	// 		});
+	// 	} 
+	// },
 	create: function(req, res) {
-		if (req.body.password != req.body.confirm_password)
-			res.json({errors: {password: {message: "Passwords do not match."}}});
-		else {
-			var user = new User(req.body);
+		user.create(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.json(data);
+		});
 
-			// Check for unique username:
-			User.findOne({username: user.username}, function(err, data) {
-				if (err)
-					res.json(err);
-				else if (data)
-					res.json({errors: {username: {message: "Username already registered."}}});
-				else {
-					// Check for unique email:
-					User.findOne({email: user.email}, function(err, data) {
-						if (err)
-							res.json(err);
-						else if (data)
-							res.json({errors: {email: {message: "Email already in use."}}});
-						else {
-							user.save(function(err, data) {
-								if (err)
-									res.json(err);
-								else {
-									var token = jwt.sign({username: data.username}, 'secret_key');
-									res.json(token);
-								}
-							});
-						}
-					});
-				}
-			});
-		}
+		// if (req.body.password != req.body.confirm_password)
+		// 	res.json({errors: {password: {message: "Passwords do not match."}}});
+		// else {
+		// 	var user = new User(req.body);
+
+		// 	// Check for unique username:
+		// 	User.findOne({username: user.username}, function(err, data) {
+		// 		if (err)
+		// 			res.json(err);
+		// 		else if (data)
+		// 			res.json({errors: {username: {message: "Username already registered."}}});
+		// 		else {
+		// 			// Check for unique email:
+		// 			User.findOne({email: user.email}, function(err, data) {
+		// 				if (err)
+		// 					res.json(err);
+		// 				else if (data)
+		// 					res.json({errors: {email: {message: "Email already in use."}}});
+		// 				else {
+		// 					user.save(function(err, data) {
+		// 						if (err)
+		// 							res.json(err);
+		// 						else {
+		// 							var token = jwt.sign({username: data.username}, 'secret_key');
+		// 							res.json(token);
+		// 						}
+		// 					});
+		// 				}
+		// 			});
+		// 		}
+		// 	});
+		// }
 	},
 	update: function(req, res) {
-		var payload = getPayload(req.headers);
-		if (payload.username != req.body.username)
-			res.send(403)
-		else
-			User.update({username: req.params.username}, {$set: {
-				posts: req.body.posts,
-				favorites: req.body.favorites
-			}}, function(err, data) {
-				if (err)
-					res.json(err);
-				else
-					res.json(data);
-			});
+		user.update(req, function(err, data) {
+			if (typeof err == "number")
+				res.status(err).end();
+			else if (err)
+				res.json(err);
+			else
+				res.json(data);
+		});	
 	},
 	delete: function(req, res) {
-		var payload = getPayload(req.headers);
-		if (payload.username != req.body.username)
-			res.send(403)
-		else
-			User.remove({username: req.params.username}, function(err, data) {
-				if (err)
-					res.json(err);
-				else
-					res.json(data);
-			});
+		user.delete(req, function(err, data) {
+			if (typeof err == "number")
+				res.status(err).end();
+			else if (err)
+				res.json(err);
+			else
+				res.json(data);
+		});	
 	},
 	show: function(req, res) {
-		User.findOne({username: req.params.username})
-		.populate('posts')
-		.populate('favorites')
-		.exec(function(err, data) {
+		user.show(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -123,25 +123,11 @@ module.exports = {
 		});
 	},
 	login: function(req, res) {
-		// Get user by username:
-		User.findOne({username: req.body.username}, function(err, data) {
+		user.login(req, function(err, data) {
 			if (err)
 				res.json(err);
-			else if (!data)
-				res.json({errors: {username: {message: "Username does not exist."}}});
-			else {
-				// Check valid password:
-				data.comparePassword(req.body.password, function(err, isMatch) {
-					if (err)
-						res.json(err);
-					else if (!isMatch)
-						res.json({errors: {password: {message: "Username/password does not match."}}});
-					else {
-						var token = jwt.sign({username: data.username}, 'secret_key');
-						res.json(token);
-					}
-				});
-			}
-		});
+			else
+				res.json(data);
+		});	
 	}
 }
