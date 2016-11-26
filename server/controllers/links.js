@@ -1,4 +1,3 @@
-var mongoose = require('mongoose');
 var Link = mongoose.model('Link');
 module.exports = {
 	index: function(req, res) {
