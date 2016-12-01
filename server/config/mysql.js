@@ -4,7 +4,7 @@ var connection = mysql.createConnection({
 	port: '8889',
 	user: 'root',
 	password: 'root',
-	database: 'shopdb'
+	database: 'dirtdb'
 });
 
 connection.connect(function(err) {

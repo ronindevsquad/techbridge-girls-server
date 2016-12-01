@@ -43,6 +43,11 @@ app.factory('usersFactory', function($http, $cookies) {
 			$http.post('/login', data).then(function(res) {
 				callback(res.data);
 			});
-		}
+		},
+		fb_login: function(data, callback) {
+			$http.post('/fb_login', data).then(function(res) {
+				callback(res.data);
+			});
+		}		
 	}
 })

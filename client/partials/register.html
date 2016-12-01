@@ -1,17 +1,9 @@
-<script>
-	$('body').css('background-image', "url('static/images/loginregistrationbackground.png')");
-	$('body').css('background-size', 'cover');
-	$('body').css('background-repeat', 'no-repeat');
-</script>
-
 <div class="row">
-	<div class="four columns">
-		<img class="u-max-full-width" id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
-	</div>
 	<div id='login' class="four columns login_box">
-		<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
 		<form ng-submit="create()">
-			<input id="top_form" type="text" placeholder='username' ng-model="new_user.username" minlength="2" required>
+			<input id="top_form" type="text" placeholder='first name' ng-model="new_user.first_name" minlength="2" required>
+			<br>
+			<input id="top_form" type="text" placeholder='last name' ng-model="new_user.last_name" minlength="2" required>
 			<br>
 			<input class="middle_form" type="email" placeholder='email' ng-model="new_user.email" required>
 			<br>

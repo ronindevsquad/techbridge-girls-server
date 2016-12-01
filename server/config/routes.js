@@ -12,6 +12,7 @@ module.exports = function(app) {
 	// app.put('/users/favorites/:id', users.toggleFavorite); //add a favorite
 	app.delete('/api/users/:username', users.delete);
 	app.post('/login', users.login);
+	app.post('/fb_login', users.fb_login);
 
 	// POSTS
 	// app.get('/posts', posts.index);

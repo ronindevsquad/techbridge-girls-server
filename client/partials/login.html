@@ -1,18 +1,7 @@
-<script>
-	$('body').css('background-image', "url('static/images/loginregistrationbackground.png')");
-	$('body').css('background-size', 'cover');
-	$('body').css('background-repeat', 'no-repeat');
-</script>
-
 <div class="row">
-	<div class="four columns">
-		<img class="u-max-full-width" id='shoptheworld' src="static/images/shoptheworld.png" alt="" />
-	</div>
 	<div id='login' class="four columns login_box">
-		<img src="static/images/welcometofroxxi.png" alt="welcome to froxxi" />
 		<form ng-submit="login()">
-
-			<input id='top_form'type="text" placeholder='username or email' ng-model="user.username" required>
+			<input id='top_form' type="text" placeholder='email' ng-model="user.email" required>
 			<br>
 			<input id='bottom_form' type="password" placeholder='password' ng-model="user.password" required>
 			<br>
@@ -24,5 +13,9 @@
 			<br>
 			or <a href="#/register">Sign Up</a>
 		</p>
+		<hr>
+		<h5 style="color:white;">Or login with facebook</h5>
+		<button class="button-primary" ng-click="fb_login()">Facebook</button>
+		<p class="error" ng-bind="fb_login_error"></p>		
 	</div>
 </div>

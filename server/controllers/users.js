@@ -96,9 +96,7 @@ module.exports = {
 	},
 	update: function(req, res) {
 		user.update(req, function(err, data) {
-			if (typeof err == "number")
-				res.status(err).end();
-			else if (err)
+			if (err)
 				res.json(err);
 			else
 				res.json(data);
@@ -106,9 +104,7 @@ module.exports = {
 	},
 	delete: function(req, res) {
 		user.delete(req, function(err, data) {
-			if (typeof err == "number")
-				res.status(err).end();
-			else if (err)
+			if (err)
 				res.json(err);
 			else
 				res.json(data);
@@ -129,5 +125,13 @@ module.exports = {
 			else
 				res.json(data);
 		});	
-	}
+	},
+	fb_login: function(req, res) {
+		user.fb_login(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.json(data);
+		});	
+	}	
 }

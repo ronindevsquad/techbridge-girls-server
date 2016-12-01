@@ -5,115 +5,83 @@ var getPayload = require('./getPayload');
 
 module.exports = {
 	index: function(callback) {
-		var query = "SELECT * FROM users";
-		connection.query(query, function(err, data) {
+		connection.query("SELECT *, HEX(id) as id FROM users", function(err, data) {
 			if (err)
-				callback(err);
+				callback({errors: {database: {message: `Database error: ${err.code}.`}}})
 			else
 				callback(false, data)
 		});
 	},
-	// toggleFavorite : function(req, res) {
-	// 	var payload = getPayload(req.body.headers);
-	// 	var newFavorites = [];  
-
-	// 	if (!payload.username) { //if the user is not signed in they can't favorite
-	// 		res.send(403)		
-	// 	}
-	// 	else {
-	// 		User.findOne({username: payload.username}, function(err, user){
-	// 			if (err)
-	// 				res.json(err);
-	// 			else {
-	// 				for(var i = 0; i < user.favorites.length; i++) {
-	// 					if(user.favorites[i] != req.params.id){
-	// 						newFavorites.push(user.favorites[i]);
-	// 					}
-	// 				}
-	// 				if (newFavorites.length != user.favorites.length){
-	// 					user.favorites = newFavorites;
-	// 				}
-	// 				else {
-	// 					user.favorites.push(req.params.id);
-	// 				}
-
-	// 				user.save(function(err, data){
-	// 					if(err){
-	// 						res.json(err);
-	// 					}
-	// 					else
-	// 						res.json(data);
-	// 				});
-	// 			}
-	// 		});
-	// 	} 
-	// },
 	create: function(req, callback) {
-		// Check for unique username and email:
-		var query = "SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1";
-		var data = [req.body.username, req.body.email];
-		connection.query(query, data, function(err, data) {
-			console.log("create user data:", data)
-			if (err)
-				throw err;
-			else
-				if (data.length > 0) 
-					callback({errors: {username_email: {message: "Username/email already in use."}}});
-				else {
-					// Validate username:
-					if (!/^[a-z0-9]{3,32}$/i.test(req.body.username)) {
-						callback({errors: {username : {message: "Username must be alphanumeric and at least four characters long."}}});
-						return;							
-					}
-
-					// Validate email:
-					if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email)) {
-						callback({errors: {email : {message: "Invalid email. Email format should be: email@mailserver.com."}}});
-						return;
-					}
-
-					// Validate password:
-					if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password)) {
-						callback({errors: {password : {message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."}}});
-						return;
-					}
-
-					// Validate confirm_password:
-					if (req.body.password != req.body.confirm_password) {
-						callback({errors: {confirm_password: {message: "Passwords do not match."}}});
-						return;
-					}
-
-					// Valid new user, encrypt password and save:
+		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password) 
+			callback({errors: {form : {message: "All form fields are required."}}});
+		else {
+			// Check for unique username and email:
+			var query = "SELECT * FROM users WHERE email = ? LIMIT 1";
+			connection.query(query, req.body.email, function(err, data) {
+				if (err)
+					callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+				// If user already exists:
+				else if (data.length > 0) 
+					callback({errors: {email: {message: "Email already in use, please log in."}}});
+				// Validate first_name:
+				else if (!/^[a-z]{2,32}$/i.test(req.body.first_name)) 
+					callback({errors: {first_name : {message: "First name must contain only letters."}}});
+				// Validate last_name:
+				else if (!/^[a-z]{2,32}$/i.test(req.body.last_name)) 
+					callback({errors: {last_name : {message: "Last name must contain only letters."}}});
+				// Validate email:
+				else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
+					callback({errors: {email : {message: "Invalid email. Email format should be: email@mailserver.com."}}});
+				// Validate password:
+				else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
+					callback({errors: {password : {message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."}}});
+				// Validate confirm_password:
+				else if (req.body.password != req.body.confirm_password)
+					callback({errors: {confirm_password: {message: "Passwords do not match."}}});
+				// Else valid new user:
+				else
+					// Encrypt password and save:
 					bcrypt.genSalt(10, function(err, salt) {
 						if (err)
-							throw err;
+							callback({errors: {salt: {message: "Salt error."}}})
 						else
 							bcrypt.hash(req.body.password, salt, function(err, hash) {
 								if (err)
-									throw err;
+									callback({errors: {hash: {message: "Hash error."}}})
 								else {
-									var query = "INSERT INTO users SET ?";
 									var data = {
-										username: req.body.username,
+										first_name: req.body.first_name,
+										last_name: req.body.last_name,
 										email: req.body.email,
-										password: hash,
-										created_at: 'NOW()',
-										updated_at: 'NOW()'											
+										password: hash										
 									};
-									connection.query(query, data, function(err, data) {
+									connection.query("INSERT INTO users SET ?", data, function(err, data) {
 										if (err)
-											throw err;
+											callback({errors: {database: {message: `Database error: ${err.code}.`}}})
 										else {
-											var token = jwt.sign({username: req.body.username}, 'secret_key');
-											callback(false, token);
+											// Retrieve new user:
+											var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
+											connection.query(query, req.body.email, function(err, data) {
+												if (err)
+													callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+												else {
+													var token = jwt.sign({
+														id: data[0].id,
+														email: data[0].email,
+														first_name: data[0].first_name,
+														last_name: data[0].last_name
+													}, 'secret_key');
+													callback(false, token);												
+												}
+											});
 										}
 									});
 								}
 							});
 					});						
-				}
 			});
+		}
 	},
 	// update: function(req, callback) {
 	// 	var payload = getPayload(req.headers);
@@ -208,29 +176,88 @@ module.exports = {
 		callback(false, data)
 	},
 	login: function(req, callback) {
-		// Get user by username:
-		var username = req.body.username;
-		var query = "SELECT * FROM users WHERE username = ? LIMIT 1";
-		connection.query(query, username, function(err, data) {
-			if (err)
-				res.json(err);
-			else 
-				if (data.length == 0)
-					callback({errors: {username: {message: "Username does not exist."}}});
-				else {
+		// Validate login data:
+		if (!req.body.email | !req.body.password)
+			callback({errors: {login: {message: "All form fields are required."}}});
+		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
+			callback({errors: {password: {message: "Invalid password."}}});		
+		else {
+			// Get user by email:
+			var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
+			connection.query(query, req.body.email, function(err, data) {
+				if (err)
+					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+				else if (data.length == 0)
+					callback({errors: {email: {message: "Email does not exist."}}});
+				else
 					// Check valid password:
 					bcrypt.compare(req.body.password, data[0].password, function(err, isMatch) {
 						if (err)
-							callback(err);
-						else
-							if (!isMatch)
-								console.log({errors: {password: {message: "Username/password does not match."}}});
-							else {
-								var token = jwt.sign({username: data.username}, 'secret_key');
-								callback(false, token);								
-							}
+							callback({errors: {bcrypt: {message: "Invalid email/password, try facebook login."}}});
+						else if (!isMatch)
+							callback({errors: {password: {message: "Email/password does not match."}}});
+						else {
+							var token = jwt.sign({
+								id: data[0].id,
+								email: data[0].email,
+								first_name: data[0].first_name,
+								last_name: data[0].last_name
+							}, 'secret_key');
+							callback(false, token);								
+						}
 					});					
+			});
+		}
+	},
+	fb_login: function(req, callback) {
+		// Validate facebook login data:
+		if (!req.body.first_name | !req.body.last_name | !req.body.email)
+			callback({errors: {facebook : {message: "Invalid facebook information, please logout and try again."}}});
+		else {
+			// Get user by email:
+			var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
+			connection.query(query, req.body.email, function(err, data) {
+				if (err)
+					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+				else if (data.length == 0) {
+					// Add user to database:
+					var data = {
+						first_name: req.body.first_name,
+						last_name: req.body.last_name,
+						email: req.body.email
+					};
+					connection.query("INSERT INTO users SET ?", data, function(err, data) {
+						if (err) 
+							callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+						else {
+							// Retrieve new user:
+							var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
+							connection.query(query, req.body.email, function(err, data) {
+								if (err)
+									callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+								else {
+									var token = jwt.sign({
+										id: data[0].id,
+										email: data[0].email,
+										first_name: data[0].first_name,
+										last_name: data[0].last_name
+									}, 'secret_key');
+									callback(false, token);												
+								}
+							});
+						}
+					});
 				}
-		});
+				else {
+					var token = jwt.sign({
+						id: data[0].id,
+						email: data[0].email,
+						first_name: data[0].first_name,
+						last_name: data[0].last_name
+					}, 'secret_key');
+					callback(false, token);								
+				}
+			});
+		}
 	}
 };

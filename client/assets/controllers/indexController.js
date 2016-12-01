@@ -1,5 +1,15 @@
 app.controller('indexController', function ($scope, $location, $routeParams, $cookies, postsFactory, usersFactory) {
-	$scope.username = $cookies.get('username');
+	function getPayload(token) {
+		var base64Url = token.split('.')[1];
+		var base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse(window.atob(base64));
+	}
+	$scope.name = "asdsa"
+	if ($cookies.get('token')) {
+		var payload = getPayload($cookies.get('token'));
+		$scope.name = payload.first_name + " " + payload.last_name;
+	console.log($scope.name)
+	}
 
 	var index = function(){
 		postsFactory.index(function(data){
@@ -27,6 +37,5 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 	}
 	$scope.logout = function() {
 		$cookies.remove('token');
-		$cookies.remove('username');
 	}
 });
