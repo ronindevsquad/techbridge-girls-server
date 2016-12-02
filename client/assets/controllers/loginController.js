@@ -16,10 +16,8 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					$scope.create_error = data.errors[key].message;
 					break;
 				}
-			else {
-				$cookies.put('token', data);
+			else
 				$location.url('/');
-			}
 		});
 	}
 
@@ -32,10 +30,8 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					$scope.login_error = data.errors[key].message;
 					break;
 				}
-			else {
-				$cookies.put('token', data);				
+			else
 				$location.url('/');
-			}
 		});
 	}
 
@@ -77,10 +73,8 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 								$scope.fb_login_error = data.errors[key].message;
 								break;
 							}
-							else {
-								$cookies.put('token', data);				
+							else
 								$location.url('/');
-							}
 						});
 				});
 		});

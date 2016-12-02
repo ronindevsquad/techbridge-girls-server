@@ -17,14 +17,6 @@ app.factory('usersFactory', function($http, $cookies) {
 				callback(res.data);
 			});
 		},
-		toggleFavorite: function(id, callback) {
-			$http.put(`/users/favorites/${id}`, {
-					headers: {'authorization': `Bearer ${$cookies.get('token')}`}
-			}).then(function(res) {
-				console.log('data is', res.data)
-				callback(res.data);
-			});
-		},
 		update: function(data, callback) {
 			$http.put(`/api/users/${data.username}`, data, {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
@@ -32,8 +24,9 @@ app.factory('usersFactory', function($http, $cookies) {
 				callback(res.data);
 			});
 		},
-		delete: function(username, callback) {
-			$http.delete(`/api/users/${username}`, {
+		delete: function(callback) {
+			console.log($cookies.get('token'))
+			$http.delete('/api/users', {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);

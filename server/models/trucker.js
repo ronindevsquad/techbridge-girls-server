@@ -3,6 +3,7 @@ var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var fs = require('fs');
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
+var cookie_key = fs.readFileSync('keys/cookie', 'utf8');
 
 module.exports = {
 	// index: function(callback) {
@@ -52,13 +53,10 @@ module.exports = {
 									callback({errors: {hash: {message: "Hash error."}}})
 								else {
 									var data = {
-										id: "UNHEX(REPLACE(UUID(), '-', ''))",
 										first_name: req.body.first_name,
 										last_name: req.body.last_name,
 										email: req.body.email,
-										password: hash,
-										created_at: "NOW()",
-										updated_at: "NOW()"
+										password: hash										
 									};
 									connection.query("INSERT INTO users SET ?", data, function(err) {
 										if (err)
@@ -107,11 +105,11 @@ module.exports = {
 	// 	});
 	// },
 	delete: function(req, callback) {
-		jwt.verify(req.cookies.token, jwt_key, function(err, data) {
+		jwt.verify(req.signedCookies.token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else
-				connection.query("DELETE FROM users WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
+				connection.query("DELETE FROM users WHERE email = ? LIMIT 1", data.email, function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else
@@ -197,12 +195,9 @@ module.exports = {
 				else if (data.length == 0) {
 					// Add user to database:
 					var data = {
-						id: "UNHEX(REPLACE(UUID(), '-', ''))",
 						first_name: req.body.first_name,
 						last_name: req.body.last_name,
-						email: req.body.email,
-						created_at: "NOW()",
-						updated_at: "NOW()"
+						email: req.body.email
 					};
 					connection.query("INSERT INTO users SET ?", data, function(err) {
 						if (err) 

@@ -1,23 +1,23 @@
 var users = require('../controllers/users.js');
-var posts = require('../controllers/posts.js');
+// var posts = require('../controllers/posts.js');
 // posts = require('../controllers/posts.js'),
 // links = require('../controllers/links.js');
 
 module.exports = function(app) {
 	// USERS
 	// app.get('/users', users.index);
-	app.get('/api/users/:username', users.show);
+	// app.get('/api/users/:username', users.show);
 	app.post('/users', users.create);
 	// app.put('/api/users/:username', users.update);
 	// app.put('/users/favorites/:id', users.toggleFavorite); //add a favorite
-	app.delete('/api/users/:username', users.delete);
+	app.delete('/api/users', users.delete);
 	app.post('/login', users.login);
 	app.post('/fb_login', users.fb_login);
 
 	// POSTS
 	// app.get('/posts', posts.index);
 	// app.get('/posts/:id', posts.show);
-	app.post('/api/posts', posts.create);
+	// app.post('/api/posts', posts.create);
 	// app.put('/api/posts/:id', posts.update);
 	// app.delete('/api/posts/:id', posts.delete);
 
