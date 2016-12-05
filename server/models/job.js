@@ -27,7 +27,6 @@ module.exports = {
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
 				var _data = {
-					id: "UNHEX(REPLACE(UUID(), '-', ''))",
 					amount: req.body.amount,
 					completion_date: req.body.completion_date,
 					description: req.body.description,
@@ -35,11 +34,10 @@ module.exports = {
 					address: req.body.address,
 					city: req.body.city,
 					zip: req.body.zip,
-					contractor_id: data.id,
-					created_at: "NOW()",
-					updated_at: "NOW()",
+					contractor_id: data.id
 				};
-				connection.query("INSERT INTO jobs SET ?", _data, function(err) {
+				connection.query("INSERT INTO jobs SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
+				created_at = NOW(), updated_at = NOW()", _data, function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else 
@@ -60,10 +58,9 @@ module.exports = {
 					pickup_only: req.body.pickup_only,
 					address: req.body.address,
 					city: req.body.city,
-					zip: req.body.zip,
-					updated_at: "NOW()"
+					zip: req.body.zip
 				}
-				var query = "UPDATE jobs SET ? WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
+				var query = "UPDATE jobs SET ?, updated_at = NOW() WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
 				connection.query(query, [_data, req.params.id, data.id], function(err, data) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});

@@ -17,14 +17,6 @@ module.exports = {
 	// 			res.json(data);
 	// 	});
 	// },
-	create: function(req, res) {
-		contractor.create(req, function(err, data) {
-			if (err)
-				res.json(err);
-			else
-				res.cookie('token', data).end();
-		});
-	},
 	update: function(req, res) {
 		contractor.update(req, function(err, data) {
 			if (err)
@@ -47,6 +39,14 @@ module.exports = {
 				res.clearCookie('token').end();
 		});	
 	},
+	register: function(req, res) {
+		contractor.register(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.cookie('token', data).end();
+		});
+	},
 	login: function(req, res) {
 		contractor.login(req, function(err, data) {
 			if (err)
@@ -55,6 +55,14 @@ module.exports = {
 				res.cookie('token', data).end();
 		});	
 	},
+	fb_register: function(req, res) {
+		contractor.fb_register(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.cookie('token', data).end();
+		});
+	},	
 	fb_login: function(req, res) {
 		contractor.fb_login(req, function(err, data) {
 			if (err)

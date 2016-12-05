@@ -18,13 +18,13 @@ USE `dirtdb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `truckers`
+-- Table structure for table `contractors`
 --
 
-DROP TABLE IF EXISTS `truckers`;
+DROP TABLE IF EXISTS `contractors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `truckers` (
+CREATE TABLE `contractors` (
   `id` binary(16) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
@@ -39,18 +39,48 @@ CREATE TABLE `truckers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `jobs`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `jobs` (
+  `id` binary(16) NOT NULL,
+  `amount` decimal(10,0) DEFAULT NULL,
+  `completion_date` datetime DEFAULT NULL,
+  `description` longtext,
+  `pickup_only` tinyint(1) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `zip` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `contractor_id` binary(16) NOT NULL,
+  `trucker_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_jobs_users_idx` (`contractor_id`),
+  KEY `fk_jobs_truckers1_idx` (`trucker_id`),
+  CONSTRAINT `fk_jobs_users` FOREIGN KEY (`contractor_id`) REFERENCES `contractors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_jobs_truckers1` FOREIGN KEY (`trucker_id`) REFERENCES `truckers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `truckers`
+--
+
+DROP TABLE IF EXISTS `truckers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `truckers` (
   `id` binary(16) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `truck_type` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -68,4 +98,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-01 21:28:40
+-- Dump completed on 2016-12-02 21:05:09

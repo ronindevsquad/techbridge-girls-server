@@ -9,20 +9,22 @@ module.exports = function(app) {
 	// CONTRACTORS
 	// app.get('/contractors', contractors.index);
 	// app.get('/api/contractors/:username', contractors.show);
-	app.post('/contractors', contractors.create);
-	app.put('/api/contractors/:username', contractors.update);
+	app.put('/api/contractors', contractors.update);
 	app.delete('/api/contractors', contractors.delete);
-	app.post('/login', contractors.login);
-	app.post('/fb_login', contractors.fb_login);
+	app.post('/contractors/register', contractors.register);
+	app.post('/contractors/login', contractors.login);
+	app.post('/contractors/fb_register', contractors.fb_register);
+	app.post('/contractors/fb_login', contractors.fb_login);
 
 	// TRUCKERS
 	// app.get('/truckers', truckers.index);
 	// app.get('/api/truckers/:username', truckers.show);
-	app.post('/truckers', truckers.create);
-	app.put('/api/truckers/:username', truckers.update);
+	app.put('/api/truckers', truckers.update);
 	app.delete('/api/truckers', truckers.delete);
-	app.post('/login', truckers.login);
-	app.post('/fb_login', truckers.fb_login);
+	app.post('/truckers/register', truckers.register);
+	app.post('/truckers/login', truckers.login);
+	app.post('/truckers/fb_register', truckers.fb_register);
+	app.post('/truckers/fb_login', truckers.fb_login);
 
 	// JOBS
 	app.get('/api/jobs', jobs.index);

@@ -1,21 +1,79 @@
+<!-- NAVIGATION -->
 <div class="row">
-	<div id='login' class="four columns login_box">
-		<form ng-submit="create()">
-			<input id="top_form" type="text" placeholder='first name' ng-model="new_user.first_name" minlength="2" required>
+	<nav>
+		<a href="#/login">Login</a> 
+	</nav>
+</div>
+<hr>
+<!-- MAIN -->
+<div class="row" ng-show="step == 1">
+	<form ng-submit="step = 2">
+		<label>
+			<input type="radio" name="user_type" ng-model="user_type" value="contractor" required>
+			I'm a contractor that has dirt
+		</label>
+		<label>
+			<input type="radio" name="user_type" ng-model="user_type" value="trucker" required>
+			I'm a trucker that can move dirt
+		</label>
+		<input type="submit" value="Next">
+	</form>
+</div>
+
+<div class="row" ng-show="step == 2">
+	<div class="four columns">
+		<form ng-submit="register()">
+			<input type="text" placeholder='first name' ng-model="new_user.first_name" required>
 			<br>
-			<input id="top_form" type="text" placeholder='last name' ng-model="new_user.last_name" minlength="2" required>
+			<input type="text" placeholder='last name' ng-model="new_user.last_name" required>
 			<br>
-			<input class="middle_form" type="email" placeholder='email' ng-model="new_user.email" required>
+			<input type="email" placeholder='email' ng-model="new_user.email" required>
 			<br>
-			<input class="middle_form" type="password" placeholder='password' ng-model="new_user.password" required>
+			<input type="password" placeholder='password' ng-model="new_user.password" required>
 			<br>
-			<input id="bottom_form" type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
+			<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
 			<br>
 			<input id="login_submit" class="button-primary" type="submit" value="Sign Up">
-			<p class="error" ng-bind="create_error"></p>
+			<p class="error" ng-bind="register_error"></p>
 		</form>
-		<p class="white_text">
+		<p>
 			Already have an account? <a href="#/login">Log in</a>
 		</p>
 	</div>
+	<div class="four columns">
+		<h5>Or login with facebook</h5>
+		<button class="button-primary" ng-click="fb_register()">Facebook</button>
+		<p class="error" ng-bind="fb_register_error"></p>		
+	</div>
+</div>
+<button ng-click="back()" ng-show="step == 2">Back</button>
+
+<div class="row" ng-show="step == 3">
+	<form ng-submit="update()">
+		<label>
+			<input type="radio" name="truck_type" ng-model="truck_type" value="1" required>
+			Load Size < 5
+		</label>
+		<label>
+			<input type="radio" name="truck_type" ng-model="truck_type" value="2" required>
+			Load Size < 10
+		</label>
+		<label>
+			<input type="radio" name="truck_type" ng-model="truck_type" value="3" required>
+			Load Size > 10
+		</label>			
+		<input type="submit" value="Next">
+		<p class="error" ng-bind="update_error"></p>
+	</form>
+</div>
+
+<div class="row" ng-show="step == 4">
+	Thank you for registering! You will be redirected soon...
+</div>
+
+<hr>
+
+<div class="row" ng-show="step < 4">
+	<h1>Step {{step}}</h1>
+	<p>Progress bar here . . .</p>	
 </div>

@@ -17,14 +17,6 @@ module.exports = {
 	// 			res.json(data);
 	// 	});
 	// },
-	create: function(req, res) {
-		trucker.create(req, function(err, data) {
-			if (err)
-				res.json(err);
-			else
-				res.cookie('token', data).end();
-		});
-	},
 	update: function(req, res) {
 		trucker.update(req, function(err, data) {
 			if (err)
@@ -47,6 +39,14 @@ module.exports = {
 				res.clearCookie('token').end();
 		});	
 	},
+	register: function(req, res) {
+		trucker.register(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.cookie('token', data).end();
+		});
+	},
 	login: function(req, res) {
 		trucker.login(req, function(err, data) {
 			if (err)
@@ -55,12 +55,20 @@ module.exports = {
 				res.cookie('token', data).end();
 		});	
 	},
+	fb_register: function(req, res) {
+		trucker.fb_register(req, function(err, data) {
+			if (err)
+				res.json(err);
+			else
+				res.cookie('token', data).cookie('fb', true).end();
+		});
+	},
 	fb_login: function(req, res) {
 		trucker.fb_login(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
-				res.cookie('token', data).end();
+				res.cookie('token', data).cookie('fb', true).end();
 		});	
 	}	
 }

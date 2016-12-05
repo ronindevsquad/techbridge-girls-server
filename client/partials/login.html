@@ -1,11 +1,22 @@
+<!-- MAIN -->
 <div class="row">
-	<div id='login' class="four columns login_box">
+	<label>
+		<input type="radio" name="user_type" ng-model="user_type" value="contractor">
+		Login as contractor
+	</label>
+	<label>
+		<input type="radio" name="user_type" ng-model="user_type" value="trucker">
+		Login as trucker
+	</label>
+</div>
+<div class="row">
+	<div class="four columns">
 		<form ng-submit="login()">
-			<input id='top_form' type="text" placeholder='email' ng-model="user.email" required>
+			<input type="text" placeholder='email' ng-model="user.email" required>
 			<br>
-			<input id='bottom_form' type="password" placeholder='password' ng-model="user.password" required>
+			<input type="password" placeholder='password' ng-model="user.password" required>
 			<br>
-			<input id='login_submit' class="button-primary" type="submit" value="Log In">
+			<input class="button-primary" type="submit" value="Log In">
 			<p class="error" ng-bind="login_error"></p>
 		</form>
 		<p class="white_text">
@@ -13,8 +24,9 @@
 			<br>
 			or <a href="#/register">Sign Up</a>
 		</p>
-		<hr>
-		<h5 style="color:white;">Or login with facebook</h5>
+	</div>
+	<div class="four columns">
+		<h5>Or login with facebook</h5>
 		<button class="button-primary" ng-click="fb_login()">Facebook</button>
 		<p class="error" ng-bind="fb_login_error"></p>		
 	</div>

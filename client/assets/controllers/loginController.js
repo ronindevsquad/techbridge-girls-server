@@ -1,47 +1,38 @@
-app.controller('loginController', function ($scope, $location, $cookies, usersFactory) {
+app.controller('loginController', function ($scope, $location, $cookies, contractorsFactory, truckersFactory) {
 	if ($cookies.get('token'))
 		$location.url('/');
 
-	// var getPayloadFromToken = function(token) {
-	// 	var base64Url = token.split('.')[1];
-	// 	var base64 = base64Url.replace('-', '+').replace('_', '/');
-	// 	return JSON.parse(window.atob(base64));
-	// }
-
-	$scope.create = function() {
-		$scope.create_error = null;
-		usersFactory.create($scope.new_user, function(data) {
-			if (data.errors)
-				for (key in data.errors) {
-					$scope.create_error = data.errors[key].message;
-					break;
-				}
-			else
-				$location.url('/');
-		});
-	}
-
 	$scope.login = function() {
 		$scope.login_error = null;
-		usersFactory.login($scope.user, function(data) {
-			if (data.errors)
-				for (key in data.errors) {
-					console.log(data.errors[key].message);
-					$scope.login_error = data.errors[key].message;
-					break;
-				}
-			else
-				$location.url('/');
-		});
-	}
-
-	$scope.logout = function() {
-		$cookies.remove('token');
+		if ($scope.user_type == 'trucker') 
+			truckersFactory.login($scope.user, function(data) {
+				if (data.errors)
+					for (key in data.errors) {
+						$scope.login_error = data.errors[key].message;
+						break;
+					}
+				else
+					$location.url('/');
+			});
+		else if ($scope.user_type == 'contractor')
+			contractorsFactory.login($scope.user, function(data) {
+				if (data.errors)
+					for (key in data.errors) {
+						$scope.login_error = data.errors[key].message;
+						break;
+					}
+				else
+					$location.url('/');
+			});
+		else
+			$scope.login_error = "Please select your user type (contractor or trucker).";
+		res.cookie('token', data).cookie('fb', true).end();
 	}
 
 	/////////////////////////////////////////////////////////////////////////
 	//													FACEBOOK
 	/////////////////////////////////////////////////////////////////////////
+
 	window.fbAsyncInit = function() {
 		FB.init({
 			appId      : '685614274950307',
@@ -66,22 +57,31 @@ app.controller('loginController', function ($scope, $location, $cookies, usersFa
 					console.log(response);
 
 					$scope.fb_login_error = null;
-					usersFactory.fb_login(response, function(data) {
-						if (data.errors)
-							for (key in data.errors) {
-								console.log(data.errors[key].message);
-								$scope.fb_login_error = data.errors[key].message;
-								break;
-							}
-							else
-								$location.url('/');
-						});
+					if ($scope.user_type == 'trucker') 
+						truckersFactory.fb_login(response, function(data) {
+							if (data.errors)
+								for (key in data.errors) {
+									$scope.fb_login_error = data.errors[key].message;
+									break;
+								}
+								else
+									$location.url('/');
+							});
+					else if ($scope.user_type == 'contractor')
+						contractorsFactory.fb_login(response, function(data) {
+							if (data.errors)
+								for (key in data.errors) {
+									$scope.fb_login_error = data.errors[key].message;
+									break;
+								}
+								else
+									$location.url('/');
+							});
+					else
+						$scope.fB_login_error = "Please select your user type (contractor or trucker).";
 				});
 		});
-	}
 
-	$scope.fb_logout = function() {
-		$cookies.remove('token');		
+		console.log("cookies.fb = ", $cookies.fb)
 	}
-
 });

@@ -1,4 +1,4 @@
-app.controller('indexController', function ($scope, $location, $routeParams, $cookies, postsFactory, usersFactory) {
+app.controller('indexController', function ($scope, $location, $routeParams, $cookies) {
 	function getPayload(token) {
 		var base64Url = token.split('.')[1];
 		var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -8,21 +8,17 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 	if ($cookies.get('token')) {
 		var payload = getPayload($cookies.get('token'));
 		$scope.name = payload.first_name + " " + payload.last_name;
+		$scope.user_type = 'truck_type' in payload ? 'trucker' : 'contractor';
 	}
-
-	$scope.delete = function() {
-		usersFactory.delete(function(data) {
-			if (data.errors)
-				for (key in data.errors) {
-					console.log(data.errors[key].message);
-					break;
-				}
-				else
-					$location.url('/')
-			});
-	}
+	else
+		$location.url('/welcome');
 
 	$scope.logout = function() {
+		if ($cookies.fb == true) {
+			// Do fb logout here...
+			$cookies.remove('fb');
+		}
 		$cookies.remove('token');
+		$location.url('/welcome');
 	}
 });
