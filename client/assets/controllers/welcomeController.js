@@ -1,4 +1,4 @@
-app.controller('welcomeController', function ($scope, $location, $routeParams, $cookies) {
+app.controller('welcomeController', function ($location, $cookies) {
 	if ($cookies.get('token'))
 		$location.url('/');
 });

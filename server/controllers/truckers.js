@@ -67,8 +67,12 @@ module.exports = {
 		trucker.fb_login(req, function(err, data) {
 			if (err)
 				res.json(err);
-			else
-				res.cookie('token', data).cookie('fb', true).end();
+			else {
+				var c1 = res.cookie.serialize('token', data);
+				var c2 = res.cookie.serialize('fb', true);
+				res.append('Set-Cookie', c1).append('Set-Cookie', c2);
+				// res.cookie('token', data).cookie('fb', true).end();
+			}
 		});	
 	}	
 }

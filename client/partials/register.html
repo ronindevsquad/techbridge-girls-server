@@ -1,7 +1,7 @@
 <!-- NAVIGATION -->
 <div class="row">
 	<nav>
-		<a href="#/login">Login</a> 
+		<a href="#/login/{{user_type}}">Login</a> 
 	</nav>
 </div>
 <hr>
@@ -21,50 +21,44 @@
 </div>
 
 <div class="row" ng-show="step == 2">
-	<div class="four columns">
-		<form ng-submit="register()">
-			<input type="text" placeholder='first name' ng-model="new_user.first_name" required>
-			<br>
-			<input type="text" placeholder='last name' ng-model="new_user.last_name" required>
-			<br>
-			<input type="email" placeholder='email' ng-model="new_user.email" required>
-			<br>
-			<input type="password" placeholder='password' ng-model="new_user.password" required>
-			<br>
-			<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
-			<br>
-			<input id="login_submit" class="button-primary" type="submit" value="Sign Up">
-			<p class="error" ng-bind="register_error"></p>
-		</form>
-		<p>
-			Already have an account? <a href="#/login">Log in</a>
-		</p>
-	</div>
-	<div class="four columns">
-		<h5>Or login with facebook</h5>
-		<button class="button-primary" ng-click="fb_register()">Facebook</button>
-		<p class="error" ng-bind="fb_register_error"></p>		
-	</div>
+	<form ng-submit="register()">
+		<input type="text" placeholder='first name' ng-model="new_user.first_name" required>
+		<br>
+		<input type="text" placeholder='last name' ng-model="new_user.last_name" required>
+		<br>
+		<input type="email" placeholder='email' ng-model="new_user.email" required>
+		<br>
+		<input type="password" placeholder='password' ng-model="new_user.password" required>
+		<br>
+		<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
+		<br>
+		<input id="login_submit" class="button-primary" type="submit" value="Sign Up">
+		<p class="error" ng-bind="register_error"></p>
+	</form>
+	<p>
+		Already have an account? <a href="#/login/{{user_type}}">Log in</a>
+	</p>
+	<button ng-click="step = 1">Back</button>
 </div>
-<button ng-click="back()" ng-show="step == 2">Back</button>
 
 <div class="row" ng-show="step == 3">
-	<form ng-submit="update()">
+	<form ng-submit="register()">
 		<label>
-			<input type="radio" name="truck_type" ng-model="truck_type" value="1" required>
+			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="1" required>
 			Load Size < 5
 		</label>
 		<label>
-			<input type="radio" name="truck_type" ng-model="truck_type" value="2" required>
+			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="2" required>
 			Load Size < 10
 		</label>
 		<label>
-			<input type="radio" name="truck_type" ng-model="truck_type" value="3" required>
+			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="3" required>
 			Load Size > 10
 		</label>			
 		<input type="submit" value="Next">
-		<p class="error" ng-bind="update_error"></p>
+		<p class="error" ng-bind="register_error"></p>
 	</form>
+	<button ng-click="step = 2">Back</button>	
 </div>
 
 <div class="row" ng-show="step == 4">

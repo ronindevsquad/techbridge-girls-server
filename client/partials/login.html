@@ -1,17 +1,15 @@
-<!-- MAIN -->
+<!-- NAVIGATION -->
 <div class="row">
-	<label>
-		<input type="radio" name="user_type" ng-model="user_type" value="contractor">
-		Login as contractor
-	</label>
-	<label>
-		<input type="radio" name="user_type" ng-model="user_type" value="trucker">
-		Login as trucker
-	</label>
+	<nav>
+		<a href="#/login/{{user_type}}">Login as {{user_type}}</a>
+	</nav>
 </div>
+<hr>
 <div class="row">
 	<div class="four columns">
 		<form ng-submit="login()">
+			<h1 ng-show="user_type == 'trucker'">Contractor login</h1>
+			<h1 ng-show="user_type == 'contractor'">Trucker login</h1>
 			<input type="text" placeholder='email' ng-model="user.email" required>
 			<br>
 			<input type="password" placeholder='password' ng-model="user.password" required>
@@ -24,10 +22,5 @@
 			<br>
 			or <a href="#/register">Sign Up</a>
 		</p>
-	</div>
-	<div class="four columns">
-		<h5>Or login with facebook</h5>
-		<button class="button-primary" ng-click="fb_login()">Facebook</button>
-		<p class="error" ng-bind="fb_login_error"></p>		
 	</div>
 </div>

@@ -13,8 +13,6 @@ module.exports = function(app) {
 	app.delete('/api/contractors', contractors.delete);
 	app.post('/contractors/register', contractors.register);
 	app.post('/contractors/login', contractors.login);
-	app.post('/contractors/fb_register', contractors.fb_register);
-	app.post('/contractors/fb_login', contractors.fb_login);
 
 	// TRUCKERS
 	// app.get('/truckers', truckers.index);
@@ -23,8 +21,6 @@ module.exports = function(app) {
 	app.delete('/api/truckers', truckers.delete);
 	app.post('/truckers/register', truckers.register);
 	app.post('/truckers/login', truckers.login);
-	app.post('/truckers/fb_register', truckers.fb_register);
-	app.post('/truckers/fb_login', truckers.fb_login);
 
 	// JOBS
 	app.get('/api/jobs', jobs.index);

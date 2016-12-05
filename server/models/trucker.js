@@ -45,7 +45,6 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				console.log('48 REQ.BODY = ', req.body);
 				var query = "UPDATE truckers SET ? WHERE HEX(id) = ? LIMIT 1";
 				connection.query(query, [req.body, data.id], function(err) {
 					if (err)
@@ -127,6 +126,7 @@ module.exports = {
 										email: req.body.email,
 										first_name: req.body.first_name,
 										last_name: req.body.last_name,
+										truck_type: req.body.truck_type,
 										password: hash
 									};
 									connection.query("INSERT INTO truckers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
@@ -192,77 +192,5 @@ module.exports = {
 					});					
 			});
 		}
-	},
-	fb_register: function(req, callback) {
-		// Validate facebook login data:
-		if (!req.body.first_name | !req.body.last_name | !req.body.email)
-			callback({errors: {facebook : {message: "Invalid facebook information, try another registration."}}});
-		else {
-			// Get trucker by email:
-			var query = "SELECT *, HEX(id) AS id FROM truckers WHERE email = ? LIMIT 1";
-			connection.query(query, req.body.email, function(err, data) {
-				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-				else if (data.length > 0)
-					callback({errors: {facebook: {message: "Account already exists, please login."}}});
-				else {
-					// Add trucker to database:
-					var data = {
-						email: req.body.email,
-						first_name: req.body.first_name,
-						last_name: req.body.last_name
-					};
-					connection.query("INSERT INTO truckers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
-					created_at = NOW(), updated_at = NOW()", data, function(err) {
-						if (err) 
-							callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-						else {
-							// Retrieve new trucker:
-							var query = "SELECT *, HEX(id) AS id FROM truckers WHERE email = ? LIMIT 1";
-							connection.query(query, req.body.email, function(err, data) {
-								if (err)
-									callback({errors: {database: {message: `Database error: ${err.code}.`}}})
-								else {
-									var token = jwt.sign({
-										id: data[0].id,
-										email: data[0].email,
-										first_name: data[0].first_name,
-										last_name: data[0].last_name,
-										truck_type: data[0].truck_type										
-									}, jwt_key);
-									callback(false, token);												
-								}
-							});
-						}
-					});
-				}
-			});
-		}
-	},	
-	fb_login: function(req, callback) {
-		// Validate facebook login data:
-		if (!req.body.email)
-			callback({errors: {facebook : {message: "Invalid facebook information, try another login."}}});
-		else {
-			// Get trucker by email:
-			var query = "SELECT *, HEX(id) AS id FROM truckers WHERE email = ? LIMIT 1";
-			connection.query(query, req.body.email, function(err, data) {
-				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-				else if (data.length == 0) {
-					callback({errors: {facebook: {message: "Account does not exist, please register."}}});
-				}
-				else {
-					var token = jwt.sign({
-						id: data[0].id,
-						email: data[0].email,
-						first_name: data[0].first_name,
-						last_name: data[0].last_name,
-						truck_type: data[0].truck_type						
-					}, jwt_key);
-					callback(false, token);								
-				}
-			});
-		}
-	}	
+	}
 };

@@ -127,10 +127,8 @@ module.exports = {
 										last_name: req.body.last_name,
 										password: hash
 									};
-									console.log("data is:", data)
 									connection.query("INSERT INTO contractors SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
-										console.log(this.sql)
 										if (err)
 											callback({errors: {database: {message: `Database error: ${err.code}.`}}})
 										else {
@@ -188,76 +186,6 @@ module.exports = {
 							callback(false, token);								
 						}
 					});					
-			});
-		}
-	},
-	fb_register: function(req, callback) {
-		// Validate facebook login data:
-		if (!req.body.first_name | !req.body.last_name | !req.body.email)
-			callback({errors: {facebook : {message: "Invalid facebook information, try another registration."}}});
-		else {
-			// Get contractor by email:
-			var query = "SELECT *, HEX(id) AS id FROM contractors WHERE email = ? LIMIT 1";
-			connection.query(query, req.body.email, function(err, data) {
-				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-				else if (data.length > 0)
-					callback({errors: {facebook: {message: "Account already exists, please login."}}});
-				else {
-					// Add contractor to database:
-					var data = {
-						email: req.body.email,
-						first_name: req.body.first_name,
-						last_name: req.body.last_name
-					};
-					connection.query("INSERT INTO contractors SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
-					created_at = NOW(), updated_at = NOW()", data, function(err) {
-						if (err) 
-							callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-						else {
-							// Retrieve new contractor:
-							var query = "SELECT *, HEX(id) AS id FROM contractors WHERE email = ? LIMIT 1";
-							connection.query(query, req.body.email, function(err, data) {
-								if (err)
-									callback({errors: {database: {message: `Database error: ${err.code}.`}}})
-								else {
-									var token = jwt.sign({
-										id: data[0].id,
-										email: data[0].email,
-										first_name: data[0].first_name,
-										last_name: data[0].last_name
-									}, jwt_key);
-									callback(false, token);												
-								}
-							});
-						}
-					});
-				}
-			});
-		}
-	},
-	fb_login: function(req, callback) {
-		// Validate facebook login data:
-		if (!req.body.email)
-			callback({errors: {facebook : {message: "Invalid facebook information, try another login."}}});
-		else {
-			// Get contractor by email:
-			var query = "SELECT *, HEX(id) AS id FROM contractors WHERE email = ? LIMIT 1";
-			connection.query(query, req.body.email, function(err, data) {
-				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-				else if (data.length == 0) {
-					callback({errors: {facebook: {message: "Account does not exist, please register."}}});
-				}
-				else {
-					var token = jwt.sign({
-						id: data[0].id,
-						email: data[0].email,
-						first_name: data[0].first_name,
-						last_name: data[0].last_name
-					}, jwt_key);
-					callback(false, token);								
-				}
 			});
 		}
 	}

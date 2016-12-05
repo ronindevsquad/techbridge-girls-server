@@ -14,10 +14,6 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 		$location.url('/welcome');
 
 	$scope.logout = function() {
-		if ($cookies.fb == true) {
-			// Do fb logout here...
-			$cookies.remove('fb');
-		}
 		$cookies.remove('token');
 		$location.url('/welcome');
 	}
