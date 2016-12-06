@@ -1,76 +1,146 @@
 <!-- NAVIGATION -->
-<div class="row">
-	<nav>
-		<a href="#/login/{{user_type}}">Login</a> 
-	</nav>
-</div>
-<hr>
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#">Got Dirt, Need Dirt</a>
+	</div>
+	<div id="navbar" class="navbar-collapse collapse">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#/login/contractor">Login as Contractor</a></li>
+				<li><a href="#/login/trucker">Login as Trucker</a></li>
+			</ul>
+		</div>
+	</div><!--/.nav-collapse -->
+</nav>
 <!-- MAIN -->
+<h1 class="center-content">Create an Account</h1>
 <!-- STEP 1 -->
 <div class="row" ng-show="step == 1">
 	<form ng-submit="step = 2">
-		<label>
-			<input type="radio" name="user_type" ng-model="user_type" value="contractor" required>
-			I'm a contractor that has dirt
-		</label>
-		<label>
-			<input type="radio" name="user_type" ng-model="user_type" value="trucker" required>
-			I'm a trucker that can move dirt
-		</label>
-		<input type="submit" value="Next">
+		<div class="row">
+			<div class="col-md-6 center-content">
+				<img class="img-responsive center-block" src="../static/images/truck_icon.png" alt="OOPS!">
+				<label class="radio-inline">
+					<input type="radio" name="inlineRadioOptions" ng-model="user_type" value="contractor" required>
+				</label>
+				<hr>
+				<p>I'm a contractor that has dirt</p>
+			</div>
+			<div class="col-md-6 center-content">
+				<img class="img-responsive center-block" src="../static/images/contractor_icon.png" alt="OOPS!">
+				<label class="radio-inline">
+					<input type="radio" name="inlineRadioOptions" ng-model="user_type" value="trucker" required>
+				</label>
+				<hr>
+				<p>I'm a trucker that can move dirt</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-1 col-md-offset-10">
+				<input type="submit" value="Next" class="btn btn-primary btn-large">
+			</div>
+		</div>
 	</form>
 </div>
 
 <!-- STEP 2 -->
-<div class="row" ng-show="step == 2">
+<div ng-show="step == 2">
 	<form ng-submit="register()">
-		<input type="text" placeholder='first name' ng-model="new_user.first_name" required>
-		<br>
-		<input type="text" placeholder='last name' ng-model="new_user.last_name" required>
-		<br>
-		<input type="email" placeholder='email' ng-model="new_user.email" required>
-		<br>
-		<input type="password" placeholder='password' ng-model="new_user.password" required>
-		<br>
-		<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
-		<br>
-		<input class="button-primary" type="submit" value="Sign Up">
-		<p class="error" ng-bind="register_error"></p>
-	</form>
+		<div class="row">
+			<div class="col-md-5">
+				<input type="text" class="form-control" placeholder="first name" ng-model="new_user.first_name" required>
+				<br>
+				<input type="text" class="form-control" placeholder='last name' ng-model="new_user.last_name" required>
+				<br>
+				<input type="email" class="form-control" placeholder='email' ng-model="new_user.email" required>
+				<br>
+				<input type="password" class="form-control" placeholder='password' ng-model="new_user.password" required>
+				<br>
+				<input type="password" class="form-control" placeholder='confirm password' ng-model="new_user.confirm_password" required>
+				<br>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<button class="btn btn-warning" ng-click="step = 1">Back</button>
+			</div>
+			<div class="col-md-2 col-md-offset-8">
+				<input class="btn btn-primary" type="submit" value="Next">
+			</div>
+
+			<p class="error" ng-bind="register_error"></p>
+		</form>
+	</div>
+
+
+
 	<p>
 		Already have an account? <a href="#/login/{{user_type}}">Log in</a>
 	</p>
-	<button ng-click="step = 1">Back</button>
+
 </div>
 
 <!-- STEP 3 -->
-<div class="row" ng-show="step == 3">
+<div ng-show="step == 3">
 	<form ng-submit="register()">
-		<label>
-			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="1" required>
-			Load Size < 5
-		</label>
-		<label>
-			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="2" required>
-			Load Size < 10
-		</label>
-		<label>
-			<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="3" required>
-			Load Size > 10
-		</label>			
-		<input type="submit" value="Next">
+		<div class="row">
+			<div class="col-md-4 center-content">
+				<img class="img-responsive center-block" src="../static/images/mini_truck.png" alt="OOPS!">
+				<label>
+					<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="1" required>
+				</label>
+				<p>Load Size < 5</p>
+			</div>
+			<div class="col-md-4 center-content">
+				<img class="img-responsive center-block" src="../static/images/medium_truck.png" alt="OOPS!">
+				<label>
+					<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="2" required>
+				</label>
+				<p>Load Size < 10</p>
+			</div>
+			<div class="col-md-4 center-content">
+				<img class="img-responsive center-block" src="../static/images/massive_truck.png" alt="OOPS!">
+				<label>
+					<input type="radio" name="truck_type" ng-model="new_user.truck_type" value="3" required>
+				</label>
+				<p>Load Size > 10</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<button class="btn btn-warning" ng-click="step = 2">Back</button>
+			</div>
+			<div class="col-md-2 col-md-offset-8">
+				<input type="submit" class="btn btn-primary" value="Next">
+			</div>
+		</div>
+
 		<p class="error" ng-bind="register_error"></p>
 	</form>
-	<button ng-click="step = 2">Back</button>	
+
 </div>
 
 <!-- STEP 4: SUCCESS -->
 <div class="row" ng-show="step == 4">
-	Thank you for registering! You will be redirected soon...
+	<div class="col-md-12 center-content">
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		<h1>Success!</h1>
+		<h5>Your account has been created</h5>
+		<h5>You will be redirected soon...</h5>
+	</div>
 </div>
 
 <div class="row" ng-show="step < 4">
 	<hr>
 	<h1>Step {{step}}</h1>
-	<p>Progress bar here . . .</p>	
+	<div class="progress">
+		<div ng-model="progressbar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+		</div>
+	</div>
 </div>
