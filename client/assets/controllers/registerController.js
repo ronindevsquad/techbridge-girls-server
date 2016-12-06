@@ -11,11 +11,13 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 			$scope.step = 3;
 		else if ($scope.step == 3 && $scope.user_type == 'trucker')
 			truckersFactory.register($scope.new_user, function(data) {
-				if (data.errors)
+				if (data.errors) {
+					$scope.step = 2;
 					for (key in data.errors) {
 						$scope.register_error = data.errors[key].message;
 						break;
 					}
+				}
 				else {
 					$scope.step = 4;
 					$timeout(function() {

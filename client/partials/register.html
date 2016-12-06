@@ -32,7 +32,7 @@
 		<br>
 		<input type="password" placeholder='confirm password' ng-model="new_user.confirm_password" required>
 		<br>
-		<input id="login_submit" class="button-primary" type="submit" value="Sign Up">
+		<input class="button-primary" type="submit" value="Sign Up">
 		<p class="error" ng-bind="register_error"></p>
 	</form>
 	<p>
@@ -65,9 +65,8 @@
 	Thank you for registering! You will be redirected soon...
 </div>
 
-<hr>
-
 <div class="row" ng-show="step < 4">
+	<hr>
 	<h1>Step {{step}}</h1>
 	<p>Progress bar here . . .</p>	
 </div>
