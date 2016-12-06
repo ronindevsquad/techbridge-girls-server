@@ -25,5 +25,6 @@ app.controller('jobsController', function ($scope, $location, $cookies, $routePa
 
 	$scope.create = function() {
 		console.log($scope.new_job);
+		$scope.step = 4;
 	}
 });
