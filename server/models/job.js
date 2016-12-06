@@ -31,13 +31,15 @@ module.exports = {
 					completion_date: req.body.completion_date,
 					description: req.body.description,
 					pickup_only: req.body.pickup_only,
+					loader_onsite: req.body.loader_onsite,
 					address: req.body.address,
 					city: req.body.city,
-					zip: req.body.zip,
-					contractor_id: data.id
+					zip: req.body.zip
 				};
+				console.log("_data:", _data)
 				connection.query("INSERT INTO jobs SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
-				created_at = NOW(), updated_at = NOW()", _data, function(err) {
+				contractor_id = UNHEX(?), created_at = NOW(), updated_at = NOW()", [_data, data.id], function(err) {
+					console.log("sql:", this.sql);
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else 

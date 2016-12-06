@@ -73,17 +73,12 @@
 			<div class="col-md-2 col-md-offset-8">
 				<input class="btn btn-primary" type="submit" value="Next">
 			</div>
-
-			<p class="error" ng-bind="register_error"></p>
+			<p class="error" ng-bind="error"></p>
 		</form>
 	</div>
-
-
-
 	<p>
 		Already have an account? <a href="#/login/{{user_type}}">Log in</a>
 	</p>
-
 </div>
 
 <!-- STEP 3 -->
@@ -120,8 +115,6 @@
 				<input type="submit" class="btn btn-primary" value="Next">
 			</div>
 		</div>
-
-		<p class="error" ng-bind="register_error"></p>
 	</form>
 
 </div>

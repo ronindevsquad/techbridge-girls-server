@@ -6,7 +6,7 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 	$scope.user_type = $routeParams.user_type;
 
 	$scope.register = function() {
-		$scope.register_error = null;
+		$scope.error = null;
 		if ($scope.step == 2 && $scope.user_type == 'trucker')
 			$scope.step = 3;
 		else if ($scope.step == 3 && $scope.user_type == 'trucker')
@@ -14,7 +14,7 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 				if (data.errors) {
 					$scope.step = 2;
 					for (key in data.errors) {
-						$scope.register_error = data.errors[key].message;
+						$scope.error = data.errors[key].message;
 						break;
 					}
 				}
@@ -29,7 +29,7 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 			contractorsFactory.register($scope.new_user, function(data) {
 				if (data.errors)
 					for (key in data.errors) {
-						$scope.register_error = data.errors[key].message;
+						$scope.error = data.errors[key].message;
 						break;
 					}
 				else {
