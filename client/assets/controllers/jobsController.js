@@ -1,4 +1,4 @@
-app.controller('jobsController', function ($scope, $location, $cookies, $routeParams, $timeout) {
+app.controller('jobsController', function ($scope, $location, $cookies, $routeParams, $timeout, jobsFactory) {
 	function getPayload(token) {
 		var base64Url = token.split('.')[1];
 		var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -25,6 +25,17 @@ app.controller('jobsController', function ($scope, $location, $cookies, $routePa
 
 	$scope.create = function() {
 		console.log($scope.new_job);
-		$scope.step = 4;
+		$scope.error = null;
+		jobsFactory.create($scope.new_job, function(data) {
+			if (data.errors) {
+				for (key in data.errors) {
+					$scope.error = data.errors[key].message;
+					break;
+				}
+				$scope.error += ' Please edit the details before re-submitting.'
+			}
+			else
+				$scope.step = 4;
+		});
 	}
 });
