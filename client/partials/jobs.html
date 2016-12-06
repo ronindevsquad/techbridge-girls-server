@@ -7,6 +7,7 @@
 <hr>
 
 <!-- MAIN -->
+<!-- STEP 1 -->
 <h1 ng-show="step < 4">Create Job</h1>
 <div class="row" ng-show="step == 1">
 	<form ng-submit="step = 2">
@@ -19,6 +20,7 @@
 	</form>
 </div>
 
+<!-- STEP 2 -->
 <div class="row" ng-show="step == 2">
 	<form ng-submit="step = 3">
 		<label>Description of Dirt:</label>
@@ -41,6 +43,7 @@
 	</form>
 </div>
 
+<!-- STEP 3: VERIFICATION -->
 <div class="row" ng-show="step == 3">
 	<p>Review the details before it goes live:</p><br>
 	<table>
@@ -78,6 +81,7 @@
 	<p class="error" ng-bind="job_error"></p>
 </div>
 
+<!-- STEP 4: SUCCESS -->
 <div class="row" ng-show="step == 4">
 	<h1>Success!</h1>
 	<p>Your jobs is now live.</p>
@@ -87,7 +91,7 @@
 </div>
 
 
-<!-- FILL CALCULATOR -->
+<!-- STEP 5/FILL CALCULATOR -->
 <div class="row" ng-show="step == 5">
 	<h1>Fill Calculator</h1>
 	<form ng-submit="setAmount()">

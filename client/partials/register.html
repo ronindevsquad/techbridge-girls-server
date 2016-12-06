@@ -6,6 +6,7 @@
 </div>
 <hr>
 <!-- MAIN -->
+<!-- STEP 1 -->
 <div class="row" ng-show="step == 1">
 	<form ng-submit="step = 2">
 		<label>
@@ -20,6 +21,7 @@
 	</form>
 </div>
 
+<!-- STEP 2 -->
 <div class="row" ng-show="step == 2">
 	<form ng-submit="register()">
 		<input type="text" placeholder='first name' ng-model="new_user.first_name" required>
@@ -41,6 +43,7 @@
 	<button ng-click="step = 1">Back</button>
 </div>
 
+<!-- STEP 3 -->
 <div class="row" ng-show="step == 3">
 	<form ng-submit="register()">
 		<label>
@@ -61,6 +64,7 @@
 	<button ng-click="step = 2">Back</button>	
 </div>
 
+<!-- STEP 4: SUCCESS -->
 <div class="row" ng-show="step == 4">
 	Thank you for registering! You will be redirected soon...
 </div>
