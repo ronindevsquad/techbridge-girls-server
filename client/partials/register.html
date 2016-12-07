@@ -21,7 +21,7 @@
 <!-- MAIN -->
 <h1 class="center-content">Create an Account</h1>
 <!-- STEP 1 -->
-<div class="row" ng-show="step == 1">
+<div class="row" ng-show="step==1">
 	<form ng-submit="step = 2">
 		<div class="row">
 			<div class="col-md-6 center-content">
@@ -50,7 +50,7 @@
 </div>
 
 <!-- STEP 2 -->
-<div ng-show="step == 2">
+<div ng-show="step==2">
 	<form ng-submit="register()">
 		<div class="row">
 			<div class="col-md-5">
@@ -82,7 +82,7 @@
 </div>
 
 <!-- STEP 3 -->
-<div ng-show="step == 3">
+<div ng-show="step==3">
 	<form ng-submit="register()">
 		<div class="row">
 			<div class="col-md-4 center-content">
@@ -120,7 +120,7 @@
 </div>
 
 <!-- STEP 4: SUCCESS -->
-<div class="row" ng-show="step == 4">
+<div class="row" ng-show="step==4">
 	<div class="col-md-12 center-content">
 		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 		<h1>Success!</h1>
@@ -129,7 +129,7 @@
 	</div>
 </div>
 
-<div class="row" ng-show="step < 4">
+<div class="row" ng-show="step<4">
 	<hr>
 	<h1>Step {{step}}</h1>
 	<div class="progress">

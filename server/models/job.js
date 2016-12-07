@@ -25,6 +25,8 @@ module.exports = {
 		jwt.verify(req.cookies.token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else if (!req.body.amount | !req.body.completion_date)
+				callback({errors: {form: {message: "Invalid details."}}});
 			else {
 				var _data = {
 					amount: req.body.amount,

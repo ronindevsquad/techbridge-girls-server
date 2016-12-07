@@ -16,6 +16,7 @@ app.controller('jobsController', function ($scope, $location, $cookies, $routePa
 		$location.url('/welcome');
 
 	$scope.new_job = {};
+	$scope.today = new Date();
 	$scope.step = 1;
 
 	$scope.setAmount = function() {
