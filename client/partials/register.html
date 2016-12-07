@@ -22,7 +22,7 @@
 <h1 class="center-content">Create an Account</h1>
 <!-- STEP 1 -->
 <div class="row" ng-show="step == 1">
-	<form ng-submit="step = 2">
+	<form ng-submit="step = 2; progress = {'width':'50%'};">
 		<div class="row">
 			<div class="col-md-6 center-content">
 				<img class="img-responsive center-block" src="../static/images/truck_icon.png" alt="OOPS!">
@@ -68,7 +68,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-2">
-				<button class="btn btn-warning" ng-click="step = 1">Back</button>
+				<button class="btn btn-warning" ng-click="step = 1; progress = {'width':'20%'}">Back</button>
 			</div>
 			<div class="col-md-2 col-md-offset-8">
 				<input class="btn btn-primary" type="submit" value="Next">
@@ -109,7 +109,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-2">
-				<button class="btn btn-warning" ng-click="step = 2">Back</button>
+				<button class="btn btn-warning" ng-click="step = 2; progress = {'width':'50%'}">Back</button>
 			</div>
 			<div class="col-md-2 col-md-offset-8">
 				<input type="submit" class="btn btn-primary" value="Next">
@@ -133,7 +133,7 @@
 	<hr>
 	<h1>Step {{step}}</h1>
 	<div class="progress">
-		<div ng-model="progressbar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+		<div ng-model="progressbar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-style="progress">
 		</div>
 	</div>
 </div>
