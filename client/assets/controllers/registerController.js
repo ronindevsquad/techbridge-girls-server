@@ -4,11 +4,14 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 
 	$scope.step = 1;
 	$scope.user_type = $routeParams.user_type;
+	$scope.progress = {'width':'20%'};
 
 	$scope.register = function() {
 		$scope.error = null;
-		if ($scope.step == 2 && $scope.user_type == 'trucker')
+		if ($scope.step == 2 && $scope.user_type == 'trucker'){
 			$scope.step = 3;
+			$scope.progress = {'width':'90%'};
+		}
 		else if ($scope.step == 3 && $scope.user_type == 'trucker')
 			truckersFactory.register($scope.new_user, function(data) {
 				if (data.errors) {
@@ -39,7 +42,9 @@ app.controller('registerController', function ($scope, $location, $cookies, $rou
 					}, 3000);
 				}
 			});
-		else
+		else {
 			$scope.step = 1;
+			$scope.progress = {'width':'20%'};
+		}
 	}
 });
