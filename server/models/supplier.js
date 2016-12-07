@@ -45,13 +45,13 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "UPDATE contractors SET ? WHERE HEX(id) = ? LIMIT 1";
+				var query = "UPDATE suppliers SET ? WHERE HEX(id) = ? LIMIT 1";
 				connection.query(query, [req.body, data.id], function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else {
-						// Retrieve updated contractor:
-						var query = "SELECT *, HEX(id) AS id FROM contractors WHERE HEX(id) = ? LIMIT 1";
+						// Retrieve updated supplier:
+						var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE HEX(id) = ? LIMIT 1";
 						connection.query(query, data.id, function(err, data) {
 							if (err)
 								callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -60,7 +60,8 @@ module.exports = {
 									id: data[0].id,
 									email: data[0].email,
 									first_name: data[0].first_name,
-									last_name: data[0].last_name
+									last_name: data[0].last_name,
+									truck_type: data[0].truck_type									
 								}, jwt_key);
 								callback(false, token);												
 							}
@@ -75,7 +76,7 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else
-				connection.query("DELETE FROM contractors WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
+				connection.query("DELETE FROM suppliers WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else
@@ -84,11 +85,11 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
-		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password) 
+		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password | !req.body.truck_type) 
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
-			var query = "SELECT email FROM contractors WHERE email = ? LIMIT 1";
+			var query = "SELECT email FROM suppliers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -110,7 +111,7 @@ module.exports = {
 				// Validate confirm_password:
 				else if (req.body.password != req.body.confirm_password)
 					callback({errors: {confirm_password: {message: "Passwords do not match."}}});
-				// Else valid new contractor:
+				// Else valid new supplier:
 				else
 					// Encrypt password and save:
 					bcrypt.genSalt(10, function(err, salt) {
@@ -125,15 +126,16 @@ module.exports = {
 										email: req.body.email,
 										first_name: req.body.first_name,
 										last_name: req.body.last_name,
+										truck_type: req.body.truck_type,
 										password: hash
 									};
-									connection.query("INSERT INTO contractors SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
+									connection.query("INSERT INTO suppliers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
 										if (err)
 											callback({errors: {database: {message: `Database error: ${err.code}.`}}})
 										else {
-											// Retrieve new contractor:
-											var query = "SELECT *, HEX(id) as id FROM contractors WHERE email = ? LIMIT 1";
+											// Retrieve new supplier:
+											var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
 											connection.query(query, req.body.email, function(err, data) {
 												if (err)
 													callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -142,7 +144,8 @@ module.exports = {
 														id: data[0].id,
 														email: data[0].email,
 														first_name: data[0].first_name,
-														last_name: data[0].last_name
+														last_name: data[0].last_name,
+														truck_type: data[0].truck_type
 													}, jwt_key);
 													callback(false, token);												
 												}
@@ -162,8 +165,8 @@ module.exports = {
 		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
 			callback({errors: {password: {message: "Invalid password."}}});		
 		else {
-			// Get contractor by email:
-			var query = "SELECT *, HEX(id) AS id FROM contractors WHERE email = ? LIMIT 1";
+			// Get supplier by email:
+			var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
@@ -181,7 +184,8 @@ module.exports = {
 								id: data[0].id,
 								email: data[0].email,
 								first_name: data[0].first_name,
-								last_name: data[0].last_name
+								last_name: data[0].last_name,
+								truck_type: data[0].truck_type
 							}, jwt_key);
 							callback(false, token);								
 						}

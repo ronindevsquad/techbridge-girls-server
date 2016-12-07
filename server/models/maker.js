@@ -45,13 +45,13 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "UPDATE truckers SET ? WHERE HEX(id) = ? LIMIT 1";
+				var query = "UPDATE makers SET ? WHERE HEX(id) = ? LIMIT 1";
 				connection.query(query, [req.body, data.id], function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else {
-						// Retrieve updated trucker:
-						var query = "SELECT *, HEX(id) AS id FROM truckers WHERE HEX(id) = ? LIMIT 1";
+						// Retrieve updated maker:
+						var query = "SELECT *, HEX(id) AS id FROM makers WHERE HEX(id) = ? LIMIT 1";
 						connection.query(query, data.id, function(err, data) {
 							if (err)
 								callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -60,8 +60,7 @@ module.exports = {
 									id: data[0].id,
 									email: data[0].email,
 									first_name: data[0].first_name,
-									last_name: data[0].last_name,
-									truck_type: data[0].truck_type									
+									last_name: data[0].last_name
 								}, jwt_key);
 								callback(false, token);												
 							}
@@ -76,7 +75,7 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else
-				connection.query("DELETE FROM truckers WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
+				connection.query("DELETE FROM makers WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else
@@ -85,11 +84,11 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
-		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password | !req.body.truck_type) 
+		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password) 
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
-			var query = "SELECT email FROM truckers WHERE email = ? LIMIT 1";
+			var query = "SELECT email FROM makers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -111,7 +110,7 @@ module.exports = {
 				// Validate confirm_password:
 				else if (req.body.password != req.body.confirm_password)
 					callback({errors: {confirm_password: {message: "Passwords do not match."}}});
-				// Else valid new trucker:
+				// Else valid new maker:
 				else
 					// Encrypt password and save:
 					bcrypt.genSalt(10, function(err, salt) {
@@ -126,16 +125,15 @@ module.exports = {
 										email: req.body.email,
 										first_name: req.body.first_name,
 										last_name: req.body.last_name,
-										truck_type: req.body.truck_type,
 										password: hash
 									};
-									connection.query("INSERT INTO truckers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
+									connection.query("INSERT INTO makers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
 										if (err)
 											callback({errors: {database: {message: `Database error: ${err.code}.`}}})
 										else {
-											// Retrieve new trucker:
-											var query = "SELECT *, HEX(id) AS id FROM truckers WHERE email = ? LIMIT 1";
+											// Retrieve new maker:
+											var query = "SELECT *, HEX(id) as id FROM makers WHERE email = ? LIMIT 1";
 											connection.query(query, req.body.email, function(err, data) {
 												if (err)
 													callback({errors: {database: {message: `Database error: ${err.code}.`}}})
@@ -144,8 +142,7 @@ module.exports = {
 														id: data[0].id,
 														email: data[0].email,
 														first_name: data[0].first_name,
-														last_name: data[0].last_name,
-														truck_type: data[0].truck_type
+														last_name: data[0].last_name
 													}, jwt_key);
 													callback(false, token);												
 												}
@@ -165,8 +162,8 @@ module.exports = {
 		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
 			callback({errors: {password: {message: "Invalid password."}}});		
 		else {
-			// Get trucker by email:
-			var query = "SELECT *, HEX(id) AS id FROM truckers WHERE email = ? LIMIT 1";
+			// Get maker by email:
+			var query = "SELECT *, HEX(id) AS id FROM makers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
@@ -184,8 +181,7 @@ module.exports = {
 								id: data[0].id,
 								email: data[0].email,
 								first_name: data[0].first_name,
-								last_name: data[0].last_name,
-								truck_type: data[0].truck_type
+								last_name: data[0].last_name
 							}, jwt_key);
 							callback(false, token);								
 						}

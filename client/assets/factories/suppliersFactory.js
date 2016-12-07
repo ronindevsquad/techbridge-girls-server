@@ -1,48 +1,48 @@
-app.factory('truckersFactory', function($http, $cookies) {
+app.factory('suppliersFactory', function($http, $cookies) {
 	return {
 		// index: function(callback) {
-		// 	$http.get('/api/truckers').then(function(res) {
+		// 	$http.get('/api/suppliers').then(function(res) {
 		// 		callback(res.data);
 		// 	});
 		// },
 		// show: function(username, callback) {
-		// 	$http.get(`/api/truckers/${username}`, {
+		// 	$http.get(`/api/suppliers/${username}`, {
 		// 		headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 		// 	}).then(function(res) {
 		// 		callback(res.data);
 		// 	});
 		// },
 		update: function(data, callback) {
-			$http.put(`/api/truckers`, data, {
+			$http.put(`/api/suppliers`, data, {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
 		},
 		delete: function(callback) {
-			$http.delete('/api/truckers', {
+			$http.delete('/api/suppliers', {
 				headers: {'authorization': `Bearer ${$cookies.get('token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
 		},
 		register: function(data, callback) {
-			$http.post('/truckers/register', data).then(function(res) {
+			$http.post('/suppliers/register', data).then(function(res) {
 				callback(res.data);
 			});
 		},
 		login: function(data, callback) {
-			$http.post('/truckers/login', data).then(function(res) {
+			$http.post('/suppliers/login', data).then(function(res) {
 				callback(res.data);
 			});
 		},
 		fb_register: function(data, callback) {
-			$http.post('/truckers/fb_register', data).then(function(res) {
+			$http.post('/suppliers/fb_register', data).then(function(res) {
 				callback(res.data);
 			});
 		},
 		fb_login: function(data, callback) {
-			$http.post('/truckers/fb_login', data).then(function(res) {
+			$http.post('/suppliers/fb_login', data).then(function(res) {
 				callback(res.data);
 			});
 		}		

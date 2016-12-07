@@ -1,8 +1,8 @@
-var contractor = require('../models/contractor');
+var maker = require('../models/maker');
 
 module.exports = {
 	// index: function(req, res) {
-	// 	contractor.index(function(err, data) {
+	// 	maker.index(function(err, data) {
 	// 		if (err)
 	// 			res.json(err);
 	// 		else
@@ -10,7 +10,7 @@ module.exports = {
 	// 	});
 	// },
 	// show: function(req, res) {
-	// 	contractor.show(req, function(err, data) {
+	// 	maker.show(req, function(err, data) {
 	// 		if (err)
 	// 			res.json(err);
 	// 		else
@@ -18,7 +18,7 @@ module.exports = {
 	// 	});
 	// },
 	update: function(req, res) {
-		contractor.update(req, function(err, data) {
+		maker.update(req, function(err, data) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('token').json(err);
@@ -29,7 +29,7 @@ module.exports = {
 		});	
 	},
 	delete: function(req, res) {
-		contractor.delete(req, function(err) {
+		maker.delete(req, function(err) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('token').json(err);
@@ -40,7 +40,7 @@ module.exports = {
 		});	
 	},
 	register: function(req, res) {
-		contractor.register(req, function(err, data) {
+		maker.register(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -48,7 +48,7 @@ module.exports = {
 		});
 	},
 	login: function(req, res) {
-		contractor.login(req, function(err, data) {
+		maker.login(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -56,7 +56,7 @@ module.exports = {
 		});	
 	},
 	fb_register: function(req, res) {
-		contractor.fb_register(req, function(err, data) {
+		maker.fb_register(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -64,7 +64,7 @@ module.exports = {
 		});
 	},	
 	fb_login: function(req, res) {
-		contractor.fb_login(req, function(err, data) {
+		maker.fb_login(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else

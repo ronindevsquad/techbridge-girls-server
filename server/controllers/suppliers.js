@@ -1,8 +1,8 @@
-var trucker = require('../models/trucker');
+var supplier = require('../models/supplier');
 
 module.exports = {
 	// index: function(req, res) {
-	// 	trucker.index(function(err, data) {
+	// 	supplier.index(function(err, data) {
 	// 		if (err)
 	// 			res.json(err);
 	// 		else
@@ -10,7 +10,7 @@ module.exports = {
 	// 	});
 	// },
 	// show: function(req, res) {
-	// 	trucker.show(req, function(err, data) {
+	// 	supplier.show(req, function(err, data) {
 	// 		if (err)
 	// 			res.json(err);
 	// 		else
@@ -18,7 +18,7 @@ module.exports = {
 	// 	});
 	// },
 	update: function(req, res) {
-		trucker.update(req, function(err, data) {
+		supplier.update(req, function(err, data) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('token').json(err);
@@ -29,7 +29,7 @@ module.exports = {
 		});	
 	},
 	delete: function(req, res) {
-		trucker.delete(req, function(err) {
+		supplier.delete(req, function(err) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('token').json(err);
@@ -40,7 +40,7 @@ module.exports = {
 		});	
 	},
 	register: function(req, res) {
-		trucker.register(req, function(err, data) {
+		supplier.register(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -48,7 +48,7 @@ module.exports = {
 		});
 	},
 	login: function(req, res) {
-		trucker.login(req, function(err, data) {
+		supplier.login(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -56,7 +56,7 @@ module.exports = {
 		});	
 	},
 	fb_register: function(req, res) {
-		trucker.fb_register(req, function(err, data) {
+		supplier.fb_register(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else
@@ -64,7 +64,7 @@ module.exports = {
 		});
 	},
 	fb_login: function(req, res) {
-		trucker.fb_login(req, function(err, data) {
+		supplier.fb_login(req, function(err, data) {
 			if (err)
 				res.json(err);
 			else {
