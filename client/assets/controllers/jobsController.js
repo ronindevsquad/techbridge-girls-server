@@ -17,6 +17,7 @@ app.controller('jobsController', function ($scope, $location, $cookies, $routePa
 
 	$scope.new_job = {};
 	$scope.step = 1;
+	$scope.progress = {'width': '30%'};
 
 	$scope.setAmount = function() {
 		$scope.new_job.amount = Math.round($scope.length * $scope.depth * $scope.height * 100)/100;

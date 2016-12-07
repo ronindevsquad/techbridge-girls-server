@@ -4,7 +4,7 @@
 <h1 ng-show="step < 4">Create Job</h1>
 <!-- STEP 1 -->
 <div ng-show="step == 1">
-		<form ng-submit="step = 2">
+		<form ng-submit="step = 2; progress={'width':'60%'}">
 		<div class="row">
 			<div class="col-md-7">
 				<h4>Amout of Dirt (in cubic yards):</h4>
@@ -27,7 +27,7 @@
 
 <!-- STEP 2 -->
 <div ng-show="step == 2">
-	<form class="form-horizontal" ng-submit="step = 3">
+	<form class="form-horizontal" ng-submit="step = 3; progress={'width':'90%'}">
 		<div class="form-group">
 			<div class="col-md-7">
 				<h4>Description of Dirt:</h4>
@@ -62,7 +62,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-md-2">
-				<button class="btn btn-warning" type="button" ng-click="step = 1">Previous</button>
+				<button class="btn btn-warning" type="button" ng-click="step = 1; progress={'width':'30%'}">Previous</button>
 			</div>
 			<div class="col-md-2 col-md-offset-7">
 				<input class="btn btn-primary" type="submit" value="Next">
@@ -108,7 +108,7 @@
 		<p>*Cost is an estimate and may change depending on truck size.</p>
 	</div>
 	<div class="col-md-2">
-		<button class="btn btn-warning" type="button" ng-click="step = 1">Edit</button>
+		<button class="btn btn-warning" type="button" ng-click="step = 1; progress={'width':'30%'}">Edit</button>
 	</div>
 	<div class="row">
 		<div class="col-md-2 col-md-offset-6">
@@ -175,7 +175,7 @@
 	<hr>
 	<h1>Step {{step}}</h1>
 	<div class="progress">
-		<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+		<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" ng-style="progress">
 		</div>
 	</div>
 </div>
