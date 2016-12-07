@@ -1,4 +1,4 @@
-app.controller('jobsController', function ($scope, $location, $cookies, $routeParams, $timeout, jobsFactory) {
+app.controller('jobsController', function ($scope, $location, $cookies, $routeParams, jobsFactory, imagesFactory) {
 	function getPayload(token) {
 		var base64Url = token.split('.')[1];
 		var base64 = base64Url.replace('-', '+').replace('_', '/');

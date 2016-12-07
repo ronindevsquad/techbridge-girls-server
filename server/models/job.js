@@ -38,10 +38,8 @@ module.exports = {
 					city: req.body.city,
 					zip: req.body.zip
 				};
-				console.log("_data:", _data)
 				connection.query("INSERT INTO jobs SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 				contractor_id = UNHEX(?), created_at = NOW(), updated_at = NOW()", [_data, data.id], function(err) {
-					console.log("sql:", this.sql);
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else 

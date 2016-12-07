@@ -1,9 +1,7 @@
 var contractors = require('../controllers/contractors.js');
 var truckers = require('../controllers/truckers.js');
 var jobs = require('../controllers/jobs.js');
-// var posts = require('../controllers/posts.js');
-// posts = require('../controllers/posts.js'),
-// links = require('../controllers/links.js');
+var images = require('../controllers/images.js');
 
 module.exports = function(app) {
 	// CONTRACTORS
@@ -29,10 +27,7 @@ module.exports = function(app) {
 	app.put('/api/jobs/:id', jobs.update);
 	app.delete('/api/jobs/:id', jobs.delete);
 
-	// POSTS
-	// app.get('/posts', posts.index);
-	// app.get('/posts/:id', posts.show);
-	// app.post('/api/posts', posts.create);
-	// app.put('/api/posts/:id', posts.update);
-	// app.delete('/api/posts/:id', posts.delete);
+	// IMAGES
+	app.post('/api/images', images.create);
+	app.delete('/api/images/:id', images.delete);
 }
