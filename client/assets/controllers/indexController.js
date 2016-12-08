@@ -17,4 +17,7 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 		$cookies.remove('token');
 		$location.url('/welcome');
 	}
+	$scope.test = function(){
+		$location.url('/login');
+	}
 });

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Supplier Account</title>
+    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/account.css">
+  
+  <body class="userarea supplier">
+    
+    <div id="greenwrapper">
+      
+      <header class="ui padded basic segment">
+        <div class="ui secondary menu">
+          <div class="left floated">
+            <img src="static/img/logo-black.png" width="151" class="ui image" />
+          </div>
+
+          <div class="right menu">
+            <div class="ui horizontal list company trigger">
+              <div class="item">
+                
+                <img class="ui mini circular image" src="static/img/user-avatar.png">
+                <div class="content">
+                  <div class="ui sub header">Bamberg GbmH</div>
+                  3 new messages
+                </div>
+                
+              </div> <!-- .item -->
+            </div> <!-- .list -->
+          </div> <!-- .menu -->
+        </div> <!-- .menu -->
+      </header>
+      
+      <div class="ui very padded segment noptoppadd">
+        <section class="nav">
+
+          <div class="ui relaxed items">
+            <div class="item">
+              <div class="ui tiny image">
+                <img src="static/img/husky-logo.png" class="ui centered image" />
+              </div>
+              <div class="middle aligned content">
+                <h2>Supplier GmbH</h2>
+                <p class="footnote">Member since Apr 2016</p>
+              </div>
+            </div> <!-- .item -->
+          </div> <!-- .items -->
+          
+          <div class="ui pointing secondary menu">
+            <a class="active item" href="account-supplier-dashboard.html">Dashboard</a>
+            <a class="item" href="account-supplier-proposals.html">Proposals 
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="item" href="account-supplier-messaging.html">Messages 
+              <span class="ui circular red label">2</span>
+              <span class="ui circular label">80</span>
+            </a>
+            <a class="item" href="account-supplier-tracking.html">Track Progress
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="item" href="account-supplier-profile.html">Profile</a>
+          </div> <!-- .menu -->
+          
+        </section> <!-- .nav -->
+      </div> <!-- .top segment -->
+      
+      <section class="ui very padded basic segment offer form">
+      
+        <h2>Your Dashboard</h2>
+        <p>Check your progress graphs.</p>
+        
+        <div class="ui container left">
+        <div class="ui centered grid">
+          <div class="sixteen wide tablet five wide computer column">
+            
+              <div class="ui big form">
+              
+              <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
+              
+                <div class="ui horizontal divider"></div>
+                <div class="field">
+                  <label>
+                    <span data-tooltip="Add a tooltip text here" data-position="right center">
+                      Select Proposal <i class="help circle outline icon"></i>
+                    </span> 
+                  </label>
+                  <div class="ui selection dropdown">
+                    <input type="hidden" name="rawmaterial">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Proposal</div>
+                    <div class="menu">
+                      <div class="item" data-value="1">Proposal #1</div>
+                      <div class="item" data-value="0">Proposal #2</div>
+                      <div class="item" data-value="2">Proposal #3</div>
+                    </div> <!-- .menu -->
+                  </div> <!-- .dropdown -->
+                </div> <!-- .field -->
+                <div class="field">
+                  <label>
+                    <span data-tooltip="Add a tooltip text here" data-position="right center">
+                      Select Metric <i class="help circle outline icon"></i>
+                    </span> 
+                  </label>
+                  <div class="ui selection dropdown">
+                    <input type="hidden" name="rawmaterial">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select metric</div>
+                    <div class="menu">
+                      <div class="item" data-value="1">Metric #1</div>
+                      <div class="item" data-value="0">Metric #2</div>
+                      <div class="item" data-value="2">Metric #3</div>
+                    </div> <!-- .menu -->
+                  </div> <!-- .dropdown -->
+                </div> <!-- .field -->
+
+                </div> <!-- .big form -->
+              </div>
+            
+         
+          <div class="sixteen wide tablet eleven wide computer column">
+            <div class="ui horizontal divider"></div>
+            <div class="ui horizontal divider"></div>
+            <div class="ui horizontal divider"></div>
+            <div class="ui very padded segment">
+              Graph will go here
+            </div>
+            <!-- this is where the graph will go -->
+          </div>
+        </div>
+         </div>
+        
+      </section> <!-- .very padded segment -->
+      
+        <footer class="ui inverted vertical footer very padded segment">
+          <div class="ui container">
+            <div class="ui stackable inverted equal height stackable grid">
+              <div class="four wide column">
+                <h4 class="ui inverted header">Evergreen</h4>
+                
+                <address>
+                  <span>@: hi@wapik.com</span>
+                  <span>p: +62 202 555 0117</span>
+                  <span>a: 610 Overlook Circle Suite 323<br />
+                        Kalamazoo, MI 49009</span>
+                </address>
+                  
+                <div class="social-row">
+                  <a href="#" title="Facebook">
+                    <img src="static/img/icon-facebook.png" class="ui image" width="30" />
+                  </a>
+                  <a href="#" title="Twitter">
+                    <img src="static/img/icon-twitter.png" class="ui image" width="30" />
+                  </a>
+                  <a href="#" title="LinkedIn">
+                    <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
+                  </a>
+                </div>
+                
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Company</h4>
+                <div class="ui inverted link list">
+                  <a href="#" class="item">Home</a>
+                  <a href="#" class="item">About Us</a>
+                  <a href="#" class="item">Pricing</a>
+                  <a href="#" class="item">Contact Us</a>
+                </div>
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Others</h4>
+                <div class="ui inverted link list">
+                  <a href="#" class="item">Help &amp; Support</a>
+                  <a href="#" class="item">Privacy Policy</a>
+                  <a href="#" class="item">Terms</a>
+                  <a href="#" class="item">Sitemap</a>
+                </div>
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Newsletter</h4>
+                <p>Subscribe to our newsletter and get all the cool news</p>
+                
+                <div class="ui fluid icon input">
+                  <input type="text" placeholder="Enter Email">
+                  <i class="send outline icon"></i>
+                </div> <!-- .input -->
+                
+              </div> <!-- .column -->
+            </div> <!-- .grid -->
+          </div> <!-- .container -->
+        
+          <div class="ui container">
+            <div class="ui horizontal divider"></div>
+            All rights reserved 2016.
+          </div>
+        
+        </footer> <!-- .segment -->
+      
+    </div> <!-- #greenwrapper -->
+    
+    
+    <script src="js/green.js"></script>
+  </body>
+</html>
