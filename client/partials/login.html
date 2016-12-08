@@ -1,58 +1,74 @@
-<!-- NAVIGATION -->
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Project name</a>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Contact</a></li>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li role="separator" class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
-				<li><a href="../navbar-static-top/">Static top</a></li>
-				<li><a href="../navbar-fixed-top/">Fixed top</a></li>
-			</ul>
-		</div><!--/.nav-collapse -->
-	</div><!--/.container-fluid -->
-</nav>
-<hr>
-<div class="row">
-	<div class="four columns">
-		<form ng-submit="login()">
-			<h1 ng-show="user_type=='trucker'">Contractor login</h1>
-			<h1 ng-show="user_type=='contractor'">Trucker login</h1>
-			<input type="text" placeholder='email' ng-model="user.email" required>
-			<br>
-			<input type="password" placeholder='password' ng-model="user.password" required>
-			<br>
-			<input class="button-primary" type="submit" value="Log In">
-			<p class="error" ng-bind="login_error"></p>
-		</form>
-		<p class="white_text">
-			Forgot Password? <a href="#/reset">Reset Password</a>
-			<br>
-			or <a href="#/register">Sign Up</a>
-		</p>
-	</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  
+  <body class="login">
+    
+    <div id="greenwrapper">
+      <header class="ui padded basic segment">
+        <div class="ui secondary menu">
+          <div class="left floated">
+            <img src="static/img/logo-black.png" width="151" class="ui image" />
+          </div>
+
+          <div class="right menu">
+            <a href="#" title="Supplier" class="item">Supplier</a>
+            <a href="#" title="Maker" class="item">Maker</a>
+            <a href="#" title="Log In" class="item">Log In</a>
+          </div>
+        </div> <!-- .menu -->
+      </header>
+      
+      <section class="userlogin">
+        <div class="ui container">
+
+          <div class="ui middle aligned center aligned grid screen mid">
+            <div class="column">
+              
+              <h2>Login</h2>
+              <p>Please login with your email address &amp; password below</p>
+              
+              <form class="ui large form">
+                <div class="ui basic segment">
+                  <div class="field">
+                    <div class="ui left icon input">
+                      <i class="envelope icon"></i>
+                      <input type="text" name="email" placeholder="E-mail address">
+                    </div>
+                  </div> <!-- .field -->
+                  <div class="field">
+                    <div class="ui left icon input">
+                      <i class="lock icon"></i>
+                      <input type="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="field link">
+                      <a href="#" title="Lost Password">I forgot my password</a>
+                    </div>
+                  </div> <!-- .field -->
+                  <div class="ui fluid big black uppercase submit button">Login</div>
+                </div> <!-- .segment -->
+
+              </form>
+
+            </div> <!-- .column -->
+          </div> <!-- .screen.mid -->
+
+        </div> <!-- .container -->
+      </section> <!-- .userlogin -->
+
+      <footer>
+        <p>New to Evergreen?<br />
+        Sign up as a <a href="#" title="Maker">Maker</a> or a <a href="#" title="Supplier">Supplier</a></p>
+      </footer>
+      
+    </div> <!-- #greenwrapper -->
+    
+    
+  </body>
+</html>

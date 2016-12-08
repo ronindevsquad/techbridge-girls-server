@@ -1,71 +1,93 @@
-<!-- NAVIGATION -->
-<nav class="navbar navbar-default navbar-fixed-top">
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand">Got Dirt, Need Dirt</a>
-	</div>
-	<div id="navbar" class="navbar-collapse collapse">
-		<div class="container-fluid">
-			<ul class="nav navbar-nav navbar-right">
-				<li class="navbar-text">Welcome {{name}}, you are signed in as a {{user_type}}.</li>
-				<li><a href="#/jobs" ng-show="user_type=='contractor'">Post New Job</a></li> |
-				<li><a href="#/" ng-click="logout()">Logout</a></li>
-			</ul>
-		</div>
-	</div><!--/.nav-collapse -->
-</nav>
-<hr>
-<!-- MAIN -->
-<div class="row">
-	<div class="col-lg-3">
-		<h1>We Got Dirt</h1>
-		<h2>Sort By:</h2>
-		<form>
-	    <div class="radio">
-	      <label><input type="radio" name="sorting-option" checked>Distance</label>
-	    </div>
-	    <div class="radio">
-	      <label><input type="radio" name="sorting-option">Latest</label>
-	    </div>
-	  </form>
-	</div>
-	<div class="col-lg-9">
-		<div class="row">
-			<div class="col-lg-3">
-				<img class="img-rounded img-responsive" src="http://placehold.it/350x350" alt="">
-			</div>
-			<div class="col-lg-9">
-				<h2>Distance ( __ miles away)</h2>
-				<p>Description: <br> Enter Descripion here</p>
-				<p>Posted: mm/dd/yyy  <input name="loader-onsite" type="checkbox" disabled="disabled" checked="checked"/> <label for="">Loader On-Site</label> <button class="btn btn-default pull-right"type="button" name="button">View Job</button></p>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-lg-3">
-				<img class="img-rounded img-responsive" src="http://placehold.it/350x350" alt="">
-			</div>
-			<div class="col-lg-9">
-				<h2>Distance ( __ miles away)</h2>
-				<p>Description: <br> Enter Descripion here</p>
-				<p>Posted: mm/dd/yyy  <input name="loader-onsite" type="checkbox" disabled="disabled" checked="checked"/> <label for="">Loader On-Site</label> <button class="btn btn-default pull-right"type="button" name="button">View Job</button></p>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-lg-3">
-				<img class="img-rounded img-responsive" src="http://placehold.it/350x350" alt="">
-			</div>
-			<div class="col-lg-9">
-				<h2>Distance ( __ miles away)</h2>
-				<p>Description: <br> Enter Descripion here</p>
-				<p>Posted: mm/dd/yyy  <input name="loader-onsite" type="checkbox" disabled="disabled" checked="checked"/> <label for="">Loader On-Site</label> <button class="btn btn-default pull-right"type="button" name="button">View Job</button></p>
-			</div>
-		</div>
-	</div>
-</div>
+  <body class="homepage">
+
+    <div id="greenwrapper">
+      <div class="hero">
+        <header class="ui padded basic segment">
+          <div class="ui secondary menu">
+            <div class="left floated">
+              <img src="static/img/logo-black.png" width="151" class="ui image" />
+            </div>
+
+            <div class="right menu">
+              <a href="#" title="Supplier" class="item">Supplier</a>
+              <a href="#" title="Maker" class="item">Maker</a>
+              <a href="#" title="Log In" class="item">Log In</a>
+            </div>
+          </div> <!-- .menu -->
+        </header>
+
+        <div class="ui hero content center aligned basic segment">
+          <h1>Sourcing Made Simple</h1>
+          <p>Become a member and expand your business</p>
+
+          <div class="ui horizontal divider"></div>
+
+          <a class="ui evergreen green button" href="#" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
+          <a class="ui evergreen orange button" href="#" data-tooltip="Help me make money" data-position="bottom center" data-inverted="">Join as Maker</a>
+
+        </div> <!-- .ui hero content -->
+
+      </div> <!-- .hero -->
+
+      <section class="features">
+        <div class="ui fluid content">
+          <div class="ui horizontal divider"></div>
+          <div class="ui padded basic segment center aligned">
+            <h2>What makes Evergreen special?</h2>
+          </div>
+          <div class="ui horizontal divider"></div>
+          <div class="ui stackable equal width padded grid middle aligned">
+            <div class="row">
+              <div class="column">
+
+                <div class="ui one column centered grid">
+                  <div class="column">
+                    <div class="ui features list">
+                      <div class="item">
+                        <img class="" src="static/img/cost-image.png" width="45" alt="Costs" />
+                        <div class="content">
+                          <span class="header">Cost</span>
+                          <div class="description">You will have the best cost in order to maximize revenue.</div>
+                        </div>
+                      </div> <!-- .item -->
+                      <div class="item">
+                        <img class="" src="static/img/quality-image.png" width="45" alt="Quality">
+                        <div class="content">
+                          <span class="header">Quality</span>
+                          <div class="description">All makers and suppliers are vetted to make sure you are getting top tier connections.
+                            We do a 25 point in person analysis to confirm our suppliers meet international standards and are socially responsible.
+                          </div>
+                        </div>
+                      </div> <!-- .item -->
+                      <div class="item">
+                        <img class="" src="static/img/delivery-image.png" width="45" alt="Delivert">
+                        <div class="content">
+                          <span class="header">Delivery</span>
+                          <div class="description">No matter if you are making or receiving your product it will be on time.</div>
+                        </div>
+                      </div> <!-- .item -->
+                    </div> <!-- .list -->
+                  </div> <!-- .column -->
+                </div> <!-- .grid -->
+
+
+
+              </div> <!-- .column -->
+              <div class="column right aligned">
+                <img src="static/img/dash-shot.jpg" class="" width="640" />
+              </div> <!-- .column -->
+            </div> <!-- .row -->
+          </div> <!-- .grid -->
+
+          <div class="ui very padded basic segment center aligned">
+            <a ng-click="test()" class="ui evergreen green button" href="#" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
+            <a class="ui evergreen orange button" href="#" data-tooltip="Help me make money" data-position="bottom center" data-inverted="">Join as Maker</a>
+          </div> <!-- .segment -->
+
+        </div> <!-- .ui fluid content -->
+      </section> <!-- .features -->
+
+    </div> <!-- #greenwrapper -->
+
+  </body>
+</html>

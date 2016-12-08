@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Proposals - Supplier Account</title>
+    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/account.css">
+  
+  <body class="userarea maker">
+    
+    <div id="greenwrapper">
+      
+      <header class="ui darker padded basic segment">
+        <div class="ui secondary menu">
+          <div class="left floated">
+            <img src="static/img/logo-black.png" width="151" class="ui image" />
+          </div>
+
+          <div class="right menu">
+            <div class="ui horizontal list company trigger">
+              <div class="item">
+                
+                <img class="ui mini circular image" src="static/img/user-avatar.png">
+                <div class="content">
+                  <div class="ui sub header">Bamberg GbmH</div>
+                  3 new messages
+                </div>
+                
+              </div> <!-- .item -->
+            </div> <!-- .list -->
+          </div> <!-- .menu -->
+        </div> <!-- .menu -->
+      </header>
+      
+      <div class="ui very padded segment noptoppadd">
+        <section class="nav">
+
+          <div class="ui relaxed items">
+            <div class="item">
+              <div class="ui tiny image">
+                <img src="static/img/husky-logo.png" class="ui centered image" />
+              </div>
+              <div class="middle aligned content">
+                <h2>Supplier GmbH</h2>
+                <p class="footnote">Member since Apr 2016</p>
+              </div>
+            </div> <!-- .item -->
+          </div> <!-- .items -->
+          
+          <div class="ui pointing secondary menu">
+            <a class="item" href="account-maker-dashboard.html">Dashboard</a>
+            <a class="active item" href="account-maker-proposals.html">Proposals 
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="item" href="account-maker-messaging.html">Messages 
+              <span class="ui circular red label">2</span>
+              <span class="ui circular label">80</span>
+            </a>
+            <a class="item" href="account-maker-tracking.html">Track Progress 
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="item" href="account-maker-profile.html">Profile</a>
+          </div> <!-- .menu -->
+          
+        <div class="adbox">
+          <h4 class="title">Invite your supplier</h4>
+          <p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
+          <a class="ui big evergreen uppercase orange button" href="#">Invite supplier</a>
+        </div> <!-- .adbox -->
+          
+        </section> <!-- .nav -->
+      </div> <!-- .top segment -->
+      
+      <section class="ui very padded basic segment offer form">
+      
+        <h2>Your Proposals</h2>
+        <p>Your opened proposals.</p>
+        
+        <div class="ui horizontal divider"></div>
+        <div class="ui horizontal divider"></div>
+        
+        <div class="ui left details">
+          
+          <div class="ui segment">
+            <div class="ui right aligned grid filters-top">
+
+              <div class="left aligned eight wide column">
+                <p class="count">10 Results</p>
+              </div> <!-- left column -->
+              <div class="eight wide column">
+                <p class="toplabels">Order By:
+                  <a href="#" title="Date" class="selected-link">Date</a> &bull; <a href="#" title="Rating">Rating</a> &bull; <a href="#" title="Relevance">Relevance</a>
+                </p>
+              </div> <!-- .right column -->
+            </div>
+          </div>
+          
+          <div class="item-cards list-cards">
+            
+            <div class="ui horizontal divider"></div>
+            
+            <div class="ui resulted items">
+              
+              <!-- this is one item -->
+              <div class="item ui segment opened">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen grey button">Close</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+
+                <!-- this item has a details panel that opens when you click View -->
+                <!-- DO NOT include this inside .item because the flex will mess it up -->
+                
+                <div class="detail-panel">
+                  <div class="ui top attached tabular menu">
+                    <a class="active item" data-tab="applicants">Applicants</a>
+                    <a class="item" data-tab="leads">Leads</a>
+                  </div>
+                  <div class="ui bottom attached active tab" data-tab="applicants">
+                    <div class="messaging-container insidetabs">
+                      
+                      <!-- here we have the left vertical menu as tabs -->
+                      
+                      <div class="ui stackable grid">
+                        <div class="sixteen wide tablet four wide computer column">
+                          <div class="ui vertical fluid tabular menu">
+
+                            <div class="ui items message-contacts">
+                              <a class="active item" data-tab="applicant1">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                              <a class="item" data-tab="applicant2">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                              <a class="item" data-tab="applicant3">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                            </div>
+                          </div> <!-- .message-contacts -->
+                        </div> <!-- left col -->
+
+
+                        <div class="sixteen wide tablet twelve wide computer column stretched">
+                          <div class="ui very padded basic segment">
+                            <div class="ui tab active" data-tab="applicant1">
+
+                              <div class="offer-details">
+                                <div class="details-item">
+                                  <p class="footnote">Their offer per unit</p>
+                                  <div class="details-value"><span class="op50">$</span> 0.41</div>
+                                </div>
+                                
+                                <div class="details-item">
+                                  <p class="footnote">Total price</p>
+                                  <div class="details-value"><span class="op50">$</span> 1.514.511</div>
+                                </div>
+                                
+                                <div class="details-item">
+                                  <p class="footnote">Delivery date</p>
+                                  <div class="details-value"><i class="calendar outline icon op50"></i> 22.05.2016</div>
+                                </div>
+                                
+                                <div class="details-item">
+                                  <p class="footnote">Offer Details</p>
+                                  <div class="details-value"><a href="#" title="View full offer">View full offer</a></div>
+                                </div>
+                              </div> <!-- .offer-details -->
+
+                              <img src="static/img/insidegraph.png" width="598" class="ui image" />
+                              
+                              <div class="ui horizontal divider"></div>
+                              
+                              <a href="#" class="ui big evergreen uppercase orange button">Accept Offer</a>
+                              
+                              <a href="#" class="ui big evergreen uppercase basic button">Contact Maker</a>
+                              
+                            </div> <!-- applicant1 -->
+                            
+                            <div class="ui tab" data-tab="applicant2">
+                              area 2 
+                            </div> <!-- message2 -->
+                            <div class="ui tab" data-tab="applicant3">
+                              area 3
+                            </div> <!-- message31 -->
+                          </div> <!-- left col -->
+                        </div>
+                      </div> <!-- .grid -->
+                      
+                    </div> <!-- .insidetabs -->
+                    
+                  </div> <!-- applicants -->
+                  <div class="ui bottom attached tab" data-tab="leads">
+                    
+                    <div class="messaging-container insidetabs">
+                      
+                      <!-- here we have the left vertical menu as tabs -->
+                      
+                      <div class="ui stackable grid">
+                        <div class="sixteen wide tablet four wide computer column">
+                          <div class="ui vertical fluid tabular menu">
+                            <p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
+                            <div class="ui items message-contacts">
+                              <a class="active item" data-tab="lead1">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                              <a class="item" data-tab="lead2">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                              <a class="item" data-tab="lead3">
+                                <div class="ui tiny image">
+                                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                                </div>
+                                <div class="middle aligned content">
+                                  <h4>Maker GmbH</h4>
+                                  <p class="footnote">Received 25.05.2016</p>
+                                </div>
+                              </a>
+                            </div>
+                          </div> <!-- .message-contacts -->
+                        </div> <!-- left col -->
+
+
+                        <div class="sixteen wide tablet twelve wide computer column stretched">
+                          <div class="ui very padded basic segment">
+                            <div class="ui tab active" data-tab="lead1">
+
+                              <div class="ui segment buybox">
+                                <h3>Husky GmbH</h3>
+                                <p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+
+                                <div class="ui horizontal slider"></div>
+
+                                <a class="ui big fluid evergreen uppercase orange button" href="#">Contact supplier</a>
+                                <div class="ui horizontal divider"></div>
+                                <a class="ui big fluid red uppercase basic button" href="#">Remove lead</a>
+                              </div>
+                              
+                            </div> <!-- applicant1 -->
+                            
+                            <div class="ui tab" data-tab="lead2">
+                              area 2 
+                            </div> <!-- message2 -->
+                            <div class="ui tab" data-tab="lead3">
+                              area 3
+                            </div> <!-- message31 -->
+                          </div> <!-- left col -->
+                        </div>
+                      </div> <!-- .grid -->
+                      
+                    </div> <!-- .insidetabs -->
+                    
+                  </div> <!-- leads -->
+                </div> <!-- .detail-panel -->
+              
+                <!-- this is where we end the details panel -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+              <!-- this is one item -->
+              <div class="item">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <div class="middle aligned content">
+                  <div class="header">
+                    Customer in USA looking to produce 1M units by Sep. 16
+                  </div> <!-- ad title -->
+                  <div class="description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                  </div> <!-- .description -->
+                  
+                </div>
+                <div class="extra">
+                  <a href="#" class="ui evergreen orange button">View</a>
+                  <small>34 Views   |   5 Applicants   |   3 Leads</small>
+                </div>
+              </div> <!-- .item -->
+              
+            </div> <!-- .items -->
+            
+            <div class="ui pagination secondary menu">
+              <a class="active item">
+                1
+              </a>
+              <div class="disabled item">
+                ...
+              </div>
+              <a class="item">
+                10
+              </a>
+              <a class="item">
+                11
+              </a>
+              <a class="item">
+                12
+              </a>
+            </div>
+            
+          </div>
+        </div> <!-- .ui left continer -->
+        
+      </section> <!-- .very padded segment -->
+      
+      
+      <footer class="ui inverted vertical footer very padded segment">
+          <div class="ui container">
+            <div class="ui stackable inverted equal height stackable grid">
+              <div class="four wide column">
+                <h4 class="ui inverted header">Evergreen</h4>
+                
+                <address>
+                  <span>@: hi@wapik.com</span>
+                  <span>p: +62 202 555 0117</span>
+                  <span>a: 610 Overlook Circle Suite 323<br />
+                        Kalamazoo, MI 49009</span>
+                </address>
+                  
+                <div class="social-row">
+                  <a href="#" title="Facebook">
+                    <img src="static/img/icon-facebook.png" class="ui image" width="30" />
+                  </a>
+                  <a href="#" title="Twitter">
+                    <img src="static/img/icon-twitter.png" class="ui image" width="30" />
+                  </a>
+                  <a href="#" title="LinkedIn">
+                    <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
+                  </a>
+                </div>
+                
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Company</h4>
+                <div class="ui inverted link list">
+                  <a href="#" class="item">Home</a>
+                  <a href="#" class="item">About Us</a>
+                  <a href="#" class="item">Pricing</a>
+                  <a href="#" class="item">Contact Us</a>
+                </div>
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Others</h4>
+                <div class="ui inverted link list">
+                  <a href="#" class="item">Help &amp; Support</a>
+                  <a href="#" class="item">Privacy Policy</a>
+                  <a href="#" class="item">Terms</a>
+                  <a href="#" class="item">Sitemap</a>
+                </div>
+              </div> <!-- .column -->
+              <div class="four wide column">
+                <h4 class="ui inverted header">Newsletter</h4>
+                <p>Subscribe to our newsletter and get all the cool news</p>
+                
+                <div class="ui fluid icon input">
+                  <input type="text" placeholder="Enter Email">
+                  <i class="send outline icon"></i>
+                </div> <!-- .input -->
+                
+              </div> <!-- .column -->
+            </div> <!-- .grid -->
+          </div> <!-- .container -->
+        
+          <div class="ui container">
+            <div class="ui horizontal divider"></div>
+            All rights reserved 2016.
+          </div>
+        
+        </footer> <!-- .segment -->
+      
+      
+    </div> <!-- #greenwrapper -->
+    
+    
+    <script src="js/green.js"></script>
+  </body>
+</html>
