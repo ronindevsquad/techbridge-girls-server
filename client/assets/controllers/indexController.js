@@ -5,19 +5,18 @@ app.controller('indexController', function ($scope, $location, $routeParams, $co
 		return JSON.parse(window.atob(base64));
 	}
 
-	if ($cookies.get('token')) {
-		var payload = getPayload($cookies.get('token'));
-		$scope.name = payload.first_name + " " + payload.last_name;
-		$scope.user_type = 'truck_type' in payload ? 'trucker' : 'contractor';
-	}
-	else
-		$location.url('/welcome');
+	// if ($cookies.get('token')) {
+	// }
+	// else
+	// 	$location.url('/welcome');
 
 	$scope.logout = function() {
 		$cookies.remove('token');
 		$location.url('/welcome');
 	}
-	$scope.test = function(){
-		$location.url('/login');
+
+	$scope.changeUrlTo = function(url){
+		console.log(" /" + url);
+		$location.url('/'+url);
 	}
 });

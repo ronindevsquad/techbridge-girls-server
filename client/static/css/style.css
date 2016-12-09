@@ -284,7 +284,8 @@ footer .social-row a {
 
 /* Login styles */
 .login {
-  background: url(../static/img/whitetower.jpg) 50%;
+  height: 100vh;
+  background: url(/static/img/whitetower.jpg) 50%;
   background-size: cover;
 }
 .login header .ui.secondary.menu a.item {
