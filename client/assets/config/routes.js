@@ -98,6 +98,6 @@ app.config(function ($routeProvider) {
 		controller: 'indexController'
 	})
 	.otherwise({
-		redirectTo: '/welcome'
+		redirectTo: '/'
 	});
 });
