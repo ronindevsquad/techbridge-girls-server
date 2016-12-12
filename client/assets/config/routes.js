@@ -1,48 +1,48 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
 	.when('/',{
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
 	.when('/account-maker-dashboard',{
-		templateUrl: 'partials/account-maker-dashboard.html',
+		templateUrl: 'partials/maker/account-maker-dashboard.html',
 		controller: 'indexController'
 	})
 	.when('/account-maker-messaging',{
-		templateUrl: 'partials/account-maker-messaging.html',
+		templateUrl: 'partials/maker/account-maker-messaging.html',
 		controller: 'indexController'
 	})
 	.when('/account-maker-profile',{
-		templateUrl: 'partials/account-maker-profile.html',
+		templateUrl: 'partials/maker/account-maker-profile.html',
 		controller: 'indexController'
 	})
 	.when('/account-maker-proposals',{
-		templateUrl: 'partials/account-maker-proposals.html',
+		templateUrl: 'partials/maker/account-maker-proposals.html',
 		controller: 'indexController'
 	})
 	.when('/account-maker-tracking',{
-		templateUrl: 'partials/account-maker-tracking.html',
+		templateUrl: 'partials/maker/account-maker-tracking.html',
 		controller: 'indexController'
 	})
 	.when('/account-supplier-dashboard',{
-		templateUrl: 'partials/account-supplier-dashboard.html',
+		templateUrl: 'partials/supplier/account-supplier-dashboard.html',
 		controller: 'indexController'
 	})
 	.when('/account-supplier-messaging',{
-		templateUrl: 'partials/account-supplier-messaging.html',
+		templateUrl: 'partials/supplier/account-supplier-messaging.html',
 		controller: 'indexController'
 	})
 	.when('/account-supplier-profile',{
-		templateUrl: 'partials/account-supplier-profile.html',
+		templateUrl: 'partials/supplier/account-supplier-profile.html',
 		controller: 'indexController'
 	})
 	.when('/account-supplier-proposals',{
-		templateUrl: 'partials/account-supplier-proposals.html',
+		templateUrl: 'partials/supplier/account-supplier-proposals.html',
 		controller: 'indexController'
 	})
 	.when('/account-supplier-tracking',{
-		templateUrl: 'partials/account-supplier-tracking.html',
+		templateUrl: 'partials/supplier/account-supplier-tracking.html',
 		controller: 'indexController'
 	})
 	.when('/add-request',{
@@ -54,11 +54,11 @@ app.config(function ($routeProvider) {
 		controller: 'indexController'
 	})
 	.when('/join-maker',{
-		templateUrl: 'partials/join-maker.html',
+		templateUrl: 'partials/maker/join-maker.html',
 		controller: 'indexController'
 	})
 	.when('/join-supplier',{
-		templateUrl: 'partials/join-supplier.html',
+		templateUrl: 'partials/supplier/join-supplier.html',
 		controller: 'indexController'
 	})
 	.when('/login',{
@@ -90,14 +90,15 @@ app.config(function ($routeProvider) {
 		controller: 'indexController'
 	})
 	.when('/success-maker',{
-		templateUrl: 'partials/success-maker.html',
+		templateUrl: 'partials/maker/success-maker.html',
 		controller: 'indexController'
 	})
 	.when('/success-supplier',{
-		templateUrl: 'partials/success-supplier.html',
+		templateUrl: 'partials/supplier/success-supplier.html',
 		controller: 'indexController'
 	})
 	// .otherwise({
 	// 	redirectTo: '/'
 	// });
+	$locationProvider.html5Mode(true);
 });
