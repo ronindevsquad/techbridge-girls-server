@@ -439,7 +439,7 @@ footer .social-row a {
 }
 /* List styles */
 .light header.ui.basic.segment {
-  background: url(../static/img/light-header.jpg) 50%;
+  background: url(/static/img/light-header.jpg) 50%;  /* CSS change */
   background-size: cover;
 }
 header.darker.ui.basic.segment {
