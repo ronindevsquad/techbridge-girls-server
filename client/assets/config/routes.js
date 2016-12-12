@@ -1,11 +1,11 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
 app.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
-	.when('/',{
+	.when('/',{                                         //Index
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
-	.when('/account-maker-dashboard',{
+	.when('/account-maker-dashboard',{                  //maker
 		templateUrl: 'partials/maker/account-maker-dashboard.html',
 		controller: 'indexController'
 	})
@@ -25,7 +25,15 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/maker/account-maker-tracking.html',
 		controller: 'indexController'
 	})
-	.when('/account-supplier-dashboard',{
+	.when('/join-maker',{
+		templateUrl: 'partials/maker/join-maker.html',
+		controller: 'indexController'
+	})
+	.when('/success-maker',{
+		templateUrl: 'partials/maker/success-maker.html',
+		controller: 'indexController'
+	})
+	.when('/account-supplier-dashboard',{                         //Supplier
 		templateUrl: 'partials/supplier/account-supplier-dashboard.html',
 		controller: 'indexController'
 	})
@@ -45,20 +53,20 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/supplier/account-supplier-tracking.html',
 		controller: 'indexController'
 	})
+	.when('/join-supplier',{
+		templateUrl: 'partials/supplier/join-supplier.html',
+		controller: 'indexController'
+	})
+	.when('/success-supplier',{
+		templateUrl: 'partials/supplier/success-supplier.html',
+		controller: 'indexController'
+	})
 	.when('/add-request',{
 		templateUrl: 'partials/add-request.html',
 		controller: 'indexController'
 	})
 	.when('/category-selector',{
 		templateUrl: 'partials/category-selector.html',
-		controller: 'indexController'
-	})
-	.when('/join-maker',{
-		templateUrl: 'partials/maker/join-maker.html',
-		controller: 'indexController'
-	})
-	.when('/join-supplier',{
-		templateUrl: 'partials/supplier/join-supplier.html',
 		controller: 'indexController'
 	})
 	.when('/login',{
@@ -87,14 +95,6 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/sending-offer',{
 		templateUrl: 'partials/sending-offer.html',
-		controller: 'indexController'
-	})
-	.when('/success-maker',{
-		templateUrl: 'partials/maker/success-maker.html',
-		controller: 'indexController'
-	})
-	.when('/success-supplier',{
-		templateUrl: 'partials/supplier/success-supplier.html',
 		controller: 'indexController'
 	})
 	// .otherwise({

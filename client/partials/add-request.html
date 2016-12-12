@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Request</title>
-    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-  
-  <body class="add-request light">
-    
+
+    <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+
+  <div class="add-request light">
+
     <div id="greenwrapper">
       <header class="ui padded basic darker segment">
         <div class="ui secondary menu">
@@ -20,23 +14,23 @@
           <div class="right menu">
             <div class="ui horizontal list company trigger">
               <div class="item">
-                
+
                 <img class="ui mini circular image" src="static/img/user-avatar.png">
                 <div class="content">
                   <div class="ui sub header">Bamberg GbmH</div>
                   3 new messages
                 </div>
-                
+
               </div> <!-- .item -->
             </div> <!-- .list -->
           </div> <!-- .menu -->
         </div> <!-- .menu -->
       </header>
-      
+
       <div class="ui container">
 
         <h2>Add a request</h2>
-        
+
         <div class="steps-nav steps">
           <div class="ui pointing secondary menu">
             <a class="item trigger active" data-tab="first">
@@ -52,33 +46,33 @@
               Finalize Request
             </a>
           </div>
-          
+
           <!-- we start the Request tab here -->
-          
+
           <div class="ui tab basic segment active" data-tab="first">
-            
+
             <!-- We start the form here -->
-            
+
             <div class="ui big form">
-              
+
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
                 <span class="tooltip" data-tooltip="Select which categories you want to select so we can fill this tooltip" data-position="right center" data-variation="basic">
-                  Select Category 
+                  Select Category
                   <i class="help circle outline icon"></i>
                 </span>
               </h4>
-              
+
                 <div class="ui fitted boxed checkbox">
                   <input type="checkbox" id="item6">
                   <label for="item6">Tooling</label>
                 </div>
-              
+
                 <div class="ui fitted boxed checkbox">
                   <input type="checkbox" id="item7">
                   <label for="item7">Automation &amp; Test Equipment</label>
                 </div>
-              
+
                 <select class="categoryselector ui search dropdown" multiple="" id="categoryDropper">
                   <option value="">Search or add new</option>
                   <option value="option1">Packaging (secondary)</option>
@@ -90,16 +84,16 @@
                   <option value="option7">Packaging (secondary)</option>
                   <option value="option8">Packaging (primary)</option>
                 </select>
-              
+
               <div class="ui horizontal divider"></div>
 
               <div class="ui big offer form">
-              
+
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>What do you need produced?</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
                   <input placeholder="SG&amp;A" type="text">
                 </div> <!-- .field -->
@@ -108,7 +102,7 @@
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>How many units do you need?</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
                   <div class="ui selection dropdown">
                     <input type="hidden" name="rawmaterial">
@@ -122,65 +116,65 @@
                     </div> <!-- .menu -->
                   </div> <!-- .dropdown -->
                 </div> <!-- .field -->
-                
+
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>When do you need them?</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
                   <div class="ui left icon input">
                     <input type="text" placeholder="Search users...">
                     <i class="calendar outline icon"></i>
                   </div> <!-- input -->
                 </div> <!-- .field -->
-              
+
               </div> <!-- .big form -->
-                
+
               <a class="ui big evergreen uppercase orange button trigger" href="#" data-tab="second">Continue</a>
-              
+
               <div class="ui horizontal divider"></div>
-              
+
               <div class="small links">
                 <a href="#" title="Save for later"><i class="save icon"></i> Save for later</a>
                 <div class="ui divider"></div>
                 <a href="#" title="Skip">Skip and go to your account</a>
               </div> <!-- .small links -->
             </div> <!-- .form -->
-            
+
           </div> <!-- first tab -->
-          
+
           <!-- we start the Deliver tab here -->
           <div class="ui tab basic segment" data-tab="second">
-            
+
             <!-- We start the form here -->
-            
+
             <div class="ui big form">
-              
+
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
-              
+
               <div class="ui big offer form">
                 <div class="field">
                   <h4 class="label-title">
                     <span class="tooltip" data-tooltip="Select which categories you want to select so we can fill this tooltip" data-position="right center" data-variation="basic">
-                      Delivery Address 
+                      Delivery Address
                       <i class="help circle outline icon"></i>
                     </span>
                   </h4>
                   <input placeholder="ZIP Code" type="text">
-                  
+
                 <div class="ui checkbox toppad">
                   <input type="checkbox" name="example" id="item1">
                   <label for="item1">Save as default shipping address and add to profile</label>
                 </div>
-                  
+
                 </div> <!-- .field -->
                 <div class="ui horizontal divider"></div>
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>Preferred method of communication</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
                   <div class="ui selection dropdown">
                     <input type="hidden" name="rawmaterial">
@@ -193,12 +187,12 @@
                     </div> <!-- .menu -->
                   </div> <!-- .dropdown -->
                 </div> <!-- .field -->
-                
+
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>Which suppliers see the proposal?</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
                   <div class="ui selection dropdown">
                     <input type="hidden" name="rawmaterial">
@@ -211,36 +205,36 @@
                     </div> <!-- .menu -->
                   </div> <!-- .dropdown -->
                 </div> <!-- .field -->
-              
+
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>Additional information</strong> <i class="help circle outline icon"></i>
-                    </span> 
+                    </span>
                   </label>
 
                   <textarea placeholder="" cols="6"></textarea>
 
                   </div> <!-- field -->
                 </div> <!-- .big form -->
-                
+
               </div> <!-- .big form -->
-                
+
               <a class="ui big evergreen uppercase orange button trigger" href="#" data-tab="third">Continue</a>
-              
+
               <div class="ui horizontal divider"></div>
-              
+
               <div class="small links">
                 <a href="#" title="Save for later"><i class="save icon"></i> Save for later</a>
                 <div class="ui divider"></div>
                 <a href="#" title="Skip">Skip and go to your account</a>
               </div> <!-- .small links -->
-            
+
           </div> <!-- second -->
-          
+
           <div class="ui tab basic segment" data-tab="third">
             <div class="ui big form">
-              
+
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
                 <span class="tooltip" data-tooltip="Select which categories you want to select so we can fill this tooltip" data-position="right center" data-variation="basic">
@@ -248,7 +242,7 @@
                   <i class="help circle outline icon"></i>
                 </span>
               </h4>
-              
+
               <div class="ui relaxed items">
                 <div class="item">
                   <div class="ui tiny image">
@@ -262,7 +256,7 @@
                   </div>
                 </div> <!-- .item -->
               </div> <!-- .items -->
-              
+
               <div class="ui horizontal divider"></div>
 
               <h4 class="label-title">
@@ -271,12 +265,12 @@
                   <i class="help circle outline icon"></i>
                 </span>
               </h4>
-              
+
               <div class="ui big offer form pair">
-              
+
                 <div class="ui two column middle aligned relaxed fitted stackable grid">
                   <div class="column">
-                    
+
                     <div class="ui relaxed items">
                       <div class="item">
                         <div class="ui tiny image">
@@ -290,7 +284,7 @@
                         </div>
                       </div> <!-- .item -->
                     </div> <!-- .items -->
-                    
+
                   </div>
                   <div class="ui vertical divider">
                     Or
@@ -309,40 +303,40 @@
                     </div>
                   </div> <!-- .column -->
                 </div> <!-- .grid -->
-                
-              
+
+
               </div> <!-- .big form -->
-                
+
               <a class="ui big evergreen uppercase orange button request-done" href="#">Submit</a>
-              
+
               <div class="ui horizontal divider"></div>
-              
+
               <div class="small links">
                 <a href="#" title="Save for later"><i class="save icon"></i> Save for later</a>
                 <div class="ui divider"></div>
                 <a href="#" title="Skip">Skip and go to your account</a>
               </div> <!-- .small links -->
             </div> <!-- .form -->
-            
-            
+
+
           </div> <!-- third -->
         </div> <!-- .steps-nav -->
       </div> <!-- .container -->
-      
-     
+
+
       <footer class="ui inverted vertical footer very padded segment">
           <div class="ui container">
             <div class="ui stackable inverted equal height stackable grid">
               <div class="four wide column">
                 <h4 class="ui inverted header">Evergreen</h4>
-                
+
                 <address>
                   <span>@: hi@wapik.com</span>
                   <span>p: +62 202 555 0117</span>
                   <span>a: 610 Overlook Circle Suite 323<br />
                         Kalamazoo, MI 49009</span>
                 </address>
-                  
+
                 <div class="social-row">
                   <a href="#" title="Facebook">
                     <img src="static/img/icon-facebook.png" class="ui image" width="30" />
@@ -354,7 +348,7 @@
                     <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
                   </a>
                 </div>
-                
+
               </div> <!-- .column -->
               <div class="four wide column">
                 <h4 class="ui inverted header">Company</h4>
@@ -377,24 +371,24 @@
               <div class="four wide column">
                 <h4 class="ui inverted header">Newsletter</h4>
                 <p>Subscribe to our newsletter and get all the cool news</p>
-                
+
                 <div class="ui fluid icon input">
                   <input type="text" placeholder="Enter Email">
                   <i class="send outline icon"></i>
                 </div> <!-- .input -->
-                
+
               </div> <!-- .column -->
             </div> <!-- .grid -->
           </div> <!-- .container -->
-        
+
           <div class="ui container">
             <div class="ui horizontal divider"></div>
             All rights reserved 2016.
           </div>
-        
+
         </footer> <!-- .segment -->
-      
-      
+
+
     <!-- the NDA modal -->
     <div class="ui small modal" id="ndaWiew">
       <i class="close icon"></i>
@@ -450,12 +444,12 @@
 
       </div> <!-- .actions -->
     </div> <!-- modal -->
-      
-    
+
+
     <!-- .success modal -->
     <div class="ui tiny basic modal centered aligned" id="requestSuccess">
       <div class="header">
-        
+
         <img src="static/img/green-check.png" width="100" class="ui centered image" />
         <div class="ui horizontal divider"></div>
         Request Added
@@ -463,23 +457,22 @@
 
       <!-- modal content -->
       <div class="ui padded basic segment">
-        <p>Your proposal is now live. Check back for offers from our suppliers. 
+        <p>Your proposal is now live. Check back for offers from our suppliers.
 </p>
       </div>
       <div class="actions">
 
         <a href="#" class="ui fluid evegreen uppercase big green button nda-trigger">Add Another</a>
-        
+
         <a href="#" class="ui fluid grey big uppercase basic button close">Go to your account</a>
 
         </div> <!-- .grid -->
 
       </div> <!-- .actions -->
     </div> <!-- modal -->
-    
+
     </div> <!-- #greenwrapper -->
-    
-    
+
+
     <script src="js/green.js"></script>
-  </body>
-</html>
+  </div>
