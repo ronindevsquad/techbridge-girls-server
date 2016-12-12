@@ -1,74 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-  
-  <body class="login">
-    
-    <div id="greenwrapper">
-      <header class="ui padded basic segment">
-        <div class="ui secondary menu">
-          <div class="left floated">
-            <img src="static/img/logo-black.png" width="151" class="ui image" />
-          </div>
+<div class="login">
+  <div id="greenwrapper">
+    <header class="ui padded basic segment">
+      <div class="ui secondary menu">
+        <div class="left floated">
+          <img src="static/img/logo-black.png" width="151" class="ui image" />
+        </div>
 
-          <div class="right menu">
-            <a href="#" title="Supplier" class="item">Supplier</a>
-            <a href="#" title="Maker" class="item">Maker</a>
-            <a href="#" title="Log In" class="item">Log In</a>
-          </div>
-        </div> <!-- .menu -->
-      </header>
-      
-      <section class="userlogin">
-        <div class="ui container">
+        <div class="right menu">
+          <a href="#" title="Supplier" class="item">Supplier</a>
+          <a href="#" title="Maker" class="item">Maker</a>
+          <a href="#" title="Log In" class="item">Log In</a>
+        </div>
+      </div> <!-- .menu -->
+    </header>
 
-          <div class="ui middle aligned center aligned grid screen mid">
-            <div class="column">
-              
-              <h2>Login</h2>
-              <p>Please login with your email address &amp; password below</p>
-              
-              <form class="ui large form">
-                <div class="ui basic segment">
-                  <div class="field">
-                    <div class="ui left icon input">
-                      <i class="envelope icon"></i>
-                      <input type="text" name="email" placeholder="E-mail address">
-                    </div>
-                  </div> <!-- .field -->
-                  <div class="field">
-                    <div class="ui left icon input">
-                      <i class="lock icon"></i>
-                      <input type="password" name="password" placeholder="Password">
-                    </div>
-                    <div class="field link">
-                      <a href="#" title="Lost Password">I forgot my password</a>
-                    </div>
-                  </div> <!-- .field -->
-                  <div class="ui fluid big black uppercase submit button">Login</div>
-                </div> <!-- .segment -->
+    <section class="userlogin">
+      <div class="ui container">
 
-              </form>
+        <div class="ui middle aligned center aligned grid screen mid">
+          <div class="column">
 
-            </div> <!-- .column -->
-          </div> <!-- .screen.mid -->
+            <h2>Login</h2>
+            <p>Please login with your email address &amp; password below</p>
 
-        </div> <!-- .container -->
-      </section> <!-- .userlogin -->
+            <form class="ui large form">
+              <div class="ui basic segment">
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="envelope icon"></i>
+                    <input type="text" name="email" placeholder="E-mail address">
+                  </div>
+                </div> <!-- .field -->
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password">
+                  </div>
+                  <div class="field link">
+                    <a href="#" title="Lost Password">I forgot my password</a>
+                  </div>
+                </div> <!-- .field -->
+                <div class="ui fluid big black uppercase submit button"></div>
+              </div> <!-- .segment -->
 
-      <footer>
-        <p>New to Evergreen?<br />
-        Sign up as a <a href="#" title="Maker">Maker</a> or a <a href="#" title="Supplier">Supplier</a></p>
+            </form>
+
+          </div> <!-- .column -->
+        </div> <!-- .screen.mid -->
+
+      </div> <!-- .container -->
+    </section> <!-- .userlogin -->
+
+    <footer>
+      <p>New to Evergreen?<br />
+        Sign up as a <a href="#/join-maker" title="Maker">Maker</a> or a <a href="#/join-supplier" title="Supplier">Supplier</a></p>
       </footer>
-      
+
     </div> <!-- #greenwrapper -->
-    
-    
-  </body>
-</html>
+  </div>

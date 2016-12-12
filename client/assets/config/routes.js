@@ -97,7 +97,7 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/success-supplier.html',
 		controller: 'indexController'
 	})
-	.otherwise({
-		redirectTo: '/welcome'
-	});
+	// .otherwise({
+	// 	redirectTo: '/'
+	// });
 });

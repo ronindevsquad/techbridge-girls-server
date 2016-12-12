@@ -209,11 +209,11 @@ footer .social-row a {
   color: white;
 }
 .useraccess .supplier {
-  background: url(../static/img/supplier-bg.jpg) 50%;
+  background: url(/static/img/supplier-bg.jpg) 50%; /*CSS CHANGE*/
   background-size: cover;
 }
 .useraccess .maker {
-  background: url(../static/img/maker-bg.jpg) 50%;
+  background: url(/static/img/maker-bg.jpg) 50%; /*CSS CHANGE*/
   background-size: cover;
 }
 .column.form.computer {
@@ -284,7 +284,8 @@ footer .social-row a {
 
 /* Login styles */
 .login {
-  background: url(../static/img/whitetower.jpg) 50%;
+  height: 100vh; /*CSS CHANGE*/
+  background: url(/static/img/whitetower.jpg) 50%; /*CSS CHANGE*/
   background-size: cover;
 }
 .login header .ui.secondary.menu a.item {
