@@ -439,11 +439,11 @@ footer .social-row a {
 }
 /* List styles */
 .light header.ui.basic.segment {
-  background: url(../static/img/light-header.jpg) 50%;
+  background: url(/static/img/light-header.jpg) 50%;
   background-size: cover;
 }
 header.darker.ui.basic.segment {
-  background: url(../static/img/dark-header.jpg) 50%;
+  background: url(/static/img/dark-header.jpg) 50%;
   background-size: cover;
 }
 header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .header {
