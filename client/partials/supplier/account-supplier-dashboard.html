@@ -1,4 +1,3 @@
-
     <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/account.css"> -->
@@ -31,17 +30,101 @@
 
       <div class="ui very padded segment noptoppadd">
         <section class="nav">
-
-          <div class="ui relaxed items">
+        <div class="right menu">
+          <div class="ui horizontal list company trigger">
             <div class="item">
-              <div class="ui tiny image">
-                <img src="static/img/husky-logo.png" class="ui centered image" />
+
+              <img class="ui mini circular image" src="static/img/user-avatar.png">
+              <div class="content">
+                <div class="ui sub header">Bamberg GbmH</div>
+                3 new messages
               </div>
-              <div class="middle aligned content">
-                <h2>Supplier GmbH</h2>
-                <p class="footnote">Member since Apr 2016</p>
-              </div>
+
             </div> <!-- .item -->
+    <div class="ui very padded segment noptoppadd">
+      <section class="nav">
+
+        <div class="ui relaxed items">
+          <div class="item">
+            <div class="ui tiny image">
+              <img src="static/img/husky-logo.png" class="ui centered image" />
+            </div>
+            <div class="middle aligned content">
+              <h2>Supplier GmbH</h2>
+              <p class="footnote">Member since Apr 2016</p>
+            </div>
+          </div> <!-- .item -->
+        </div> <!-- .items -->
+
+        <div class="ui pointing secondary menu">
+          <a class="active item" href="/account-supplier-dashboard">Dashboard</a>
+          <a class="item" href="/account-supplier-proposals">Proposals
+            <span class="ui circular label">2</span>
+          </a>
+          <a class="item" href="/account-supplier-messaging">Messages
+            <span class="ui circular red label">2</span>
+            <span class="ui circular label">80</span>
+          </a>
+          <a class="item" href="/account-supplier-tracking">Track Progress
+            <span class="ui circular label">2</span>
+          </a>
+          <a class="item" href="/account-supplier-profile">Profile</a>
+        </div> <!-- .menu -->
+
+      </section> <!-- .nav -->
+    </div> <!-- .top segment -->
+
+    <section class="ui very padded basic segment offer form">
+
+      <h2>Your Dashboard</h2>
+      <p>Check your progress graphs.</p>
+
+      <div class="ui container left">
+        <div class="ui centered grid">
+          <div class="sixteen wide tablet five wide computer column">
+
+            <div class="ui big form">
+
+              <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
+
+              <div class="ui horizontal divider"></div>
+              <div class="field">
+                <label>
+                  <span data-tooltip="Add a tooltip text here" data-position="right center">
+                    Select Proposal <i class="help circle outline icon"></i>
+                  </span>
+                </label>
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="rawmaterial">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select Proposal</div>
+                  <div class="menu">
+                    <div class="item" data-value="1">Proposal #1</div>
+                    <div class="item" data-value="0">Proposal #2</div>
+                    <div class="item" data-value="2">Proposal #3</div>
+                  </div> <!-- .menu -->
+                </div> <!-- .dropdown -->
+              </div> <!-- .field -->
+              <div class="field">
+                <label>
+                  <span data-tooltip="Add a tooltip text here" data-position="right center">
+                    Select Metric <i class="help circle outline icon"></i>
+                  </span>
+                </label>
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="rawmaterial">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">Select metric</div>
+                  <div class="menu">
+                    <div class="item" data-value="1">Metric #1</div>
+                    <div class="item" data-value="0">Metric #2</div>
+                    <div class="item" data-value="2">Metric #3</div>
+                  </div> <!-- .menu -->
+                </div> <!-- .dropdown -->
+              </div> <!-- .field -->
+
+            </div> <!-- .big form -->
+          </div>
           </div> <!-- .items -->
 
           <div class="ui pointing secondary menu">
@@ -113,7 +196,6 @@
 
                 </div> <!-- .big form -->
               </div>
-
 
           <div class="sixteen wide tablet eleven wide computer column">
             <div class="ui horizontal divider"></div>
