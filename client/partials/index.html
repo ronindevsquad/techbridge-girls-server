@@ -1,4 +1,4 @@
-  <body class="homepage">
+  <div class="homepage">
 
     <div id="greenwrapper">
       <div class="hero">
@@ -9,9 +9,9 @@
             </div>
 
             <div class="right menu">
-              <a href="#" title="Supplier" class="item">Supplier</a>
-              <a href="#" title="Maker" class="item">Maker</a>
-              <a href="#" title="Log In" class="item">Log In</a>
+              <a href="/join-supplier" title="Supplier" class="item">Supplier</a>
+              <a href="/join-maker" title="Maker" class="item">Maker</a>
+              <a href="/login" title="Log In" class="item">Log In</a>
             </div>
           </div> <!-- .menu -->
         </header>
@@ -22,8 +22,8 @@
 
           <div class="ui horizontal divider"></div>
 
-          <a class="ui evergreen green button" href="#" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
-          <a class="ui evergreen orange button" href="#" data-tooltip="Help me make money" data-position="bottom center" data-inverted="">Join as Maker</a>
+          <a href="/join-supplier" class="ui evergreen green button" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
+          <a href="/join-maker" class="ui evergreen orange button" data-tooltip="Help me make money" data-position="bottom center" data-inverted="">Join as Maker</a>
 
         </div> <!-- .ui hero content -->
 
@@ -80,14 +80,74 @@
           </div> <!-- .grid -->
 
           <div class="ui very padded basic segment center aligned">
-            <a ng-click="test()" class="ui evergreen green button" href="#" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
+            <a class="ui evergreen green button" href="#" data-tooltip="Help me save money" data-position="bottom center" data-inverted="">Join as Supplier</a>
             <a class="ui evergreen orange button" href="#" data-tooltip="Help me make money" data-position="bottom center" data-inverted="">Join as Maker</a>
           </div> <!-- .segment -->
-
         </div> <!-- .ui fluid content -->
       </section> <!-- .features -->
 
     </div> <!-- #greenwrapper -->
+    <footer class="ui inverted vertical footer very padded segment">
+  		<div class="ui container">
+  			<div class="ui stackable inverted equal height stackable grid">
+  				<div class="four wide column">
+  					<h4 class="ui inverted header">Evergreen</h4>
 
-  </body>
-</html>
+  					<address>
+  						<span>@: hi@wapik.com</span>
+  						<span>p: +62 202 555 0117</span>
+  						<span>a: 610 Overlook Circle Suite 323<br />
+  							Kalamazoo, MI 49009</span>
+  						</address>
+
+  						<div class="social-row">
+  							<a href="#" title="Facebook">
+  								<img src="static/img/icon-facebook.png" class="ui image" width="30" />
+  							</a>
+  							<a href="#" title="Twitter">
+  								<img src="static/img/icon-twitter.png" class="ui image" width="30" />
+  							</a>
+  							<a href="#" title="LinkedIn">
+  								<img src="static/img/icon-linkedin.png" class="ui image" width="30" />
+  							</a>
+  						</div>
+
+  					</div> <!-- .column -->
+  					<div class="four wide column">
+  						<h4 class="ui inverted header">Company</h4>
+  						<div class="ui inverted link list">
+  							<a href="#" class="item">Home</a>
+  							<a href="#" class="item">About Us</a>
+  							<a href="#" class="item">Pricing</a>
+  							<a href="#" class="item">Contact Us</a>
+  						</div>
+  					</div> <!-- .column -->
+  					<div class="four wide column">
+  						<h4 class="ui inverted header">Others</h4>
+  						<div class="ui inverted link list">
+  							<a href="#" class="item">Help &amp; Support</a>
+  							<a href="#" class="item">Privacy Policy</a>
+  							<a href="#" class="item">Terms</a>
+  							<a href="#" class="item">Sitemap</a>
+  						</div>
+  					</div> <!-- .column -->
+  					<div class="four wide column">
+  						<h4 class="ui inverted header">Newsletter</h4>
+  						<p>Subscribe to our newsletter and get all the cool news</p>
+
+  						<div class="ui fluid icon input">
+  							<input type="text" placeholder="Enter Email">
+  							<i class="send outline icon"></i>
+  						</div> <!-- .input -->
+
+  					</div> <!-- .column -->
+  				</div> <!-- .grid -->
+  			</div> <!-- .container -->
+
+  			<div class="ui container">
+  				<div class="ui horizontal divider"></div>
+  				All rights reserved 2016.
+  			</div>
+
+  		</footer> <!-- .segment -->
+  </div>
