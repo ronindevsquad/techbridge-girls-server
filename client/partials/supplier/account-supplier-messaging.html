@@ -1,7 +1,36 @@
-<div class="userarea supplier">
+    <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/account.css"> -->
 
-  <div id="greenwrapper">
+  <div class="userarea supplier">
 
+    <div id="greenwrapper">
+
+      <header class="ui padded basic segment">
+        <div class="ui secondary menu">
+          <div class="left floated">
+            <img src="static/img/logo-black.png" width="151" class="ui image" />
+          </div>
+
+          <div class="right menu">
+            <div class="ui horizontal list company trigger">
+              <div class="item">
+
+                <img class="ui mini circular image" src="static/img/user-avatar.png">
+                <div class="content">
+                  <div class="ui sub header">Bamberg GbmH</div>
+                  3 new messages
+                </div>
+
+              </div> <!-- .item -->
+            </div> <!-- .list -->
+          </div> <!-- .menu -->
+        </div> <!-- .menu -->
+      </header>
+
+      <div class="ui very padded segment noptoppadd">
+        <section class="nav">
+          
     <header class="ui padded basic segment">
       <div class="ui secondary menu">
         <div class="left floated">
@@ -19,22 +48,48 @@
               </div>
 
             </div> <!-- .item -->
-          </div> <!-- .list -->
-        </div> <!-- .menu -->
-      </div> <!-- .menu -->
-    </header>
 
-    <div class="ui very padded segment noptoppadd">
-      <section class="nav">
+          </div> <!-- .items -->
 
-        <div class="ui relaxed items">
-          <div class="item">
-            <div class="ui tiny image">
-              <img src="static/img/husky-logo.png" class="ui centered image" />
-            </div>
-            <div class="middle aligned content">
-              <h2>Supplier GmbH</h2>
-              <p class="footnote">Member since Apr 2016</p>
+          <div class="ui pointing secondary menu">
+            <a class="item" href="account-supplier-dashboard.html">Dashboard</a>
+            <a class="item" href="account-supplier-proposals.html">Proposals
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="active item" href="account-supplier-messaging.html">Messages
+              <span class="ui circular red label">2</span>
+              <span class="ui circular label">80</span>
+            </a>
+            <a class="item" href="account-supplier-tracking.html">Track Progress
+              <span class="ui circular label">2</span>
+            </a>
+            <a class="item" href="account-supplier-profile.html">Profile</a>
+          </div> <!-- .menu -->
+
+        </section> <!-- .nav -->
+      </div> <!-- .top segment -->
+
+      <section class="ui very padded basic segment offer form">
+
+        <h2>Messages</h2>
+        <p>Your opened conversations.</p>
+
+        <div class="ui horizontal divider"></div>
+        <div class="ui horizontal divider"></div>
+
+        <div class="ui left details">
+
+          <div class="ui segment">
+            <div class="ui right aligned grid filters-top">
+
+              <div class="left aligned eight wide column">
+                <p class="count">3 Conversations</p>
+              </div> <!-- left column -->
+              <div class="eight wide column">
+                <p class="toplabels">Order By:
+                  <a href="#" title="Date" class="selected-link">Date</a> &bull; <a href="#" title="Read / Unread">Read / Unread</a>
+                </p>
+              </div> <!-- .right column -->
             </div>
           </div> <!-- .item -->
         </div> <!-- .items -->
@@ -79,72 +134,70 @@
               </p>
             </div> <!-- .right column -->
           </div>
-        </div>
+
+          <div class="messaging-container">
+
+            <div class="ui stackable grid">
+              <div class="sixteen wide tablet four wide computer column">
+                <div class="ui secondary fluid vertical menu">
+
+                  <div class="ui divided items message-contacts">
+                    <a class="active item" data-tab="message1">
+                      <div class="ui tiny image">
+                        <img src="static/img/husky-logo.png" class="ui centered image" />
+                      </div>
+                      <div class="middle aligned content">
+                        <h4>Maker GmbH</h4>
+                        <p class="footnote">Last message 25.05.2016</p>
+                      </div>
+                    </a>
+                    <a class="item" data-tab="message2">
+                      <div class="ui tiny image">
+                        <img src="static/img/husky-logo.png" class="ui centered image" />
+                      </div>
+                      <div class="middle aligned content">
+
+                        <h4>Maker GmbH</h4>
+
+                        <!-- the unread messages counter -->
+                        <span class="ui circular red label">2</span>
+
+                        <p class="footnote">Last message 25.05.2016</p>
+                      </div>
+                    </a>
+                    <a class="item" data-tab="message3">
+                      <div class="ui tiny image">
+                        <img src="static/img/husky-logo.png" class="ui centered image" />
+                      </div>
+                      <div class="middle aligned content">
+                        <h4>Maker GmbH</h4>
+                        <p class="footnote">Last message 25.05.2016</p>
+                      </div>
+                    </a>
+                  </div>
+                </div> <!-- .message-contacts -->
+              </div> <!-- left col -->
 
 
-        <div class="messaging-container">
+              <div class="sixteen wide tablet twelve wide computer column white">
+                <div class="ui padded basic segment">
+                  <div class="ui tab active" data-tab="message1">
 
-          <div class="ui stackable grid">
-            <div class="sixteen wide tablet four wide computer column">
-              <div class="ui secondary fluid vertical menu">
+                    <div class="messaging-area">
 
-                <div class="ui divided items message-contacts">
-                  <a class="active item" data-tab="message1">
-                    <div class="ui tiny image">
-                      <img src="static/img/husky-logo.png" class="ui centered image" />
-                    </div>
-                    <div class="middle aligned content">
-                      <h4>Maker GmbH</h4>
-                      <p class="footnote">Last message 25.05.2016</p>
-                    </div>
-                  </a>
-                  <a class="item" data-tab="message2">
-                    <div class="ui tiny image">
-                      <img src="static/img/husky-logo.png" class="ui centered image" />
-                    </div>
-                    <div class="middle aligned content">
+                      <div class="messages ui padded basic segment">
+                        <!-- this is one message -->
 
-                      <h4>Maker GmbH</h4>
+                        <div class="ui grid entry">
+                          <div class="left aligned eight wide column">
 
-                      <!-- the unread messages counter -->
-                      <span class="ui circular red label">2</span>
+                            <div class="ui tiny image">
+                              <img src="static/img/husky-logo.png" class="ui centered image" />
+                            </div>
 
-                      <p class="footnote">Last message 25.05.2016</p>
-                    </div>
-                  </a>
-                  <a class="item" data-tab="message3">
-                    <div class="ui tiny image">
-                      <img src="static/img/husky-logo.png" class="ui centered image" />
-                    </div>
-                    <div class="middle aligned content">
-                      <h4>Maker GmbH</h4>
-                      <p class="footnote">Last message 25.05.2016</p>
-                    </div>
-                  </a>
-                </div>
-              </div> <!-- .message-contacts -->
-            </div> <!-- left col -->
-
-
-            <div class="sixteen wide tablet twelve wide computer column white">
-              <div class="ui padded basic segment">
-                <div class="ui tab active" data-tab="message1">
-
-                  <div class="messaging-area">
-
-                    <div class="messages ui padded basic segment">
-                      <!-- this is one message -->
-
-                      <div class="ui grid entry">
-                        <div class="left aligned eight wide column">
-
-                          <div class="ui tiny image">
-                            <img src="static/img/husky-logo.png" class="ui centered image" />
-                          </div>
-
-                          <div class="content">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare nunc in efficitur lacinia.
-                              Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
+                            <div class="content">
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare nunc in efficitur lacinia.
+                                Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
                               <small>25.05.2016</small>
                             </div>
                           </div> <!-- .right column -->
@@ -191,16 +244,16 @@
 
 
       <footer class="ui inverted vertical footer very padded segment">
-        <div class="ui container">
-          <div class="ui stackable inverted equal height stackable grid">
-            <div class="four wide column">
-              <h4 class="ui inverted header">Evergreen</h4>
+          <div class="ui container">
+            <div class="ui stackable inverted equal height stackable grid">
+              <div class="four wide column">
+                <h4 class="ui inverted header">Evergreen</h4>
 
-              <address>
-                <span>@: hi@wapik.com</span>
-                <span>p: +62 202 555 0117</span>
-                <span>a: 610 Overlook Circle Suite 323<br />
-                  Kalamazoo, MI 49009</span>
+                <address>
+                  <span>@: hi@wapik.com</span>
+                  <span>p: +62 202 555 0117</span>
+                  <span>a: 610 Overlook Circle Suite 323<br />
+                        Kalamazoo, MI 49009</span>
                 </address>
 
                 <div class="social-row">
@@ -255,8 +308,8 @@
         </footer> <!-- .segment -->
 
 
-      </div> <!-- #greenwrapper -->
+    </div> <!-- #greenwrapper -->
 
 
-      <script src="static/js/green.js"></script>
-    </div>
+    <script src="js/green.js"></script>
+  </div>
