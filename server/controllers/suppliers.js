@@ -26,7 +26,7 @@ module.exports = {
 					res.json(err);
 			else
 				res.clearCookie('token').cookie('token', data).end();
-		});	
+		});
 	},
 	delete: function(req, res) {
 		supplier.delete(req, function(err) {
@@ -37,12 +37,14 @@ module.exports = {
 					res.json(err);
 			else
 				res.clearCookie('token').end();
-		});	
+		});
 	},
 	register: function(req, res) {
 		supplier.register(req, function(err, data) {
-			if (err)
+			if (err){
+				console.log(err);
 				res.json(err);
+			}
 			else
 				res.cookie('token', data).end();
 		});
@@ -53,7 +55,7 @@ module.exports = {
 				res.json(err);
 			else
 				res.cookie('token', data).end();
-		});	
+		});
 	},
 	fb_register: function(req, res) {
 		supplier.fb_register(req, function(err, data) {
@@ -73,6 +75,6 @@ module.exports = {
 				res.append('Set-Cookie', c1).append('Set-Cookie', c2);
 				// res.cookie('token', data).cookie('fb', true).end();
 			}
-		});	
-	}	
+		});
+	}
 }

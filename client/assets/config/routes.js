@@ -55,7 +55,7 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/join-supplier',{
 		templateUrl: 'partials/supplier/join-supplier.html',
-		controller: 'indexController'
+		controller: 'supplierRegisterController'
 	})
 	.when('/success-supplier',{
 		templateUrl: 'partials/supplier/success-supplier.html',

@@ -1,6 +1,6 @@
-// var makers = require('../controllers/makers.js');
-// var suppliers = require('../controllers/suppliers.js');
-// var jobs = require('../controllers/jobs.js');
+var makers = require('../controllers/makers.js');
+var suppliers = require('../controllers/suppliers.js');
+var jobs = require('../controllers/jobs.js');
 
 module.exports = function(app) {
 	// makers
@@ -16,7 +16,7 @@ module.exports = function(app) {
 	// // app.get('/api/suppliers/:username', suppliers.show);
 	// app.put('/api/suppliers', suppliers.update);
 	// app.delete('/api/suppliers', suppliers.delete);
-	// app.post('/suppliers/register', suppliers.register);
+	app.post('/suppliers/register', suppliers.register);
 	// app.post('/suppliers/login', suppliers.login);
 	//
 	// // JOBS
