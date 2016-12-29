@@ -19,7 +19,7 @@ app.use(helmet());
 app.use('/api', expressJwt({secret: fs.readFileSync('keys/jwt', 'utf8')}));
 app.use(cookieParser());
 
-// require('./server/config/mysql.js');
+require('./server/config/mysql.js');
 require('./server/config/routes.js')(app);
 
 app.listen(port, function() {
