@@ -11,7 +11,10 @@ app.controller('supplierRegisterController', function ($scope, $location, $route
         password: $scope.password
       }
       suppliersFactory.register(data, function(data){
-          console.log("Successfully added to Database!");
+          console.log(data);
+          if(!data.errors){
+            $location.url('/success-supplier')
+          }
       });
     }
 		// $scope.error = null;

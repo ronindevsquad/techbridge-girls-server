@@ -97,8 +97,9 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/sending-offer.html',
 		controller: 'indexController'
 	})
-	// .otherwise({
-	// 	redirectTo: '/'
-	// });
-	$locationProvider.html5Mode(true);
+	.otherwise({
+		redirectTo: '/'
+	});
+	// This will
+	// $locationProvider.html5Mode(true);
 });
