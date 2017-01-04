@@ -12,7 +12,7 @@
             <h2>Join as a supplier</h2>
             <p>Products need to be made. Be the one that makes them.</p>
             <div class="ui horizontal divider"></div>
-            <form class="ui big form">
+            <form class="ui big form" ng-submit="register()">
               <div class="field">
                 <input placeholder="Company Name" type="text" ng-model="company_name">
               </div>
@@ -29,8 +29,7 @@
               <small>By signing up you agree to our <a href="#" title="Terms">Terms</a> and <a href="#" title="Privacy Policy">Privacy Policy</a></small>
 
               <div class="ui horizontal divider"></div>
-              <a ng-click="register()" class="ui fluid evergreen green button" href="">Join Now</a>
-
+              <input type="submit" class="ui fluid evergreen green button" href="" value="Join Now">
               <div class="ui horizontal divider"></div>
               <small>Make it simple. Join with your LinkedIn Account</small>
 

@@ -13,7 +13,11 @@ app.controller('supplierRegisterController', function ($scope, $location, $route
       suppliersFactory.register(data, function(data){
           console.log(data);
           if(!data.errors){
+            console.log($cookies.get('token')); //Dev
             $location.url('/success-supplier')
+          }
+          else{
+            console.log(data.errors); //Dev
           }
       });
     }

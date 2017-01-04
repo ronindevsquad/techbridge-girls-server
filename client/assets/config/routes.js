@@ -67,7 +67,7 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/category-selector',{
 		templateUrl: 'partials/category-selector.html',
-		controller: 'indexController'
+		controller: 'categorySelectorController'
 	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
