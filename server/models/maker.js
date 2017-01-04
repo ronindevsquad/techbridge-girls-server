@@ -6,100 +6,147 @@ var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
 	// index: function(callback) {
-	// 	connection.query("SELECT *, HEX(id) AS id FROM users", function(err, data) {
+	// 	connection.query("SELECT *, HEX(id) AS id FROM makers", function(err, data) {
 	// 		if (err)
-	// 			callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+	// 			callback({errors: {database: {message: "Please contact an admin."}}})
 	// 		else
 	// 			callback(false, data)
 	// 	});
 	// },
-	// show: function(req, callback) {
-	// 	var data = {};
-	// 	var username = req.params.username;
-
-	// 	// Get posts:
-	// 	var query = "SELECT * FROM posts LEFT JOIN users ON user_id = users.id WHERE username = ?";
-	// 	connection.query(query, username, function(err, posts) {
-	// 		if (err) {
-	// 			callback(err);
-	// 			return;
-	// 		}
-	// 		data.posts = posts;
-	// 	});
-
-	// 	// Get favorites:
-	// 	var query = "SELECT * FROM favorites LEFT JOIN users ON user_id = users.id \
-	// 	LEFT JOIN posts ON post_id = posts.id WHERE username = ?";
-	// 	connection.query(query, username, function(err, favorites) {
-	// 		if (err) {
-	// 			callback(err);
-	// 			return;
-	// 		}
-	// 		data.favorites = favorites;
-	// 	});
-
-	// 	callback(false, data)
-	// },	
-	update: function(req, callback) {
-		jwt.verify(req.cookies.token, jwt_key, function(err, data) {
+	show: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "UPDATE makers SET ? WHERE HEX(id) = ? LIMIT 1";
+				var response = {};
+				var query = "SELECT * FROM makers where HEX(id) = ? LIMIT 1";
+				connection.query(query, req.params.id, function(err){
+					if (err)
+						callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+					else {
+						response["maker"] = data;
+						var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(maker_id) = ?"
+						connection.query(query, req.params.id, function(err, data){
+							if (err)
+								callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+							else {
+								response["jobs"] = data;
+								callback(false, response);
+							}
+						});
+					}
+				});
+			}
+		});
+	},
+	update: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			if (err)
+				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else {
+				var query = "UPDATE makers SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
 				connection.query(query, [req.body, data.id], function(err) {
 					if (err)
-						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+						callback({errors: {database: {message: "Please contact an admin."}}});
 					else {
 						// Retrieve updated maker:
 						var query = "SELECT *, HEX(id) AS id FROM makers WHERE HEX(id) = ? LIMIT 1";
 						connection.query(query, data.id, function(err, data) {
 							if (err)
-								callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+								callback({errors: {database: {message: "Please contact an admin."}}})
 							else {
-								var token = jwt.sign({
+								var evergreen_token = jwt.sign({
 									id: data[0].id,
 									email: data[0].email,
 									first_name: data[0].first_name,
 									last_name: data[0].last_name
 								}, jwt_key);
-								callback(false, token);												
+								callback(false, evergreen_token);
 							}
-						});						
+						});
 					}
 				});
 			}
 		});
 	},
 	delete: function(req, callback) {
-		jwt.verify(req.cookies.token, jwt_key, function(err, data) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else
 				connection.query("DELETE FROM makers WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
 					if (err)
-						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+						callback({errors: {database: {message: "Please contact an admin."}}});
 					else
 						callback(false);
 				});
 		});
 	},
+	changePassword: function(req, callback){
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			if (err)
+				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else {
+				if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
+					callback({errors: {password : {message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."}}});
+				else {
+					bcrypt.genSalt(10, function(err, salt) {
+						if (err)
+							callback({errors: {salt: {message: "Salt error."}}})
+						else
+							bcrypt.hash(req.body.new, salt, function(err, hash) {
+								if (err)
+									callback({errors: {hash: {message: "Hash error."}}})
+								else {
+									var newPassword = {
+										password: hash
+									};
+									var query = "UPDATE makers SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+									connection.query(query, [newPassword, data.id], function(err) {
+										if (err)
+											callback({errors: {database: {message: "Please contact an admin."}}});
+										else {
+											// Retrieve updated maker:
+											var query = "SELECT *, HEX(id) AS id FROM makers WHERE HEX(id) = ? LIMIT 1";
+											connection.query(query, data.id, function(err, data) {
+												if (err)
+													callback({errors: {database: {message: "Please contact an admin."}}})
+												else {
+													var evergreen_token = jwt.sign({
+														id: data[0].id,
+														email: data[0].email,
+														first_name: data[0].first_name,
+														last_name: data[0].last_name
+													}, jwt_key);
+													callback(false, evergreen_token);
+												}
+											});
+										}
+									});
+								}
+							});
+					});
+				}
+			}
+		});
+	},
 	register: function(req, callback) {
-		if (!req.body.first_name | !req.body.last_name | !req.body.email | !req.body.password | !req.body.confirm_password) 
+		if (!req.body.first_name || !req.body.last_name || !req.body.email || !req.body.password || !req.body.confirm_password)
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
 			var query = "SELECT email FROM makers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+					callback({errors: {database: {message: "Please contact an admin."}}})
 				// If email already exists:
-				else if (data.length > 0) 
+				else if (data.length > 0)
 					callback({errors: {email: {message: "Email already in use, please log in."}}});
 				// Validate first_name:
-				else if (!/^[a-z]{2,32}$/i.test(req.body.first_name)) 
+				else if (!/^[a-z]{2,32}$/i.test(req.body.first_name))
 					callback({errors: {first_name : {message: "First name must contain only letters."}}});
 				// Validate last_name:
-				else if (!/^[a-z]{2,32}$/i.test(req.body.last_name)) 
+				else if (!/^[a-z]{2,32}$/i.test(req.body.last_name))
 					callback({errors: {last_name : {message: "Last name must contain only letters."}}});
 				// Validate email:
 				else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
@@ -130,43 +177,43 @@ module.exports = {
 									connection.query("INSERT INTO makers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
 										if (err)
-											callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+											callback({errors: {database: {message: "Please contact an admin."}}})
 										else {
 											// Retrieve new maker:
 											var query = "SELECT *, HEX(id) as id FROM makers WHERE email = ? LIMIT 1";
 											connection.query(query, req.body.email, function(err, data) {
 												if (err)
-													callback({errors: {database: {message: `Database error: ${err.code}.`}}})
+													callback({errors: {database: {message: "Please contact an admin."}}})
 												else {
-													var token = jwt.sign({
+													var evergreen_token = jwt.sign({
 														id: data[0].id,
 														email: data[0].email,
 														first_name: data[0].first_name,
 														last_name: data[0].last_name
 													}, jwt_key);
-													callback(false, token);												
+													callback(false, evergreen_token);
 												}
 											});
 										}
 									});
 								}
 							});
-					});						
+					});
 			});
 		}
-	},	
+	},
 	login: function(req, callback) {
 		// Validate login data:
-		if (!req.body.email | !req.body.password)
+		if (!req.body.email || !req.body.password)
 			callback({errors: {login: {message: "All form fields are required."}}});
 		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
-			callback({errors: {password: {message: "Invalid password."}}});		
+			callback({errors: {password: {message: "Invalid password."}}});
 		else {
 			// Get maker by email:
 			var query = "SELECT *, HEX(id) AS id FROM makers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
-					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+					callback({errors: {database: {message: "Please contact an admin."}}});
 				else if (data.length == 0)
 					callback({errors: {email: {message: "Email does not exist, please register."}}});
 				else
@@ -177,15 +224,15 @@ module.exports = {
 						else if (!isMatch)
 							callback({errors: {password: {message: "Email/password does not match."}}});
 						else {
-							var token = jwt.sign({
+							var evergreen_token = jwt.sign({
 								id: data[0].id,
 								email: data[0].email,
 								first_name: data[0].first_name,
 								last_name: data[0].last_name
 							}, jwt_key);
-							callback(false, token);								
+							callback(false, evergreen_token);
 						}
-					});					
+					});
 			});
 		}
 	}
