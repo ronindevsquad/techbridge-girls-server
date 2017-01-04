@@ -55,7 +55,7 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/join-supplier',{
 		templateUrl: 'partials/supplier/join-supplier.html',
-		controller: 'indexController'
+		controller: 'supplierRegisterController'
 	})
 	.when('/success-supplier',{
 		templateUrl: 'partials/supplier/success-supplier.html',
@@ -67,7 +67,7 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/category-selector',{
 		templateUrl: 'partials/category-selector.html',
-		controller: 'indexController'
+		controller: 'categorySelectorController'
 	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
@@ -97,8 +97,9 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/sending-offer.html',
 		controller: 'indexController'
 	})
-	// .otherwise({
-	// 	redirectTo: '/'
-	// });
-	$locationProvider.html5Mode(true);
+	.otherwise({
+		redirectTo: '/'
+	});
+	// This will
+	// $locationProvider.html5Mode(true);
 });
