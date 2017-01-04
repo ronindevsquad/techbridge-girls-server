@@ -52,8 +52,9 @@ module.exports = {
 	},
 	register: function(req, res) {
 		supplier.register(req, function(err, data) {
-			if (err)
+			if (err){
 				res.json(err);
+			}
 			else
 				res.cookie('evergreen_token', data).end();
 		});

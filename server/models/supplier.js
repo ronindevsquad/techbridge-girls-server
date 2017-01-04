@@ -13,32 +13,32 @@ module.exports = {
 	// 			callback(false, data)
 	// 	});
 	// },
-	show: function(req, callback) {
-		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-			if (err)
-				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
-			else {
-				var response = {};
-				var query = "SELECT * FROM suppliers where HEX(id) = ? LIMIT 1";
-				connection.query(query, req.params.id, function(err){
-					if (err)
-						callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
-					else {
-						response["supplier"] = data;
-						var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(supplier_id) = ?"
-						connection.query(query, req.params.id, function(err, data){
-							if (err)
-								callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
-							else {
-								response["jobs"] = data;
-								callback(false, response);
-							}
-						});
-					}
-				});
-			}
-		});
-	},
+	// show: function(req, callback) {
+	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+	// 		if (err)
+	// 			callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+	// 		else {
+	// 			var response = {};
+	// 			var query = "SELECT * FROM suppliers where HEX(id) = ? LIMIT 1";
+	// 			connection.query(query, req.params.id, function(err){
+	// 				if (err)
+	// 					callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+	// 				else {
+	// 					response["supplier"] = data;
+	// 					var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(supplier_id) = ?"
+	// 					connection.query(query, req.params.id, function(err, data){
+	// 						if (err)
+	// 							callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+	// 						else {
+	// 							response["jobs"] = data;
+	// 							callback(false, response);
+	// 						}
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// },
 	update: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
@@ -57,9 +57,9 @@ module.exports = {
 							else {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
-									email: data[0].email,
-									first_name: data[0].first_name,
-									last_name: data[0].last_name
+									company: data[0].company,
+									contact: data[0].contact,
+									email: data[0].email
 								}, jwt_key);
 								callback(false, evergreen_token);
 							}
@@ -114,9 +114,9 @@ module.exports = {
 												else {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
-														email: data[0].email,
-														first_name: data[0].first_name,
-														last_name: data[0].last_name
+														company: data[0].company,
+														contact: data[0].contact,
+														email: data[0].email
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -131,7 +131,7 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
-		if (!req.body.first_name || !req.body.last_name || !req.body.email || !req.body.password || !req.body.confirm_password)
+		if (!req.body.company || !req.body.contact || !req.body.email || !req.body.password || !req.body.confirm_password)
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
@@ -142,12 +142,12 @@ module.exports = {
 				// If email already exists:
 				else if (data.length > 0)
 					callback({errors: {email: {message: "Email already in use, please log in."}}});
-				// Validate first_name:
-				else if (!/^[a-z]{2,32}$/i.test(req.body.first_name))
-					callback({errors: {first_name : {message: "First name must contain only letters."}}});
-				// Validate last_name:
-				else if (!/^[a-z]{2,32}$/i.test(req.body.last_name))
-					callback({errors: {last_name : {message: "Last name must contain only letters."}}});
+				// Validate company:
+				else if (!req.body.company)
+					callback({errors: {last_name : {message: "Company name cannot be blank."}}});
+				// Validate contact:
+				else if (!/^[a-z ]{2,32}$/i.test(req.body.contact))
+					callback({errors: {last_name : {message: "Name must contain only letters."}}});
 				// Validate email:
 				else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
 					callback({errors: {email : {message: "Invalid email. Email format should be: email@mailserver.com."}}});
@@ -169,9 +169,9 @@ module.exports = {
 									callback({errors: {hash: {message: "Hash error."}}})
 								else {
 									var data = {
-										email: req.body.email,
-										first_name: req.body.first_name,
-										last_name: req.body.last_name,
+										company: req.body.company,
+										contact: req.body.contact,
+										email: req.body.email,  //in the database it is called email but in the front end it is called email
 										password: hash
 									};
 									connection.query("INSERT INTO suppliers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
@@ -187,9 +187,9 @@ module.exports = {
 												else {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
-														email: data[0].email,
-														first_name: data[0].first_name,
-														last_name: data[0].last_name
+														company: data[0].company,
+														contact: data[0].contact,
+														email: data[0].email
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -226,9 +226,9 @@ module.exports = {
 						else {
 							var evergreen_token = jwt.sign({
 								id: data[0].id,
-								email: data[0].email,
-								first_name: data[0].first_name,
-								last_name: data[0].last_name
+								company: data[0].company,
+								contact: data[0].contact,
+								email: data[0].email
 							}, jwt_key);
 							callback(false, evergreen_token);
 						}

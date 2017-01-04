@@ -5,36 +5,51 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
-	//////////////////////////////////////////////////////
-	//										LOGIN/REGISTER
-	//////////////////////////////////////////////////////	
-	.when('/join-maker',{
-		templateUrl: 'partials/maker/join-maker.html',
-		controller: 'registerController'
-	})
-	.when('/join-supplier',{
-		templateUrl: 'partials/supplier/join-supplier.html',
-		controller: 'registerController'
-	})	
 	.when('/login',{
 		templateUrl: 'partials/login.html',
 		controller: 'loginController'
 	})
-	.when('/success-maker',{
-		templateUrl: 'partials/maker/success-maker.html',
-		controller: 'indexController'
-	})
-	.when('/success-supplier',{
-		templateUrl: 'partials/supplier/success-supplier.html',
-		controller: 'indexController'
-	})
 	.when('/recover',{
-		templateUrl: 'partials/recover.html',
+		templateUrl: 'partials/recover.html'
+	})
+	.when('/add-request',{
+		templateUrl: 'partials/add-request.html',
 		controller: 'indexController'
 	})
+	.when('/category-selector',{
+		templateUrl: 'partials/category-selector.html',
+		controller: 'categorySelectorController'
+	})
+	.when('/opened-proposals',{
+		templateUrl: 'partials/opened-proposals.html',
+		controller: 'indexController'
+	})
+	.when('/proposal-details-signed-nda',{
+		templateUrl: 'partials/proposal-details-signed-nda.html',
+		controller: 'indexController'
+	})
+	.when('/proposal-details',{
+		templateUrl: 'partials/proposal-details.html',
+		controller: 'indexController'
+	})
+	.when('/sending-offer-details',{
+		templateUrl: 'partials/sending-offer-details.html',
+		controller: 'indexController'
+	})
+	.when('/sending-offer',{
+		templateUrl: 'partials/sending-offer.html',
+		controller: 'indexController'
+	})	
 	//////////////////////////////////////////////////////
 	//										MAKER
 	//////////////////////////////////////////////////////
+	.when('/join-maker',{
+		templateUrl: 'partials/maker/join-maker.html',
+		controller: 'registerController'
+	})
+	.when('/success-maker',{
+		templateUrl: 'partials/maker/success-maker.html'
+	})
 	.when('/account-maker-dashboard',{
 		templateUrl: 'partials/maker/account-maker-dashboard.html',
 		controller: 'indexController'
@@ -58,6 +73,13 @@ app.config(function ($routeProvider, $locationProvider) {
 	//////////////////////////////////////////////////////
 	//										SUPPLIER
 	//////////////////////////////////////////////////////
+	.when('/join-supplier',{
+		templateUrl: 'partials/supplier/join-supplier.html',
+		controller: 'registerController'
+	})	
+	.when('/success-supplier',{
+		templateUrl: 'partials/supplier/success-supplier.html'
+	})
 	.when('/account-supplier-dashboard',{
 		templateUrl: 'partials/supplier/account-supplier-dashboard.html',
 		controller: 'indexController'
@@ -78,39 +100,7 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/supplier/account-supplier-tracking.html',
 		controller: 'indexController'
 	})
-	//////////////////////////////////////////////////////
-	//										COMMON
-	//////////////////////////////////////////////////////	
-	.when('/add-request',{
-		templateUrl: 'partials/add-request.html',
-		controller: 'indexController'
-	})
-	.when('/category-selector',{
-		templateUrl: 'partials/category-selector.html',
-		controller: 'indexController'
-	})
-	.when('/opened-proposals',{
-		templateUrl: 'partials/opened-proposals.html',
-		controller: 'indexController'
-	})
-	.when('/proposal-details-signed-nda',{
-		templateUrl: 'partials/proposal-details-signed-nda.html',
-		controller: 'indexController'
-	})
-	.when('/proposal-details',{
-		templateUrl: 'partials/proposal-details.html',
-		controller: 'indexController'
-	})
-	.when('/sending-offer-details',{
-		templateUrl: 'partials/sending-offer-details.html',
-		controller: 'indexController'
-	})
-	.when('/sending-offer',{
-		templateUrl: 'partials/sending-offer.html',
-		controller: 'indexController'
-	})
 	.otherwise({
 		redirectTo: '/'
 	});
-	$locationProvider.html5Mode(true);
 });

@@ -21,29 +21,32 @@
               <div class="ui horizontal divider"></div>
               <div class="ui big form">
                 <div class="field">
-                  <input placeholder="Company Name" type="text">
+                  <input placeholder="Company Name" type="text" ng-model="new_user.company" required>
                 </div>
                 <div class="field">
-                  <input placeholder="Contact Person" type="text">
+                  <input placeholder="Contact Person" type="text" ng-model="new_user.contact" required>
                 </div>
                 <div class="field">
-                  <input placeholder="Email Address" type="email">
+                  <input placeholder="Email Address" type="email" ng-model="new_user.email" required>
                 </div>
                 <div class="field">
-                  <input placeholder="Password" type="password">
+                  <input placeholder="Password" type="password" ng-model="new_user.password" required>
                 </div>
                 <div class="field">
-                  <input placeholder="Address" type="text">
+                  <input placeholder="Confirm Password" type="password" ng-model="new_user.confirm_password" required>
                 </div>
                 <div class="field">
-                  <input placeholder="Country" type="text">
+                  <input placeholder="Address" type="text" required>
+                </div>
+                <div class="field">
+                  <input placeholder="Country" type="text" required>
                 </div>
 
                 <small>By signing up you agree to our <a href="#" title="Terms">Terms</a> and <a href="#" title="Privacy Policy">Privacy Policy</a></small>
 
                 <div class="ui horizontal divider"></div>
-                <a class="ui fluid evergreen orange button" href="/success-maker">Join Now</a>
-
+                <a class="ui fluid evergreen orange button" href="#!/success-maker">Join Now</a>
+                <p ng-bind="error"></p>
                 <div class="ui horizontal divider"></div>
                 <small>Make it simple. Join with your LinkedIn Account</small>
 
