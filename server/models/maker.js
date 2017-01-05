@@ -129,7 +129,7 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
-		if (!req.body.company | !req.body.contact_person | !req.body.email | !req.body.password)
+		if (!req.body.company || !req.body.contact || !req.body.email || !req.body.password || !req.body.confirm_password)
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
@@ -144,7 +144,7 @@ module.exports = {
 				else if (!req.body.company)
 					callback({errors: {last_name : {message: "Company name cannot be blank."}}});
 				// Validate contact:
-				else if (!/^[a-z ]{2,32}$/i.test(req.body.contact_person))
+				else if (!/^[a-z ]{2,32}$/i.test(req.body.contact))
 					callback({errors: {last_name : {message: "Name must contain only letters."}}});
 				// Validate email:
 				else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
@@ -168,8 +168,8 @@ module.exports = {
 								else {
 									var data = {
 										company: req.body.company,
-										contact: req.body.contact_person,
-										email: req.body.email,  //in the database it is called email but in the front end it is called email
+										contact: req.body.contact,
+										email: req.body.email,
 										password: hash
 									};
 									connection.query("INSERT INTO makers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
@@ -178,7 +178,7 @@ module.exports = {
 											callback({errors: {database: {message: "Please contact an admin."}}})
 										else {
 											// Retrieve new maker:
-											var query = "SELECT *, HEX(id) as id FROM makers WHERE email = ? LIMIT 1";
+											var query = "SELECT *, HEX(id) AS id FROM makers WHERE email = ? LIMIT 1";
 											connection.query(query, req.body.email, function(err, data) {
 												if (err)
 													callback({errors: {database: {message: "Please contact an admin."}}})

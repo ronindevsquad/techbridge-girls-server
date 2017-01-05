@@ -31,7 +31,6 @@ app.controller("registerController", function ($scope, $rootScope, $location, ma
 						break;
 					}
 				else {
-					console.log("HERE")
 					$scope.setUser();
 					$location.url("/success-supplier");
 				}
