@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `dirtdb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `dirtdb`;
+CREATE DATABASE  IF NOT EXISTS `evergreendb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `evergreendb`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: dirtdb
+-- Host: 127.0.0.1    Database: evergreendb
 -- ------------------------------------------------------
 -- Server version	5.5.49-log
 
@@ -18,102 +18,197 @@ USE `dirtdb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `applications`
+-- Table structure for table `addresses`
 --
 
-DROP TABLE IF EXISTS `applications`;
+DROP TABLE IF EXISTS `addresses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `applications` (
-  `id` binary(16) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `cost` decimal(12,2) DEFAULT NULL,
-  `notes` varchar(1000) DEFAULT NULL,
+CREATE TABLE `addresses` (
+  `street` varchar(45) NOT NULL,
+  `street_ext` varchar(45) DEFAULT NULL,
+  `city` varchar(45) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `zip` int(11) NOT NULL,
+  `country` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `job_id` binary(16) NOT NULL,
-  `trucker_id` binary(16) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_pendings_jobs1_idx` (`job_id`),
-  KEY `fk_pendings_truckers1_idx` (`trucker_id`),
-  CONSTRAINT `fk_pendings_jobs1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pendings_truckers1` FOREIGN KEY (`trucker_id`) REFERENCES `truckers` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  `proposal_id` binary(16) NOT NULL,
+  PRIMARY KEY (`proposal_id`),
+  CONSTRAINT `fk_addresses_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `applications`
+-- Dumping data for table `addresses`
 --
 
-LOCK TABLES `applications` WRITE;
-/*!40000 ALTER TABLE `applications` DISABLE KEYS */;
-INSERT INTO `applications` VALUES ('j \–\∆\Êë[†H\¬|2',-1,NULL,NULL,'2017-01-02 00:29:17','2017-01-02 00:29:29','˘π,\–\≈\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('u\"\Õ\–\∆\Êë[†H\¬|2',2,NULL,NULL,'2017-01-02 00:29:17','2017-01-02 00:33:05','˘π,\–\≈\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('\\k\Ì\—O\Êë[†H\¬|2',4,69.90,NULL,'2017-01-02 16:50:02','2017-01-02 20:31:26','˝\’®\—N\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('(\‹$˜–ª\Êë[†H\¬|2',4,300.00,NULL,'2017-01-01 23:11:37','2017-01-02 00:02:47','#πz–ª\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('*\“g\ÿ\–\√\Êë[†H\¬|2',4,256.00,NULL,'2017-01-02 00:08:56','2017-01-02 00:16:25','%3Å\–\√\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('^\È¯\–\ƒ\Êë[†H\¬|2',4,77668.87,NULL,'2017-01-02 00:17:33','2017-01-02 00:24:40','Z?£\–\ƒ\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('o>\ÏÛ\–\«\Êë[†H\¬|2',-2,NULL,NULL,'2017-01-02 00:39:29','2017-01-02 00:39:46','jX±:\–\«\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('ñ&°f\–\»\Êë[†H\¬|2',4,42.50,NULL,'2017-01-02 00:47:44','2017-01-02 00:50:02','ë≤ñ\È\–\»\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('¶ˇYÒ\–\«\Êë[†H\¬|2',4,898.43,NULL,'2017-01-02 00:41:03','2017-01-02 00:46:39','ü‘ãÒ\–\«\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('æ’∂\–\≈\Êë[†H\¬|2',1,NULL,NULL,'2017-01-02 00:27:24','2017-01-02 00:27:34','π◊ø,\–\≈\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2'),('¡\Ì,¥\–\∆\Êë[†H\¬|2',4,8686.70,NULL,'2017-01-02 00:34:38','2017-01-02 00:53:47','ΩG\Ìë\–\∆\Êë[†H\¬|2','™V\‹s\∆4Ê™ü†H\¬|2');
-/*!40000 ALTER TABLE `applications` ENABLE KEYS */;
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `dropoff`
+-- Table structure for table `banks`
 --
 
-DROP TABLE IF EXISTS `dropoff`;
+DROP TABLE IF EXISTS `banks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `dropoff` (
-  `d_address` varchar(45) NOT NULL,
-  `d_city` varchar(45) NOT NULL,
-  `d_state` varchar(2) NOT NULL,
-  `d_zip` int(11) NOT NULL,
-  `d_loader` tinyint(1) NOT NULL,
-  `job_id` binary(16) NOT NULL,
-  PRIMARY KEY (`job_id`),
-  UNIQUE KEY `job_id_UNIQUE` (`job_id`),
-  KEY `fk_dropoff_location_jobs1_idx` (`job_id`),
-  CONSTRAINT `fk_dropoff_location_jobs1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+CREATE TABLE `banks` (
+  `account` int(11) NOT NULL,
+  `routing` int(11) NOT NULL,
+  `maker_id` binary(16) NOT NULL DEFAULT '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0',
+  `supplier_id` binary(16) NOT NULL DEFAULT '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0',
+  PRIMARY KEY (`maker_id`,`supplier_id`),
+  UNIQUE KEY `maker_id_UNIQUE` (`maker_id`),
+  UNIQUE KEY `supplier_id_UNIQUE` (`supplier_id`),
+  UNIQUE KEY `account_UNIQUE` (`account`),
+  UNIQUE KEY `routing_UNIQUE` (`routing`),
+  KEY `fk_bankaccount_maker1_idx` (`maker_id`),
+  KEY `fk_bankaccount_supplier1_idx` (`supplier_id`),
+  CONSTRAINT `fk_bankaccount_maker1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_bankaccount_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `dropoff`
+-- Dumping data for table `banks`
 --
 
-LOCK TABLES `dropoff` WRITE;
-/*!40000 ALTER TABLE `dropoff` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dropoff` ENABLE KEYS */;
+LOCK TABLES `banks` WRITE;
+/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `jobs`
+-- Table structure for table `cards`
 --
 
-DROP TABLE IF EXISTS `jobs`;
+DROP TABLE IF EXISTS `cards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `jobs` (
-  `id` binary(16) NOT NULL,
-  `job_status` tinyint(1) NOT NULL,
-  `job_type` tinyint(1) NOT NULL,
-  `dirt_type` varchar(45) NOT NULL,
-  `volume` decimal(10,2) NOT NULL,
-  `completion_date` datetime NOT NULL,
+CREATE TABLE `cards` (
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  `ccv` int(11) DEFAULT NULL,
+  `expiration` datetime DEFAULT NULL,
+  `maker_id` binary(16) NOT NULL DEFAULT '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0',
+  `supplier_id` binary(16) NOT NULL DEFAULT '\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `user_id` binary(16) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_jobs_users_idx` (`user_id`),
-  CONSTRAINT `fk_jobs_contractors` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  PRIMARY KEY (`supplier_id`,`maker_id`),
+  UNIQUE KEY `maker_id_UNIQUE` (`maker_id`),
+  UNIQUE KEY `supplier_id_UNIQUE` (`supplier_id`),
+  KEY `fk_creditcards_maker1_idx` (`maker_id`),
+  KEY `fk_creditcards_supplier1_idx` (`supplier_id`),
+  CONSTRAINT `fk_creditcards_maker1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_creditcards_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `jobs`
+-- Dumping data for table `cards`
 --
 
-LOCK TABLES `jobs` WRITE;
-/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
-INSERT INTO `jobs` VALUES ('#πz–ª\Êë[†H\¬|2',4,0,'Clean Fill',24.00,'2017-01-14 08:00:00','2017-01-01 23:11:28','2017-01-02 00:02:48','åîïj\ƒ\œÊ™ü†H\¬|2'),('%3Å\–\√\Êë[†H\¬|2',4,0,'Recycled Base Material',23423.00,'2017-01-14 08:00:00','2017-01-02 00:08:47','2017-01-02 00:16:25','åîïj\ƒ\œÊ™ü†H\¬|2'),('Z?£\–\ƒ\Êë[†H\¬|2',4,0,'Topsoil - Average',955.45,'2017-01-14 08:00:00','2017-01-02 00:17:25','2017-01-02 00:24:40','åîïj\ƒ\œÊ™ü†H\¬|2'),('jX±:\–\«\Êë[†H\¬|2',0,0,'Recycled Base Material',43.00,'2017-01-21 08:00:00','2017-01-02 00:39:21','2017-01-02 00:39:21','åîïj\ƒ\œÊ™ü†H\¬|2'),('ë≤ñ\È\–\»\Êë[†H\¬|2',4,0,'Topsoil - Average',848.40,'2017-01-13 08:00:00','2017-01-02 00:47:36','2017-01-02 00:50:02','åîïj\ƒ\œÊ™ü†H\¬|2'),('ü‘ãÒ\–\«\Êë[†H\¬|2',4,0,'Topsoil - Average',47.00,'2017-01-21 08:00:00','2017-01-02 00:40:51','2017-01-02 00:46:39','åîïj\ƒ\œÊ™ü†H\¬|2'),('π◊ø,\–\≈\Êë[†H\¬|2',1,0,'Topsoil - Economy',858559.30,'2017-01-28 08:00:00','2017-01-02 00:27:15','2017-01-02 00:27:34','åîïj\ƒ\œÊ™ü†H\¬|2'),('ΩG\Ìë\–\∆\Êë[†H\¬|2',4,0,'Topsoil - Economy',7890.00,'2017-01-26 08:00:00','2017-01-02 00:34:31','2017-01-02 00:53:47','åîïj\ƒ\œÊ™ü†H\¬|2'),('˘π,\–\≈\Êë[†H\¬|2',2,0,'Rip-Rap',2321.00,'2017-01-17 08:00:00','2017-01-02 00:29:02','2017-01-02 00:33:05','åîïj\ƒ\œÊ™ü†H\¬|2'),('˝\’®\—N\Êë[†H\¬|2',4,0,'Recycled Base Material',42.00,'2017-01-21 08:00:00','2017-01-02 16:49:34','2017-01-02 20:31:26','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2');
-/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
+LOCK TABLES `cards` WRITE;
+/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `machine_labor_rates`
+--
+
+DROP TABLE IF EXISTS `machine_labor_rates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `machine_labor_rates` (
+  `id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `cycle_time` varchar(45) NOT NULL,
+  `yield` varchar(45) NOT NULL,
+  `machine_laborrate` varchar(45) NOT NULL,
+  `laborer` varchar(45) NOT NULL,
+  `created_at` varchar(45) NOT NULL,
+  `updated_at` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`,`offer_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_machine_labor_offer1_idx` (`offer_id`),
+  CONSTRAINT `fk_machine_labor_offer1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `machine_labor_rates`
+--
+
+LOCK TABLES `machine_labor_rates` WRITE;
+/*!40000 ALTER TABLE `machine_labor_rates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `machine_labor_rates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `makers`
+--
+
+DROP TABLE IF EXISTS `makers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `makers` (
+  `id` binary(16) NOT NULL,
+  `company` varchar(45) NOT NULL,
+  `contact` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `picture` varchar(45) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `makers`
+--
+
+LOCK TABLES `makers` WRITE;
+/*!40000 ALTER TABLE `makers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `makers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materials`
+--
+
+DROP TABLE IF EXISTS `materials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `materials` (
+  `id` binary(16) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `cost` decimal(12,2) NOT NULL,
+  `unit_cost` decimal(12,2) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `offer_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`,`offer_id`),
+  KEY `fk_raw_material_offer1_idx` (`offer_id`),
+  CONSTRAINT `fk_raw_material_offer1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materials`
+--
+
+LOCK TABLES `materials` WRITE;
+/*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -125,20 +220,25 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `id` binary(16) NOT NULL,
-  `message` varchar(1000) NOT NULL,
+  `message_supplier` varchar(45) DEFAULT NULL,
+  `pdf_attach_s` varchar(45) DEFAULT NULL,
+  `jpg_attach_m` varchar(45) DEFAULT NULL,
+  `message_maker` varchar(45) DEFAULT NULL,
+  `pdf_attach_m` varchar(45) DEFAULT NULL,
+  `jpg_attach_s` varchar(45) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `application_id` binary(16) NOT NULL,
-  `user_id` binary(16) DEFAULT NULL,
-  `trucker_id` binary(16) DEFAULT NULL,
+  `supplier_id` binary(16) DEFAULT NULL,
+  `maker_id` binary(16) DEFAULT NULL,
+  `proposal_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_messages_pendings1_idx` (`application_id`),
-  KEY `fk_messages_contractors1_idx` (`user_id`),
-  KEY `fk_messages_truckers1_idx` (`trucker_id`),
-  CONSTRAINT `fk_messages_contractors1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_messages_pendings1` FOREIGN KEY (`application_id`) REFERENCES `applications` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_messages_truckers1` FOREIGN KEY (`trucker_id`) REFERENCES `truckers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_message_supplier1_idx` (`supplier_id`),
+  KEY `fk_message_maker1_idx` (`maker_id`),
+  KEY `fk_message_proposals1_idx` (`proposal_id`),
+  CONSTRAINT `fk_message_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_message_maker1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_message_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -148,90 +248,202 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES ('!g8\—O\Êë[†H\¬|2','Hey man','2017-01-02 16:50:33','2017-01-02 16:50:33','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('#yòâ\—O\Êë[†H\¬|2','Hey','2017-01-02 16:50:37','2017-01-02 16:50:37','\\k\Ì\—O\Êë[†H\¬|2',NULL,'™V\‹s\∆4Ê™ü†H\¬|2'),('*q\—O\Êë[†H\¬|2','When can you get the job done?','2017-01-02 16:50:48','2017-01-02 16:50:48','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('1œÅ:\—O\Êë[†H\¬|2','??','2017-01-02 16:51:01','2017-01-02 16:51:01','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('{lJ\—m\Êë[†H\¬|2','lol','2017-01-02 20:27:50','2017-01-02 20:27:50','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('û\ mC\—P\Êë[†H\¬|2','hey','2017-01-02 17:01:14','2017-01-02 17:01:14','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('¢≥\ﬁ\√\—P\Êë[†H\¬|2','asd','2017-01-02 17:01:20','2017-01-02 17:01:20','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('ß˚ûı\—P\Êë[†H\¬|2','mlml','2017-01-02 17:01:29','2017-01-02 17:01:29','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('¨s-¡\—P\Êë[†H\¬|2','check','2017-01-02 17:01:37','2017-01-02 17:01:37','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('≠\…\‚\—l\Êë[†H\¬|2','check','2017-01-02 20:22:05','2017-01-02 20:22:05','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('¥ôóF\—P\Êë[†H\¬|2','momom','2017-01-02 17:01:50','2017-01-02 17:01:50','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('∑ji\—\—m\Êë[†H\¬|2','one more','2017-01-02 20:29:30','2017-01-02 20:29:30','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('∏C?\—P\Êë[†H\¬|2','jkl','2017-01-02 17:01:56','2017-01-02 17:01:56','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('ºW[\ﬂ\—m\Êë[†H\¬|2','check','2017-01-02 20:29:39','2017-01-02 20:29:39','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('¿ﬂÜr\—m\Êë[†H\¬|2','mol','2017-01-02 20:29:46','2017-01-02 20:29:46','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('\≈4c\Ó\—m\Êë[†H\¬|2','check again','2017-01-02 20:29:53','2017-01-02 20:29:53','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('\…\€o\—m\Êë[†H\¬|2','lola','2017-01-02 20:30:01','2017-01-02 20:30:01','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('\Ã\ÿ\Î\"\—m\Êë[†H\¬|2','mla\'','2017-01-02 20:30:06','2017-01-02 20:30:06','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('\œ%]\—m\Êë[†H\¬|2','mopq','2017-01-02 20:30:10','2017-01-02 20:30:10','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('“°†¶\—m\Êë[†H\¬|2','Hey you','2017-01-02 20:30:16','2017-01-02 20:30:16','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL),('\÷8ÜO\—m\Êë[†H\¬|2','sup','2017-01-02 20:30:22','2017-01-02 20:30:22','\\k\Ì\—O\Êë[†H\¬|2',NULL,'™V\‹s\∆4Ê™ü†H\¬|2'),('\⁄˚µT\—m\Êë[†H\¬|2','nothing much','2017-01-02 20:30:30','2017-01-02 20:30:30','\\k\Ì\—O\Êë[†H\¬|2',NULL,'™V\‹s\∆4Ê™ü†H\¬|2'),('\Ëµ!Ü\—O\Êë[†H\¬|2','hey','2017-01-02 16:56:08','2017-01-02 16:56:08','\\k\Ì\—O\Êë[†H\¬|2','Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2',NULL);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `pickup`
+-- Table structure for table `offers`
 --
 
-DROP TABLE IF EXISTS `pickup`;
+DROP TABLE IF EXISTS `offers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pickup` (
-  `p_address` varchar(45) NOT NULL,
-  `p_city` varchar(45) NOT NULL,
-  `p_state` varchar(2) NOT NULL,
-  `p_zip` int(11) NOT NULL,
-  `p_loader` tinyint(1) NOT NULL,
-  `job_id` binary(16) NOT NULL,
-  PRIMARY KEY (`job_id`),
-  UNIQUE KEY `job_id_UNIQUE` (`job_id`),
-  KEY `fk_pickup_location_jobs1_idx` (`job_id`),
-  CONSTRAINT `fk_pickup_location_jobs1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+CREATE TABLE `offers` (
+  `id` binary(16) NOT NULL,
+  `sga` varchar(45) DEFAULT NULL,
+  `profit` decimal(12,2) NOT NULL,
+  `overhead` decimal(12,2) NOT NULL,
+  `service` decimal(12,2) NOT NULL,
+  `total` decimal(12,2) NOT NULL,
+  `proposal_id` binary(16) NOT NULL,
+  `supplier_id` binary(16) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`,`proposal_id`,`supplier_id`),
+  KEY `fk_offer_proposals1_idx` (`proposal_id`),
+  KEY `fk_offer_supplier1_idx` (`supplier_id`),
+  CONSTRAINT `fk_offer_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_offer_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pickup`
+-- Dumping data for table `offers`
 --
 
-LOCK TABLES `pickup` WRITE;
-/*!40000 ALTER TABLE `pickup` DISABLE KEYS */;
-INSERT INTO `pickup` VALUES ('1105 Cantara Court','San Jose','CA',95127,0,'#πz–ª\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'%3Å\–\√\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'Z?£\–\ƒ\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'jX±:\–\«\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'ë≤ñ\È\–\»\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'ü‘ãÒ\–\«\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'π◊ø,\–\≈\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'ΩG\Ìë\–\∆\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'˘π,\–\≈\Êë[†H\¬|2'),('1105 Cantara Court','San Jose','CA',95127,0,'˝\’®\—N\Êë[†H\¬|2');
-/*!40000 ALTER TABLE `pickup` ENABLE KEYS */;
+LOCK TABLES `offers` WRITE;
+/*!40000 ALTER TABLE `offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `offers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `truckers`
+-- Table structure for table `processes`
 --
 
-DROP TABLE IF EXISTS `truckers`;
+DROP TABLE IF EXISTS `processes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `truckers` (
+CREATE TABLE `processes` (
+  `process` varchar(45) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`process`),
+  UNIQUE KEY `process_UNIQUE` (`process`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes`
+--
+
+LOCK TABLES `processes` WRITE;
+/*!40000 ALTER TABLE `processes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `processes_has_suppliers`
+--
+
+DROP TABLE IF EXISTS `processes_has_suppliers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `processes_has_suppliers` (
+  `supplier_id` binary(16) NOT NULL,
+  `processes_process` varchar(45) NOT NULL,
+  PRIMARY KEY (`supplier_id`,`processes_process`),
+  KEY `fk_processes_has_supplier_supplier1_idx` (`supplier_id`),
+  KEY `fk_processes_has_suppliers_processes1_idx` (`processes_process`),
+  CONSTRAINT `fk_processes_has_supplier_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_processes_has_suppliers_processes1` FOREIGN KEY (`processes_process`) REFERENCES `processes` (`process`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes_has_suppliers`
+--
+
+LOCK TABLES `processes_has_suppliers` WRITE;
+/*!40000 ALTER TABLE `processes_has_suppliers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processes_has_suppliers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proposals`
+--
+
+DROP TABLE IF EXISTS `proposals`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proposals` (
   `id` binary(16) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `truck_type` tinyint(1) NOT NULL,
-  `make` varchar(45) NOT NULL,
-  `model` varchar(45) NOT NULL,
-  `year` smallint(4) NOT NULL,
+  `item` varchar(45) NOT NULL,
+  `quantity` int(11) NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
+  `completion` datetime NOT NULL,
+  `attachment` varchar(45) DEFAULT NULL,
+  `nda` varchar(45) DEFAULT NULL,
+  `maker_id` binary(16) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
+  KEY `fk_proposals_maker1_idx` (`maker_id`),
+  CONSTRAINT `fk_proposals_maker1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `truckers`
+-- Dumping data for table `proposals`
 --
 
-LOCK TABLES `truckers` WRITE;
-/*!40000 ALTER TABLE `truckers` DISABLE KEYS */;
-INSERT INTO `truckers` VALUES ('a¿?\ƒ\œÊ™ü†H\¬|2','sonny@tosco.com','Sonny','Tosco','$2a$10$b6/F.tutBf434cnXXSfLZ.KHdIM335bYFzylpwWDhhhXGiDavNNJm',0,'Honda','Truck',1990,'asdfg','2016-12-17 19:08:55','2016-12-17 19:08:55'),('É¸ì\∆0Ê™ü†H\¬|2','alex@wap.com','Alex','Wap','$2a$10$cbqG6wB7gSPDGdpj9jrZbeutbT3wggVhgolPvfPL6b3Jw.0rxSnQa',1,'Nissan','Honda',1980,NULL,'2016-12-19 13:16:22','2016-12-19 13:16:22'),('™V\‹s\∆4Ê™ü†H\¬|2','minh@pham.com','Minh','Pham','$2a$10$ATZCa87UaO8BexzQ1edUPe6XazvgZtc1IRemgo5I95AXPsu9XzYC.',0,'Something','Something',1980,NULL,'2016-12-19 13:46:04','2016-12-19 13:46:04'),('≥∂^\Ï»é\Ê≤†H\¬|2','mkj@non.com','mjk','mk','$2a$10$.4F/fUlfdPBThGG9x1qhR.i9RiLVDACEGJZnYqVZ1R9mF2OsO8itW',0,'vf','bd',2002,NULL,'2016-12-22 13:36:30','2016-12-22 13:36:30'),('¿8¡Z\»\Ê≤†H\¬|2','vr@vsd.co','vd','ge','$2a$10$XKmspl9M/rD47QbF8gqPjuKfjYyNQ96jdmOrvOsuqlzmKYV3SlAgi',0,'vsd','mko',1980,NULL,'2016-12-21 23:39:20','2016-12-21 23:39:20');
-/*!40000 ALTER TABLE `truckers` ENABLE KEYS */;
+LOCK TABLES `proposals` WRITE;
+/*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users`
+-- Table structure for table `reports`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `reports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `reports` (
   `id` binary(16) NOT NULL,
+  `input` varchar(45) NOT NULL,
+  `output` varchar(45) NOT NULL,
+  `shipping` varchar(45) NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `created_at` varchar(45) NOT NULL,
+  `updated_at` varchar(45) NOT NULL,
+  `supplier_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`,`supplier_id`),
+  KEY `fk_daily_prod_supplier1_idx` (`supplier_id`),
+  CONSTRAINT `fk_daily_prod_supplier1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports`
+--
+
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports_has_materials`
+--
+
+DROP TABLE IF EXISTS `reports_has_materials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports_has_materials` (
+  `report_id` binary(16) NOT NULL,
+  `material_id` binary(16) NOT NULL,
+  PRIMARY KEY (`report_id`,`material_id`),
+  KEY `fk_daily_prod_has_raw_material_raw_material1_idx` (`material_id`),
+  KEY `fk_daily_prod_has_raw_material_daily_prod1_idx` (`report_id`),
+  CONSTRAINT `fk_daily_prod_has_raw_material_daily_prod1` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_daily_prod_has_raw_material_raw_material1` FOREIGN KEY (`material_id`) REFERENCES `materials` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports_has_materials`
+--
+
+LOCK TABLES `reports_has_materials` WRITE;
+/*!40000 ALTER TABLE `reports_has_materials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports_has_materials` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `suppliers`
+--
+
+DROP TABLE IF EXISTS `suppliers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `suppliers` (
+  `id` binary(16) NOT NULL,
+  `company` varchar(45) NOT NULL,
+  `contact` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `picture` varchar(45) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
@@ -241,13 +453,48 @@ CREATE TABLE `users` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `suppliers`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('\\U\»\Z\Ê≤†H\¬|2','v@sdv.cs','ber','ber','$2a$10$FbUnohbKAY8PHVnYIMZO4uRS8ZpvD9ZZxH1CBdjoFMNHGTMTXT7ze','2016-12-21 23:41:18','2016-12-21 23:41:18'),('\Â\"Ω\»\Ê≤†H\¬|2','ph@vo.com','Ph','Vo','$2a$10$gwhhcopBT0BL9ynCirM6ieWeSUByzTANbzTmY1uaEurItL/YwgyZe','2016-12-21 23:34:48','2016-12-21 23:34:48'),(' \◊\Óâ\»\Ê≤†H\¬|2','ca@la.com','vas','al','$2a$10$zF0X5lTl8MRypo1FYY5HBuh.HHTJ/miuXsy7NlHsv76BcxBlMbZay','2016-12-22 00:10:40','2016-12-22 00:10:40'),('.r¢\»\Ê≤†H\¬|2','jinny@kim.com','Jinny','Kim','$2a$10$K9l5YgreuP0C1J74RCb.Ouj3fvU.1s7g53vjpxzQ3oondRL5YcQdO','2016-12-21 22:38:00','2016-12-21 22:38:00'),('/\·ü?\»\Ê≤†H\¬|2','je@ga.com','Je','Ga','$2a$10$bpnUPUnlTnryT1uUMV0ELedpPd0H/1rpGdkRasrEWTxbRR1QzZWpi','2016-12-21 23:35:18','2016-12-21 23:35:18'),('~i˚e\»\Ê≤†H\¬|2','philip@vo.vom','Philip','Vo','$2a$10$sDthJwf2NW3f1A0wYm5iHeCRc94L.VHnyk5x.BFUIjq4jNDCmg8KK','2016-12-21 23:30:20','2016-12-21 23:30:20'),('U\Ëí\»\Ê≤†H\¬|2','moi@moi.c','mi','moi','$2a$10$N3XMdnQQvAau.NliXl/i/O6oDR/02tbepJ19ZPKt7Pr87o1V63mT2','2016-12-22 00:13:19','2016-12-22 00:13:19'),('åîïj\ƒ\œÊ™ü†H\¬|2','jessica@ganda.com','Jessica','Ganda','$2a$10$YRDOiOlX/Aok.dWmwT8iNeOafr1sykDLkeS7ep4ExgTLdc/lAMq2m','2016-12-17 19:10:07','2016-12-17 19:10:07'),('´óy\\\»\Ê≤†H\¬|2','apsa@as.co','asd','acca','$2a$10$SwLAvr5HmvvxL1nfXiqOreIsiQTH9A7jrEl5A.kIEwam7uXMepy6G','2016-12-21 23:38:45','2016-12-21 23:38:45'),('Ωù+t»é\Ê≤†H\¬|2','be@vsd.vom','vd','ber','$2a$10$Ft4busmCRK5RsJVL4ESrSeLTGCDO3UxwPbkXIfKp1dAmkQn39vTCG','2016-12-22 13:36:47','2016-12-22 13:36:47'),('\…p¸\»\Ê≤†H\¬|2','vsd@vsd.sd','vs','vsd','$2a$10$6W/Gg8xBybW4LDaZBhFBj.z1aIVSkGsz7kftfj2ekJ4wbVGVQ3RtG','2016-12-22 00:08:14','2016-12-22 00:08:14'),('\œ\◊2∂\»\Ê≤†H\¬|2','vsd@vssad.sd','vs','vsd','$2a$10$S8tGCDDrH8vI1eiGS.RrIeLQrkh.WvRGKreEOQqrFCoyWSy/XjIgi','2016-12-22 00:08:24','2016-12-22 00:08:24'),('‘î\…\»\Ê≤†H\¬|2','vsd@o.xio','bds','bsaf','$2a$10$WYdOqN/6ijL5jhZHSLXorOuMJ1WCmMwdPVPjtWJVuhyrbyqDU3/te','2016-12-21 23:39:54','2016-12-21 23:39:54'),('÷Ä¯\»\Ê≤†H\¬|2','al@wa.com','Al','Wa','$2a$10$ZNTx0sUurcw4JYjDrdxb6OEY36y3.YcShN9.dL61z9KuYvvM7iR5y','2016-12-21 23:32:48','2016-12-21 23:32:48'),('\Ï\‘Go\ƒ\ÊπÒ†H\¬|2','philiptranbavo@gmail.com','Philip','Vo','$2a$10$T6uSB/x5Q1IDijJCCKvRhup7wWimHaQblNNqdyWJgVP56L57HBNau','2016-12-16 20:10:51','2016-12-16 20:10:51'),('Ò\Î[è\ƒ\ﬂÊ™ü†H\¬|2','elliot@young.com','Elliot','Young','$2a$10$GtYWM1sI6.bmRj4Q1OPqI.78qO.xHxq2xVCWBVYWONh4kEC0Q6ppS','2016-12-17 21:07:29','2016-12-17 21:07:29');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `suppliers` WRITE;
+/*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
+INSERT INTO `suppliers` VALUES (';°∑∞\“6\Êë[†H\¬|2','hjk','hk','jkja@ia.cs','$2a$10$8EPsei0fuVnQXmFCPNlyseK3cAHuKC1UiBcsWuxFKPgy/7Piqh1T6',NULL,'2017-01-03 20:24:30','2017-01-03 20:24:30'),('g?E\“5\Êë[†H\¬|2','Coding Dojo','Philip Vo','philiptranbavo@gmail.com','$2a$10$Ov3nEtNrEWSrHvOyPZYnjOK2zRSNDR1COFClXYvF9ymGBqUhj7k7G',NULL,'2017-01-03 20:18:34','2017-01-03 20:18:34'),('pdJ˙\“6\Êë[†H\¬|2','mnjk','njk','kl@as.c','$2a$10$MprfvxfuFkDsmg5WAweWJe3fxfBylYuPc1/fAxrQmiTCmticS/Wp6',NULL,'2017-01-03 20:25:59','2017-01-03 20:25:59'),('íÇ,Ò\“5\Êë[†H\¬|2','Apply','Steve Jobs','steve@jobs.com','$2a$10$CycikiZJLnTOCiTAWIrzn.NZkqKotnfKH8lf6yibmf9lhRLw9NAGm',NULL,'2017-01-03 20:19:47','2017-01-03 20:19:47'),('¿xÜ\“6\Êë[†H\¬|2','supplier','supp','as@sa.cp','$2a$10$drOOKUIsf3IBDV19uk3BiOAUMKzxwuqMeJ72eVrphjLRPmXjMOike',NULL,'2017-01-03 20:28:13','2017-01-03 20:28:13'),('ˆ¡Àò\“7\Êë[†H\¬|2','mkl','nljk','nlk@mlk.co','$2a$10$hTwIz1SoFxjdNICkCLeZgergKu43IWmJav8es7wsusFqAO2o1s0aO',NULL,'2017-01-03 20:36:54','2017-01-03 20:36:54');
+/*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `urls`
+--
+
+DROP TABLE IF EXISTS `urls`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `urls` (
+  `homepage` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `twiiter` varchar(255) DEFAULT NULL,
+  `supplier_id` binary(16) DEFAULT NULL,
+  `maker_id` binary(16) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  UNIQUE KEY `supplier_id_UNIQUE` (`supplier_id`),
+  UNIQUE KEY `maker_id_UNIQUE` (`maker_id`),
+  KEY `fk_urls_suppliers1_idx` (`supplier_id`),
+  KEY `fk_urls_makers1_idx` (`maker_id`),
+  CONSTRAINT `fk_urls_suppliers1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_urls_makers1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `urls`
+--
+
+LOCK TABLES `urls` WRITE;
+/*!40000 ALTER TABLE `urls` DISABLE KEYS */;
+/*!40000 ALTER TABLE `urls` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -259,4 +506,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-03 15:24:12
+-- Dump completed on 2017-01-04 15:16:37

@@ -58,8 +58,7 @@ module.exports = {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
 									company: data[0].company,
-									contact: data[0].contact,
-									email: data[0].email
+									contact: data[0].contact
 								}, jwt_key);
 								callback(false, evergreen_token);
 							}
@@ -115,8 +114,7 @@ module.exports = {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
 														company: data[0].company,
-														contact: data[0].contact,
-														email: data[0].email
+														contact: data[0].contact
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -192,8 +190,7 @@ module.exports = {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
 														company: data[0].company,
-														contact: data[0].contact,
-														email: data[0].email
+														contact: data[0].contact
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -231,8 +228,7 @@ module.exports = {
 							var evergreen_token = jwt.sign({
 								id: data[0].id,
 								company: data[0].company,
-								contact: data[0].contact,
-								email: data[0].email
+								contact: data[0].contact
 							}, jwt_key);
 							callback(false, evergreen_token);
 						}

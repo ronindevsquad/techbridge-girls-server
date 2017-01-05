@@ -67,7 +67,8 @@ app.run(function($rootScope, $timeout) {
 		setPayload();
 		if(payload) {
 			$rootScope.id = payload.id;
-			$rootScope.name = payload.first_name + " " + payload.last_name;
+			$rootScope.company = payload.company;
+			$rootScope.contact = payload.contact;
 			// $rootScope.messages = [];
 		}
 		
@@ -284,8 +285,8 @@ app.run(function($rootScope, $timeout) {
 		evergreen_token = undefined;
 		socket = undefined;
 		$rootScope.id = undefined;
-		$rootScope.name = undefined;
-		$rootScope.user_type = undefined;
+		$rootScope.company = undefined;
+		$rootScope.contact = undefined;
 		
 		// Relocate:
 		location.href = ("/");
