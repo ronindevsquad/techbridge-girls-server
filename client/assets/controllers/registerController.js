@@ -7,6 +7,7 @@ app.controller("registerController", function ($scope, $rootScope, $location, ma
 		$rootScope.user_type = "supplier";
 
 	$scope.register = function() {
+		console.log($scope.new_user);
 		$scope.error = null;
 		if ($scope.new_user.password != $scope.new_user.confirm_password)
 			$scope.error = "Passwords do not match."

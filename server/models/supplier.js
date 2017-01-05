@@ -131,12 +131,15 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
+		console.log("Registration attempted.");
+		console.log(req.body);
 		if (!req.body.company || !req.body.contact || !req.body.email || !req.body.password || !req.body.confirm_password)
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
 			var query = "SELECT email FROM suppliers WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
+				console.log(err)
 				if (err)
 					callback({errors: {database: {message: "Please contact an admin."}}})
 				// If email already exists:
@@ -176,6 +179,7 @@ module.exports = {
 									};
 									connection.query("INSERT INTO suppliers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
+										console.log(err);
 										if (err)
 											callback({errors: {database: {message: "Please contact an admin."}}})
 										else {
