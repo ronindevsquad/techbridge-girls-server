@@ -1,18 +1,18 @@
-app.controller("registerController", function ($scope, $rootScope, $location, makersFactory, suppliersFactory) {
+app.controller("registerController", function ($scope, $location, usersFactory) {
 	if (payload)
 		$location.url("/");
-	else if ($location.path().includes("maker"))
-		$rootScope.user_type = "maker";
-	else if ($location.path().includes("supplier"))
-		$rootScope.user_type = "supplier";
 
 	$scope.register = function() {
-		console.log($scope.new_user);
+		if ($location.path().includes("maker"))
+			$scope.new_user.type = 0;
+		else if ($location.path().includes("supplier"))
+			$scope.new_user.type = 1;
+
 		$scope.error = null;
 		if ($scope.new_user.password != $scope.new_user.confirm_password)
 			$scope.error = "Passwords do not match."
-		else if ($scope.user_type == "maker")
-			makersFactory.register($scope.new_user, function(data) {
+		else
+			usersFactory.register($scope.new_user, function(data) {
 				if (data.errors)
 					for (key in data.errors) {
 						$scope.error = data.errors[key].message;
@@ -20,19 +20,10 @@ app.controller("registerController", function ($scope, $rootScope, $location, ma
 					}
 				else {
 					$scope.setUser();
-					$location.url("/success-maker");
-				}
-			});
-		else if ($scope.user_type == "supplier")
-			suppliersFactory.register($scope.new_user, function(data) {
-				if (data.errors)
-					for (key in data.errors) {
-						$scope.error = data.errors[key].message;
-						break;
-					}
-				else {
-					$scope.setUser();
-					$location.url("/success-supplier");
+					if ($scope.type == 0)
+						$location.url('/success-maker');
+					else if ($scope.type == 1)
+						$location.url('/success-supplier');
 				}
 			});
 	}

@@ -28,19 +28,20 @@
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="envelope icon"></i>
-                    <input type="text" name="email" placeholder="E-mail address">
+                    <input type="text" name="email" placeholder="E-mail address" ng-model="user.email" required>
                   </div>
                 </div> <!-- .field -->
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="lock icon"></i>
-                    <input type="password" name="password" placeholder="Password">
+                    <input type="password" name="password" placeholder="Password" ng-model="user.password" required>
                   </div>
                   <div class="field link">
                     <a href="#" title="Lost Password">I forgot my password</a>
                   </div>
                 </div> <!-- .field -->
-                <div class="ui fluid big black uppercase submit button">Login</div>
+                <div class="ui fluid big black uppercase submit button" ng-click="login()">Login</div>
+                <p style="color: red" ng-bind="error"></p>
               </div> <!-- .segment -->
 
             </form>

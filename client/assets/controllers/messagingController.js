@@ -1,8 +1,8 @@
 app.controller('messagingController', function ($scope, $location) {
-	if (payload && $scope.user_type == "maker") {
+	if (payload && $scope.type == 0) {
 
 	}
-	else if (payload && $scope.user_type == "supplier") {
+	else if (payload && $scope.type == 1) {
 
 	}	
 	else
