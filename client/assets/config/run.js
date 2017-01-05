@@ -6,7 +6,6 @@ var payload, evergreen_token, socket;
 // Parse payload and evergreen_token from cookies:
 function setPayload() {
 	var cookies = document.cookie.split(";");
-	console.log(cookies)
 	for (var i = 0; i < cookies.length; i++) {
 		if (cookies[i].indexOf("evergreen_token=") != -1) {
 			evergreen_token = cookies[i].split("evergreen_token=")[1];
@@ -66,9 +65,9 @@ app.run(function($rootScope, $timeout) {
 	// Define and invoke function to set user:
 	($rootScope.setUser = function() {
 		setPayload();
-		console.log(payload)
 		if(payload) {
 			$rootScope.id = payload.id;
+			$rootScope.type = payload.type;
 			$rootScope.company = payload.company;
 			$rootScope.contact = payload.contact;
 			// $rootScope.messages = [];
@@ -287,6 +286,7 @@ app.run(function($rootScope, $timeout) {
 		evergreen_token = undefined;
 		socket = undefined;
 		$rootScope.id = undefined;
+		$rootScope.type = undefined;
 		$rootScope.company = undefined;
 		$rootScope.contact = undefined;
 		

@@ -1,5 +1,10 @@
 app.controller('categorySelectorController', function ($scope, $location, $routeParams, $cookies, suppliersFactory) {
-  console.log("categorySelectorController");
+  if (payload && $scope.type == 1) {
+
+  }
+  else
+    $location.url('/');
+
   $scope.processesList = [] //This will be sent to the server
   //When a category is selected, it needs to be added or removed from the processesList
   $scope.toggleProcess = function(processName){

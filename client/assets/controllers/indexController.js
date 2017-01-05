@@ -1,9 +1,8 @@
 app.controller('indexController', function ($scope, $location) {
-	console.log(payload)
 	if (payload) {
-		if ($scope.user_type == 'maker')
+		if ($scope.type == 0)
 			$location.url('/account-maker-dashboard');
-		else if ($scope.user_type == 'supplier')
+		else if ($scope.type == 1)
 			$location.url('/account-supplier-dashboard');
 	}
 });

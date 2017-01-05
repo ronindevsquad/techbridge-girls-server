@@ -6,7 +6,7 @@ var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
 	// index: function(callback) {
-	// 	connection.query("SELECT *, HEX(id) AS id FROM suppliers", function(err, data) {
+	// 	connection.query("SELECT *, HEX(id) AS id FROM users", function(err, data) {
 	// 		if (err)
 	// 			callback({errors: {database: {message: "Please contact an admin."}}})
 	// 		else
@@ -19,13 +19,13 @@ module.exports = {
 	// 			callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 	// 		else {
 	// 			var response = {};
-	// 			var query = "SELECT * FROM suppliers where HEX(id) = ? LIMIT 1";
+	// 			var query = "SELECT * FROM users where HEX(id) = ? LIMIT 1";
 	// 			connection.query(query, req.params.id, function(err){
 	// 				if (err)
 	// 					callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 	// 				else {
-	// 					response["supplier"] = data;
-	// 					var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(supplier_id) = ?"
+	// 					response["user"] = data;
+	// 					var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(user_id) = ?"
 	// 					connection.query(query, req.params.id, function(err, data){
 	// 						if (err)
 	// 							callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
@@ -44,19 +44,20 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "UPDATE suppliers SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+				var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
 				connection.query(query, [req.body, data.id], function(err) {
 					if (err)
 						callback({errors: {database: {message: "Please contact an admin."}}});
 					else {
-						// Retrieve updated supplier:
-						var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE HEX(id) = ? LIMIT 1";
+						// Retrieve updated user:
+						var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
 						connection.query(query, data.id, function(err, data) {
 							if (err)
 								callback({errors: {database: {message: "Please contact an admin."}}})
 							else {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
+									type: data[0].type,
 									company: data[0].company,
 									contact: data[0].contact
 								}, jwt_key);
@@ -73,7 +74,7 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else
-				connection.query("DELETE FROM suppliers WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
+				connection.query("DELETE FROM users WHERE HEX(id) = ? LIMIT 1", data.id, function(err) {
 					if (err)
 						callback({errors: {database: {message: "Please contact an admin."}}});
 					else
@@ -100,19 +101,20 @@ module.exports = {
 									var newPassword = {
 										password: hash
 									};
-									var query = "UPDATE suppliers SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+									var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
 									connection.query(query, [newPassword, data.id], function(err) {
 										if (err)
 											callback({errors: {database: {message: "Please contact an admin."}}});
 										else {
-											// Retrieve updated supplier:
-											var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE HEX(id) = ? LIMIT 1";
+											// Retrieve updated user:
+											var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
 											connection.query(query, data.id, function(err, data) {
 												if (err)
 													callback({errors: {database: {message: "Please contact an admin."}}})
 												else {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
+														type: data[0].type,
 														company: data[0].company,
 														contact: data[0].contact
 													}, jwt_key);
@@ -129,11 +131,12 @@ module.exports = {
 		});
 	},
 	register: function(req, callback) {
-		if (!req.body.company || !req.body.contact || !req.body.email || !req.body.password || !req.body.confirm_password)
+		if (req.body.type === undefined || !req.body.company || !req.body.contact || !req.body.email
+		|| !req.body.password || !req.body.confirm_password)
 			callback({errors: {form : {message: "All form fields are required."}}});
 		else {
 			// Check for unique email:
-			var query = "SELECT email FROM suppliers WHERE email = ? LIMIT 1";
+			var query = "SELECT email FROM users WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: "Please contact an admin."}}})
@@ -155,7 +158,7 @@ module.exports = {
 				// Validate confirm_password:
 				else if (req.body.password != req.body.confirm_password)
 					callback({errors: {confirm_password: {message: "Passwords do not match."}}});
-				// Else valid new supplier:
+				// Else valid new user:
 				else
 					// Encrypt password and save:
 					bcrypt.genSalt(10, function(err, salt) {
@@ -167,24 +170,26 @@ module.exports = {
 									callback({errors: {hash: {message: "Hash error."}}})
 								else {
 									var data = {
+										type: req.body.type,
 										company: req.body.company,
 										contact: req.body.contact,
-										email: req.body.email,  //in the database it is called email but in the front end it is called email
+										email: req.body.email,
 										password: hash
 									};
-									connection.query("INSERT INTO suppliers SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
+									connection.query("INSERT INTO users SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
 									created_at = NOW(), updated_at = NOW()", data, function(err) {
 										if (err)
 											callback({errors: {database: {message: "Please contact an admin."}}})
 										else {
-											// Retrieve new supplier:
-											var query = "SELECT *, HEX(id) as id FROM suppliers WHERE email = ? LIMIT 1";
+											// Retrieve new user:
+											var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
 											connection.query(query, req.body.email, function(err, data) {
 												if (err)
 													callback({errors: {database: {message: "Please contact an admin."}}})
 												else {
 													var evergreen_token = jwt.sign({
 														id: data[0].id,
+														type: data[0].type,
 														company: data[0].company,
 														contact: data[0].contact
 													}, jwt_key);
@@ -206,8 +211,8 @@ module.exports = {
 		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
 			callback({errors: {password: {message: "Invalid password."}}});
 		else {
-			// Get supplier by email:
-			var query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
+			// Get user by email:
+			var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
 			connection.query(query, req.body.email, function(err, data) {
 				if (err)
 					callback({errors: {database: {message: "Please contact an admin."}}});
@@ -217,12 +222,13 @@ module.exports = {
 					// Check valid password:
 					bcrypt.compare(req.body.password, data[0].password, function(err, isMatch) {
 						if (err)
-							callback({errors: {bcrypt: {message: "Invalid email/password, try facebook login."}}});
+							callback({errors: {bcrypt: {message: "Invalid email/password."}}});
 						else if (!isMatch)
 							callback({errors: {password: {message: "Email/password does not match."}}});
 						else {
 							var evergreen_token = jwt.sign({
 								id: data[0].id,
+								type: data[0].type,
 								company: data[0].company,
 								contact: data[0].contact
 							}, jwt_key);
