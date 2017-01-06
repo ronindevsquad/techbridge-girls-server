@@ -403,13 +403,13 @@
   text-align: center;
   line-height: 33px;
   z-index: 980;
-  background: #f5a623 url(../static/img/flag.png) 50% no-repeat;
+  background: #f5a623 url(/static/img/flag.png) 50% no-repeat;
   background-size: 10px;
   margin-left: -9px;
   top: 11px;
 }
 .timeline.items li:first-child:after {
-  
+
 }
 .timeline.items li:last-child:before,
 .timeline.items li.done:before {
