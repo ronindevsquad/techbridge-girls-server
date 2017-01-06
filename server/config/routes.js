@@ -1,5 +1,7 @@
 var users = require('../controllers/users.js');
 var offers = require('../controllers/offers.js');
+var processes = require('../controllers/processes');
+
 
 module.exports = function(app) {
 	// USERS
@@ -11,6 +13,11 @@ module.exports = function(app) {
 	app.post('/users/register', users.register);
 	app.post('/users/login', users.login);
 
+
 	//OFFERS
 	app.get('/api/offers', offers.index)
+}
+
+	// PROCESSES
+	app.post('/api/processes/set', processes.set);
 }
