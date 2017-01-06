@@ -1,10 +1,13 @@
 app.factory('offersFactory', function($http, $cookies) {
 	return {
-		// index: function(callback) {
-		// 	$http.get('/api/users').then(function(res) {
-		// 		callback(res.data);
-		// 	});
-		// },
+		//index will only return offers that correspond to the ID of the user.
+		index: function(callback) {
+			$http.get('/api/offers', {
+				headers: {'authorization': `Bearer ${$cookies.get('ronin_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			});
+		},
 		show: function(id, callback) {
 			$http.get(`/api/offers/${id}`, {
 				headers: {'authorization': `Bearer ${$cookies.get('ronin_token')}`}

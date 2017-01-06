@@ -8,5 +8,12 @@ app.controller('trackingController', function ($scope, $location, offersFactory,
 	}
 	else
 		$location.url('/');
-
+// When the document loads, retrieve the offers (that have been accepted) and reports associated with the id logged in
+	offersFactory.index(function(data){
+		if (data.errors){
+			console.log(data.errors);
+		} else{
+			$scope.offers = data.offers
+		}
+	});
 });
