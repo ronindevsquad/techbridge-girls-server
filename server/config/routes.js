@@ -2,7 +2,6 @@ var users = require('../controllers/users.js');
 var offers = require('../controllers/offers.js');
 var processes = require('../controllers/processes');
 
-
 module.exports = function(app) {
 	// USERS
 	// app.get('/users', users.index);
@@ -16,7 +15,6 @@ module.exports = function(app) {
 
 	//OFFERS
 	app.get('/api/offers', offers.index)
-}
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);
