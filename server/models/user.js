@@ -148,7 +148,7 @@ module.exports = {
 					callback({errors: {last_name : {message: "Company name cannot be blank."}}});
 				// Validate contact:
 				else if (!/^[a-z ]{2,32}$/i.test(req.body.contact))
-					callback({errors: {last_name : {message: "Name must contain only letters."}}});
+					callback({errors: {last_name : {message: "Invalid contact name."}}});
 				// Validate email:
 				else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
 					callback({errors: {email : {message: "Invalid email. Email format should be: email@mailserver.com."}}});
@@ -170,14 +170,16 @@ module.exports = {
 									callback({errors: {hash: {message: "Hash error."}}})
 								else {
 									var data = {
+										id: "UNHEX(REPLACE(UUID(), '-', ''))",
 										type: req.body.type,
 										company: req.body.company,
 										contact: req.body.contact,
 										email: req.body.email,
-										password: hash
+										password: hash,
+										created_at: "NOW()",
+										updated_at: "NOW()"
 									};
-									connection.query("INSERT INTO users SET ?, id = UNHEX(REPLACE(UUID(), '-', '')), \
-									created_at = NOW(), updated_at = NOW()", data, function(err) {
+									connection.query("INSERT INTO users SET ?", data, function(err) {
 										if (err)
 											callback({errors: {database: {message: "Please contact an admin."}}})
 										else {

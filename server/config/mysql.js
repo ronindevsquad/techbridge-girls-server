@@ -1,4 +1,6 @@
 var mysql = require('mysql');
+var SqlString = require('mysql/lib/protocol/SqlString');
+
 var connection = mysql.createConnection({
 	host: 'localhost',
 	port: '8889',
@@ -6,6 +8,17 @@ var connection = mysql.createConnection({
 	password: 'root',
 	database: 'evergreendb'
 });
+
+connection.config.queryFormat = function(sql, values, timeZone) {
+	sql = SqlString.format(sql, values, false, timeZone);
+	console.log("this:", sql)
+	sql = sql.replace(/'NOW\(\)'/g, "NOW()");
+	sql = sql.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))");
+	sql = sql.replace(/'UNHEX/g, "UNHEX");
+	sql = sql.replace(/\\'\)'/g, "')");
+	sql = sql.replace(/\\/g, "");
+	return sql;
+};
 
 connection.connect(function(err) {
 	if (err)

@@ -1,4 +1,5 @@
-var users = require('../controllers/users.js');
+var users = require('../controllers/users');
+var processes = require('../controllers/processes');
 
 module.exports = function(app) {
 	// USERS
@@ -10,4 +11,6 @@ module.exports = function(app) {
 	app.post('/users/register', users.register);
 	app.post('/users/login', users.login);
 
+	// PROCESSES
+	app.post('/api/processes/set', processes.set);
 }

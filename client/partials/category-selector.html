@@ -39,37 +39,37 @@
               <div class="ui horizontal divider"></div>
               <div class="ui text container">
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item1">
-                  <label ng-click="toggleProcess('injection molding')" for="item1">Injection molding</label>
+                  <input type="checkbox" id="item1" ng-model="process['Injection Molding']">
+                  <label ng-click="toggleProcess('injection molding')" for="item1">Injection Molding</label>
                 </div> <!-- this is one category item -->
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item2">
-                  <label ng-click="toggleProcess('Packaging (primary)')" for="item2">Packaging <small>(primary)</small></label>
+                  <input type="checkbox" id="item2" ng-model="process['Packaging (Primary)']">
+                  <label ng-click="toggleProcess('Packaging (primary)')" for="item2">Packaging <small>(Primary)</small></label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item3">
-                  <label ng-click="toggleProcess('Packaging (secondary)')" for="item3">Packaging <small>(secondary)</small></label>
+                  <input type="checkbox" id="item3" ng-model="process['Packaging (Secondary)']">
+                  <label ng-click="toggleProcess('Packaging (secondary)')" for="item3">Packaging <small>(Secondary)</small></label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item4">
+                  <input type="checkbox" id="item4" ng-model="process['Die Casting']">
                   <label ng-click="toggleProcess('Die Casting')" for="item4">Die Casting</label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item5">
+                  <input type="checkbox" id="item5" ng-model="process['Formula Batching and Filling']">
                   <label ng-click="toggleProcess('Batching and Filling')" for="item5">Formula Batching and Filling</label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item6">
+                  <input type="checkbox" id="item6" ng-model="process['Tooling']">
                   <label ng-click="toggleProcess('Tooling')" for="item6">Tooling</label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
-                  <input type="checkbox" id="item7">
+                  <input type="checkbox" id="item7" ng-model="process['Automation & Test Equipment']">
                   <label ng-click="toggleProcess('Automation \& Test Equipment')" for="item7">Automation &amp; Test Equipment</label>
                 </div>
 
@@ -87,7 +87,7 @@
               </div>
               <div class="ui horizontal divider"></div>
               <!-- The next page should be /opened-proposals -->
-              <a ng-click="sendProcessesToServer()" class="ui evergreen upper green button">Continue</a>
+              <a ng-click="setProcesses()" class="ui evergreen upper green button">Continue</a>
 
             </div> <!-- .column -->
           </div> <!-- .screen.mid -->
