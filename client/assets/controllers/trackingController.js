@@ -1,4 +1,4 @@
-app.controller('trackingController', function ($scope, $location) {
+app.controller('trackingController', function ($scope, $location, offersFactory, reportsFactory) {
 	console.log("Inside Tracking Controller");
 	if (payload && $scope.type == 0) {
 
