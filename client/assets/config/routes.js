@@ -13,7 +13,8 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/recover.html'
 	})
 	.when('/add-request',{
-		templateUrl: 'partials/add-request.html'
+		templateUrl: 'partials/add-request.html',
+		controller: 'addRequestController'
 	})
 	.when('/category-selector',{
 		templateUrl: 'partials/category-selector.html',

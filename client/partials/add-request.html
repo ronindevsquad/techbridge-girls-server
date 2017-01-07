@@ -33,15 +33,15 @@
 
         <div class="steps-nav steps">
           <div class="ui pointing secondary menu">
-            <a class="item trigger active" data-tab="first">
+            <a class="item trigger" ng-class="{active: step==1}">
               <span class="ui circular label">1</span>
               Request
             </a>
-            <a class="item trigger" data-tab="second">
+            <a class="item trigger" ng-class="{active: step==2}">
               <span class="ui circular label">2</span>
               Delivery
             </a>
-            <a class="item trigger" data-tab="third">
+            <a class="item trigger" ng-class="{active: step==3}">
               <span class="ui circular label">3</span>
               Finalize Request
             </a>
@@ -49,11 +49,11 @@
 
           <!-- we start the Request tab here -->
 
-          <div class="ui tab basic segment active" data-tab="first">
+          <div class="ui basic segment" ng-class="{active: step==1}" ng-show="step==1">
 
             <!-- We start the form here -->
 
-            <div class="ui big form">
+            <form class="ui big form" ng-submit="step=2">
 
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
@@ -95,7 +95,7 @@
                       <strong>What do you need produced?</strong> <i class="help circle outline icon"></i>
                     </span>
                   </label>
-                  <input placeholder="SG&amp;A" type="text">
+                  <input placeholder="SG&amp;A" type="text" ng-model="proposal.sga" required>
                 </div> <!-- .field -->
 
                 <div class="field">
@@ -104,17 +104,7 @@
                       <strong>How many units do you need?</strong> <i class="help circle outline icon"></i>
                     </span>
                   </label>
-                  <div class="ui selection dropdown">
-                    <input type="hidden" name="rawmaterial">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Select a number</div>
-                    <div class="menu">
-                      <div class="item" data-value="1">1</div>
-                      <div class="item" data-value="0">2</div>
-                      <div class="item" data-value="2">3</div>
-                      <div class="item" data-value="3">4</div>
-                    </div> <!-- .menu -->
-                  </div> <!-- .dropdown -->
+                  <input type="number" min="0" step="1" ng-model="proposal.quantity" required>
                 </div> <!-- .field -->
 
                 <div class="field">
@@ -124,14 +114,15 @@
                     </span>
                   </label>
                   <div class="ui left icon input">
-                    <input type="text" placeholder="Search users...">
+                    <input type="date" ng-model="proposal.completion" required>
                     <i class="calendar outline icon"></i>
                   </div> <!-- input -->
                 </div> <!-- .field -->
 
+                <input type="submit" class="ui big evergreen uppercase orange button" value="Continue">
               </div> <!-- .big form -->
 
-              <a class="ui big evergreen uppercase orange button trigger" href="#" data-tab="second">Continue</a>
+              <!-- <a class="ui big evergreen uppercase orange button trigger" href="#" data-tab="second">Continue</a> -->
 
               <div class="ui horizontal divider"></div>
 
@@ -140,16 +131,16 @@
                 <div class="ui divider"></div>
                 <a href="#!/" title="Skip">Skip and go to your account</a>
               </div> <!-- .small links -->
-            </div> <!-- .form -->
+            </form> <!-- .form -->
 
           </div> <!-- first tab -->
 
           <!-- we start the Deliver tab here -->
-          <div class="ui tab basic segment" data-tab="second">
+          <div class="ui basic segment" ng-class="{active: step==2}" ng-show="step==2">
 
             <!-- We start the form here -->
 
-            <div class="ui big form">
+            <form class="ui big form" ng-submit="step=3">
 
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
 
@@ -161,7 +152,7 @@
                       <i class="help circle outline icon"></i>
                     </span>
                   </h4>
-                  <input placeholder="ZIP Code" type="text">
+                  <input placeholder="ZIP Code" type="number" min="0" step="1" required>
 
                 <div class="ui checkbox toppad">
                   <input type="checkbox" name="example" id="item1">
@@ -173,24 +164,6 @@
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
-                      <strong>Preferred method of communication</strong> <i class="help circle outline icon"></i>
-                    </span>
-                  </label>
-                  <div class="ui selection dropdown">
-                    <input type="hidden" name="rawmaterial">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Email, Phone</div>
-                    <div class="menu">
-                      <div class="item" data-value="1">Email</div>
-                      <div class="item" data-value="0">Phone Call</div>
-                      <div class="item" data-value="2">SMS</div>
-                    </div> <!-- .menu -->
-                  </div> <!-- .dropdown -->
-                </div> <!-- .field -->
-
-                <div class="field">
-                  <label>
-                    <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>Which suppliers see the proposal?</strong> <i class="help circle outline icon"></i>
                     </span>
                   </label>
@@ -199,9 +172,8 @@
                     <i class="dropdown icon"></i>
                     <div class="default text">Select audience</div>
                     <div class="menu">
-                      <div class="item" data-value="1">Email</div>
-                      <div class="item" data-value="0">Phone Call</div>
-                      <div class="item" data-value="2">SMS</div>
+                      <div class="item" data-value="1">All suppliers</div>
+                      <div class="item" data-value="0">Just suppliers related to the process</div>
                     </div> <!-- .menu -->
                   </div> <!-- .dropdown -->
                 </div> <!-- .field -->
@@ -215,12 +187,14 @@
 
                   <textarea placeholder="" cols="6"></textarea>
 
-                  </div> <!-- field -->
-                </div> <!-- .big form -->
-
+                </div> <!-- field -->
               </div> <!-- .big form -->
 
-              <a class="ui big evergreen uppercase orange button trigger" href="#" data-tab="third">Continue</a>
+              <a class="ui big evergreen uppercase orange button" href="#" ng-click="step=1">Back</a>
+              <input type="submit" class="ui big evergreen uppercase orange button" value="Continue">
+            
+            </form> <!-- .big form -->
+
 
               <div class="ui horizontal divider"></div>
 
@@ -232,8 +206,8 @@
 
           </div> <!-- second -->
 
-          <div class="ui tab basic segment" data-tab="third">
-            <div class="ui big form">
+          <div class="ui basic segment" ng-class="{active: step==3}" ng-show="step==3">
+            <form class="ui big form">
 
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
@@ -304,10 +278,11 @@
                   </div> <!-- .column -->
                 </div> <!-- .grid -->
 
+                <!-- <a class="ui big evergreen uppercase orange button request-done" href="#" ng-click="">Submit</a> -->
+                <input type="submit" class="ui big evergreen uppercase orange button request-done" href="#">
 
               </div> <!-- .big form -->
 
-              <a class="ui big evergreen uppercase orange button request-done" href="#">Submit</a>
 
               <div class="ui horizontal divider"></div>
 
@@ -316,7 +291,7 @@
                 <div class="ui divider"></div>
                 <a href="#" title="Skip">Skip and go to your account</a>
               </div> <!-- .small links -->
-            </div> <!-- .form -->
+            </form> <!-- .form -->
 
 
           </div> <!-- third -->
