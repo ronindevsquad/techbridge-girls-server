@@ -6,15 +6,115 @@ var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
 	index: function(callback) {
-		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-			var query = "SELECT *, HEX(id) AS id FROM offers WHERE ?";
-			connection.query(query, {id:data.id}, function(err, data) {
-				if (err)
-					callback({errors: {database: {message: "Please contact an admin."}}})
-				else
-					callback(false, data)
-			})
-		});
+		// FOR NOW, THIS IS THE SIMULATED JSON RESPONSE
+		var sampleResponse = {
+			proposals:[
+				{
+					item: "Proposal for Hats",
+					quantity: 90,
+					accepted_offer:{
+						name: "gogo",
+						reports:[
+							{
+								units: 4,
+								status: 1
+							}, // end of single report
+							{
+								units: 13,
+								status: 1
+							}, // end of single report
+							{
+								units: 20,
+								status: 1
+							}, // end of single report
+							{
+								units: 10,
+								status: 1
+							}, // end of single report
+							{
+								units: 20,
+								status: 1
+							}, // end of single report
+							{
+								units: 5,
+								status: 1
+							}, // end of single report
+							{
+								units: 13,
+								status: 1
+							}, // end of single report
+							{
+								units: 0,
+								status: 0
+							}, // end of single report
+							{
+								units: 0,
+								status: 0
+							}, // end of single report
+							{
+								units: 0,
+								status: 0
+							}, // end of single report
+							{
+								units: 0,
+								status: 0
+							}, // end of single report
+						] // end of array of reports for offer
+					}// end of offer
+				}, // end of single proposal
+				{
+					item: "Proposal for cars",
+					quantity: 500,
+					accepted_offer:{
+						name: "mercedes",
+						reports:[
+							{
+								units: 0,
+								status: 1
+							}, // end of single report
+							{
+								units: 3,
+								status: 1
+							}, // end of single report
+							{
+								units: 9,
+								status: 1
+							}, // end of single report
+							{
+								units: 11,
+								status: 1
+							}, // end of single report
+							{
+								units: 8,
+								status: 0
+							}, // end of single report
+							{
+								units: 20,
+								status: 0
+							}, // end of single report
+							{
+								units: 22,
+								status: 0
+							}, // end of single report
+							{
+								units: 60,
+								status: 0
+							}, // end of single report
+						] // end of array of reports for offer
+					}// end of offer
+				}, // end of single proposal
+			] // end of proposals array
+		}// end of response object
+		callback(false, sampleResponse)
+		// jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+		// 	var query = "SELECT *, HEX(id) AS id FROM offers WHERE ?";
+		// 	connection.query(query, {id:data.id}, function(err, data) {
+		// 		if (err)
+		// 			callback({errors: {database: {message: "Please contact an admin."}}})
+		// 		else
+		// 			callback(false, data)
+		// 	})
+		// });
 	},
 	// show: function(req, callback) {
 	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {

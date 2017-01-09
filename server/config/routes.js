@@ -22,7 +22,7 @@ module.exports = function(app) {
 	// app.delete('/api/proposals/:id', proposals.delete);
 
 	//OFFERS
-	app.get('/api/offers', offers.index)
+	app.get('/offers', offers.index)
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);
