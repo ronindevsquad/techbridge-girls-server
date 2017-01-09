@@ -58,32 +58,31 @@
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
                 <span class="tooltip" data-tooltip="Select which categories you want to select so we can fill this tooltip" data-position="right center" data-variation="basic">
-                  Select Category
+                  Select Categories
                   <i class="help circle outline icon"></i>
                 </span>
               </h4>
 
+
+              <select class="categoryselector ui dropdown" name="multipleSelect" ng-model="proposal.processes" multiple required>
+                <option value="Automation & Test Equipment">Automation &amp; Test Equipment</option>
+                <option value="Die Casting">Die Casting</option>
+                <option value="Formula Batching & Filling">Formula Batching &amp; Filling</option>
+                <option value="Injection Molding">Injection Molding</option>
+                <option value="Packaging (Primary)">Packaging (Primary)</option>
+                <option value="Packaging (Secondary)">Packaging (Secondary)</option>
+                <option value="Tooling">Tooling</option>
+              </select>
+<!-- 
                 <div class="ui fitted boxed checkbox">
                   <input type="checkbox" id="item6">
-                  <label for="item6">Tooling</label>
+                  <label for="item6 ">Tooling</label>
                 </div>
 
                 <div class="ui fitted boxed checkbox">
                   <input type="checkbox" id="item7">
                   <label for="item7">Automation &amp; Test Equipment</label>
-                </div>
-
-                <select class="categoryselector ui search dropdown" multiple="" id="categoryDropper">
-                  <option value="">Search or add new</option>
-                  <option value="option1">Packaging (secondary)</option>
-                  <option value="option2">Packaging (primary)</option>
-                  <option value="option3">Formula Batching and Filling</option>
-                  <option value="option4">Tooling</option>
-                  <option value="option5">Die Casting</option>
-                  <option value="option6">Automation &amp; Test Equipment</option>
-                  <option value="option7">Packaging (secondary)</option>
-                  <option value="option8">Packaging (primary)</option>
-                </select>
+                </div> -->
 
               <div class="ui horizontal divider"></div>
 
@@ -104,7 +103,7 @@
                       <strong>How many units do you need?</strong> <i class="help circle outline icon"></i>
                     </span>
                   </label>
-                  <input type="number" min="0" step="1" ng-model="proposal.quantity" required>
+                  <input type="number" min="1" step="1" ng-model="proposal.quantity" required>
                 </div> <!-- .field -->
 
                 <div class="field">
@@ -148,11 +147,11 @@
                 <div class="field">
                   <h4 class="label-title">
                     <span class="tooltip" data-tooltip="Select which categories you want to select so we can fill this tooltip" data-position="right center" data-variation="basic">
-                      Delivery Address
+                      Zip Code of Delivery Address
                       <i class="help circle outline icon"></i>
                     </span>
                   </h4>
-                  <input placeholder="ZIP Code" type="number" min="0" step="1" required>
+                  <input placeholder="ZIP Code" type="number" min="0" step="1" ng-model="proposal.zip" required>
 
                 <div class="ui checkbox toppad">
                   <input type="checkbox" name="example" id="item1">
@@ -160,23 +159,30 @@
                 </div>
 
                 </div> <!-- .field -->
+
                 <div class="ui horizontal divider"></div>
+                
                 <div class="field">
                   <label>
                     <span data-tooltip="Add a tooltip text here" data-position="right center">
                       <strong>Which suppliers see the proposal?</strong> <i class="help circle outline icon"></i>
                     </span>
                   </label>
-                  <div class="ui selection dropdown">
-                    <input type="hidden" name="rawmaterial">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Select audience</div>
-                    <div class="menu">
-                      <div class="item" data-value="1">All suppliers</div>
-                      <div class="item" data-value="0">Just suppliers related to the process</div>
-                    </div> <!-- .menu -->
-                  </div> <!-- .dropdown -->
-                </div> <!-- .field -->
+                  <div class="ui grouped fields">
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input type="radio" name="audience" value="0" ng-model="proposal.audience" required>
+                        <label style="color: black">All suppliers</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="ui radio checkbox">
+                        <input type="radio" name="audience" value="1" ng-model="proposal.audience" required>
+                        <label style="color: black">Only suppliers specializing in selected processes</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="field">
                   <label>
@@ -185,12 +191,12 @@
                     </span>
                   </label>
 
-                  <textarea placeholder="" cols="6"></textarea>
+                  <textarea cols="6" ng-model="proposal.info"></textarea>
 
                 </div> <!-- field -->
               </div> <!-- .big form -->
 
-              <a class="ui big evergreen uppercase orange button" href="#" ng-click="step=1">Back</a>
+              <a class="ui big evergreen uppercase orange button" href="" ng-click="step=1">Back</a>
               <input type="submit" class="ui big evergreen uppercase orange button" value="Continue">
             
             </form> <!-- .big form -->
@@ -206,8 +212,8 @@
 
           </div> <!-- second -->
 
-          <div class="ui basic segment" ng-class="{active: step==3}" ng-show="step==3">
-            <form class="ui big form">
+          <div class="ui basic segment" ng-class="{active: step==3}" ng-show="step==3 || step==4">
+            <form class="ui big form" ng-submit="create()">
 
               <!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
               <h4 class="label-title">
@@ -279,7 +285,13 @@
                 </div> <!-- .grid -->
 
                 <!-- <a class="ui big evergreen uppercase orange button request-done" href="#" ng-click="">Submit</a> -->
-                <input type="submit" class="ui big evergreen uppercase orange button request-done" href="#">
+                <div ng-show="step==3">
+                  <a class="ui big evergreen uppercase orange button" href="" ng-click="step=2">Back</a>
+                  <input type="submit" class="ui big evergreen uppercase orange button">
+                  <p style="color: red" ng-bind="error"></p>
+                </div>
+                <b style="color: lightgreen" ng-show="step==4">Request submitted!</b>
+                {{step}}
 
               </div> <!-- .big form -->
 
@@ -414,9 +426,7 @@
         </div> <!-- .grid -->
       </div>
       <div class="actions">
-          <a href="#" class="ui fluid grey big uppercase basic button nda-confirmation">Close</a>
-        </div> <!-- .grid -->
-
+        <a href="#" class="ui fluid grey big uppercase basic button nda-confirmation">Close</a>
       </div> <!-- .actions -->
     </div> <!-- modal -->
 
@@ -432,22 +442,17 @@
 
       <!-- modal content -->
       <div class="ui padded basic segment">
-        <p>Your proposal is now live. Check back for offers from our suppliers.
-</p>
+        <p>Your proposal is now live. Check back for offers from our suppliers.</p>
       </div>
       <div class="actions">
 
-        <a href="#" class="ui fluid evegreen uppercase big green button nda-trigger">Add Another</a>
+        <a href="" class="ui fluid evegreen uppercase big green button" ng-click="reload()">Add Another</a>
 
         <a href="#!/account-maker-dashboard" class="ui fluid grey big uppercase basic button close">Go to your account</a>
-
-        </div> <!-- .grid -->
-
       </div> <!-- .actions -->
     </div> <!-- modal -->
 
     </div> <!-- #greenwrapper -->
-
 
     <script src="/static/js/green.js"></script>
   </div>

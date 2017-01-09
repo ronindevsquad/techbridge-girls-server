@@ -11,12 +11,12 @@ var connection = mysql.createConnection({
 
 connection.config.queryFormat = function(sql, values, timeZone) {
 	sql = SqlString.format(sql, values, false, timeZone);
-	console.log("this:", sql)
 	sql = sql.replace(/'NOW\(\)'/g, "NOW()");
 	sql = sql.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))");
 	sql = sql.replace(/'UNHEX/g, "UNHEX");
 	sql = sql.replace(/\\'\)'/g, "')");
 	sql = sql.replace(/\\/g, "");
+	console.log("this:", sql)
 	return sql;
 };
 
