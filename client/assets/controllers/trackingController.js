@@ -28,5 +28,5 @@ app.controller('trackingController', function ($scope, $location, offersFactory)
 		return numberToReturn
 	}
 
-	$scope.test = "34"
+	$scope.test = "THIS IS PROOF THAT EJS WORKS";
 });
