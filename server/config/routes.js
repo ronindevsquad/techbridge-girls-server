@@ -14,7 +14,7 @@ module.exports = function(app) {
 	app.post('/users/login', users.login);
 
 	// PROPOSALS
-	// app.get('/api/proposals', proposals.index);
+	app.get('/api/proposals', proposals.index);
 	// app.get('/api/proposals/:id', proposals.show);
 	// app.get('/api/proposals/:action/:id', proposals.getproposals);
 	app.post('/api/proposals', proposals.create);

@@ -42,23 +42,31 @@
                   <label for="item1">Make my profile visible</label>
                 </div> <!-- .checkbox -->
                 <div class="ui checkbox">
-                  <input type="checkbox" name="example" id="item2">
-                  <label for="item2">Packaging <small>(primary)</small></label>
+                  <input type="checkbox" name="example" id="item2" ng-model="process['Automation & Test Equipment']">
+                  <label for="item2">Automation &amp; Test Equipment</label>
                 </div> <!-- .checkbox -->
                 <div class="ui checkbox">
-                  <input type="checkbox" name="example" id="item3">
-                  <label for="item3">Packaging <small>(secondary)</small></label>
-                </div> <!-- .checkbox -->
-                <div class="ui checkbox">
-                  <input type="checkbox" name="example" id="item4">
+                  <input type="checkbox" name="example" id="item4" ng-model="process['Die Casting']">
                   <label for="item4">Die Casting</label>
                 </div> <!-- .checkbox -->
                 <div class="ui checkbox">
-                  <input type="checkbox" name="example" id="item5">
-                  <label for="item5">Formula Batching and Filling</label>
+                  <input type="checkbox" name="example" id="item5" ng-model="process['Formula Batching & Filling']">
+                  <label for="item5">Formula Batching &amp; Filling</label>
                 </div> <!-- .checkbox -->
                 <div class="ui checkbox">
-                  <input type="checkbox" name="example" id="item6">
+                  <input type="checkbox" name="example" id="item5" ng-model="process['Injection Molding']">
+                  <label for="item5">Injection Molding</label>
+                </div> <!-- .checkbox -->
+                <div class="ui checkbox">
+                  <input type="checkbox" name="example" id="item2" ng-model="process['Packaging (Primary)']">
+                  <label for="item2">Packaging <small>(Primary)</small></label>
+                </div> <!-- .checkbox -->
+                <div class="ui checkbox">
+                  <input type="checkbox" name="example" id="item3" ng-model="process['Packaging (Secondary)']">
+                  <label for="item3">Packaging <small>(Secondary)</small></label>
+                </div> <!-- .checkbox -->
+                <div class="ui checkbox">
+                  <input type="checkbox" name="example" id="item6" ng-model="process['Tooling']">
                   <label for="item6">Tooling</label>
                 </div> <!-- .checkbox -->
               </div>
@@ -370,174 +378,33 @@
           <div class="sixteen wide tablet eleven wide computer column">
             <!-- this is where the list starts -->
 
-            <h3 class="list count">200 results</h3>
+            <h3 class="list count">{{proposals.length}} results</h3>
 
             <div class="ui resulted items">
 
               <!-- this is one item -->
-              <div class="item">
+              <div class="item" ng-repeat="proposal in proposals | filter:processFilter">
                 <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
+                  {{proposal.created_at | date:"MMM"}}<br />
+                  <strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
                 </div>
                 <div class="middle aligned content">
                   <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
+                    Customer at {{proposal.zip}} looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"mediumDate"}}
                   </div> <!-- ad title -->
                   <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+                    <p ng-bind="proposal.info"></p>
                   </div> <!-- .description -->
 
                 </div>
                 <div class="extra flex">
-                    <a href="#!/proposal-details" class="ui evergreen green button">View</a>
+                    <a href="#!/proposal-details/{{proposal.id}}" class="ui evergreen green button">View</a>
                   </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                    <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                  </div>
-              </div> <!-- .item -->
-
-              <!-- this is one item -->
-              <div class="item">
-                <div class="ui small calendar">
-                  Oct<br />
-                  <strong>28</strong>
-                </div>
-                <div class="middle aligned content">
-                  <div class="header">
-                    Customer in USA looking to produce 1M units by Sep. 16
-                  </div> <!-- ad title -->
-                  <div class="description">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-                  </div> <!-- .description -->
-
-                </div>
-                <div class="extra flex">
-                  <a href="proposal-details.html" class="ui evergreen green button">View</a>
-                </div>
               </div> <!-- .item -->
 
             </div> <!-- .items -->
 
-            <div class="ui pagination secondary menu">
+            <div class="ui pagination seconh nb ary menu">
               <a class="active item">
                 1
               </a>

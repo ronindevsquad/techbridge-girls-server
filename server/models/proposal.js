@@ -4,14 +4,36 @@ var fs = require('fs');
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
-	// index: function(callback) {
-	// 	connection.query("SELECT *, HEX(id) AS id, HEX(contractor_id) AS contractor_id FROM proposals", function(err, data) {
-	// 		if (err)
-	// 			callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-	// 		else
-	// 			callback(false, data)
-	// 	});
-	// },
+	index: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			if (err)
+				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else {
+				var query = "SELECT process_process AS process FROM processes_has_users WHERE HEX(user_id) = ?"
+				connection.query(query, data.id, function(err, data) {
+					if (err)
+						callback({errors: {database: {message: "Please contact an admin."}}});
+					else {
+						var _data = []
+						for (var i = 0; i < data.length; i++)
+							_data.push(data[i].process);
+
+						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ' ') AS processes, HEX(proposals.id) \
+						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
+						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
+						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
+						connection.query(query, [_data], function(err, data) {
+							console.log(err)
+							if (err)
+								callback({errors: {database: {message: "Please contact an admin."}}});
+							else
+								callback(false, data)
+						});
+					}
+				});				
+			}
+		});
+	},
 	// show: function(req, callback) {
 	// 	var query = "SELECT *, HEX(id) AS id, HEX(contractor_id) AS contractor_id FROM proposals WHERE HEX(id) = ? LIMI 1";
 	// 	connection.query(query, req.params.id, function(err, data) {

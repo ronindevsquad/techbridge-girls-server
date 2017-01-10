@@ -21,7 +21,8 @@ app.config(function ($routeProvider, $locationProvider) {
 		controller: 'categorySelectorController'
 	})
 	.when('/opened-proposals',{
-		templateUrl: 'partials/opened-proposals.html'
+		templateUrl: 'partials/opened-proposals.html',
+		controller: 'openedProposalsController'
 	})
 	.when('/proposal-details-signed-nda',{
 		templateUrl: 'partials/proposal-details-signed-nda.html'

@@ -113,7 +113,7 @@
                     </span>
                   </label>
                   <div class="ui left icon input">
-                    <input type="date" ng-model="proposal.completion" required>
+                    <input type="date" min="{{today|date:'yyyy-MM-dd'}}" ng-model="proposal.completion" required>
                     <i class="calendar outline icon"></i>
                   </div> <!-- input -->
                 </div> <!-- .field -->
@@ -291,7 +291,6 @@
                   <p style="color: red" ng-bind="error"></p>
                 </div>
                 <b style="color: lightgreen" ng-show="step==4">Request submitted!</b>
-                {{step}}
 
               </div> <!-- .big form -->
 
@@ -446,9 +445,9 @@
       </div>
       <div class="actions">
 
-        <a href="" class="ui fluid evegreen uppercase big green button" ng-click="reload()">Add Another</a>
+        <a href="" class="ui fluid evegreen uppercase big green button" ng-click="reset()">Add Another</a>
 
-        <a href="#!/account-maker-dashboard" class="ui fluid grey big uppercase basic button close">Go to your account</a>
+        <a href="#!/account-maker-dashboard" class="ui fluid grey big uppercase basic button close" ng-click="close()">Go to your account</a>
       </div> <!-- .actions -->
     </div> <!-- modal -->
 
