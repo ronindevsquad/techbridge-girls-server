@@ -2,7 +2,7 @@ app.factory('offersFactory', function($http, $cookies) {
 	return {
 		//index will only return offers that correspond to the ID of the user.
 		index: function(callback) {
-			$http.get('/api/offers', {
+			$http.get('/offers', {
 				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);

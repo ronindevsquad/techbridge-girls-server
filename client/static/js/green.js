@@ -7,44 +7,44 @@ $('.ui.sticky').sticky({
 });
 
 $('.nda-trigger').click(function() {
-  $('#ndaWindow').modal('show');  
+  $('#ndaWindow').modal('show');
 });
 
 $('.nda-view').click(function() {
-  $('#ndaWiew').modal('show');  
+  $('#ndaWiew').modal('show');
 });
 
 $('.send-offer').click(function() {
-  $('#offerSent').modal('show');  
+  $('#offerSent').modal('show');
 });
 
 $('.request-done').click(function() {
-  $('#requestSuccess').modal('show');  
+  $('#requestSuccess').modal('show');
 });
 
 $('.nda-confirmation').click(function() {
-  $('#areYouSure').modal('show');  
+  $('#areYouSure').modal('show');
 });
 
 $('.add-note').click(function() {
-  $('#addNote').modal('show');  
+  $('#addNote').modal('show');
 });
 
 $('.download-folder').click(function() {
-  $('#downloadFolder').modal('show');  
+  $('#downloadFolder').modal('show');
 });
 
 $('.accept-offer').click(function() {
-  $('#acceptOffer').modal('show');  
+  $('#acceptOffer').modal('show');
 });
 
 
 $('.accepted-success').click(function() {
-  $('#acceptedSuccess').modal('show');  
+  $('#acceptedSuccess').modal('show');
 });
 
 $('.invite-supplier').click(function() {
-  $('#inviteSupplier').modal('show');  
+  $('#inviteSupplier').modal('show');
 });
 
 $('.thumbnails .item').tab();
@@ -54,4 +54,4 @@ $('.steps .trigger').tab();
 $('.message-contacts .item').tab();
 $('.detail-panel .menu .item').tab();
 
-$('.indicating.progress').progress();
+// $('.indicating.progress').progress();
