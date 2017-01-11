@@ -12,17 +12,17 @@ module.exports = {
 				res.json(data);
 		});
 	},
-	// show: function(req, res) {
-	// 	proposal.show(req, function(err, data) {
-	// 		if (err)
-	// 			if (err.errors.jwt)
-	// 				res.clearCookie('evergreen_token').json(err);
-	// 			else
-	// 				res.json(err);
-	// 		else
-	// 			res.json(data);
-	// 	});
-	// },
+	show: function(req, res) {
+		proposal.show(req, function(err, data) {
+			if (err)
+				if (err.errors.jwt)
+					res.clearCookie('evergreen_token').json(err);
+				else
+					res.json(err);
+			else
+				res.json(data);
+		});
+	},
 	create: function(req, res) {
 		proposal.create(req, function(err, data) {
 			if (err)

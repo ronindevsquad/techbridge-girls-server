@@ -18,7 +18,7 @@ module.exports = {
 						for (var i = 0; i < data.length; i++)
 							_data.push(data[i].process);
 
-						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ' ') AS processes, HEX(proposals.id) \
+						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
 						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
 						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
 						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
@@ -34,15 +34,24 @@ module.exports = {
 			}
 		});
 	},
-	// show: function(req, callback) {
-	// 	var query = "SELECT *, HEX(id) AS id, HEX(contractor_id) AS contractor_id FROM proposals WHERE HEX(id) = ? LIMI 1";
-	// 	connection.query(query, req.params.id, function(err, data) {
-	// 		if (err)
-	// 			callback({errors: {database: {message: `Database error: ${err.code}.`}}});
-	// 		else
-	// 			callback(false, data);
-	// 	});
-	// },	
+	show: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			if (err)
+				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else {		
+				var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
+				connection.query(query, req.params.id, function(err, data) {
+					console.log(err)
+					if (err)
+						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+					else if (data.length == 0)
+						callback({errors: {data: {message: `Not able to fetch valid proposal.`}}});
+					else
+						callback(false, data[0]);
+				});
+			}
+		});
+	},	
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			console.log(err)

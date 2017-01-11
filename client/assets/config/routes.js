@@ -24,18 +24,17 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/opened-proposals.html',
 		controller: 'openedProposalsController'
 	})
-	.when('/proposal-details-signed-nda',{
-		templateUrl: 'partials/proposal-details-signed-nda.html'
-	})
-	.when('/proposal-details',{
-		templateUrl: 'partials/proposal-details.html'
+	.when('/proposal-details/:id',{
+		templateUrl: 'partials/proposal-details.html',
+		controller: 'proposalDetailsController'
 	})
 	.when('/sending-offer-details',{
 		templateUrl: 'partials/sending-offer-details.html'
 	})
-	.when('/sending-offer',{
-		templateUrl: 'partials/sending-offer.html'
-	})	
+	.when('/sending-offer/:id',{
+		templateUrl: 'partials/sending-offer.html',
+		controller: 'proposalDetailsController'
+	})
 	//////////////////////////////////////////////////////
 	//										MAKER
 	//////////////////////////////////////////////////////

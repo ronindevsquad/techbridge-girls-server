@@ -7,7 +7,7 @@ $('.ui.sticky').sticky({
 });
 
 $('.nda-trigger').click(function() {
-  $('#ndaWindow').modal('show');  
+  $('#ndaWindow').modal('toggle');  
 });
 
 $('.nda-view').click(function() {

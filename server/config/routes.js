@@ -2,6 +2,7 @@ var users = require('../controllers/users.js');
 var proposals = require('../controllers/proposals.js');
 var offers = require('../controllers/offers.js');
 var processes = require('../controllers/processes');
+var offers = require('../controllers/offers');
 
 module.exports = function(app) {
 	// USERS
@@ -15,14 +16,17 @@ module.exports = function(app) {
 
 	// PROPOSALS
 	app.get('/api/proposals', proposals.index);
-	// app.get('/api/proposals/:id', proposals.show);
-	// app.get('/api/proposals/:action/:id', proposals.getproposals);
+	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', proposals.create);
 	// app.put('/api/proposals/:action/:id', proposals.update);
 	// app.delete('/api/proposals/:id', proposals.delete);
 
 	//OFFERS
-	app.get('/offers', offers.index)
+	app.get('/api/offers', offers.index);
+	// app.get('/api/offers/:id', offers.show);
+	app.post('/api/offers', offers.create);
+	// app.put('/api/offers/:action/:id', offers.update);
+	// app.delete('/api/offers/:id', offers.delete);
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);

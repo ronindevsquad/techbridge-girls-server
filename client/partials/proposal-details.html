@@ -30,7 +30,7 @@
 
       <div class="ui container">
 
-        <h2>Customer in USA looking to produce 1M units by Sep. 16</h2>
+        <h2>Customer in USA looking to produce {{proposal.quantity | number}} units by {{proposal.completion | date:"mediumDate"}}</h2>
 
         <div class="ui centered relaxed grid">
           <div class="sixteen wide tablet four wide computer column">
@@ -124,35 +124,42 @@
 
             <div class="content box">
               <h4>Where are they located?</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+              <p ng-bind="proposal.zip"></p>
             </div> <!-- .content box -->
 
             <div class="content box">
               <h4>How many units are they trying to produce?</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
+              <p ng-bind="proposal.quantity | number"></p>
             </div> <!-- .content box -->
 
 
-            <div class="ui basic segment center aligned nda-box">
+            <div class="ui basic segment center aligned nda-box" ng-show="!signed">
               <h6>View full details</h6>
               <p>Please read and accept the Non-Disclosure Agreement before moving forward with this offer</p>
 
-              <a href="#!/proposal-details-signed-nda" class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
+              <a class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
 
             </div>
+            
+            <div ng-show="signed">
+              <div class="content box">
+                <h4>And they need them by:</h4>
+                <p ng-bind="proposal.completion | date:'fullDate'"></p>
+                <img src="static/img/test-image.png" width="260" class="ui image" />
 
-
+              </div> <!-- .content box -->           
+            </div>
 
           </div> <!-- .column -->
           <div class="sixteen wide tablet four wide computer column">
 
             <div class="ui segment buybox">
-              <h3>Husky {{company}}</h3>
-              <p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+              <h3>{{company}}</h3>
+              <p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
 
               <div class="ui horizontal slider"></div>
 
-              <a class="ui fluid evergreen orange button nda-trigger" href="#" data-tooltip="Submit your offer" data-position="bottom center" data-inverted="">SEND YOUR OFFER</a>
+              <a class="ui fluid evergreen orange button nda-trigger" href="#!/sending-offer/{{proposal.id}}" data-tooltip="Submit your offer" data-position="bottom center" data-inverted="">SEND YOUR OFFER</a>
 
             </div> <!-- .segment -->
 
@@ -289,12 +296,12 @@
               <a href="#" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
             </div>
             <div class="column">
-              <a href="proposal-details-signed-nda.html" class="ui fluid evegreen uppercase big green button">I agree</a>
+              <a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="signed=true">I agree</a>
             </div>
           </div> <!-- .row -->
         </div> <!-- .grid -->
 
-        <small class="footnote">By agreeing to this NDA you enable that the Maker can contact you throuh our website. No profile personal data will be made public to the maker</small>
+        <small class="footnote">By agreeing to this NDA you enable that the Maker can contact you through our website. No personal data will be made public to the maker.</small>
 
       </div> <!-- .actions -->
     </div> <!-- modal -->
@@ -323,16 +330,13 @@
       </div> <!-- .actions -->
     </div> <!-- modal -->
 
-
-
-
-    <script src="js/slick.min.js"></script>
+    <script src="static/js/slick.min.js"></script>
     <script src="static/js/green.js"></script>
 
-    <script type="text/javascript">
+ <!--    <script type="text/javascript">
       $('.single-slide').slick({
         dots: true
       });
 
-    </script>
+    </script> -->
   </div>

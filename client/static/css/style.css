@@ -920,3 +920,8 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
     margin: 0 0 0 -185px;
   }
 }
+
+#chat {
+  height: 100%;
+  overflow-y: auto;
+}

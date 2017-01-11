@@ -383,7 +383,7 @@
             <div class="ui resulted items">
 
               <!-- this is one item -->
-              <div class="item" ng-repeat="proposal in proposals | filter:processFilter">
+              <div class="item" ng-repeat="proposal in proposals | processFilter:process">
                 <div class="ui small calendar">
                   {{proposal.created_at | date:"MMM"}}<br />
                   <strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
@@ -394,6 +394,7 @@
                   </div> <!-- ad title -->
                   <div class="description">
                     <p ng-bind="proposal.info"></p>
+                    <small ng-bind="proposal.processes"></small>
                   </div> <!-- .description -->
 
                 </div>

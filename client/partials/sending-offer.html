@@ -30,7 +30,7 @@
 
       <div class="ui container">
 
-        <h2>Customer in USA looking to produce 1M units by Sep. 16</h2>
+        <h2>Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"mediumDate"}}</h2>
 
         <div class="ui centered relaxed grid">
           <div class="sixteen wide tablet four wide computer column">
@@ -96,7 +96,7 @@
               <!-- START the raw materials selection -->
 
               <div class="field">
-                <label>Profit</label>
+                <label>Material</label>
                 <div class="ui selection dropdown">
                   <input type="hidden" name="rawmaterial">
                   <i class="dropdown icon"></i>
@@ -299,12 +299,12 @@
 
     <script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDXQLL_ClsyH7eeZ8Nk7m8bnMt27wsnH0I&extension=.js&output=embed"></script>
 
-    <script src="js/slick.min.js"></script>
+    <script src="static/js/slick.min.js"></script>
     <script src="static/js/green.js"></script>
-    <script type="text/javascript">
-      $('.single-slide').slick({
-        dots: true
-      });
+   <!--  <script type="text/javascript">
+      // $('.single-slide').slick({
+      //   dots: true
+      // });
 
       /* Let's throw a map in here */
       var map;
@@ -350,5 +350,5 @@
          map.setCenter(center);
       }
 
-    </script>
+    </script> -->
   </div>

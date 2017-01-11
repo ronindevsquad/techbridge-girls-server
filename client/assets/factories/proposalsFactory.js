@@ -7,13 +7,13 @@ app.factory('proposalsFactory', function($http, $cookies) {
 				callback(res.data);
 			});
 		},
-		// show: function(id, callback) {
-		// 	$http.get(`/api/proposals/${id}`, {
-		// 		headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-		// 	}).then(function(res) {
-		// 		callback(res.data);
-		// 	});
-		// },
+		show: function(id, callback) {
+			$http.get(`/api/proposals/${id}`, {
+				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			});
+		},
 		// update: function(data, callback) {
 		// 	$http.put(`/api/proposals`, data, {
 		// 		headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
