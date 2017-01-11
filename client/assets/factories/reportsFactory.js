@@ -1,35 +1,35 @@
-app.factory('offersFactory', function($http, $cookies) {
+app.factory('reportsFactory', function($http, $cookies) {
 	return {
 		index: function(callback) {
-			$http.get('/offers', {
+			$http.get('/api/proposals', {
 				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			});
 		},
 		// show: function(id, callback) {
-		// 	$http.get(`/api/offers/${id}`, {
+		// 	$http.get(`/api/proposals/${id}`, {
 		// 		headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 		// 	}).then(function(res) {
 		// 		callback(res.data);
 		// 	});
 		// },
 		// update: function(data, callback) {
-		// 	$http.put(`/api/offers`, data, {
+		// 	$http.put(`/api/proposals`, data, {
 		// 		headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 		// 	}).then(function(res) {
 		// 		callback(res.data);
 		// 	});
 		// },
 		// delete: function(id, callback) {
-		// 	$http.delete(`/api/offers/${id}`, {
+		// 	$http.delete(`/api/proposals/${id}`, {
 		// 		headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 		// 	}).then(function(res) {
 		// 		callback(res.data);
 		// 	});
 		// },
 		create: function(data, callback) {
-			$http.post('/api/offers', data, {
+			$http.post('/api/proposals', data, {
 				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);

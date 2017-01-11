@@ -1,0 +1,1 @@
+INSERT INTO `evergreendb`.`proposals` (`id`, `item`, `quantity`, `description`, `completion`, `attachment`, `nda`, `created_at`, `updated_at`, `user_id`) VALUES (UNHEX('360EEFBFBDEFBFBDEFBFBDEFBFBD11EF'), 'Fedoras', '200', 'Green Fedoras with a red stripe on top', '2017-02-04 19:32:44', 'attachment', 'NDA', NOW(), NOW(), UNHEX('360EEFBFBDEFBFBDEFBFBDEFBFBD11EF'));

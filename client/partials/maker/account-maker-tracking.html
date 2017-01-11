@@ -101,7 +101,7 @@
 
 
             <!-- TESTING BLOCK -->
-            <span ng-repeat="key in proposals" class=""> <!-- NG REPEAT BEGIN -->
+            <span ng-repeat="key in proposals" class="ui resulted items"> <!-- NG REPEAT BEGIN -->
               <div class="item ui segment opened">
                 <div class="ui tiny image">
                   <img src="static/img/husky-logo.png" class="ui centered image" />
@@ -116,10 +116,10 @@
                       <div class="flag start">
                         <img src="static/img/flag.png" width="13" />
                       </div>
-                      <div class="ui indicating progress" data-percent="66">
+                      <div class="ui indicating progress" data-percent="">
 
-                        <div class="bar">
-                          <div class="progress"></div>
+                        <div class="bar" style="width:{{percentCompleted(key)}}%;">
+                          <div class="progress">{{percentCompleted(key)}}%</div>
                         </div>
                       </div>
                       <small>10 days left</small>
@@ -141,7 +141,7 @@
                     <div class="four wide column">
                       <div class="vertical timeline">
                         <ul class="timeline items">
-                          <li ng-repeat="report in key.accepted_offer.reports" ng-class="{'working': report.status == 0, 'done': report.status == 0 && report == key.accepted_offer.reports[-1]}">{{report.status}}</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
+                          <li ng-repeat="report in key.accepted_offer.reports" ng-class="{'working': report.status == 0, 'done': report.status == 1 && report === key.accepted_offer.reports[key.accepted_offer.reports.length-1]}">{{report.status}}</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
                           <!-- add the .done class when the progress is over -->
                         </ul>
                       </div> <!-- .vertical timeline -->
@@ -189,13 +189,13 @@
                     <div class="flag start">
                       <img src="static/img/flag.png" width="13" />
                     </div>
-                    <div class="ui indicating progress" data-percent="47">
+                    <div class="ui indicating progress" data-percent="0">
                       <div class="bar">
                         <div class="progress"></div>
                       </div>
                     </div>
 
-                    <small>10 days left</small>
+                    <small>10 days left </small>
 
                   </div> <!-- .tracking progress -->
 
@@ -203,7 +203,7 @@
 
               </div>
               <div class="extra flex">
-                <a href="#" class="ui evergreen grey button">Close</a>
+                <a ng-click="" href="" class="ui evergreen grey button">Close</a>
               </div>
             </div> <!-- .item -->
 

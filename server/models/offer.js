@@ -103,6 +103,47 @@ module.exports = {
 						] // end of array of reports for offer
 					}// end of offer
 				}, // end of single proposal
+				{
+					item: "Proposal for toys",
+					quantity: 20,
+					accepted_offer:{
+						name: "mercedes",
+						reports:[
+							{
+								units: 0,
+								status: 1
+							}, // end of single report
+							{
+								units: 3,
+								status: 1
+							}, // end of single report
+							{
+								units: 2,
+								status: 1
+							}, // end of single report
+							{
+								units: 1,
+								status: 1
+							}, // end of single report
+							{
+								units: 3,
+								status: 1
+							}, // end of single report
+							{
+								units: 2,
+								status: 1
+							}, // end of single report
+							{
+								units: 1,
+								status: 1
+							}, // end of single report
+							{
+								units: 6,
+								status: 1
+							}, // end of single report
+						] // end of array of reports for offer
+					}// end of offer
+				}, // end of single proposal
 			] // end of proposals array
 		}// end of response object
 		callback(false, sampleResponse)

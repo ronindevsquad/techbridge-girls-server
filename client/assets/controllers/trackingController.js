@@ -1,4 +1,4 @@
-app.controller('trackingController', function ($scope, $location, offersFactory) {
+app.controller('trackingController', function ($scope, $location, offersFactory, proposalsFactory) {
 	console.log("Inside Tracking Controller");
 	if (payload && $scope.type == 0) {
 
@@ -18,6 +18,9 @@ app.controller('trackingController', function ($scope, $location, offersFactory)
 		}
 	});
 
+
+
+
 	$scope.percentCompleted = function(key){
 		var cumulativeUnits = 0
 		for(i=0;i<key.accepted_offer.reports.length;i++){
@@ -28,5 +31,5 @@ app.controller('trackingController', function ($scope, $location, offersFactory)
 		return numberToReturn
 	}
 
-	$scope.test = "34"
+	$scope.test = "THIS IS PROOF THAT EJS WORKS";
 });
