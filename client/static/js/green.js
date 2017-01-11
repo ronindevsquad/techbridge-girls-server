@@ -53,5 +53,5 @@ $('.steps .trigger').tab();
 
 $('.message-contacts .item').tab();
 $('.detail-panel .menu .item').tab();
-
+//This line was commented because it interfered with the progress tracking bar on the account-maker-tracking partial. This code is related to semantic UI, we will fix it later.
 // $('.indicating.progress').progress();

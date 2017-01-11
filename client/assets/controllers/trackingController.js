@@ -1,4 +1,4 @@
-app.controller('trackingController', function ($scope, $location, offersFactory) {
+app.controller('trackingController', function ($scope, $location, offersFactory, proposalsFactory) {
 	console.log("Inside Tracking Controller");
 	if (payload && $scope.type == 0) {
 
@@ -17,6 +17,9 @@ app.controller('trackingController', function ($scope, $location, offersFactory)
 			$scope.proposals = data.proposals
 		}
 	});
+
+
+
 
 	$scope.percentCompleted = function(key){
 		var cumulativeUnits = 0
