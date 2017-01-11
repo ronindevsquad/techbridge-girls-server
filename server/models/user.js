@@ -59,7 +59,8 @@ module.exports = {
 									id: data[0].id,
 									type: data[0].type,
 									company: data[0].company,
-									contact: data[0].contact
+									contact: data[0].contact,
+									created_at: data[0].created_at
 								}, jwt_key);
 								callback(false, evergreen_token);
 							}
@@ -116,7 +117,8 @@ module.exports = {
 														id: data[0].id,
 														type: data[0].type,
 														company: data[0].company,
-														contact: data[0].contact
+														contact: data[0].contact,
+														created_at: data[0].created_at
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -193,7 +195,8 @@ module.exports = {
 														id: data[0].id,
 														type: data[0].type,
 														company: data[0].company,
-														contact: data[0].contact
+														contact: data[0].contact,
+														created_at: data[0].created_at
 													}, jwt_key);
 													callback(false, evergreen_token);
 												}
@@ -232,7 +235,8 @@ module.exports = {
 								id: data[0].id,
 								type: data[0].type,
 								company: data[0].company,
-								contact: data[0].contact
+								contact: data[0].contact,
+								created_at: data[0].created_at
 							}, jwt_key);
 							callback(false, evergreen_token);
 						}

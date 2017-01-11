@@ -38,8 +38,8 @@
                 <img src="static/img/husky-logo.png" class="ui centered image" />
               </div>
               <div class="middle aligned content">
-                <h2>Maker {{company}}</h2>
-                <p class="footnote">Member since Apr 2016</p>
+                <h2>{{company}}</h2>
+                <p class="footnote">Member since {{created_at | date:"MMM y"}}</p>
               </div>
             </div> <!-- .item -->
           </div> <!-- .items -->
@@ -100,12 +100,12 @@
                 <div class="ui secondary fluid vertical menu">
 
                   <div class="ui divided items message-contacts">
-                    <a class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers">
+                    <a class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers" ng-click="showMessages(offer)">
                       <div class="ui tiny image">
                         <img src="static/img/husky-logo.png" class="ui centered image" />
                       </div>
                       <div class="middle aligned content">
-                        <h4>Maker {{company}}</h4>
+                        <h4>{{offer.company}}</h4>
                         <p class="footnote">Last message 25.05.2016</p>
                       </div>
                     </a>
@@ -118,9 +118,13 @@
                 <div class="ui padded basic segment">
                   <div class="ui tab active" data-tab="message1">
 
-                    <div class="messaging-area">
+                    <div class="messaging-area" ng-show="!cur_offer">
+                    <p>Click on a supplier on the left to load the conversation.</p>
+                    </div>
 
-                      <div class="message-ad">
+                    <div class="messaging-area" ng-show="cur_offer">
+
+                      <div class="message-ad" ng-if="cur_offer.status==0">
                         <div class="right floated">
                           <a class="ui big evergreen uppercase orange button accept-offer" href="#">Accept Offer</a>
                         </div>
@@ -164,8 +168,8 @@
 
                       <div class="send-area">
                         <div class="ui fluid action input">
-                          <input type="text" placeholder="Enter your message here" ng-model="new_message">
-                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="!cur_offer">Send</button>
+                          <input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="cur_offer.status<1">
+                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
                         </div>
                       </div> <!-- .send-area -->
 
