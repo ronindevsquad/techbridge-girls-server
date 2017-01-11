@@ -100,30 +100,7 @@
                 <div class="ui secondary fluid vertical menu">
 
                   <div class="ui divided items message-contacts">
-                    <a class="active item" data-tab="message1">
-                      <div class="ui tiny image">
-                        <img src="static/img/husky-logo.png" class="ui centered image" />
-                      </div>
-                      <div class="middle aligned content">
-                        <h4>Maker {{company}}</h4>
-                        <p class="footnote">Last message 25.05.2016</p>
-                      </div>
-                    </a>
-                    <a class="item" data-tab="message2">
-                      <div class="ui tiny image">
-                        <img src="static/img/husky-logo.png" class="ui centered image" />
-                      </div>
-                      <div class="middle aligned content">
-
-                        <h4>Maker {{company}}</h4>
-
-                        <!-- the unread messages counter -->
-                        <span class="ui circular red label">2</span>
-
-                        <p class="footnote">Last message 25.05.2016</p>
-                      </div>
-                    </a>
-                    <a class="item" data-tab="message3">
+                    <a class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers">
                       <div class="ui tiny image">
                         <img src="static/img/husky-logo.png" class="ui centered image" />
                       </div>
@@ -152,82 +129,55 @@
 
                       </div>
 
-                      <div class="messages ui padded basic segment">
+                      <div class="messages ui padded basic segment" id="chat">
                         <!-- this is one message -->
 
-                        <div class="ui grid entry supplier-messages">
-                          <div class="left aligned eight wide column">
+                        <div ng-repeat="message in messages">
 
-                            <div class="ui tiny image">
-                              <img src="static/img/husky-logo.png" class="ui centered image" />
+                        <!-- SUPPLIER -->
+                          <div class="ui grid entry" ng-if="message.user_id != id">
+                            <div class="left aligned eight wide column">
+
+                              <div class="ui tiny image">
+                                <img src="static/img/husky-logo.png" class="ui centered image" />
+                              </div>
+
+                              <div class="content">
+                                <p ng-bind="message.message"></p>
+                                  <small ng-bind="mesage.created_at | date:'short'"></small>
+                                </div>
+                              </div> <!-- .right column -->
                             </div>
 
-                            <div class="content">
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare nunc in efficitur lacinia.
-                                Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
-                              <small>25.05.2016</small>
+                            <!-- MAKER -->
+                            <!-- .if it's sent by the user it's .right floated column -->
+                            <div class="ui grid entry" ng-if="message.user_id == id">
+                              <div class="right aligned right floated eight wide column">
+                                <p ng-bind="message.message"></p>
+                                <small ng-bind="mesage.created_at | date:'short'"></small>
+                              </div> <!-- .right column -->
                             </div>
-                          </div> <!-- .right column -->
+                            
                         </div>
-
-                        <!-- .if it's sent by the user it's .right floated column -->
-                        <div class="ui grid entry maker-messages">
-                          <div class="right aligned right floated eight wide column">
-                            <p>Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
-                            <small>25.05.2016</small>
-                          </div> <!-- .right column -->
-                        </div>
-
-                        <!-- .if it's sent by the user it's .right floated column -->
-                        <div class="ui grid entry maker-messages">
-                          <div class="right aligned right floated eight wide column">
-                            <p>Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
-                            <small>25.05.2016</small>
-                          </div> <!-- .right column -->
-                        </div>
-
-                        <!-- .if it's sent by the user it's .right floated column -->
-                        <div class="ui grid entry maker-messages">
-                          <div class="right aligned right floated eight wide column">
-                            <p>Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
-                            <small>25.05.2016</small>
-                          </div> <!-- .right column -->
-                        </div>
-
-                        <!-- .if it's sent by the user it's .right floated column -->
-                        <div class="ui grid entry maker-messages">
-                          <div class="right aligned right floated eight wide column">
-                            <p>Vestibulum et ante vel mauris finibus tempor. Praesent egestas tellus a sem consectetur porta.</p>
-                            <small>25.05.2016</small>
-                          </div> <!-- .right column -->
-                        </div>
-
-
 
                       </div> <!-- messages -->
 
                       <div class="send-area">
                         <div class="ui fluid action input">
-                          <input type="text" placeholder="Enter your message here">
-                          <button class="ui evergreen orange button flat">Send</button>
+                          <input type="text" placeholder="Enter your message here" ng-model="new_message">
+                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="!cur_offer">Send</button>
                         </div>
                       </div> <!-- .send-area -->
 
                     </div>
 
                   </div> <!-- message1 -->
-                  <div class="ui tab" data-tab="message2">
-                    Messaging area 2
-                  </div> <!-- message2 -->
-                  <div class="ui tab" data-tab="message3">
-                    Messaging area 3
-                  </div> <!-- message31 -->
+
                 </div> <!-- left col -->
               </div>
             </div> <!-- .grid -->
 
           </div> <!-- .messaging-container -->
-
 
         </div> <!-- .ui left continer -->
 
