@@ -101,7 +101,7 @@
 
 
             <!-- TESTING BLOCK -->
-            <span ng-repeat="key in proposals" class=""> <!-- NG REPEAT BEGIN -->
+            <span ng-repeat="key in proposals" class="ui resulted items"> <!-- NG REPEAT BEGIN -->
               <div class="item ui segment opened">
                 <div class="ui tiny image">
                   <img src="static/img/husky-logo.png" class="ui centered image" />
@@ -118,7 +118,7 @@
                       </div>
                       <div class="ui indicating progress" data-percent="">
 
-                        <div class="bar" style="width:{{percentCompleted(key)}}%;" extra="{{percentCompleted(key)}}">
+                        <div class="bar" style="width:{{percentCompleted(key)}}%;">
                           <div class="progress">{{percentCompleted(key)}}%</div>
                         </div>
                       </div>
