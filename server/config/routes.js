@@ -3,6 +3,7 @@ var proposals = require('../controllers/proposals.js');
 var offers = require('../controllers/offers.js');
 var processes = require('../controllers/processes');
 var offers = require('../controllers/offers');
+var reports = require('../controllers/reports');
 
 module.exports = function(app) {
 	// USERS
@@ -27,6 +28,9 @@ module.exports = function(app) {
 	app.post('/api/offers', offers.create);
 	// app.put('/api/offers/:action/:id', offers.update);
 	// app.delete('/api/offers/:id', offers.delete);
+
+	//reports
+	app.get('/api/reports', reports.index)
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);

@@ -1,4 +1,4 @@
-app.controller('trackingController', function ($scope, $location, offersFactory, proposalsFactory) {
+app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
 	console.log("Inside Tracking Controller");
 	if (payload && $scope.type == 0) {
 
@@ -9,15 +9,31 @@ app.controller('trackingController', function ($scope, $location, offersFactory,
 	else
 		$location.url('/');
 // When the document loads, retrieve the offers (that have been accepted) and reports associated with the id logged in. The format of the JSON response should be an array of proposals, each having an (accepted) offer property which contains a reports proprty that is an array of report objects. The back end handles this information.
-	offersFactory.index(function(data){
-		if (data.errors){
+	// offersFactory.index(function(data){
+	// 	if (data.errors){
+	// 		console.log(data.errors);
+	// 	} else{
+	// 		console.log(data);
+	// 		$scope.proposals = data.proposals
+	// 	}
+	// });
+
+	proposalsFactory.index(function(data){
+		if(data.errors)
 			console.log(data.errors);
-		} else{
+		else{
 			console.log(data);
 			$scope.proposals = data.proposals
 		}
 	});
-
+	reportsFactory.index(function(data){
+		if(data.errors)
+			console.log(data.errors);
+		else{
+			console.log(data);
+			$scope.offers = data.offers
+		}
+	});
 
 
 
