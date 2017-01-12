@@ -1,7 +1,7 @@
 app.factory('offersFactory', function($http, $cookies) {
 	return {
 		index: function(callback) {
-			$http.get('/offers', {
+			$http.get('/api/offers', {
 				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);

@@ -2,7 +2,7 @@ var offer = require('../models/offer');
 
 module.exports = {
 	index: function(req, res) {
-		offer.index(req, function(err, data) {
+		offer.index(function(err, data) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('evergreen_token').json(err);
