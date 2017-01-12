@@ -42,6 +42,15 @@ CREATE TABLE `addresses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `addresses`
+--
+
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `attachments`
 --
 
@@ -62,6 +71,15 @@ CREATE TABLE `attachments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `attachments`
+--
+
+LOCK TABLES `attachments` WRITE;
+/*!40000 ALTER TABLE `attachments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attachments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `banks`
 --
 
@@ -69,17 +87,26 @@ DROP TABLE IF EXISTS `banks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `banks` (
-  `account` int(11) NOT NULL,
-  `routing` int(11) NOT NULL,
+  `account` int(11) DEFAULT NULL,
+  `routing` int(11) DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `account_UNIQUE` (`account`),
   UNIQUE KEY `routing_UNIQUE` (`routing`),
   CONSTRAINT `fk_banks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banks`
+--
+
+LOCK TABLES `banks` WRITE;
+/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `cards`
@@ -105,6 +132,15 @@ CREATE TABLE `cards` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `cards`
+--
+
+LOCK TABLES `cards` WRITE;
+/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `machine_labor_rates`
 --
 
@@ -115,10 +151,10 @@ CREATE TABLE `machine_labor_rates` (
   `id` binary(16) NOT NULL,
   `offer_id` binary(16) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `cycle_time` varchar(45) DEFAULT NULL,
-  `yield` varchar(45) DEFAULT NULL,
-  `machine_laborrate` varchar(45) DEFAULT NULL,
-  `laborer` varchar(45) DEFAULT NULL,
+  `cycle_time` int(11) DEFAULT NULL,
+  `yield` int(11) DEFAULT NULL,
+  `rate` int(11) DEFAULT NULL,
+  `laborers` int(11) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -129,6 +165,15 @@ CREATE TABLE `machine_labor_rates` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `machine_labor_rates`
+--
+
+LOCK TABLES `machine_labor_rates` WRITE;
+/*!40000 ALTER TABLE `machine_labor_rates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `machine_labor_rates` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `materials`
 --
 
@@ -137,17 +182,26 @@ DROP TABLE IF EXISTS `materials`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `materials` (
   `id` binary(16) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `cost` decimal(12,2) NOT NULL,
-  `unit_cost` decimal(12,2) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `material_cost` decimal(12,2) DEFAULT NULL,
+  `unit_cost` decimal(12,2) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_raw_material_offer1_idx` (`offer_id`),
   CONSTRAINT `fk_raw_material_offer1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materials`
+--
+
+LOCK TABLES `materials` WRITE;
+/*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `materials` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `messages`
@@ -166,15 +220,24 @@ CREATE TABLE `messages` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
-  `proposal_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_message_supplier1_idx` (`user_id`),
-  KEY `fk_message_proposals1_idx` (`proposal_id`),
-  CONSTRAINT `fk_message_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_message_proposals1_idx` (`offer_id`),
+  CONSTRAINT `fk_message_proposals1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_supplier1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `ndas`
@@ -195,6 +258,15 @@ CREATE TABLE `ndas` (
   CONSTRAINT `fk_attachments_proposals10` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ndas`
+--
+
+LOCK TABLES `ndas` WRITE;
+/*!40000 ALTER TABLE `ndas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ndas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `offers`
@@ -225,6 +297,15 @@ CREATE TABLE `offers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `offers`
+--
+
+LOCK TABLES `offers` WRITE;
+/*!40000 ALTER TABLE `offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `processes`
 --
 
@@ -237,6 +318,15 @@ CREATE TABLE `processes` (
   UNIQUE KEY `process_UNIQUE` (`process`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes`
+--
+
+LOCK TABLES `processes` WRITE;
+/*!40000 ALTER TABLE `processes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `processes_has_proposals`
@@ -253,10 +343,19 @@ CREATE TABLE `processes_has_proposals` (
   PRIMARY KEY (`process_process`,`proposal_id`),
   KEY `fk_processes_has_proposals_proposals1_idx` (`proposal_id`),
   KEY `fk_processes_has_proposals_processes1_idx` (`process_process`),
-  CONSTRAINT `fk_processes_has_proposals_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_processes_has_proposals_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_processes_has_proposals_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_processes_has_proposals_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes_has_proposals`
+--
+
+LOCK TABLES `processes_has_proposals` WRITE;
+/*!40000 ALTER TABLE `processes_has_proposals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processes_has_proposals` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `processes_has_users`
@@ -273,10 +372,19 @@ CREATE TABLE `processes_has_users` (
   PRIMARY KEY (`process_process`,`user_id`),
   KEY `fk_processes_has_users_users1_idx` (`user_id`),
   KEY `fk_processes_has_users_processes1_idx` (`process_process`),
-  CONSTRAINT `fk_processes_has_users_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_processes_has_users_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes_has_users`
+--
+
+LOCK TABLES `processes_has_users` WRITE;
+/*!40000 ALTER TABLE `processes_has_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `processes_has_users` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `proposals`
@@ -302,9 +410,18 @@ CREATE TABLE `proposals` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_proposals_users1_idx` (`user_id`),
-  CONSTRAINT `fk_proposals_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_proposals_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proposals`
+--
+
+LOCK TABLES `proposals` WRITE;
+/*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `reports`
@@ -315,6 +432,7 @@ DROP TABLE IF EXISTS `reports`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reports` (
   `id` binary(16) NOT NULL,
+  `status` tinyint(1) DEFAULT NULL,
   `input` varchar(45) DEFAULT NULL,
   `output` varchar(45) DEFAULT NULL,
   `shipping` varchar(45) DEFAULT NULL,
@@ -322,30 +440,24 @@ CREATE TABLE `reports` (
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_daily_prod_supplier1_idx` (`user_id`),
-  CONSTRAINT `fk_daily_prod_supplier1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_reports_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_daily_prod_supplier1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reports_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `reports_has_materials`
+-- Dumping data for table `reports`
 --
 
-DROP TABLE IF EXISTS `reports_has_materials`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `reports_has_materials` (
-  `report_id` binary(16) NOT NULL,
-  `material_id` binary(16) NOT NULL,
-  PRIMARY KEY (`report_id`,`material_id`),
-  KEY `fk_daily_prod_has_raw_material_raw_material1_idx` (`material_id`),
-  KEY `fk_daily_prod_has_raw_material_daily_prod1_idx` (`report_id`),
-  CONSTRAINT `fk_daily_prod_has_raw_material_daily_prod1` FOREIGN KEY (`report_id`) REFERENCES `reports` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_daily_prod_has_raw_material_raw_material1` FOREIGN KEY (`material_id`) REFERENCES `materials` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `urls`
@@ -361,13 +473,22 @@ CREATE TABLE `urls` (
   `linkedin` varchar(255) DEFAULT NULL,
   `twiiter` varchar(255) DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   UNIQUE KEY `supplier_id_UNIQUE` (`user_id`),
   KEY `fk_urls_suppliers1_idx` (`user_id`),
   CONSTRAINT `fk_urls_suppliers1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `urls`
+--
+
+LOCK TABLES `urls` WRITE;
+/*!40000 ALTER TABLE `urls` DISABLE KEYS */;
+/*!40000 ALTER TABLE `urls` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -391,6 +512,15 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -401,4 +531,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-09 23:16:29
+-- Dump completed on 2017-01-11 17:21:12

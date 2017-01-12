@@ -23,7 +23,6 @@ module.exports = {
 						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
 						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
 						connection.query(query, [_data], function(err, data) {
-							console.log(err)
 							if (err)
 								callback({errors: {database: {message: "Please contact an admin."}}});
 							else
@@ -41,7 +40,6 @@ module.exports = {
 			else {		
 				var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
 				connection.query(query, req.params.id, function(err, data) {
-					console.log(err)
 					if (err)
 						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else if (data.length == 0)
@@ -54,7 +52,6 @@ module.exports = {
 	},	
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-			console.log(err)
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else if (!req.body.processes || !req.body.sga || !req.body.quantity || !req.body.completion ||
@@ -82,7 +79,6 @@ module.exports = {
 							user_id: `UNHEX('${data.id}')`
 						}
 						connection.query("INSERT INTO proposals SET ?, id = @temp", _data, function(err) {
-							console.log(err)
 							if (err)
 								callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 							else {
@@ -96,7 +92,6 @@ module.exports = {
 
 										var query = "INSERT INTO processes_has_proposals (process_process, proposal_id, created_at, updated_at) VALUES ?";
 										connection.query(query, [data], function(err) {
-											console.log(err)
 											if (err)
 												callback({errors: {database: {message: "Please contact an admin."}}});
 											else

@@ -164,7 +164,6 @@ module.exports = {
 	// 		else {		
 	// 			var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
 	// 			connection.query(query, req.params.id, function(err, data) {
-	// 				console.log(err)
 	// 				if (err)
 	// 					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 	// 				else if (data.length == 0)
@@ -177,7 +176,6 @@ module.exports = {
 	// },	
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-			console.log(err)
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else if (!req.body.materials || !req.body.labor)
@@ -194,7 +192,6 @@ module.exports = {
 							user_id: `UNHEX('${data.id}')`
 						}
 						connection.query("INSERT INTO offers SET ?, id = @temp", _data, function(err) {
-							console.log(err)
 							if (err)
 								callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 							else {
@@ -208,7 +205,6 @@ module.exports = {
 
 										var query = "INSERT INTO processes_has_offers (process_process, offer_id, created_at, updated_at) VALUES ?";
 										connection.query(query, [data], function(err) {
-											console.log(err)
 											if (err)
 												callback({errors: {database: {message: "Please contact an admin."}}});
 											else
