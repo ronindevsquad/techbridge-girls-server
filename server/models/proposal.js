@@ -9,7 +9,11 @@ module.exports = {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "SELECT process_process AS process FROM processes_has_users WHERE HEX(user_id) = ?"
+				// var query = "SELECT * FROM proposals LEFT JOIN reports ON proposals.id = \
+				// proposal_id ORDER BY "
+
+
+				var query = "SELECT *, HEX(id) AS 'hex_proposal_id' FROM proposals WHERE HEX(user_id) = ?"
 				connection.query(query, data.id, function(err, data) {
 					if (err)
 						callback({errors: {database: {message: "Please contact an admin."}}});
@@ -17,7 +21,7 @@ module.exports = {
 						var _data = []
 						for (var i = 0; i < data.length; i++)
 							_data.push(data[i].process);
-console.log(_data)
+
 						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
 						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
 						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
@@ -29,7 +33,7 @@ console.log(_data)
 								callback(false, data)
 						});
 					}
-				});				
+				});
 			}
 		});
 	},
@@ -37,7 +41,7 @@ console.log(_data)
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
-			else {		
+			else {
 				var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
 				connection.query(query, req.params.id, function(err, data) {
 					if (err)
@@ -49,7 +53,7 @@ console.log(_data)
 				});
 			}
 		});
-	},	
+	},
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
@@ -100,7 +104,7 @@ console.log(_data)
 									}
 								});
 							}
-						})	
+						})
 					}
 				});
 			}

@@ -1,19 +1,8 @@
-var offer = require('../models/offer');
+var report = require('../models/report');
 
 module.exports = {
-	getAcceptedOffers: function(req, res) {
-		offer.getAcceptedOffers(req, function(err, data) {
-			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
-			else
-				res.json(data);
-		});
-	},
 	index: function(req, res) {
-		offer.index(function(err, data) {
+		report.index(req, function(err, data) {
 			if (err)
 				if (err.errors.jwt)
 					res.clearCookie('evergreen_token').json(err);
@@ -24,7 +13,7 @@ module.exports = {
 		});
 	},
 	// show: function(req, res) {
-	// 	offer.show(req, function(err, data) {
+	// 	proposal.show(req, function(err, data) {
 	// 		if (err)
 	// 			if (err.errors.jwt)
 	// 				res.clearCookie('evergreen_token').json(err);
@@ -34,19 +23,19 @@ module.exports = {
 	// 			res.json(data);
 	// 	});
 	// },
-	create: function(req, res) {
-		offer.create(req, function(err, data) {
-			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
-			else
-				res.json(data);
-		});
-	},
+	// create: function(req, res) {
+	// 	proposal.create(req, function(err, data) {
+	// 		if (err)
+	// 			if (err.errors.jwt)
+	// 				res.clearCookie('evergreen_token').json(err);
+	// 			else
+	// 				res.json(err);
+	// 		else
+	// 			res.json(data);
+	// 	});
+	// },
 	// update: function(req, res) {
-	// 	offer.update(req, function(err, data) {
+	// 	proposal.update(req, function(err, data) {
 	// 		if (err)
 	// 			if (err.errors.jwt)
 	// 				res.clearCookie('evergreen_token').json(err);
@@ -57,7 +46,7 @@ module.exports = {
 	// 	});
 	// },
 	// delete: function(req, res) {
-	// 	offer.delete(req, function(err) {
+	// 	proposal.delete(req, function(err) {
 	// 		if (err)
 	// 			if (err.errors.jwt)
 	// 				res.clearCookie('evergreen_token').json(err);
