@@ -1,19 +1,19 @@
-app.controller('addRequestController', function ($scope, $location, proposalsFactory) {
+app.controller("addRequestController", function ($scope, $location, proposalsFactory) {
 	if (payload && $scope.type == 0) {
 		$scope.today = new Date();
 		$scope.step = 1;
 	}
 	else
-		$location.url('/');
+		$location.url("/");
 
 	$scope.reset = function() {
 		$scope.proposal = null;
-		$('#requestSuccess').modal('hide');
+		$("#requestSuccess").modal("hide");
 		$scope.step = 1;
 	}
 
 	$scope.close = function() {
-		$('#requestSuccess').modal('hide');
+		$("#requestSuccess").modal("hide");
 	}
 
 	$scope.create = function() {
@@ -25,7 +25,7 @@ app.controller('addRequestController', function ($scope, $location, proposalsFac
 				}
 			else {
 				$scope.step = 4
-				$('#requestSuccess').modal("show");
+				$("#requestSuccess").modal("show");
 			}
 		});
 	}

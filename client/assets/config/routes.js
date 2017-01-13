@@ -28,12 +28,9 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/proposal-details.html',
 		controller: 'proposalDetailsController'
 	})
-	.when('/sending-offer-details',{
-		templateUrl: 'partials/sending-offer-details.html'
-	})
 	.when('/sending-offer/:id',{
 		templateUrl: 'partials/sending-offer.html',
-		controller: 'proposalDetailsController'
+		controller: 'sendingOfferController'
 	})
 	//////////////////////////////////////////////////////
 	//										MAKER

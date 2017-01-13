@@ -1,6 +1,17 @@
 var offer = require('../models/offer');
 
 module.exports = {
+	getAcceptedOffers: function(req, res) {
+		offer.getAcceptedOffers(req, function(err, data) {
+			if (err)
+				if (err.errors.jwt)
+					res.clearCookie('evergreen_token').json(err);
+				else
+					res.json(err);
+			else
+				res.json(data);
+		});
+	},
 	index: function(req, res) {
 		offer.index(req, function(err, data) {
 			if (err)

@@ -23,16 +23,16 @@ function setSocket() {
 		socket = io.connect();
 
 		// Find rooms to subscribe to rooms:
-		// $.ajax({
-		// 	type: "GET",
-		// 	url: "/api/applications",
-		// 	dataType: "json",
-		// 	headers: {'authorization': `Bearer ${evergreen_token}`},
-		// 	success: function(data) {
-		// 		for (var i = 0; i < data.length; i++)
-		// 			socket.emit('subscribe', data[i].id);
-		// 	}
-		// });
+		$.ajax({
+			type: "GET",
+			url: "/api/getAcceptedOffers",
+			dataType: "json",
+			headers: {'authorization': `Bearer ${evergreen_token}`},
+			success: function(data) {
+				for (var i = 0; i < data.length; i++)
+					socket.emit('subscribe', data[i].id);
+			}
+		});
 	}
 }
 
@@ -75,54 +75,28 @@ app.run(function($rootScope, $timeout) {
 		
 		setSocket();
 		if (socket) {
-	// 		// Define socket event handlers:
-	// 		socket.on('sent', function(data) {
-	// 			// Only notify on new messages when you're not the sender 
-	// 			// and you're not currently viewing that conversation:
-	// 			if (allow_notify && data.name != $rootScope.name && 
-	// 			(!$rootScope.cur_app || data.application_id != $rootScope.cur_app.id || !window.location.hash.includes("messages")))
-	// 				$.notify({
-	// 					icon: "glyphicon glyphicon-envelope",
-	// 					message: `New message from ${data.name}.`,
-	// 					url: `#/messages/${data.application_id}#${Date.now()}`,
-	// 					target: "_self"
-	// 				}, {
-	// 					type: "info",
-	// 					placement: {
-	// 						from: "bottom"
-	// 					},
-	// 					delay: 4000,
-	// 					animate: {
-	// 						enter: 'animated fadeInUp',
-	// 						exit: 'animated fadeOutDown',
-	// 					},
-	// 					onShow: function () {
-	// 						allow_notify = false;
-	// 					},
-	// 					onClose: function() {
-	// 						allow_notify = true;
-	// 					}				
-	// 				});
-	// 			else if (data.application_id == $rootScope.cur_app.id && window.location.hash.includes("messages")) {
-	// 				$rootScope.messages.push(data);
-	// 				$rootScope.$apply();
-	// 				$timeout(function() {
-	// 					var _ = document.getElementById("chat");
-	// 					_.scrollTop = _.scrollHeight;				
-	// 				}, 0, false);
-	// 			}
-	// 		});
+	 		// Define socket event handlers:
+			socket.on('sent', function(data) {
+	 			if (data.offer_id == $rootScope.cur_offer.id && window.location.hash.includes("messages")) {
+					$rootScope.messages.push(data);
+					$rootScope.$apply();
+					$timeout(function() {
+						var _ = document.getElementById("chat");
+						_.scrollTop = _.scrollHeight;				
+					}, 0, false);
+				}
+			});
 
 	// 		//////////////////////////////////////////////////////
 	// 		//										SENT FROM TRUCKERS
 	// 		//////////////////////////////////////////////////////			
 	// 		socket.on('applied', function(data) {
 	// 			if (data.user_id == $rootScope.id) {
-	// 				socket.emit("subscribe", data.application_id);
+	// 				socket.emit("subscribe", data.offer_id);
 	// 				$.notify({
 	// 					icon: "glyphicon glyphicon-check",
-	// 					message: `${data.name} applied for your job!`,
-	// 					url: `#/messages/${data.application_id}`,
+	// 					message: `${data.company} applied for your job!`,
+	// 					url: `#/messages/${data.offer_id}`,
 	// 					target: "_self"
 	// 				}, {
 	// 					type: "info",
@@ -141,7 +115,7 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('cancelled', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-info-sign",
-	// 				message: `${data.name} has cancelled their application for your job.`,
+	// 				message: `${data.company} has cancelled their application for your job.`,
 	// 			}, {
 	// 				type: "warning",
 	// 				placement: {
@@ -158,7 +132,7 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('forfeitted', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-warning-sign",
-	// 				message: `${data.name} forfeitted the job. Click here to view/relist the job.`,
+	// 				message: `${data.company} forfeitted the job. Click here to view/relist the job.`,
 	// 				url: `#/jobs/${data.job_id}#${Date.now()}`,
 	// 				target: "_self"
 	// 			}, {
@@ -178,8 +152,8 @@ app.run(function($rootScope, $timeout) {
 	// 			console.log("CONNECTED")
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-info-sign",
-	// 				message: `${data.name} has paid our lead fee. You're now connected!`,
-	// 				url: `#/messages/${data.application_id}#${Date.now()}`,
+	// 				message: `${data.company} has paid our lead fee. You're now connected!`,
+	// 				url: `#/messages/${data.offer_id}#${Date.now()}`,
 	// 				target: "_self"
 	// 			}, {
 	// 				type: "info",
@@ -197,7 +171,7 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('invoiced', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-info-sign",
-	// 				message: `${data.name} has sent you an invoice.`,
+	// 				message: `${data.company} has sent you an invoice.`,
 	// 				url: `#/invoices#${Date.now()}`,
 	// 				target: "_self"
 	// 			}, {
@@ -219,8 +193,8 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('accepted', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-check",
-	// 				message: `${data.name} accepted your application!`,
-	// 				url: `#/messages/${data.application_id}#${Date.now()}`,
+	// 				message: `${data.company} accepted your application!`,
+	// 				url: `#/messages/${data.offer_id}#${Date.now()}`,
 	// 				target: "_self"
 	// 			}, {
 	// 				type: "success",
@@ -238,7 +212,7 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('declined', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-info-sign",
-	// 				message: `${data.name} declined your application. Better luck next time!`
+	// 				message: `${data.company} declined your application. Better luck next time!`
 	// 			}, {
 	// 				type: "warning",
 	// 				placement: {
@@ -255,7 +229,7 @@ app.run(function($rootScope, $timeout) {
 	// 		socket.on('paid', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-info-sign",
-	// 				message: `${data.name} has paid you! Click here and check your invoice history.`,
+	// 				message: `${data.company} has paid you! Click here and check your invoice history.`,
 	// 				url: `#/invoices#${Date.now()}`,
 	// 				target: "_self"
 	// 			}, {

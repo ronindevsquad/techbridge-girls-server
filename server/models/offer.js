@@ -5,6 +5,21 @@ var fs = require('fs');
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
+	getAcceptedOffers: function() {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			if (err)
+				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
+			else {
+				var query = "SELECT *, HEX(id) AS id FROM offers WHERE user_id = ? AND status = 1";
+				connection.query(query, data.id, function(err, data) {
+					if (err)
+						callback({errors: {database: {message: "Please contact an admin."}}});
+					else
+						callback(false, data);
+				});
+			}
+		});
+	},
 	index: function(callback) {
 		// FOR NOW, THIS IS THE SIMULATED JSON RESPONSE
 		var sampleResponse = {
@@ -178,44 +193,63 @@ module.exports = {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
-			else if (!req.body.materials || !req.body.labor)
+			else if (!req.body.proposal_id || !req.body.material || !req.body.material_cost || !req.body.unit_cost || 
+			!req.body.machine || !req.body.cycle_time || !req.body.yield || !req.body.rate || !req.body.laborers || 
+			!req.body.sga || !req.body.profit || !req.body.overhead || !req.body.total )
 				callback({errors: {form: {message: "All form fields are required."}}});
 			else {
-				connection.query("SET @temp = UNHEX(REPLACE(UUID(), '-', ''))", function(err) {
+				var _data = {
+					status: 0,
+					sga: req.body.sga,
+					profit: req.body.profit,
+					overhead: req.body.overhead,
+					total: req.body.total,
+					created_at: "NOW()",
+					updated_at: "NOW()",
+					proposal_id: `UNHEX('${req.body.proposal_id}')`,
+					user_id: `UNHEX('${data.id}')`
+				}
+				connection.query("INSERT INTO offers SET ?", _data, function(err) {
 					if (err)
-						callback({errors: {database: {message: "Please contact an admin."}}});
+						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
 					else {
 						var _data = {
-							status: 0,
+							id: "UNHEX(REPLACE(UUID(), '-', ''))",
+							material: req.body.material,
+							material_cost: req.body.material_cost,
+							unit_cost: req.body.unit_cost,
 							created_at: "NOW()",
 							updated_at: "NOW()",
+							proposal_id: `UNHEX('${req.body.proposal_id}')`,
 							user_id: `UNHEX('${data.id}')`
 						}
-						connection.query("INSERT INTO offers SET ?, id = @temp", _data, function(err) {
+						connection.query("INSERT INTO materials SET ?", _data, function(err) {
 							if (err)
-								callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+								callback({errors: {database: {message: "Please contact an admin."}}});
 							else {
-								connection.query("SELECT HEX(@temp) AS id", function(err, offer) {
+								var _data = {
+									id: "UNHEX(REPLACE(UUID(), '-', ''))",
+									machine: req.body.machine,
+									cycle_time: req.body.cycle_time,
+									yield: req.body.yield,
+									rate: req.body.rate,
+									laborers: req.body.laborers,
+									created_at: "NOW()",
+									updated_at: "NOW()",
+									proposal_id: `UNHEX('${req.body.proposal_id}')`,
+									user_id: `UNHEX('${data.id}')`
+								}
+								connection.query("INSERT INTO machines SET ?", _data, function(err) {
 									if (err)
 										callback({errors: {database: {message: "Please contact an admin."}}});
 									else {
-										var data = [];
-										for (var i = 0; i < req.body.processes.length; i++)
-												data.push([req.body.processes[i], `UNHEX('${offer[0].id}')`, "NOW()", "NOW()"]);
-
-										var query = "INSERT INTO processes_has_offers (process_process, offer_id, created_at, updated_at) VALUES ?";
-										connection.query(query, [data], function(err) {
-											if (err)
-												callback({errors: {database: {message: "Please contact an admin."}}});
-											else
-												callback(false);
-										});
+										callback(false);
 									}
 								});
 							}
-						})	
+						});
 					}
-				});
+				})	
 			}
 		});
 	},

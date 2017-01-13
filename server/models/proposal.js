@@ -17,7 +17,7 @@ module.exports = {
 						var _data = []
 						for (var i = 0; i < data.length; i++)
 							_data.push(data[i].process);
-
+console.log(_data)
 						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
 						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
 						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
@@ -41,7 +41,7 @@ module.exports = {
 				var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
 				connection.query(query, req.params.id, function(err, data) {
 					if (err)
-						callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+						callback({errors: {database: {message: "Please contact an admin."}}})
 					else if (data.length == 0)
 						callback({errors: {data: {message: `Not able to fetch valid proposal.`}}});
 					else
@@ -80,7 +80,7 @@ module.exports = {
 						}
 						connection.query("INSERT INTO proposals SET ?, id = @temp", _data, function(err) {
 							if (err)
-								callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+								callback({errors: {database: {message: "Please contact an admin."}}})
 							else {
 								connection.query("SELECT HEX(@temp) AS id", function(err, proposal) {
 									if (err)
@@ -123,7 +123,7 @@ module.exports = {
 	// 			var query = "UPDATE proposals SET ?, updated_at = NOW() WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
 	// 			connection.query(query, [_data, req.params.id, data.id], function(err, data) {
 	// 				if (err)
-	// 					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+	// callback({errors: {database: {message: "Please contact an admin."}}})
 	// 				else
 	// 					callback(false);
 	// 			});
@@ -138,7 +138,7 @@ module.exports = {
 	// 			var query = "DELETE FROM proposals WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
 	// 			connection.query(query, [req.params.id, data.id], function(err) {
 	// 				if (err)
-	// 					callback({errors: {database: {message: `Database error: ${err.code}.`}}});
+	// callback({errors: {database: {message: "Please contact an admin."}}})
 	// 				else
 	// 					callback(false);
 	// 			});

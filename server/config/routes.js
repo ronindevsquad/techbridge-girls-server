@@ -22,6 +22,7 @@ module.exports = function(app) {
 	// app.delete('/api/proposals/:id', proposals.delete);
 
 	//OFFERS
+	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
 	app.get('/api/offers', offers.index);
 	// app.get('/api/offers/:id', offers.show);
 	app.post('/api/offers', offers.create);

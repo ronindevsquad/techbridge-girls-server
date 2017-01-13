@@ -1,5 +1,4 @@
-app.controller('proposalDetailsController', function ($scope, $location, $routeParams, 
-	proposalsFactory, offersFactory) {
+app.controller('proposalDetailsController', function ($scope, $location, $routeParams, proposalsFactory) {
 	if (payload && $scope.type == 1) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.errors)
@@ -13,4 +12,12 @@ app.controller('proposalDetailsController', function ($scope, $location, $routeP
 	else
 		$location.url('/');
 
+	$scope.send = function() {
+		if (!$scope.signed) {
+			console.log("HERE")
+			$("#ndaWindow").modal("show");
+		}
+		else
+			$location.url(`sending-offer/${$routeParams.id}`)
+	}
 })
