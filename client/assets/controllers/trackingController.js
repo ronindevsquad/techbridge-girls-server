@@ -23,26 +23,44 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			console.log(data.errors);
 		else{
 			console.log(data);
-			$scope.proposals = data.proposals
-		}
-	});
-	reportsFactory.index(function(data){
-		if(data.errors)
-			console.log(data.errors);
-		else{
-			console.log(data);
-			$scope.offers = data.offers
+			$scope.proposals = data
+			reportsFactory.index(function(data2){
+				if(data2.errors)
+					console.log(data2.errors);
+				else{
+					console.log(data2);
+					$scope.reports = data2;
+					$scope.proposalsAndReports = formatProposalsAndReports();
+					console.log($scope.proposalsAndReports);
+				}
+			});
 		}
 	});
 
+	function formatProposalsAndReports(){
+		var formattedObject = [];
+		for(i=0;i<$scope.proposals.length;i++){
+			formattedObject.push($scope.proposals[i]);
+			formattedObject[i].reports = [];
+			for(j=0;j<$scope.reports.length;j++){
+				if(formattedObject[i].hex_proposal_id == $scope.reports[j].proposal_id){
+					formattedObject[i].reports.push($scope.reports[j])
+				}
+			}
+		}
+		console.log(formattedObject);
+		return formattedObject;
+	}
 
 
 	$scope.percentCompleted = function(key){
 		var cumulativeUnits = 0
-		for(i=0;i<key.accepted_offer.reports.length;i++){
-			cumulativeUnits+=key.accepted_offer.reports[i].units
+		for(i=0;i<key.reports.length;i++){
+			cumulativeUnits+=parseInt(key.reports[i].output)
 		}
 		var numberToReturn = Math.floor(cumulativeUnits/key.quantity*100)
+		console.log("cumulative units: " + cumulativeUnits);
+		console.log("quantity proposal requested: " + key.quantity);
 		console.log(parseInt(numberToReturn));
 		return numberToReturn
 	}

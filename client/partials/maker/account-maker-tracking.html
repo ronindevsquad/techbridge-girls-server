@@ -101,14 +101,14 @@
 
 
             <!-- TESTING BLOCK -->
-            <span ng-repeat="key in proposals" class="ui resulted items"> <!-- NG REPEAT BEGIN -->
+            <span ng-repeat="key in proposalsAndReports" class="ui resulted items"> <!-- NG REPEAT BEGIN -->
               <div class="item ui segment opened">
                 <div class="ui tiny image">
                   <img src="static/img/husky-logo.png" class="ui centered image" />
                 </div>
                 <div class="middle aligned content">
                   <div class="header">
-                    {{key.item}} | Quantity: {{key.quantity}} | percent complete: {{percentCompleted(key)}}
+                    {{key.sga}} | Quantity: {{key.quantity}} | percent complete: {{percentCompleted(key)}}
                   </div> <!-- ad title -->
                   <div class="description">
 
@@ -141,21 +141,21 @@
                     <div class="four wide column">
                       <div class="vertical timeline">
                         <ul class="timeline items">
-                          <li ng-repeat="report in key.accepted_offer.reports" ng-class="{'working': report.status == 0, 'done': report.status == 1 && report === key.accepted_offer.reports[key.accepted_offer.reports.length-1]}">{{report.status}}</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
+                          <li ng-repeat="report in key.reports" ng-class="{'working': report.status == 0, 'done': report.status == 1 && report === key.reports[key.reports.length-1]}">{{report.created_at}}</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
                           <!-- add the .done class when the progress is over -->
                         </ul>
                       </div> <!-- .vertical timeline -->
                     </div> <!-- .column -->
                     <div class="twelve wide column">
                       <ul class="detailed items">
-                        <li ng-repeat="report in key.accepted_offer.reports">
+                        <li ng-repeat="report in key.reports">
                           <div class="actions">
                             <a href="#" title="View Daily Report">
                               <span ng-if="report.status == 1">View Daily Report</span>
                             </a>
                           </div>
                            <span ng-if="report.status == 0">In progress...</span>
-                           <span ng-if="report.status == 1">{{report.units}} units produced.</span>
+                           <span ng-if="report.status == 1">{{report.quantity}} units produced. <strong ng-if="report == key.reports[key.reports.length-1]">COMPLETED</strong></span>
 
                         </li>
                       </ul>
