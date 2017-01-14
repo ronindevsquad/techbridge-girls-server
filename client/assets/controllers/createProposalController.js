@@ -1,4 +1,4 @@
-app.controller("addRequestController", function ($scope, $location, proposalsFactory) {
+app.controller("createProposalController", function ($scope, $location, proposalsFactory) {
 	if (payload && $scope.type == 0) {
 		$scope.today = new Date();
 		$scope.step = 1;

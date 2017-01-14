@@ -1,7 +1,86 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
 app.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
-	.when('/',{                                         //Index
+	//////////////////////////////////////////////////////
+	//										MAKER
+	//////////////////////////////////////////////////////
+	.when('/maker/join',{
+		templateUrl: 'partials/maker/join.html',
+		controller: 'registerController'
+	})
+	.when('/maker/success',{
+		templateUrl: 'partials/maker/success.html',
+	})
+	.when('/maker/dashboard',{
+		templateUrl: 'partials/maker/dashboard.html',
+		controller: 'dashboardController'
+	})
+	.when('/maker/messages',{
+		templateUrl: 'partials/maker/messages.html',
+		controller: 'messagesController'
+	})
+	.when('/maker/profile',{
+		templateUrl: 'partials/maker/profile.html',
+		controller: 'profileController'
+	})
+	.when('/maker/proposals',{
+		templateUrl: 'partials/maker/proposals.html',
+		controller: 'proposalsController'
+	})
+	.when('/maker/tracking',{
+		templateUrl: 'partials/maker/tracking.html',
+		controller: 'trackingController'
+	})
+	.when('/maker/create-proposal',{
+		templateUrl: 'partials/maker/create-proposal.html',
+		controller: 'createProposalController'
+	})
+	//////////////////////////////////////////////////////
+	//										SUPPLIER
+	//////////////////////////////////////////////////////
+	.when('/supplier/join',{
+		templateUrl: 'partials/supplier/join.html',
+		controller: 'registerController'
+	})	
+	.when('/supplier/success',{
+		templateUrl: 'partials/supplier/success.html'
+	})
+	.when('/supplier',{
+		templateUrl: 'partials/supplier/open-proposals.html',
+		controller: 'openProposalsController'
+	})
+	.when('/supplier/dashboard',{
+		templateUrl: 'partials/supplier/dashboard.html',
+		controller: 'dashboardController'
+	})
+	.when('/supplier/messages',{
+		templateUrl: 'partials/supplier/messages.html',
+		controller: 'messagesController'
+	})
+	.when('/supplier/profile',{
+		templateUrl: 'partials/supplier/profile.html',
+		controller: 'profileController'
+	})
+	.when('/supplier/proposals',{
+		templateUrl: 'partials/supplier/proposals.html',
+		controller: 'proposalsController'
+	})
+	.when('/supplier/tracking',{
+		templateUrl: 'partials/supplier/tracking.html',
+		controller: 'trackingController'
+	})
+	.when('/supplier/create-offer/:id',{
+		templateUrl: 'partials/supplier/create-offer.html',
+		controller: 'createOfferController'
+	})
+	.when('supplier/processes',{
+		templateUrl: 'partials/supplier/processes.html',
+		controller: 'processesController'
+	})
+	//////////////////////////////////////////////////////
+	//										SHARED
+	//////////////////////////////////////////////////////
+	.when('/',{
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
@@ -12,85 +91,9 @@ app.config(function ($routeProvider, $locationProvider) {
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
 	})
-	.when('/add-request',{
-		templateUrl: 'partials/add-request.html',
-		controller: 'addRequestController'
-	})
-	.when('/category-selector',{
-		templateUrl: 'partials/category-selector.html',
-		controller: 'categorySelectorController'
-	})
-	.when('/opened-proposals',{
-		templateUrl: 'partials/opened-proposals.html',
-		controller: 'openedProposalsController'
-	})
-	.when('/proposal-details/:id',{
-		templateUrl: 'partials/proposal-details.html',
-		controller: 'proposalDetailsController'
-	})
-	.when('/sending-offer/:id',{
-		templateUrl: 'partials/sending-offer.html',
-		controller: 'sendingOfferController'
-	})
-	//////////////////////////////////////////////////////
-	//										MAKER
-	//////////////////////////////////////////////////////
-	.when('/join-maker',{
-		templateUrl: 'partials/maker/join-maker.html',
-		controller: 'registerController'
-	})
-	.when('/success-maker',{
-		templateUrl: 'partials/maker/success-maker.html'
-	})
-	.when('/account-maker-dashboard',{
-		templateUrl: 'partials/maker/account-maker-dashboard.html',
-		controller: 'dashboardController'
-	})
-	.when('/account-maker-messaging',{
-		templateUrl: 'partials/maker/account-maker-messaging.html',
-		controller: 'messagingController'
-	})
-	.when('/account-maker-profile',{
-		templateUrl: 'partials/maker/account-maker-profile.html',
-		controller: 'profileController'
-	})
-	.when('/account-maker-proposals',{
-		templateUrl: 'partials/maker/account-maker-proposals.html',
-		controller: 'proposalsController'
-	})
-	.when('/account-maker-tracking',{
-		templateUrl: 'partials/maker/account-maker-tracking.html',
-		controller: 'trackingController'
-	})
-	//////////////////////////////////////////////////////
-	//										SUPPLIER
-	//////////////////////////////////////////////////////
-	.when('/join-supplier',{
-		templateUrl: 'partials/supplier/join-supplier.html',
-		controller: 'registerController'
-	})	
-	.when('/success-supplier',{
-		templateUrl: 'partials/supplier/success-supplier.html'
-	})
-	.when('/account-supplier-dashboard',{
-		templateUrl: 'partials/supplier/account-supplier-dashboard.html',
-		controller: 'dashboardController'
-	})
-	.when('/account-supplier-messaging',{
-		templateUrl: 'partials/supplier/account-supplier-messaging.html',
-		controller: 'messagingController'
-	})
-	.when('/account-supplier-profile',{
-		templateUrl: 'partials/supplier/account-supplier-profile.html',
-		controller: 'profileController'
-	})
-	.when('/account-supplier-proposals',{
-		templateUrl: 'partials/supplier/account-supplier-proposals.html',
-		controller: 'proposalsController'
-	})
-	.when('/account-supplier-tracking',{
-		templateUrl: 'partials/supplier/account-supplier-tracking.html',
-		controller: 'trackingController'
+	.when('/proposal/:id',{
+		templateUrl: 'partials/proposal.html',
+		controller: 'proposalController'
 	})
 	.otherwise({
 		redirectTo: '/'

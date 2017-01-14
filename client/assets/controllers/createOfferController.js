@@ -1,4 +1,4 @@
-app.controller('sendingOfferController', function ($scope, $location, $routeParams, 
+app.controller('createOfferController', function ($scope, $location, $routeParams, 
 	proposalsFactory, offersFactory) {
 	if (payload && $scope.type == 1) {
 		proposalsFactory.show($routeParams.id, function(data) {
@@ -15,7 +15,7 @@ app.controller('sendingOfferController', function ($scope, $location, $routePara
 
 	$scope.continue = function() {
 		$("#offerSent").modal("hide");
-		$location.url("opened-proposals");
+		$location.url("supplier");
 	}
 
 	$scope.create = function() {

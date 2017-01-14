@@ -1,4 +1,4 @@
-app.controller('categorySelectorController', function ($scope, $location, processesFactory) {
+app.controller('processesController', function ($scope, $location, processesFactory) {
 	if (payload && $scope.type == 1) {
 
 	}
@@ -10,7 +10,7 @@ app.controller('categorySelectorController', function ($scope, $location, proces
 			if (data.errors)
 				console.log(data.errors);
 			else
-				$location.url('/account-supplier-dashboard');
+				$location.url('/supplier/dashboard');
 		});
 	}
 })

@@ -21,9 +21,9 @@ app.controller("registerController", function ($scope, $location, usersFactory) 
 				else {
 					$scope.setUser();
 					if ($scope.type == 0)
-						$location.url('/success-maker');
+						$location.url('/maker/success');
 					else if ($scope.type == 1)
-						$location.url('/success-supplier');
+						$location.url('/supplier/success');
 				}
 			});
 	}

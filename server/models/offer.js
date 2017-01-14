@@ -5,13 +5,16 @@ var fs = require('fs');
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
-	getAcceptedOffers: function() {
+	getAcceptedOffers: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 			if (err)
 				callback({errors: {jwt: {message: "Invalid token. Your session is ending, please login again."}}});
 			else {
-				var query = "SELECT *, HEX(id) AS id FROM offers WHERE user_id = ? AND status = 1";
-				connection.query(query, data.id, function(err, data) {
+				var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON \
+				offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) \
+				AND offers.status > 0";
+				connection.query(query, [data.id, data.id], function(err, data) {
+					console.log(err)
 					if (err)
 						callback({errors: {database: {message: "Please contact an admin."}}});
 					else

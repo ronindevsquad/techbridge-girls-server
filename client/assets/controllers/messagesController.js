@@ -1,4 +1,4 @@
-app.controller('messagingController', function ($scope, $rootScope, $location, $timeout,
+app.controller('messagesController', function ($scope, $rootScope, $location, $timeout,
 offersFactory, messagesFactory) {
 	if (payload ) {
 		// offersFactory.index(function(data) {

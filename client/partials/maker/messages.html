@@ -1,12 +1,13 @@
+
     <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/account.css"> -->
 
-  <div class="userarea supplier">
+  <div class="userarea maker">
 
     <div id="greenwrapper">
 
-      <header class="ui padded basic segment">
+      <header class="ui darker padded basic segment">
         <div class="ui secondary menu">
           <div class="left floated">
             <img src="static/img/logo-black.png" width="151" class="ui image" />
@@ -43,21 +44,26 @@
             </div> <!-- .item -->
           </div> <!-- .items -->
 
-
           <div class="ui pointing secondary menu">
-            <a class="item" href="#!/account-supplier-dashboard">Dashboard</a>
-            <a class="item" href="#!/account-supplier-proposals">Proposals
+            <a class="item" href="#!/maker/dashboard">Dashboard</a>
+            <a class="item" href="#!/maker/proposals">Proposals
               <span class="ui circular label">2</span>
             </a>
-            <a class="active item" href="#!/account-supplier-messaging">Messages
+            <a class="active item" href="#!/maker/messages">Messages
               <span class="ui circular red label">2</span>
               <span class="ui circular label">80</span>
             </a>
-            <a class="item" href="#!/account-supplier-tracking">Track Progress
+            <a class="item" href="#!/maker/tracking">Track Progress
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/account-supplier-profile">Profile</a>
+            <a class="item" href="#!/maker/profile">Profile</a>
           </div> <!-- .menu -->
+
+        <div class="adbox">
+          <h4 class="title">Invite your supplier</h4>
+          <p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
+          <a class="ui big evergreen uppercase orange button" href="">Invite supplier</a>
+        </div> <!-- .adbox -->
 
         </section> <!-- .nav -->
       </div> <!-- .top segment -->
@@ -80,11 +86,12 @@
               </div> <!-- left column -->
               <div class="eight wide column">
                 <p class="toplabels">Order By:
-                  <a href="#" title="Date" class="selected-link">Date</a> &bull; <a href="#" title="Read / Unread">Read / Unread</a>
+                  <a href="" title="Date" class="selected-link">Date</a> &bull; <a href="" title="Read / Unread">Read / Unread</a>
                 </p>
               </div> <!-- .right column -->
             </div>
-          </div> <!-- .item -->
+          </div>
+
 
           <div class="messaging-container">
 
@@ -112,14 +119,19 @@
                   <div class="ui tab active" data-tab="message1">
 
                     <div class="messaging-area" ng-show="!cur_offer">
-                      <p>Click on a maker on the left to load the conversation.</p>
+                    <p>Click on a supplier on the left to load the conversation.</p>
                     </div>
 
                     <div class="messaging-area" ng-show="cur_offer">
 
                       <div class="message-ad" ng-if="cur_offer.status==0">
-                        <p>Awaiting {{cur_offer.company}}'s approval of your offer.</p>
-                      </div>                    
+                        <div class="right floated">
+                          <a class="ui big evergreen uppercase orange button accept-offer" href="">Accept Offer</a>
+                        </div>
+
+                        <p>If the terms are agreeable you can start your collaboration with this company at any time.</p>
+
+                      </div>
 
                       <div class="messages ui padded basic segment" id="chat">
                         <!-- this is one message -->
@@ -127,7 +139,7 @@
                         <div ng-repeat="message in messages">
 
                         <!-- SUPPLIER -->
-                          <div class="ui grid entry" ng-if="message.user_id = id">
+                          <div class="ui grid entry" ng-if="message.user_id != id">
                             <div class="left aligned eight wide column">
 
                               <div class="ui tiny image">
@@ -143,7 +155,7 @@
 
                             <!-- MAKER -->
                             <!-- .if it's sent by the user it's .right floated column -->
-                            <div class="ui grid entry" ng-if="message.user_id != id">
+                            <div class="ui grid entry" ng-if="message.user_id == id">
                               <div class="right aligned right floated eight wide column">
                                 <p ng-bind="message.message"></p>
                                 <small ng-bind="mesage.created_at | date:'short'"></small>
@@ -156,26 +168,20 @@
 
                       <div class="send-area">
                         <div class="ui fluid action input">
-                          <input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="!cur_offer">
-                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="!cur_offer">Send</button>
+                          <input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="cur_offer.status<1">
+                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
                         </div>
                       </div> <!-- .send-area -->
 
                     </div>
 
                   </div> <!-- message1 -->
-                  <div class="ui tab" data-tab="message2">
-                    Messaging area 2
-                  </div> <!-- message2 -->
-                  <div class="ui tab" data-tab="message3">
-                    Messaging area 3
-                  </div> <!-- message31 -->
+
                 </div> <!-- left col -->
               </div>
             </div> <!-- .grid -->
 
           </div> <!-- .messaging-container -->
-
 
         </div> <!-- .ui left continer -->
 
@@ -247,7 +253,101 @@
         </footer> <!-- .segment -->
 
 
+
+      <!-- accept offfer modal -->
+
+      <div class="ui small modal offermodal" id="acceptOffer">
+        <i class="close icon"></i>
+
+        <div class="ui grid">
+
+          <div class="leftcol sixteen wide table five wide computer column middle aligned">
+            <img src="static/img/shield.png" width="100" class="ui centered image" />
+            <p style="text-align: center;">Evergreen is 100% Safe &amp; Secure</p>
+          </div> <!-- .column -->
+
+          <div class="sixteen wide table eleven wide computer column white">
+            <div class="ui basic segment">
+              <div class="header">
+                <h6>Accept Offer</h6>
+              </div> <!-- .header -->
+
+              <div class="offer-details">
+                <div class="details-item">
+                  <p class="footnote">Deliver Date</p>
+                  <div class="details-value">22.12.2016</div>
+                  <small style="display: block; padding-top: 4px;"><a href="" title="View offer details">View offer details</a></small>
+                </div>
+
+                <div class="details-item">
+                  <p class="footnote">Sub-total</p>
+                  <div class="details-value"><span class="op50">$</span> 1.514.511,00</div>
+                </div>
+
+              </div> <!-- .offer-details -->
+
+
+              <p>You will receive an invoice for the total amount of:</p>
+              <div class="ui fluid large label">
+                $ 1.514.511,00
+              </div>
+
+              <div class="ui horizontal divider"></div>
+
+              <div class="ui checkbox toppad">
+                <input type="checkbox" name="example" id="item99">
+                <label for="item99">I have read and accept the <a href="" title="Terms & Conditions">Terms &amp; Conditions</a></label>
+              </div>
+
+              <div class="ui horizontal divider"></div>
+
+              <a class="ui big fluid evergreen uppercase orange button accepted-success" href="">Accept and Continue</a>
+
+              <div class="ui horizontal divider"></div>
+              <div class="ui divider"></div>
+              <div class="ui horizontal divider"></div>
+              <a href="" title="Contact Us">Or contact one of our customer representatives <i class="angle right icon"></i></a>
+
+            </div> <!-- .basic segment -->
+          </div> <!-- .column -->
+
+        </div> <!-- .grid -->
+      </div> <!-- .modal -->
+
+
+
+      <!-- accepted success modal -->
+
+      <div class="ui small modal welldone centered aligned" id="acceptedSuccess">
+        <i class="close icon"></i>
+
+        <div class="ui very padded basic segment">
+          <img src="static/img/orange-check.png" alt="Check" width="120" />
+          <h2>Congratulation on a deal <br />well done!</h2>
+
+          <h1>What’s next?</h1>
+
+          <p>You will be able to coordinate with the supplier, track your production status and maintain the best costs with Evergreen.</p>
+
+          <p>The Evergreen team is here for you.  Email or call us at anytime.</p>
+
+              <div class="ui horizontal divider"></div>
+              <div class="ui divider"></div>
+              <div class="ui horizontal divider"></div>
+
+          <p class="op50">Contact our Customer Support that is always ready to help you with any possible questions, problems or information.</p>
+
+          <div class="ui horizontal divider"></div>
+          <a class="ui big fluid evergreen uppercase orange button" href="#!/maker/dashboard">Your account</a>
+
+        </div>
+
+      </div> <!-- .modal -->
+
+
+
     </div> <!-- #greenwrapper -->
+
 
     <script src="static/js/green.js"></script>
   </div>

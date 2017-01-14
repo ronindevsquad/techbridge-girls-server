@@ -13,8 +13,9 @@ module.exports = {
 				// proposal_id ORDER BY "
 
 
-				var query = "SELECT *, HEX(id) AS 'hex_proposal_id' FROM proposals WHERE HEX(user_id) = ?"
+				var query = "SELECT *, HEX(id) AS id FROM proposals"
 				connection.query(query, data.id, function(err, data) {
+					console.log("HERERE")
 					if (err)
 						callback({errors: {database: {message: "Please contact an admin."}}});
 					else {
@@ -27,6 +28,7 @@ module.exports = {
 						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
 						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
 						connection.query(query, [_data], function(err, data) {
+							console.log(err)
 							if (err)
 								callback({errors: {database: {message: "Please contact an admin."}}});
 							else

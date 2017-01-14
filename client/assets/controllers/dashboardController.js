@@ -1,10 +1,7 @@
 app.controller('dashboardController', function ($scope, $location) {
-	if (payload && $scope.type == 0) {
+	if (payload) {
 
 	}
-	else if (payload && $scope.type == 1) {
-
-	}	
 	else
 		$location.url('/');
 });
