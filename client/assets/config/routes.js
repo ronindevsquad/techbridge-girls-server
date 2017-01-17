@@ -1,5 +1,5 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
-app.config(function ($routeProvider, $locationProvider) {
+app.config(function ($routeProvider) {
 	$routeProvider
 	//////////////////////////////////////////////////////
 	//										MAKER
@@ -7,9 +7,6 @@ app.config(function ($routeProvider, $locationProvider) {
 	.when('/maker/join',{
 		templateUrl: 'partials/maker/join.html',
 		controller: 'registerController'
-	})
-	.when('/maker/success',{
-		templateUrl: 'partials/maker/success.html',
 	})
 	.when('/maker/dashboard',{
 		templateUrl: 'partials/maker/dashboard.html',
@@ -41,9 +38,6 @@ app.config(function ($routeProvider, $locationProvider) {
 	.when('/supplier/join',{
 		templateUrl: 'partials/supplier/join.html',
 		controller: 'registerController'
-	})	
-	.when('/supplier/success',{
-		templateUrl: 'partials/supplier/success.html'
 	})
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
@@ -90,6 +84,9 @@ app.config(function ($routeProvider, $locationProvider) {
 	})
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
+	})
+	.when('/:user_type/success',{
+		templateUrl: 'partials/success.html'
 	})
 	.when('/proposal/:id',{
 		templateUrl: 'partials/proposal.html',
