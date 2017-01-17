@@ -20,7 +20,7 @@ module.exports = {
 					if (err)
 						callback({status: 400, message: "Please contact an admin."});
 					else if (data.length == 0)
-						callback({status: 400, message: "LOGGED OUT"})
+						callback(false)
 					else {
 						var _data = []
 						for (var i = 0; i < data.length; i++)

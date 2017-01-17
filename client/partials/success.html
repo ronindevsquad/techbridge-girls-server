@@ -2,7 +2,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css"> -->
 
-  <div class="login success maker">
+  <div class="login success" ng-class="type==0 ? 'maker' : 'supplier'">
 
     <div id="greenwrapper">
       <header class="ui padded basic segment">
@@ -33,12 +33,12 @@
           <div class="ui middle aligned center aligned grid screen mid">
             <div class="column">
 
-              <img src="static/img/orange-check.png" alt="Check" width="120" />
+              <img src="static/img/{{type == 0 ? 'orange' : 'green'}}-check.png" alt="Check" width="120" />
 
               <h2>Welcome to Evergreen</h2>
               <p>Let’s find you the best supplier for your product</p>
 
-              <a class="ui evergreen upper orange button" href="#!/maker/create-proposal">Continue</a>
+              <a ng-class="type==0 ? 'orange' : 'green'" class="ui evergreen upper button" href="#!/{{type==0 ? 'maker' : 'supplier'}}/create-proposal">Continue</a>
 
             </div> <!-- .column -->
           </div> <!-- .screen.mid -->

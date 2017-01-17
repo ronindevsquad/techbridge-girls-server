@@ -1,6 +1,17 @@
-app.controller("registerController", function ($scope, $location, usersFactory) {
+app.controller("registerController", function ($scope, $location, $routeParams, usersFactory) {
 	if (payload)
 		$location.url("/");
+
+	if ($routeParams.user_type == 'maker')
+		$scope.page = {
+			color: 'orange',
+			user: 'maker'
+		}
+	else
+	$scope.page = {
+		color: 'green',
+		user: 'supplier'
+	}
 
 	$scope.register = function() {
 		if ($location.path().includes("maker"))

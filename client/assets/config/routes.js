@@ -1,36 +1,9 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
-app.config(function ($routeProvider, $locationProvider) {
+app.config(function ($routeProvider) {
 	$routeProvider
 	//////////////////////////////////////////////////////
 	//										MAKER
 	//////////////////////////////////////////////////////
-	.when('/maker/join',{
-		templateUrl: 'partials/maker/join.html',
-		controller: 'registerController'
-	})
-	.when('/maker/success',{
-		templateUrl: 'partials/maker/success.html',
-	})
-	.when('/maker/dashboard',{
-		templateUrl: 'partials/maker/dashboard.html',
-		controller: 'dashboardController'
-	})
-	.when('/maker/messages',{
-		templateUrl: 'partials/maker/messages.html',
-		controller: 'messagesController'
-	})
-	.when('/maker/profile',{
-		templateUrl: 'partials/maker/profile.html',
-		controller: 'profileController'
-	})
-	.when('/maker/proposals',{
-		templateUrl: 'partials/maker/proposals.html',
-		controller: 'proposalsController'
-	})
-	.when('/maker/tracking',{
-		templateUrl: 'partials/maker/tracking.html',
-		controller: 'trackingController'
-	})
 	.when('/maker/create-proposal',{
 		templateUrl: 'partials/maker/create-proposal.html',
 		controller: 'createProposalController'
@@ -38,36 +11,9 @@ app.config(function ($routeProvider, $locationProvider) {
 	//////////////////////////////////////////////////////
 	//										SUPPLIER
 	//////////////////////////////////////////////////////
-	.when('/supplier/join',{
-		templateUrl: 'partials/supplier/join.html',
-		controller: 'registerController'
-	})	
-	.when('/supplier/success',{
-		templateUrl: 'partials/supplier/success.html'
-	})
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
 		controller: 'openProposalsController'
-	})
-	.when('/supplier/dashboard',{
-		templateUrl: 'partials/supplier/dashboard.html',
-		controller: 'dashboardController'
-	})
-	.when('/supplier/messages',{
-		templateUrl: 'partials/supplier/messages.html',
-		controller: 'messagesController'
-	})
-	.when('/supplier/profile',{
-		templateUrl: 'partials/supplier/profile.html',
-		controller: 'profileController'
-	})
-	.when('/supplier/proposals',{
-		templateUrl: 'partials/supplier/proposals.html',
-		controller: 'proposalsController'
-	})
-	.when('/supplier/tracking',{
-		templateUrl: 'partials/supplier/tracking.html',
-		controller: 'trackingController'
 	})
 	.when('/supplier/create-offer/:id',{
 		templateUrl: 'partials/supplier/create-offer.html',
@@ -84,12 +30,39 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
+	.when('/:user_type/join',{
+		templateUrl: 'partials/join.html',
+		controller: 'registerController'
+	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
 		controller: 'loginController'
 	})
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
+	})
+	.when('/:user_type/dashboard',{
+		templateUrl: 'partials/dashboard.html',
+		controller: 'dashboardController'
+	})
+	.when('/:user_type/proposals',{
+		templateUrl: 'partials/proposals.html',
+		controller: 'proposalsController'
+	})
+	.when('/:user_type/success',{
+		templateUrl: 'partials/success.html'
+	})
+	.when('/:user_type/tracking',{
+		templateUrl: 'partials/tracking.html',
+		controller: 'trackingController'
+	})
+	.when('/:user_type/profile',{
+		templateUrl: 'partials/profile.html',
+		controller: 'profileController'
+	})
+	.when('/:user_type/messages',{
+		templateUrl: 'partials/messages.html',
+		controller: 'messagesController'
 	})
 	.when('/proposal/:id',{
 		templateUrl: 'partials/proposal.html',

@@ -1,5 +1,6 @@
 app.controller('proposalController', function ($scope, $location, $routeParams, proposalsFactory) {
 	if (payload && $scope.type == 1) {
+		console.log($scope.page.user);
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
 				$location.url("/logout");
