@@ -4,10 +4,7 @@ module.exports = {
 	index: function(req, res) {
 		proposal.index(req, function(err, data) {
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.json(data);
 		});
@@ -15,10 +12,7 @@ module.exports = {
 	show: function(req, res) {
 		proposal.show(req, function(err, data) {
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.json(data);
 		});
@@ -26,34 +20,25 @@ module.exports = {
 	create: function(req, res) {
 		proposal.create(req, function(err, data) {
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.json(data);
 		});
 	},
 	// update: function(req, res) {
 	// 	proposal.update(req, function(err, data) {
-	// 		if (err)
-	// 			if (err.errors.jwt)
-	// 				res.clearCookie('evergreen_token').json(err);
-	// 			else
-	// 				res.json(err);
-	// 		else
-	// 			res.json(data);
+			// if (err)
+			// 	res.status(err.status).json({message: err.message});
+			// else
+			// 	res.json(data);
 	// 	});
 	// },
 	// delete: function(req, res) {
 	// 	proposal.delete(req, function(err) {
-	// 		if (err)
-	// 			if (err.errors.jwt)
-	// 				res.clearCookie('evergreen_token').json(err);
-	// 			else
-	// 				res.json(err);
-	// 		else
-	// 			res.end();
+			// if (err)
+			// 	res.status(err.status).json({message: err.message});
+			// else
+			// 	res.json(data);
 	// 	});
 	// }
 }

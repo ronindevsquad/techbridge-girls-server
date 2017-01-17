@@ -12,9 +12,10 @@ function setPayload() {
 			var base64Url = evergreen_token.split('.')[1];
 			var base64 = base64Url.replace('-', '+').replace('_', '/');
 			payload = JSON.parse(window.atob(base64));
+			console.log(evergreen_token)
 			break;
 		}
-	}	
+	}
 }
 
 // Connect to sockets:
@@ -29,8 +30,15 @@ function setSocket() {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
+				console.log(payload)
 				for (var i = 0; i < data.length; i++)
 					socket.emit('subscribe', data[i].id);
+			},
+			error: function(error) {
+				if (error.status == 401)
+					location.href = ("/#!/logout");
+				else
+					console.log(error)
 			}
 		});
 	}
@@ -248,7 +256,7 @@ app.run(function($rootScope, $timeout) {
 	})();
 
 	// Define logout function:
-	$rootScope.logout = function() {
+	$rootScope.logout = function(delay) {
 		// Disconnect from sockets:
 		socket.emit("logout");
 		
@@ -265,6 +273,11 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.contact = undefined;
 		
 		// Relocate:
-		location.href = ("/");
+		if (delay)
+			$timeout(function() {
+				location.href = ("/");				
+			}, 5000, false);			
+		else
+			location.href = ("/");
 	};
 });

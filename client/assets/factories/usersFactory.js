@@ -7,40 +7,54 @@ app.factory('usersFactory', function($http, $cookies) {
 		// },
 		show: function(id, callback) {
 			$http.get(`/api/users/${id}`, {
-				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		},
 		update: function(data, callback) {
 			$http.put(`/api/users`, data, {
-				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		},
 		changePassword: function(data, callback) {
 			$http.put(`/users/changePassword`, data, {
-				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res){
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		},
 		delete: function(callback) {
 			$http.delete('/api/users', {
-				headers: {'authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		},
 		register: function(data, callback) {
-			$http.post('/users/register', data).then(function(res) {
+			$http.post('/users/register', data)
+			.then(function(res) {
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		},
 		login: function(data, callback) {
-			$http.post('/users/login', data).then(function(res) {
+			$http.post('/users/login', data)
+			.then(function(res) {
 				callback(res.data);
+			}, function(res) {
+				callback(res);
 			});
 		}
 	}

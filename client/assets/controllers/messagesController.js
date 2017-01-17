@@ -19,9 +19,10 @@ offersFactory, messagesFactory) {
 		$rootScope.messages = [];
 		$rootScope.cur_offer = offer;
 		messagesFactory.show(offer.id, function(data) {
-			if (data.errors) {
-				console.log()
-			}
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
 			else {
 				$rootScope.messages = data;
 				$timeout(function() {
@@ -44,10 +45,11 @@ offersFactory, messagesFactory) {
 			socket.emit('send', data);
 
 			messagesFactory.create(data, function(data) {
-				if (data.errors) {
-					console.log(data.errors)
-				}
-				else
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else
 					$scope.new_message = "";				
 			});	
 		}

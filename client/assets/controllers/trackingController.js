@@ -19,17 +19,21 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	// });
 
 	proposalsFactory.index(function(data){
-		if(data.errors)
-			console.log(data.errors);
-		else{
+		if (data.status == 401)
+			$location.url("/logout");
+		else if (data.status >= 300)
+			console.log("error:", data.data.message)
+		else {
 			console.log(data);
 			$scope.proposals = data
-			reportsFactory.index(function(data2){
-				if(data2.errors)
-					console.log(data2.errors);
-				else{
-					console.log(data2);
-					$scope.reports = data2;
+			reportsFactory.index(function(data){
+				if (data.status == 401)
+					$location.url("/logout");
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else {
+					console.log(data);
+					$scope.reports = data;
 					$scope.proposalsAndReports = formatProposalsAndReports();
 					console.log($scope.proposalsAndReports);
 				}

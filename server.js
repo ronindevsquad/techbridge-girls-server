@@ -1,20 +1,20 @@
-var	express  = require('express'),
-bp = require('body-parser'),
-path = require('path'),
-helmet = require('helmet'),
-expressJwt = require('express-jwt'),
-cookieParser = require('cookie-parser'),
-fs = require('fs'),
-root = __dirname,
-port = process.env.PORT || 8080,
-app = express();
+var	express  = require('express');
+var bp = require('body-parser');
+var path = require('path');
+var helmet = require('helmet');
+var expressJwt = require('express-jwt');
+var cookieParser = require('cookie-parser');
+var fs = require('fs');
+var root = __dirname;
+var port = process.env.PORT || 8080;
+var app = express();
 
 app.use(express.static(path.join(root, 'client')));
 app.use(express.static(path.join(root, 'bower_components')));
 app.use(bp.json());
 app.use(helmet());
-app.use('/api', expressJwt({secret: fs.readFileSync('keys/jwt', 'utf8')}));
 app.use(cookieParser());
+app.use('/api', expressJwt({secret: fs.readFileSync('keys/jwt', 'utf8')}));
 
 require('./server/config/mysql.js');
 require('./server/config/routes.js')(app);

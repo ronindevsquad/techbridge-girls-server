@@ -73,7 +73,7 @@ app.config(function ($routeProvider, $locationProvider) {
 		templateUrl: 'partials/supplier/create-offer.html',
 		controller: 'createOfferController'
 	})
-	.when('supplier/processes',{
+	.when('/supplier/processes',{
 		templateUrl: 'partials/supplier/processes.html',
 		controller: 'processesController'
 	})
@@ -94,6 +94,10 @@ app.config(function ($routeProvider, $locationProvider) {
 	.when('/proposal/:id',{
 		templateUrl: 'partials/proposal.html',
 		controller: 'proposalController'
+	})
+	.when('/logout',{
+		templateUrl: 'partials/logout.html',
+		controller: 'logoutController'
 	})
 	.otherwise({
 		redirectTo: '/'

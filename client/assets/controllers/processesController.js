@@ -7,8 +7,10 @@ app.controller('processesController', function ($scope, $location, processesFact
 
 	$scope.setProcesses = function() {
 		processesFactory.set($scope.process, function(data) {
-			if (data.errors)
-				console.log(data.errors);
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
 			else
 				$location.url('/supplier/dashboard');
 		});

@@ -2,8 +2,10 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 	proposalsFactory, offersFactory) {
 	if (payload && $scope.type == 1) {
 		proposalsFactory.show($routeParams.id, function(data) {
-			if (data.errors)
-				console.log(data.errors)
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
 			else {
 				$scope.new_offer = {proposal_id: $routeParams.id};
 				$scope.proposal = data;
@@ -21,9 +23,10 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 	$scope.create = function() {
 		$scope.error = "";
 		offersFactory.create($scope.new_offer, function(data) {
-			if (data.errors)
-				for (key in data.errors)
-					$scope.error += data.errors[key].message + " ";
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				$scope.error = data.data.message;
 			else {
 				$scope.sent = true;
 				$("#offerSent").modal("show");

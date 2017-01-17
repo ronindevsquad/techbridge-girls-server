@@ -18,11 +18,10 @@ app.controller("createProposalController", function ($scope, $location, proposal
 
 	$scope.create = function() {
 		proposalsFactory.create($scope.proposal, function(data) {
-			if (data.errors)
-				for (key in data.errors) {
-					$scope.error = data.errors[key].message;
-					break;
-				}
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				$scope.error = data.data.message;
 			else {
 				$scope.step = 4
 				$("#requestSuccess").modal("show");

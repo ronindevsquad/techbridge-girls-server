@@ -13,11 +13,10 @@ app.controller("registerController", function ($scope, $location, usersFactory) 
 			$scope.error = "Passwords do not match."
 		else
 			usersFactory.register($scope.new_user, function(data) {
-				if (data.errors)
-					for (key in data.errors) {
-						$scope.error = data.errors[key].message;
-						break;
-					}
+				if (data.status == 401)
+					$location.url("/logout");
+				else if (data.status >= 300)
+					$scope.error = data.data.message;
 				else {
 					$scope.setUser();
 					if ($scope.type == 0)
