@@ -8,14 +8,6 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/maker/join.html',
 		controller: 'registerController'
 	})
-	.when('/maker/messages',{
-		templateUrl: 'partials/maker/messages.html',
-		controller: 'messagesController'
-	})
-	.when('/maker/profile',{
-		templateUrl: 'partials/maker/profile.html',
-		controller: 'profileController'
-	})
 	.when('/maker/proposals',{
 		templateUrl: 'partials/maker/proposals.html',
 		controller: 'proposalsController'
@@ -38,14 +30,6 @@ app.config(function ($routeProvider) {
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
 		controller: 'openProposalsController'
-	})
-	.when('/supplier/messages',{
-		templateUrl: 'partials/supplier/messages.html',
-		controller: 'messagesController'
-	})
-	.when('/supplier/profile',{
-		templateUrl: 'partials/supplier/profile.html',
-		controller: 'profileController'
 	})
 	.when('/supplier/proposals',{
 		templateUrl: 'partials/supplier/proposals.html',
@@ -83,6 +67,14 @@ app.config(function ($routeProvider) {
 	})
 	.when('/:user_type/success',{
 		templateUrl: 'partials/success.html'
+	})
+	.when('/:user_type/profile',{
+		templateUrl: 'partials/profile.html',
+		controller: 'profileController'
+	})
+	.when('/:user_type/messages',{
+		templateUrl: 'partials/messages.html',
+		controller: 'messagesController'
 	})
 	.when('/proposal/:id',{
 		templateUrl: 'partials/proposal.html',

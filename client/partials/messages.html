@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/account.css"> -->
 
-  <div class="userarea maker">
+  <div ng-class="page.user" class="userarea">
 
     <div id="greenwrapper">
 
@@ -45,24 +45,24 @@
           </div> <!-- .items -->
 
           <div class="ui pointing secondary menu">
-            <a class="item" href="#!/maker/dashboard">Dashboard</a>
-            <a class="item" href="#!/maker/proposals">Proposals
+            <a class="item" href="#!/{{page.user}}/dashboard">Dashboard</a>
+            <a class="item" href="#!/{{page.user}}/proposals">Proposals
               <span class="ui circular label">2</span>
             </a>
-            <a class="active item" href="#!/maker/messages">Messages
+            <a class="active item" href="#!/{{page.user}}/messages">Messages
               <span class="ui circular red label">2</span>
               <span class="ui circular label">80</span>
             </a>
-            <a class="item" href="#!/maker/tracking">Track Progress
+            <a class="item" href="#!/{{page.user}}/tracking">Track Progress
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/maker/profile">Profile</a>
+            <a class="item" href="#!/{{page.user}}/profile">Profile</a>
           </div> <!-- .menu -->
 
-        <div class="adbox">
+        <div ng-show="page.user == 'maker'" class="adbox">
           <h4 class="title">Invite your supplier</h4>
           <p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
-          <a class="ui big evergreen uppercase orange button" href="">Invite supplier</a>
+          <a ng-class="page.color" class="ui big evergreen uppercase button" href="">Invite supplier</a>
         </div> <!-- .adbox -->
 
         </section> <!-- .nav -->
@@ -126,7 +126,8 @@
 
                       <div class="message-ad" ng-if="cur_offer.status==0">
                         <div class="right floated">
-                          <a class="ui big evergreen uppercase orange button accept-offer" href="">Accept Offer</a>
+                          <a ng-class="page.color" class="ui big evergreen uppercase button accept-offer" href="">Accept Offer</a>
+                          <a ng-class="page.color" class="ui big evergreen uppercase button accept-offer" href="">Accept Offer</a>
                         </div>
 
                         <p>If the terms are agreeable you can start your collaboration with this company at any time.</p>
@@ -161,7 +162,7 @@
                                 <small ng-bind="mesage.created_at | date:'short'"></small>
                               </div> <!-- .right column -->
                             </div>
-                            
+
                         </div>
 
                       </div> <!-- messages -->
@@ -169,7 +170,8 @@
                       <div class="send-area">
                         <div class="ui fluid action input">
                           <input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="cur_offer.status<1">
-                          <button class="ui evergreen orange button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
+                          <button ng-class="page.color" class="ui evergreen button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
+                          <button ng-class="page.color" class="ui evergreen button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
                         </div>
                       </div> <!-- .send-area -->
 
@@ -301,7 +303,8 @@
 
               <div class="ui horizontal divider"></div>
 
-              <a class="ui big fluid evergreen uppercase orange button accepted-success" href="">Accept and Continue</a>
+              <a ng-class="page.color" class="ui big fluid evergreen uppercase button accepted-success" href="">Accept and Continue</a>
+              <a ng-class="page.color" class="ui big fluid evergreen uppercase button accepted-success" href="">Accept and Continue</a>
 
               <div class="ui horizontal divider"></div>
               <div class="ui divider"></div>
@@ -322,7 +325,8 @@
         <i class="close icon"></i>
 
         <div class="ui very padded basic segment">
-          <img src="static/img/orange-check.png" alt="Check" width="120" />
+          <img src="static/img/{{page.color}}-check.png" alt="Check" width="120" />
+          <img src="static/img/{{page.color}}-check.png" alt="Check" width="120" />
           <h2>Congratulation on a deal <br />well done!</h2>
 
           <h1>What’s next?</h1>
@@ -338,7 +342,7 @@
           <p class="op50">Contact our Customer Support that is always ready to help you with any possible questions, problems or information.</p>
 
           <div class="ui horizontal divider"></div>
-          <a class="ui big fluid evergreen uppercase orange button" href="#!/maker/dashboard">Your account</a>
+          <a ng-class="page.color" class="ui big fluid evergreen uppercase button" href="#!/{{page.user}}/dashboard">Your account</a>
 
         </div>
 
