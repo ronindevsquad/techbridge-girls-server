@@ -1,10 +1,16 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
 	console.log("Inside Tracking Controller");
 	if (payload && $scope.type == 0) {
-
+		$scope.page = {
+			color: 'orange',
+			user: 'maker'
+		}
 	}
 	else if (payload && $scope.type == 1) {
-
+		$scope.page = {
+			color: 'green',
+			user: 'supplier'
+		}
 	}
 	else
 		$location.url('/');

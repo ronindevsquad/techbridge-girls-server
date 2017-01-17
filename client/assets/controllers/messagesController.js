@@ -8,6 +8,18 @@ offersFactory, messagesFactory) {
 		// 		$scope.offers = data;
 		// 	}
 		// });
+
+		if ($scope.type == 0)
+			$scope.page = {
+				color: 'orange',
+				user: 'maker'
+			}
+		else {
+			$scope.page = {
+				color: 'green',
+				user: 'supplier'
+			}
+		}
 	}
 	else
 		$location.url('/');
@@ -26,7 +38,7 @@ offersFactory, messagesFactory) {
 				$rootScope.messages = data;
 				$timeout(function() {
 					var _ = document.getElementById("chat");
-					_.scrollTop = _.scrollHeight;				
+					_.scrollTop = _.scrollHeight;
 				}, 0, false);
 			}
 		});
@@ -48,8 +60,8 @@ offersFactory, messagesFactory) {
 					console.log(data.errors)
 				}
 				else
-					$scope.new_message = "";				
-			});	
+					$scope.new_message = "";
+			});
 		}
 	}
 });
