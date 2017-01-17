@@ -6,7 +6,7 @@
 
     <div id="greenwrapper">
       <div class="ui grid tall">
-        <div class="sixteen wide tablet six wide computer column maker form">
+        <div ng-class="page.user" class="sixteen wide tablet six wide computer column form">
           <div class="ui padded basic segment">
 
 
@@ -16,8 +16,9 @@
                 <img src="static/img/logo-black.png" width="151" class="ui image" />
               </div> <!-- .floated -->
 
-              <h2>Join as a Maker</h2>
-              <p>Get instant quotes and get in touch with suppliers from around the world.</p>
+              <h2>Join as a {{new_user.type==0 ? 'Maker':'Supplier'}}</h2>
+              <p ng-if="page.user=='maker'">Get instant quotes and get in touch with suppliers from around the world.</p>
+              <p ng-if="page.user=='supplier'">Products need to be made. Be the one that makes them.</p>
               <div class="ui horizontal divider"></div>
               <form class="ui big form" ng-submit="register()">
                 <div class="field">
@@ -36,15 +37,15 @@
                   <input placeholder="Confirm Password" type="password" ng-model="new_user.confirm_password" required>
                 </div>
 
-                <small>By signing up you agree to our <a href="#" title="Terms">Terms</a> and <a href="#" title="Privacy Policy">Privacy Policy</a></small>
+                <small>By signing up you agree to our <a href="" title="Terms">Terms</a> and <a href="" title="Privacy Policy">Privacy Policy</a></small>
 
                 <div class="ui horizontal divider"></div>
-                <input type="submit" class="ui fluid evergreen orange button" value="Join Now">
+                <input type="submit" ng-class="page.color" class="ui fluid evergreen button" value="Join Now">
                 <p style="color: red" ng-bind="error"></p>
                 <div class="ui horizontal divider"></div>
                 <small>Make it simple. Join with your LinkedIn Account</small>
 
-                <a href="#" class="ui fluid primary basic button"><img src="static/img/icon-linkedin.png" width="24"> Join with LinkedIn</a>
+                <a href="" class="ui fluid primary basic button"><img src="static/img/icon-linkedin.png" width="24"> Join with LinkedIn</a>
               </form> <!-- .large form -->
 
             </div> <!-- .segment -->

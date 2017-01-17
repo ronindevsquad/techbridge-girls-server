@@ -15,11 +15,13 @@ app.filter('processFilter', function() {
 	}
 });
 
-app.controller('openedProposalsController', function ($scope, $location, proposalsFactory) {
+app.controller('openProposalsController', function ($scope, $location, proposalsFactory) {
 	if (payload && $scope.type == 1) {
 		proposalsFactory.index(function(data) {
-			if (data.errors)
-				console.log(data.errors)
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
 			else {
 				$scope.proposals = data;
 			}

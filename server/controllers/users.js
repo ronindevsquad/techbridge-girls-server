@@ -4,7 +4,7 @@ module.exports = {
 	// index: function(req, res) {
 	// 	user.index(function(err, data) {
 	// 		if (err)
-	// 			res.json(err);
+	// 			res.status(err.status).json({message: err.message});
 	// 		else
 	// 			res.json(data);
 	// 	});
@@ -12,7 +12,7 @@ module.exports = {
 	show: function(req, res) {
 		user.show(req, function(err, data) {
 			if (err)
-				res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.json(data);
 		});
@@ -20,10 +20,7 @@ module.exports = {
 	update: function(req, res) {
 		user.update(req, function(err, data) {
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
 		});
@@ -31,10 +28,7 @@ module.exports = {
 	delete: function(req, res) {
 		user.delete(req, function(err) {
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.clearCookie('evergreen_token').end();
 		});
@@ -42,19 +36,15 @@ module.exports = {
 	changePassword: function(req, res) {
 		user.changePassword(req, function(err, data){
 			if (err)
-				if (err.errors.jwt)
-					res.clearCookie('evergreen_token').json(err);
-				else
-					res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
 		});
 	},
 	register: function(req, res) {
 		user.register(req, function(err, data) {
-			if (err){
-				res.json(err);
-			}
+			if (err)
+				res.status(err.status).json({message: err.message});
 			else
 				res.cookie('evergreen_token', data).end();
 		});
@@ -62,7 +52,7 @@ module.exports = {
 	login: function(req, res) {
 		user.login(req, function(err, data) {
 			if (err)
-				res.json(err);
+				res.status(err.status).json({message: err.message});
 			else
 				res.cookie('evergreen_token', data).end();
 		});

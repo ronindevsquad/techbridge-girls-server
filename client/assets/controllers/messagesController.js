@@ -1,4 +1,4 @@
-app.controller('messagingController', function ($scope, $rootScope, $location, $timeout,
+app.controller('messagesController', function ($scope, $rootScope, $location, $timeout,
 offersFactory, messagesFactory) {
 	if (payload ) {
 		// offersFactory.index(function(data) {
@@ -8,6 +8,18 @@ offersFactory, messagesFactory) {
 		// 		$scope.offers = data;
 		// 	}
 		// });
+
+		if ($scope.type == 0)
+			$scope.page = {
+				color: 'orange',
+				user: 'maker'
+			}
+		else {
+			$scope.page = {
+				color: 'green',
+				user: 'supplier'
+			}
+		}
 	}
 	else
 		$location.url('/');
@@ -19,14 +31,15 @@ offersFactory, messagesFactory) {
 		$rootScope.messages = [];
 		$rootScope.cur_offer = offer;
 		messagesFactory.show(offer.id, function(data) {
-			if (data.errors) {
-				console.log()
-			}
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
 			else {
 				$rootScope.messages = data;
 				$timeout(function() {
 					var _ = document.getElementById("chat");
-					_.scrollTop = _.scrollHeight;				
+					_.scrollTop = _.scrollHeight;
 				}, 0, false);
 			}
 		});
@@ -44,10 +57,11 @@ offersFactory, messagesFactory) {
 			socket.emit('send', data);
 
 			messagesFactory.create(data, function(data) {
-				if (data.errors) {
-					console.log(data.errors)
-				}
-				else
+			if (data.status == 401)
+				$location.url("/logout");
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else
 					$scope.new_message = "";				
 			});	
 		}

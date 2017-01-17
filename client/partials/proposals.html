@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/account.css"> -->
 
-  <div class="userarea maker">
+  <div ng-class="page.user" class="userarea">
 
     <div id="greenwrapper">
 
@@ -38,31 +38,31 @@
                 <img src="static/img/husky-logo.png" class="ui centered image" />
               </div>
               <div class="middle aligned content">
-                <h2>Supplier {{company}}</h2>
+                <h2>{{company}}</h2>
                 <p class="footnote">Member since Apr 2016</p>
               </div>
             </div> <!-- .item -->
           </div> <!-- .items -->
 
           <div class="ui pointing secondary menu">
-            <a class="item" href="#!/account-maker-dashboard">Dashboard</a>
-            <a class="active item" href="#!/account-maker-proposals">Proposals
+            <a class="item" href="#!/{{page.user}}/dashboard">Dashboard</a>
+            <a class="active item" href="#!/{{page.user}}/proposals">Proposals
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/account-maker-messaging">Messages
+            <a class="item" href="#!/{{page.user}}/messages">Messages
               <span class="ui circular red label">2</span>
               <span class="ui circular label">80</span>
             </a>
-            <a class="item" href="#!/account-maker-tracking">Track Progress
+            <a class="item" href="#!/{{page.user}}/tracking">Track Progress
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/account-maker-profile">Profile</a>
+            <a class="item" href="#!/{{page.user}}/profile">Profile</a>
           </div> <!-- .menu -->
 
-        <div class="adbox">
+        <div ng-if="type == 0" class="adbox">
           <h4 class="title">Invite your supplier</h4>
           <p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
-          <a class="ui big evergreen uppercase orange button" href="#">Invite supplier</a>
+          <a ng-class="page.color" class="ui big evergreen uppercase button" href="">Invite supplier</a>
         </div> <!-- .adbox -->
 
         </section> <!-- .nav -->
@@ -86,13 +86,14 @@
               </div> <!-- left column -->
               <div class="eight wide column">
                 <p class="toplabels">Order By:
-                  <a href="#" title="Date" class="selected-link">Date</a> &bull; <a href="#" title="Rating">Rating</a> &bull; <a href="#" title="Relevance">Relevance</a>
+                  <a href="" title="Date" class="selected-link">Date</a> &bull; <a href="" title="Rating">Rating</a> &bull; <a href="" title="Relevance">Relevance</a>
                 </p>
               </div> <!-- .right column -->
             </div>
           </div>
 
-          <div class="item-cards list-cards">
+          <!-- Maker Zone -->
+          <div ng-if="type == 0" class="item-cards list-cards">
 
             <div class="ui horizontal divider"></div>
 
@@ -113,7 +114,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen grey button">Close</a>
+                  <a href="" class="ui evergreen grey button">Close</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -141,7 +142,7 @@
                                   <img src="static/img/husky-logo.png" class="ui centered image" />
                                 </div>
                                 <div class="middle aligned content">
-                                  <h4>Maker {{company}}</h4>
+                                  <h4>{{type==0 ? 'Maker' : 'Supplier'}} {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -151,7 +152,7 @@
                                 </div>
                                 <div class="middle aligned content">
 
-                                  <h4>Maker {{company}}</h4>
+                                  <h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -160,7 +161,7 @@
                                   <img src="static/img/husky-logo.png" class="ui centered image" />
                                 </div>
                                 <div class="middle aligned content">
-                                  <h4>Maker {{company}}</h4>
+                                  <h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -191,7 +192,7 @@
 
                                 <div class="details-item">
                                   <p class="footnote">Offer Details</p>
-                                  <div class="details-value"><a href="#" title="View full offer">View full offer</a></div>
+                                  <div class="details-value"><a href="" title="View full offer">View full offer</a></div>
                                 </div>
                               </div> <!-- .offer-details -->
 
@@ -199,9 +200,7 @@
 
                               <div class="ui horizontal divider"></div>
 
-                              <a href="#" class="ui big evergreen uppercase orange button">Accept Offer</a>
-
-                              <a href="#" class="ui big evergreen uppercase basic button">Contact Maker</a>
+                              <a ng-class="page.color" href="" class="ui big evergreen uppercase button">Accept Offer</a>
 
                             </div> <!-- applicant1 -->
 
@@ -234,7 +233,7 @@
                                   <img src="static/img/husky-logo.png" class="ui centered image" />
                                 </div>
                                 <div class="middle aligned content">
-                                  <h4>Maker {{company}}</h4>
+                                  <h4> {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -244,7 +243,7 @@
                                 </div>
                                 <div class="middle aligned content">
 
-                                  <h4>Maker {{company}}</h4>
+                                  <h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -253,7 +252,7 @@
                                   <img src="static/img/husky-logo.png" class="ui centered image" />
                                 </div>
                                 <div class="middle aligned content">
-                                  <h4>Maker {{company}}</h4>
+                                  <h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
                                   <p class="footnote">Received 25.05.2016</p>
                                 </div>
                               </a>
@@ -272,9 +271,8 @@
 
                                 <div class="ui horizontal slider"></div>
 
-                                <a class="ui big fluid evergreen uppercase orange button" href="#">Contact supplier</a>
                                 <div class="ui horizontal divider"></div>
-                                <a class="ui big fluid red uppercase basic button" href="#">Remove lead</a>
+                                <a class="ui big fluid red uppercase basic button" href="">Remove lead</a>
                               </div>
 
                             </div> <!-- applicant1 -->
@@ -311,7 +309,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -331,7 +329,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -351,7 +349,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -371,7 +369,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -391,7 +389,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -412,7 +410,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -432,7 +430,7 @@
 
                 </div>
                 <div class="extra">
-                  <a href="#" class="ui evergreen orange button">View</a>
+                  <a ng-class="page.color" href="" class="ui evergreen button">View</a>
                   <small>34 Views   |   5 Applicants   |   3 Leads</small>
                 </div>
               </div> <!-- .item -->
@@ -458,6 +456,241 @@
             </div>
 
           </div>
+          <!-- End Maker Zone -->
+<!-- ######################################################################### -->
+          <!-- Supplier Zone -->
+          <div ng-if="type==1" class="ui stackable four column grid middle item-cards">
+
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level3">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level1">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level2">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level4">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level1">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level2">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level4">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+            <div class="column">
+              <div class="ui padded segment center aligned">
+                <div class="ui tiny image">
+                  <img src="static/img/husky-logo.png" class="ui centered image" />
+                </div>
+                <a ng-class="page.color" class="ui evergreen uppercase button" href="#!/{{page.user}}/messaging">Message</a>
+              </div> <!-- segment -->
+
+              <div class="ui right aligned grid">
+
+                <div class="left aligned eight wide column">
+                  <p class="toplabels">Your offer rank:</p>
+
+                  <div class="item-scale level1">
+                    <div class="top"></div>
+                    <div class="second"></div>
+                    <div class="middle"></div>
+                    <div class="last"></div>
+                  </div> <!-- .item-scale -->
+
+                </div> <!-- left column -->
+                <div class="eight wide column">
+                  <p class="toplabels">Responded</p>
+                  <p>Apr. 20 2016</p>
+                </div> <!-- .right column -->
+              </div>
+
+            </div>
+
+          </div>
+          <!-- End Supplier Zone -->
+
+
         </div> <!-- .ui left continer -->
 
       </section> <!-- .very padded segment -->
@@ -477,13 +710,13 @@
                 </address>
 
                 <div class="social-row">
-                  <a href="#" title="Facebook">
+                  <a href="" title="Facebook">
                     <img src="static/img/icon-facebook.png" class="ui image" width="30" />
                   </a>
-                  <a href="#" title="Twitter">
+                  <a href="" title="Twitter">
                     <img src="static/img/icon-twitter.png" class="ui image" width="30" />
                   </a>
-                  <a href="#" title="LinkedIn">
+                  <a href="" title="LinkedIn">
                     <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
                   </a>
                 </div>
@@ -492,19 +725,19 @@
               <div class="four wide column">
                 <h4 class="ui inverted header">Company</h4>
                 <div class="ui inverted link list">
-                  <a href="#" class="item">Home</a>
-                  <a href="#" class="item">About Us</a>
-                  <a href="#" class="item">Pricing</a>
-                  <a href="#" class="item">Contact Us</a>
+                  <a href="" class="item">Home</a>
+                  <a href="" class="item">About Us</a>
+                  <a href="" class="item">Pricing</a>
+                  <a href="" class="item">Contact Us</a>
                 </div>
               </div> <!-- .column -->
               <div class="four wide column">
                 <h4 class="ui inverted header">Others</h4>
                 <div class="ui inverted link list">
-                  <a href="#" class="item">Help &amp; Support</a>
-                  <a href="#" class="item">Privacy Policy</a>
-                  <a href="#" class="item">Terms</a>
-                  <a href="#" class="item">Sitemap</a>
+                  <a href="" class="item">Help &amp; Support</a>
+                  <a href="" class="item">Privacy Policy</a>
+                  <a href="" class="item">Terms</a>
+                  <a href="" class="item">Sitemap</a>
                 </div>
               </div> <!-- .column -->
               <div class="four wide column">
@@ -530,6 +763,6 @@
 
     </div> <!-- #greenwrapper -->
 
-    
+
     <script src="static/js/green.js"></script>
   </div>

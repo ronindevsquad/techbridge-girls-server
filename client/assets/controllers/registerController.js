@@ -1,6 +1,17 @@
-app.controller("registerController", function ($scope, $location, usersFactory) {
+app.controller("registerController", function ($scope, $location, $routeParams, usersFactory) {
 	if (payload)
 		$location.url("/");
+
+	if ($routeParams.user_type == 'maker')
+		$scope.page = {
+			color: 'orange',
+			user: 'maker'
+		}
+	else
+	$scope.page = {
+		color: 'green',
+		user: 'supplier'
+	}
 
 	$scope.register = function() {
 		if ($location.path().includes("maker"))
@@ -13,17 +24,16 @@ app.controller("registerController", function ($scope, $location, usersFactory) 
 			$scope.error = "Passwords do not match."
 		else
 			usersFactory.register($scope.new_user, function(data) {
-				if (data.errors)
-					for (key in data.errors) {
-						$scope.error = data.errors[key].message;
-						break;
-					}
+				if (data.status == 401)
+					$location.url("/logout");
+				else if (data.status >= 300)
+					$scope.error = data.data.message;
 				else {
 					$scope.setUser();
 					if ($scope.type == 0)
-						$location.url('/success-maker');
+						$location.url('/maker/success');
 					else if ($scope.type == 1)
-						$location.url('/success-supplier');
+						$location.url('/supplier/success');
 				}
 			});
 	}

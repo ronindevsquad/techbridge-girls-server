@@ -16,7 +16,6 @@ connection.config.queryFormat = function(sql, values, timeZone) {
 	sql = sql.replace(/'UNHEX/g, "UNHEX");
 	sql = sql.replace(/\\'\)'/g, "')");
 	sql = sql.replace(/\\/g, "");
-	console.log("this:", sql)
 	return sql;
 };
 
