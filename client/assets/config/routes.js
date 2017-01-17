@@ -4,10 +4,6 @@ app.config(function ($routeProvider) {
 	//////////////////////////////////////////////////////
 	//										MAKER
 	//////////////////////////////////////////////////////
-	.when('/maker/proposals',{
-		templateUrl: 'partials/maker/proposals.html',
-		controller: 'proposalsController'
-	})
 	.when('/maker/tracking',{
 		templateUrl: 'partials/maker/tracking.html',
 		controller: 'trackingController'
@@ -22,10 +18,6 @@ app.config(function ($routeProvider) {
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
 		controller: 'openProposalsController'
-	})
-	.when('/supplier/proposals',{
-		templateUrl: 'partials/supplier/proposals.html',
-		controller: 'proposalsController'
 	})
 	.when('/supplier/tracking',{
 		templateUrl: 'partials/supplier/tracking.html',
@@ -60,6 +52,10 @@ app.config(function ($routeProvider) {
 	.when('/:user_type/dashboard',{
 		templateUrl: 'partials/dashboard.html',
 		controller: 'dashboardController'
+	})
+	.when('/:user_type/proposals',{
+		templateUrl: 'partials/proposals.html',
+		controller: 'proposalsController'
 	})
 	.when('/:user_type/success',{
 		templateUrl: 'partials/success.html'
