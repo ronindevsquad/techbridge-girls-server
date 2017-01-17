@@ -8,10 +8,6 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/maker/join.html',
 		controller: 'registerController'
 	})
-	.when('/maker/dashboard',{
-		templateUrl: 'partials/maker/dashboard.html',
-		controller: 'dashboardController'
-	})
 	.when('/maker/messages',{
 		templateUrl: 'partials/maker/messages.html',
 		controller: 'messagesController'
@@ -42,10 +38,6 @@ app.config(function ($routeProvider) {
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
 		controller: 'openProposalsController'
-	})
-	.when('/supplier/dashboard',{
-		templateUrl: 'partials/supplier/dashboard.html',
-		controller: 'dashboardController'
 	})
 	.when('/supplier/messages',{
 		templateUrl: 'partials/supplier/messages.html',
@@ -84,6 +76,10 @@ app.config(function ($routeProvider) {
 	})
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
+	})
+	.when('/:user_type/dashboard',{
+		templateUrl: 'partials/dashboard.html',
+		controller: 'dashboardController'
 	})
 	.when('/:user_type/success',{
 		templateUrl: 'partials/success.html'

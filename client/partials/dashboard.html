@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/account.css"> -->
 
-  <div class="userarea maker">
+  <div ng-class="page.user" class="userarea">
 
     <div id="greenwrapper">
 
@@ -38,31 +38,31 @@
                 <img src="static/img/husky-logo.png" class="ui centered image" />
               </div>
               <div class="middle aligned content">
-                <h2>Maker {{company}}</h2>
+                <h2>{{type==0 ? 'Maker' : 'Supplier'}} {{company}}</h2>
                 <p class="footnote">Member since Apr 2016</p>
               </div>
             </div> <!-- .item -->
           </div> <!-- .items -->
 
           <div class="ui pointing secondary menu">
-            <a class="active item" href="#!/maker/dashboard">Dashboard</a>
-            <a class="item" href="#!/maker/proposals">Proposals
+            <a class="active item" href="#!/{{page.user}}/dashboard">Dashboard</a>
+            <a class="item" href="#!/{{page.user}}/proposals">Proposals
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/maker/messages">Messages
+            <a class="item" href="#!/{{page.user}}/messages">Messages
               <span class="ui circular red label">2</span>
               <span class="ui circular label">80</span>
             </a>
-            <a class="item" href="#!/maker/tracking">Track Progress
+            <a class="item" href="#!/{{page.user}}/tracking">Track Progress
               <span class="ui circular label">2</span>
             </a>
-            <a class="item" href="#!/maker/profile">Profile</a>
+            <a class="item" href="#!/{{page.user}}/profile">Profile</a>
           </div> <!-- .menu -->
 
         <div class="adbox">
           <h4 class="title">Invite your supplier</h4>
           <p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
-          <a class="ui big evergreen uppercase orange button invite-supplier" href="">Invite supplier</a>
+          <a ng-class="page.color" class="ui big evergreen uppercase button invite-supplier" href="">Invite supplier</a>
         </div> <!-- .adbox -->
 
         </section> <!-- .nav -->
@@ -225,7 +225,7 @@
 
         </div>
         <div class="actions">
-          <a href="" class="ui fluid evegreen uppercase big orange button">Invite Supplier</a>
+          <a ng-class="page.color" href="" class="ui fluid evegreen uppercase big button">Invite Supplier</a>
         </div> <!-- .grid -->
 
         </div> <!-- .actions -->
