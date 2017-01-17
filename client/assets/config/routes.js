@@ -4,10 +4,6 @@ app.config(function ($routeProvider) {
 	//////////////////////////////////////////////////////
 	//										MAKER
 	//////////////////////////////////////////////////////
-	.when('/maker/join',{
-		templateUrl: 'partials/maker/join.html',
-		controller: 'registerController'
-	})
 	.when('/maker/proposals',{
 		templateUrl: 'partials/maker/proposals.html',
 		controller: 'proposalsController'
@@ -23,10 +19,6 @@ app.config(function ($routeProvider) {
 	//////////////////////////////////////////////////////
 	//										SUPPLIER
 	//////////////////////////////////////////////////////
-	.when('/supplier/join',{
-		templateUrl: 'partials/supplier/join.html',
-		controller: 'registerController'
-	})
 	.when('/supplier',{
 		templateUrl: 'partials/supplier/open-proposals.html',
 		controller: 'openProposalsController'
@@ -53,6 +45,10 @@ app.config(function ($routeProvider) {
 	.when('/',{
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
+	})
+	.when('/:user_type/join',{
+		templateUrl: 'partials/join.html',
+		controller: 'registerController'
 	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
