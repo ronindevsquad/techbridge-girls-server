@@ -5,7 +5,7 @@ app.controller('indexController', function ($scope, $rootScope, $location, users
 		else if ($scope.type == 1)
 			$location.url('/open-proposals');
 	}
-	
+
 	$scope.login = function() {
 		$scope.error = null;
 		usersFactory.login($scope.user, function(data) {
