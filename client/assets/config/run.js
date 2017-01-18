@@ -81,6 +81,7 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.created_at = payload.created_at;
 			$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
 			$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
+			$rootScope.menu = false;
 			// $rootScope.messages = [];
 		}
 		
@@ -276,6 +277,7 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.created_at = undefined;
 		$rootScope.color = undefined;
 		$rootScope.user = undefined;
+		$rootScope.menu = undefined;
 		
 		// Relocate:
 		location.href = ("/");

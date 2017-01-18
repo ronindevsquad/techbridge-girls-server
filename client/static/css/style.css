@@ -659,6 +659,18 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
 .profile .ui.segment {
   border: 0;
 }
+.custom-adbox {     /* Custom Duh */
+    float: right;
+    max-width: 250px;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 9px;
+    z-index: 5;
+}
 .buybox {
   max-width: 320px;
 }
@@ -924,4 +936,17 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
 #chat {
   height: 100%;
   overflow-y: auto;
+}
+
+.menu-tab, .menu-tab:hover {
+  font-family: 'Work Sans', sans-serif;
+  color: grey;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.menu-link {
+  font-family: 'Work Sans', sans-serif;
+  color: black;
+  text-decoration: none;
 }
