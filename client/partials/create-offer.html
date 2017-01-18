@@ -1,0 +1,270 @@
+<div class="details light">
+
+	<div id="greenwrapper">
+
+		<div ng-include="'partials/header.html'"></div>
+
+		<div class="ui container">
+
+			<h2>Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"mediumDate"}}</h2>
+
+			<div class="ui centered relaxed grid">
+				<div class="sixteen wide tablet four wide computer column">
+					<div class="box">
+						<h3>Attached Documents</h3>
+
+						<div class="single-slide">
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+						</div> <!-- .single slide -->
+						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
+					</div> <!-- .box -->
+
+					<div class="ui segment buybox">
+						<h3>Husky {{company}}</h3>
+						<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+
+					</div> <!-- .segment -->
+
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet eight wide computer column container divided">
+
+					<h3>Make an offer</h3>
+
+					<form class="ui large offer form">
+
+						<!-- START the raw materials selection -->
+
+						<div class="field">
+							<label>Material</label>
+							<input placeholder="Material" type="text" ng-model="new_offer.material" required>
+						</div>
+
+						<div class="ui grid second">
+							<div class="six wide column">
+								<div class="field">
+									<label>Raw material cost</label>
+									<div class="ui right labeled input">
+										<input type="number" placeholder="e.g. 0.21" min="0.01" step="0.01" ng-model="new_offer.material_cost" required>
+										<div class="ui basic label">
+											$
+										</div> <!-- label -->
+									</div>
+								</div> <!-- .field -->
+							</div> <!-- .column -->
+							<div class="six wide column">
+								<div class="field">
+									<label>Unit cost</label>
+									<div class="ui right labeled input">
+										<input type="number" placeholder="e.g. 0.05" min="0.01" step="0.01" ng-model="new_offer.unit_cost" required>
+										<div class="ui basic label">
+											$/unit
+										</div> <!-- label -->
+									</div>
+								</div> <!-- .field -->
+							</div>
+						</div> <!-- .second -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- END the raw materials selection -->
+
+
+						<!-- START the raw machine labor -->
+
+						<div class="field">
+							<label>Machine/Labor</label>
+							<input placeholder="300T Press" type="text" ng-model="new_offer.machine" required>
+						</div>
+
+						<div class="ui grid second">
+							<div class="five wide column">
+								<div class="field">
+									<label>Cycle time</label>
+									<div class="ui input">
+										<input type="number" min="0.01" step="0.01" ng-model="new_offer.cycle_time" required>
+									</div>
+								</div> <!-- .field -->
+							</div> <!-- .column -->
+
+							<div class="five wide column">
+								<div class="field">
+									<label>Yield</label>
+									<div class="ui input">
+										<input type="number" min="1" step="1" ng-model="new_offer.yield" required>
+									</div>
+								</div> <!-- .field -->
+							</div>
+
+							<div class="five wide column">
+								<div class="field">
+									<label>Machine Labor Rate</label>
+									<div class="ui input">
+										<input type="number" min="0.01" step="0.01" ng-model="new_offer.rate" required>
+									</div>
+								</div> <!-- .field -->
+							</div>
+
+							<div class="five wide column">
+								<div class="field">
+									<label>Number of Laborers</label>
+									<div class="ui input">
+										<input type="number" min="1" step="1" ng-model="new_offer.laborers" required>
+									</div>
+								</div> <!-- .field -->
+							</div>
+
+						</div> <!-- .second -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- END the raw machine labor -->
+
+
+						<div class="field">
+							<label>SG&amp;A <small>(Sales, General, and Admin)</small></label>
+							<input placeholder="SG&A" type="text" ng-model="new_offer.sga" required>
+						</div>
+						<div class="field">
+							<label>Profit</label>
+							<input placeholder="Profit" type="text" ng-model="new_offer.profit" required>
+						</div> <!-- .field -->
+						<div class="field">
+							<label>Overhead</label>
+							<input placeholder="Overhead" type="text" ng-model="new_offer.overhead" required>
+						</div> <!-- .field -->
+						<div class="field">
+							<label>Total Cost</label>
+							<input placeholder="Total Cost" type="text" ng-model="new_offer.total" required>
+						</div> <!-- .field -->
+					</form>
+
+
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet four wide computer column wall" id="offerWrapper">
+					<div class="ui sticky">
+						<h3>Offer Summary</h3>
+						<p>Complete the form on the left and all the items will appear here so you can review before you send.</p>
+						<div class="ui horizontal divider"></div>
+						<button class="ui fluid evergreen orange button" ng-click="create()" ng-disabled="sent">{{sent? 'SENT' : 'SEND YOUR OFFER'}}</button>
+						<p style="color: red" ng-bind="error"></p>
+					</div>
+				</div> <!-- .column -->
+			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
+
+		</div> <!-- .container -->
+
+		<div ng-include="'partials/footer.html'"></div>
+
+	</div> <!-- #greenwrapper -->
+
+	<!-- are you sure Modal -->
+	<div class="ui tiny basic modal centered aligned" id="offerSent">
+		<i class="close icon"></i>
+		<div class="header">
+
+			<img src="static/img/green-check.png" width="100" class="ui centered image" />
+			<div class="ui horizontal divider"></div>
+			{{proposal.company}} has received your proposal
+		</div>
+		<div class="ui padded basic segment">
+			<p>While they review, reach out to more hardware companies and find more leads.</p>
+		</div>
+		<div class="actions">
+			<a href="" class="ui fluid grey big uppercase green button close" ng-click="continue()">Continue</a>
+		</div>
+	</div>
+
+
+<!-- 
+	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDXQLL_ClsyH7eeZ8Nk7m8bnMt27wsnH0I&extension=.js&output=embed"></script> -->
+
+	<script src="static/js/slick.min.js"></script>
+	<script src="static/js/green.js"></script>
+<!--  <script type="text/javascript">
+// $('.single-slide').slick({
+//   dots: true
+// });
+
+/* Let's throw a map in here */
+var map;
+var myCenter = new google.maps.LatLng(52.537639, 13.396399);
+var marker = new google.maps.Marker({
+position: myCenter
+});
+
+function initialize() {
+var mapProp = {
+center: myCenter,
+zoom: 17,
+draggable: true,
+scrollwheel: false,
+streetViewControl: false,
+mapTypeId:google.maps.MapTypeId.ROADMAP,
+styles: [{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"23"}]},{"featureType":"poi.attraction","elementType":"geometry.fill","stylers":[{"color":"#f38eb0"}]},{"featureType":"poi.government","elementType":"geometry.fill","stylers":[{"color":"#ced7db"}]},{"featureType":"poi.medical","elementType":"geometry.fill","stylers":[{"color":"#ffa5a8"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#c7e5c8"}]},{"featureType":"poi.place_of_worship","elementType":"geometry.fill","stylers":[{"color":"#d6cbc7"}]},{"featureType":"poi.school","elementType":"geometry.fill","stylers":[{"color":"#c4c9e8"}]},{"featureType":"poi.sports_complex","elementType":"geometry.fill","stylers":[{"color":"#b1eaf1"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":"100"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"},{"lightness":"100"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffd4a5"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffe9d2"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"weight":"3.00"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"weight":"0.30"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"36"}]},{"featureType":"road.local","elementType":"labels.text.stroke","stylers":[{"color":"#e9e5dc"},{"lightness":"30"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":"100"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#d2e7f7"}]}]
+};
+
+map=new google.maps.Map(document.getElementById("mapCanvas"),mapProp);
+marker.setMap(map);
+
+google.maps.event.addListener(marker, 'click', function() {
+
+infowindow.setContent(contentString);
+infowindow.open(map, marker);
+
+});
+};
+google.maps.event.addDomListener(window, 'load', initialize);
+
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+function resizeMap() {
+if(typeof map =="undefined") return;
+setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+if(typeof map =="undefined") return;
+var center = map.getCenter();
+google.maps.event.trigger(map, "resize");
+map.setCenter(center);
+}
+
+</script> -->
+</div>

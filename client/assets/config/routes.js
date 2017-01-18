@@ -1,66 +1,42 @@
 var app = angular.module('app', ['ngRoute', 'ngCookies']);
 app.config(function ($routeProvider) {
 	$routeProvider
-	//////////////////////////////////////////////////////
-	//										MAKER
-	//////////////////////////////////////////////////////
-	.when('/maker/create-proposal',{
-		templateUrl: 'partials/maker/create-proposal.html',
-		controller: 'createProposalController'
-	})
-	//////////////////////////////////////////////////////
-	//										SUPPLIER
-	//////////////////////////////////////////////////////
-	.when('/supplier',{
-		templateUrl: 'partials/supplier/open-proposals.html',
-		controller: 'openProposalsController'
-	})
-	.when('/supplier/create-offer/:id',{
-		templateUrl: 'partials/supplier/create-offer.html',
-		controller: 'createOfferController'
-	})
-	.when('/supplier/processes',{
-		templateUrl: 'partials/supplier/processes.html',
-		controller: 'processesController'
-	})
-	//////////////////////////////////////////////////////
-	//										SHARED
-	//////////////////////////////////////////////////////
 	.when('/',{
 		templateUrl: 'partials/index.html',
 		controller: 'indexController'
 	})
-	.when('/:user_type/join',{
-		templateUrl: 'partials/join.html',
+	.when('/register',{
+		templateUrl: 'partials/register.html',
 		controller: 'registerController'
 	})
 	.when('/login',{
 		templateUrl: 'partials/login.html',
-		controller: 'loginController'
+		controller: 'indexController'
 	})
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
 	})
-	.when('/:user_type/dashboard',{
+	.when('/dashboard',{
 		templateUrl: 'partials/dashboard.html',
 		controller: 'dashboardController'
 	})
-	.when('/:user_type/proposals',{
+	.when('/proposals',{
 		templateUrl: 'partials/proposals.html',
 		controller: 'proposalsController'
 	})
-	.when('/:user_type/success',{
-		templateUrl: 'partials/success.html'
+	.when('/success',{
+		templateUrl: 'partials/success.html',
+		controller: 'successController'
 	})
-	.when('/:user_type/tracking',{
+	.when('/tracking',{
 		templateUrl: 'partials/tracking.html',
 		controller: 'trackingController'
 	})
-	.when('/:user_type/profile',{
+	.when('/profile',{
 		templateUrl: 'partials/profile.html',
 		controller: 'profileController'
 	})
-	.when('/:user_type/messages',{
+	.when('/messages',{
 		templateUrl: 'partials/messages.html',
 		controller: 'messagesController'
 	})
@@ -68,9 +44,21 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/proposal.html',
 		controller: 'proposalController'
 	})
-	.when('/logout',{
-		templateUrl: 'partials/logout.html',
-		controller: 'logoutController'
+	.when('/create-proposal',{
+		templateUrl: 'partials/create-proposal.html',
+		controller: 'createProposalController'
+	})
+	.when('/open-proposals',{
+		templateUrl: 'partials/open-proposals.html',
+		controller: 'openProposalsController'
+	})
+	.when('/create-offer/:id',{
+		templateUrl: 'partials/create-offer.html',
+		controller: 'createOfferController'
+	})
+	.when('/processes',{
+		templateUrl: 'partials/processes.html',
+		controller: 'processesController'
 	})
 	.otherwise({
 		redirectTo: '/'

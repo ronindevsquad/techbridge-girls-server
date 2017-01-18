@@ -1,17 +1,13 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
-	console.log("Inside Tracking Controller");
-	if (payload && $scope.type == 0) {
-		$scope.page = {
-			color: 'orange',
-			user: 'maker'
+	if (payload) {
+		$scope.tab = "tracking";
+		if ($scope.type == 0) {
+		
 		}
-	}
-	else if (payload && $scope.type == 1) {
-		$scope.page = {
-			color: 'green',
-			user: 'supplier'
+		else if ($scope.type == 1) {
+
 		}
-	}
+	} 
 	else
 		$location.url('/');
 // When the document loads, retrieve the offers (that have been accepted) and reports associated with the id logged in. The format of the JSON response should be an array of proposals, each having an (accepted) offer property which contains a reports proprty that is an array of report objects. The back end handles this information.
@@ -26,7 +22,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	proposalsFactory.index(function(data){
 		if (data.status == 401)
-			$location.url("/logout");
+			$scope.logout();
 		else if (data.status >= 300)
 			console.log("error:", data.data.message)
 		else {
@@ -34,7 +30,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			$scope.proposals = data
 			reportsFactory.index(function(data){
 				if (data.status == 401)
-					$location.url("/logout");
+					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
