@@ -1,429 +1,341 @@
-<!--
-    <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/slick.css"> -->
-
-  <div class="details light">
-
-    <div id="greenwrapper">
-      <header class="ui padded basic segment">
-        <div class="ui secondary menu">
-          <div class="left floated">
-            <img src="static/img/logo-black.png" width="151" class="ui image" />
-          </div>
-
-          <div class="right menu">
-            <div class="ui horizontal list company trigger">
-              <div class="item">
-
-                <img class="ui mini circular image" src="static/img/user-avatar.png">
-                <div class="content">
-                  <div class="ui sub header">{{company}}</div>
-                  3 new messages
-                </div>
-
-              </div> <!-- .item -->
-            </div> <!-- .list -->
-          </div> <!-- .menu -->
-        </div> <!-- .menu -->
-      </header>
-
-      <div class="ui container">
-
-        <h2>Customer in USA looking to produce 1M units by Sep. 16</h2>
-
-        <div class="ui centered relaxed grid">
-          <div class="sixteen wide tablet four wide computer column">
-            <div class="box">
-              <h3>Attached Documents</h3>
-
-              <div class="single-slide">
-                  <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                  </div>
-
-                <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                  </div>
-
-                <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                </div>
-              </div> <!-- .single slide -->
-              <!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
-            </div> <!-- .box -->
-
-            <div class="ui segment buybox">
-              <h3>Husky {{company}}</h3>
-              <p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
-
-            </div> <!-- .segment -->
-
-          </div> <!-- .column -->
-          <div class="sixteen wide tablet seven wide computer column container divided">
-
-            <h3>Make an offer</h3>
-
-            <div class="ui large offer form">
-
-              <!-- START the raw materials selection -->
-
-              <div class="field">
-                <label>Profit</label>
-                <div class="ui selection dropdown">
-                  <input type="hidden" name="rawmaterial">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Material 1</div>
-                  <div class="menu">
-                    <div class="item" data-value="1">Material 1</div>
-                    <div class="item" data-value="0">Material 2</div>
-                    <div class="item" data-value="2">Material 3</div>
-                    <div class="item" data-value="3">Material 4</div>
-                  </div> <!-- .menu -->
-                </div> <!-- .dropdown -->
-              </div> <!-- .field -->
-
-              <div class="ui grid second">
-                <div class="six wide column">
-                  <div class="field">
-                    <label>Raw material cost</label>
-                    <div class="ui right labeled input">
-                      <input type="text" placeholder="e.g. 0.21">
-                      <div class="ui basic label">
-                        $
-                      </div> <!-- label -->
-                    </div>
-                  </div> <!-- .field -->
-                </div> <!-- .column -->
-                <div class="six wide column">
-                  <div class="field">
-                    <label>Raw material cost</label>
-                    <div class="ui right labeled input">
-                      <input type="text" placeholder="e.g. 0.05">
-                      <div class="ui basic label">
-                        $/unit
-                      </div> <!-- label -->
-                    </div>
-                  </div> <!-- .field -->
-                </div>
-              </div> <!-- .second -->
-
-              <div class="ui horizontal divider"></div>
-
-              <!-- END the raw materials selection -->
-
-
-              <!-- START the raw machine labor -->
-
-              <div class="field">
-                <label>Machine/Labor</label>
-                <div class="ui selection dropdown">
-                  <input type="hidden" name="rawmaterial">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Machine Labor 1</div>
-                  <div class="menu">
-                    <div class="item" data-value="1">Machine Labor 1</div>
-                    <div class="item" data-value="0">Machine Labor 2</div>
-                    <div class="item" data-value="2">Machine Labor 3</div>
-                    <div class="item" data-value="3">Machine Labor 4</div>
-                  </div> <!-- .menu -->
-                </div> <!-- .dropdown -->
-              </div> <!-- .field -->
-
-              <div class="ui grid second">
-                <div class="five wide column">
-                  <div class="field">
-                    <label>Cycle time</label>
-                    <div class="ui input">
-                      <input type="text" placeholder="">
-                    </div>
-                  </div> <!-- .field -->
-                </div> <!-- .column -->
-                <div class="five wide column">
-                  <div class="field">
-                    <label>Yield</label>
-                    <div class="ui input">
-                      <input type="text" placeholder="">
-                    </div>
-                  </div> <!-- .field -->
-                </div>
-                <div class="five wide column">
-                  <div class="field">
-                    <label>Machine Labor Rate</label>
-                    <div class="ui input">
-                      <input type="text" placeholder="">
-                    </div>
-                  </div> <!-- .field -->
-                </div>
-                <div class="five wide column">
-                  <div class="field">
-                    <label>Number of Laborers</label>
-                    <div class="ui input">
-                      <input type="text" placeholder="">
-                    </div>
-                  </div> <!-- .field -->
-                </div>
-              </div> <!-- .second -->
-
-              <div class="ui horizontal divider"></div>
-
-              <!-- END the raw machine labor -->
-
-
-              <div class="field">
-                <label>SG&amp;A <small>(Sales, General, and Admin)</small></label>
-                <input placeholder="SG&A" type="text">
-              </div>
-              <div class="field">
-                <label>Profit</label>
-                <input placeholder="Profit" type="text">
-              </div> <!-- .field -->
-              <div class="field">
-                <label>Overhead</label>
-                <input placeholder="Overhead" type="text">
-              </div> <!-- .field -->
-              <div class="field">
-                <label>Total Cost</label>
-                <input placeholder="Total Cost" type="text">
-              </div> <!-- .field -->
-            </div>
-
-
-          </div> <!-- .column -->
-          <div class="sixteen wide tablet five wide computer column summary wall" id="offerWrapper">
-            <div class="ui sticky">
-              <h3>Offer Summary</h3>
-
-              <div class="ui segment">
-                <div class="ui four column grid">
-                  <div class="one column row">
-                    <div class="column">
-                      <label>Raw Materials</label>
-                      <p>Material 1
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div> <!-- .column -->
-                  </div> <!-- .row -->
-                  <div class="two column row">
-                    <div class="column">
-                      <label>Material cost</label>
-                      <p>$0.21
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div>
-                    <div class="column">
-                      <label>Material cost / part</label>
-                      <p>$0.05
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div>
-                  </div> <!-- .row -->
-                </div> <!-- .grid -->
-              </div> <!-- .segment -->
-
-              <div class="ui segment">
-                <div class="ui four column grid">
-                  <div class="one column row">
-                    <div class="column">
-                      <label>Raw Labor Type</label>
-                      <p>Material Labor 1
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div> <!-- .column -->
-                  </div> <!-- .row -->
-                  <div class="three column row">
-                    <div class="column">
-                      <label>Cycle time</label>
-                      <p>xxx
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div>
-                    <div class="column">
-                      <label>Yield</label>
-                      <p>xxx
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div>
-                    <div class="column">
-                      <label>Labor Rate</label>
-                      <p>xxx
-                        <a href="#" title="Edit"><i class="write icon"></i></a>
-                      </p>
-                    </div>
-                  </div> <!-- .row -->
-                </div> <!-- .grid -->
-              </div> <!-- .segment -->
-
-
-              <div class="ui segment">
-
-                <div class="ui right aligned grid">
-
-                  <div class="two column row summary">
-                    <div class="left aligned column">
-                      Sub-total:
-                    </div> <!-- .column -->
-                    <div class="column">
-                      $100
-                    </div> <!-- .column -->
-
-                    <div class="ui horizontal divider"></div>
-
-                    <div class="left aligned column">
-                      2% Service fee:
-                    </div> <!-- .column -->
-                    <div class="column">
-                      $2
-                    </div> <!-- .column -->
-
-                    <div class="ui horizontal divider"></div>
-
-                    <div class="left aligned column larger">
-                      Total Cost:
-                    </div> <!-- .column -->
-                    <div class="column larger">
-                      $102
-                    </div> <!-- .column -->
-                  </div> <!-- .row -->
-
-                </div> <!-- .grid -->
-
-                <div class="ui horizontal divider"></div>
-
-                <div class="one column row">
-                  <div class="column">
-                    <a class="ui fluid evergreen orange button send-offer" href="#">SEND YOUR OFFER</a>
-                  </div> <!-- .column -->
-                </div>
-              </div> <!-- .grid -->
-            </div> <!-- .segment -->
-
-          </div> <!-- .column -->
-        </div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
-
-      </div> <!-- .container -->
-
-
-      <footer class="ui inverted vertical footer very padded segment">
-          <div class="ui container">
-            <div class="ui stackable inverted equal height stackable grid">
-              <div class="four wide column">
-                <h4 class="ui inverted header">Evergreen</h4>
-
-                <address>
-                  <span>@: hi@wapik.com</span>
-                  <span>p: +62 202 555 0117</span>
-                  <span>a: 610 Overlook Circle Suite 323<br />
-                        Kalamazoo, MI 49009</span>
-                </address>
-
-                <div class="social-row">
-                  <a href="#" title="Facebook">
-                    <img src="static/img/icon-facebook.png" class="ui image" width="30" />
-                  </a>
-                  <a href="#" title="Twitter">
-                    <img src="static/img/icon-twitter.png" class="ui image" width="30" />
-                  </a>
-                  <a href="#" title="LinkedIn">
-                    <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
-                  </a>
-                </div>
-
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Company</h4>
-                <div class="ui inverted link list">
-                  <a href="#" class="item">Home</a>
-                  <a href="#" class="item">About Us</a>
-                  <a href="#" class="item">Pricing</a>
-                  <a href="#" class="item">Contact Us</a>
-                </div>
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Others</h4>
-                <div class="ui inverted link list">
-                  <a href="#" class="item">Help &amp; Support</a>
-                  <a href="#" class="item">Privacy Policy</a>
-                  <a href="#" class="item">Terms</a>
-                  <a href="#" class="item">Sitemap</a>
-                </div>
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Newsletter</h4>
-                <p>Subscribe to our newsletter and get all the cool news</p>
-
-                <div class="ui fluid icon input">
-                  <input type="text" placeholder="Enter Email">
-                  <i class="send outline icon"></i>
-                </div> <!-- .input -->
-
-              </div> <!-- .column -->
-            </div> <!-- .grid -->
-          </div> <!-- .container -->
-
-          <div class="ui container">
-            <div class="ui horizontal divider"></div>
-            All rights reserved 2016.
-          </div>
-
-        </footer> <!-- .segment -->
-
-
-    </div> <!-- #greenwrapper -->
-
-    <!-- are you sure Modal -->
-    <div class="ui tiny basic modal centered aligned" id="offerSent">
-      <i class="close icon"></i>
-      <div class="header">
-
-        <img src="static/img/green-check.png" width="100" class="ui centered image" />
-        <div class="ui horizontal divider"></div>
-        Husky {{company}} has received your proposal
-      </div>
-      <div class="ui padded basic segment">
-        <p>While they review, reach out to more hardware companies and find more leads.</p>
-      </div>
-      <div class="actions">
-        <a href="#" class="ui fluid grey big uppercase green button close">Continue</a>
-      </div>
-    </div>
-
-
-
-
-    <script src="js/slick.min.js"></script>
-    <script src="static/js/green.js"></script>
-    <script type="text/javascript">
-      $('.single-slide').slick({
-        dots: true
-      });
-
-    </script>
-  </div>
+<div class="details light">
+
+	<div id="greenwrapper">
+
+		<div ng-include="'partials/header.html'"></div>
+
+		<div class="ui container">
+
+			<h2>Customer in USA looking to produce 1M units by Sep. 16</h2>
+
+			<div class="ui centered relaxed grid">
+				<div class="sixteen wide tablet four wide computer column">
+					<div class="box">
+						<h3>Attached Documents</h3>
+
+						<div class="single-slide">
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+						</div> <!-- .single slide -->
+						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
+					</div> <!-- .box -->
+
+					<div class="ui segment buybox">
+						<h3>Husky {{company}}</h3>
+						<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+
+					</div> <!-- .segment -->
+
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet seven wide computer column container divided">
+
+					<h3>Make an offer</h3>
+
+					<div class="ui large offer form">
+
+						<!-- START the raw materials selection -->
+
+						<div class="field">
+							<label>Profit</label>
+							<div class="ui selection dropdown">
+								<input type="hidden" name="rawmaterial">
+								<i class="dropdown icon"></i>
+								<div class="default text">Material 1</div>
+								<div class="menu">
+									<div class="item" data-value="1">Material 1</div>
+									<div class="item" data-value="0">Material 2</div>
+									<div class="item" data-value="2">Material 3</div>
+									<div class="item" data-value="3">Material 4</div>
+								</div> <!-- .menu -->
+							</div> <!-- .dropdown -->
+						</div> <!-- .field -->
+
+						<div class="ui grid second">
+							<div class="six wide column">
+								<div class="field">
+									<label>Raw material cost</label>
+									<div class="ui right labeled input">
+										<input type="text" placeholder="e.g. 0.21">
+										<div class="ui basic label">
+											$
+										</div> <!-- label -->
+									</div>
+								</div> <!-- .field -->
+							</div> <!-- .column -->
+							<div class="six wide column">
+								<div class="field">
+									<label>Raw material cost</label>
+									<div class="ui right labeled input">
+										<input type="text" placeholder="e.g. 0.05">
+										<div class="ui basic label">
+											$/unit
+										</div> <!-- label -->
+									</div>
+								</div> <!-- .field -->
+							</div>
+						</div> <!-- .second -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- END the raw materials selection -->
+
+
+						<!-- START the raw machine labor -->
+
+						<div class="field">
+							<label>Machine/Labor</label>
+							<div class="ui selection dropdown">
+								<input type="hidden" name="rawmaterial">
+								<i class="dropdown icon"></i>
+								<div class="default text">Machine Labor 1</div>
+								<div class="menu">
+									<div class="item" data-value="1">Machine Labor 1</div>
+									<div class="item" data-value="0">Machine Labor 2</div>
+									<div class="item" data-value="2">Machine Labor 3</div>
+									<div class="item" data-value="3">Machine Labor 4</div>
+								</div> <!-- .menu -->
+							</div> <!-- .dropdown -->
+						</div> <!-- .field -->
+
+						<div class="ui grid second">
+							<div class="five wide column">
+								<div class="field">
+									<label>Cycle time</label>
+									<div class="ui input">
+										<input type="text" placeholder="">
+									</div>
+								</div> <!-- .field -->
+							</div> <!-- .column -->
+							<div class="five wide column">
+								<div class="field">
+									<label>Yield</label>
+									<div class="ui input">
+										<input type="text" placeholder="">
+									</div>
+								</div> <!-- .field -->
+							</div>
+							<div class="five wide column">
+								<div class="field">
+									<label>Machine Labor Rate</label>
+									<div class="ui input">
+										<input type="text" placeholder="">
+									</div>
+								</div> <!-- .field -->
+							</div>
+							<div class="five wide column">
+								<div class="field">
+									<label>Number of Laborers</label>
+									<div class="ui input">
+										<input type="text" placeholder="">
+									</div>
+								</div> <!-- .field -->
+							</div>
+						</div> <!-- .second -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- END the raw machine labor -->
+
+
+						<div class="field">
+							<label>SG&amp;A <small>(Sales, General, and Admin)</small></label>
+							<input placeholder="SG&A" type="text">
+						</div>
+						<div class="field">
+							<label>Profit</label>
+							<input placeholder="Profit" type="text">
+						</div> <!-- .field -->
+						<div class="field">
+							<label>Overhead</label>
+							<input placeholder="Overhead" type="text">
+						</div> <!-- .field -->
+						<div class="field">
+							<label>Total Cost</label>
+							<input placeholder="Total Cost" type="text">
+						</div> <!-- .field -->
+					</div>
+
+
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet five wide computer column summary wall" id="offerWrapper">
+					<div class="ui sticky">
+						<h3>Offer Summary</h3>
+
+						<div class="ui segment">
+							<div class="ui four column grid">
+								<div class="one column row">
+									<div class="column">
+										<label>Raw Materials</label>
+										<p>Material 1
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="two column row">
+									<div class="column">
+										<label>Material cost</label>
+										<p>$0.21
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div>
+									<div class="column">
+										<label>Material cost / part</label>
+										<p>$0.05
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div>
+								</div> <!-- .row -->
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+						<div class="ui segment">
+							<div class="ui four column grid">
+								<div class="one column row">
+									<div class="column">
+										<label>Raw Labor Type</label>
+										<p>Material Labor 1
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="three column row">
+									<div class="column">
+										<label>Cycle time</label>
+										<p>xxx
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div>
+									<div class="column">
+										<label>Yield</label>
+										<p>xxx
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div>
+									<div class="column">
+										<label>Labor Rate</label>
+										<p>xxx
+											<a href="" title="Edit"><i class="write icon"></i></a>
+										</p>
+									</div>
+								</div> <!-- .row -->
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+
+						<div class="ui segment">
+
+							<div class="ui right aligned grid">
+
+								<div class="two column row summary">
+									<div class="left aligned column">
+										Sub-total:
+									</div> <!-- .column -->
+									<div class="column">
+										$100
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column">
+										2% Service fee:
+									</div> <!-- .column -->
+									<div class="column">
+										$2
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column larger">
+										Total Cost:
+									</div> <!-- .column -->
+									<div class="column larger">
+										$102
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+
+							</div> <!-- .grid -->
+
+							<div class="ui horizontal divider"></div>
+
+							<div class="one column row">
+								<div class="column">
+									<a class="ui fluid evergreen orange button send-offer" href="">SEND YOUR OFFER</a>
+								</div> <!-- .column -->
+							</div>
+						</div> <!-- .grid -->
+					</div> <!-- .segment -->
+
+				</div> <!-- .column -->
+			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
+
+		</div> <!-- .container -->
+
+		<div ng-include="'partials/footer.html'"></div>
+
+	</div> <!-- #greenwrapper -->
+
+	<!-- are you sure Modal -->
+	<div class="ui tiny basic modal centered aligned" id="offerSent">
+		<i class="close icon"></i>
+		<div class="header">
+
+			<img src="static/img/green-check.png" width="100" class="ui centered image" />
+			<div class="ui horizontal divider"></div>
+			Husky {{company}} has received your proposal
+		</div>
+		<div class="ui padded basic segment">
+			<p>While they review, reach out to more hardware companies and find more leads.</p>
+		</div>
+		<div class="actions">
+			<a href="" class="ui fluid grey big uppercase green button close">Continue</a>
+		</div>
+	</div>
+
+
+
+
+	<script src="js/slick.min.js"></script>
+	<script src="static/js/green.js"></script>
+	<script type="text/javascript">
+		$('.single-slide').slick({
+			dots: true
+		});
+
+	</script>
+</div>

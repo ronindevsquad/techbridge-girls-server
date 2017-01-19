@@ -1,14 +1,11 @@
 app.controller('profileController', function ($scope, $location) {
-	if (payload && $scope.type == 0) {
-		$scope.page = {
-			color: 'orange',
-			user: 'maker'
+	if (payload) {
+		$scope.tab = "profile";
+		if ($scope.type == 0) {
+
 		}
-	}
-	else if (payload && $scope.type == 1) {
-		$scope.page = {
-			color: 'green',
-			user: 'supplier'
+		else if ($scope.type == 1) {
+
 		}
 	}
 	else

@@ -1,342 +1,255 @@
+<div class="details light">
 
-    <!-- <link rel="stylesheet" type="text/css" href="core/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/slick.css"> -->
+	<div id="greenwrapper">
 
-  <div class="details light">
+		<div ng-include="'partials/header.html'"></div>
 
-    <div id="greenwrapper">
-      <header class="ui padded basic segment">
-        <div class="ui secondary menu">
-          <div class="left floated">
-            <img src="static/img/logo-black.png" width="151" class="ui image" />
-          </div>
+		<div class="ui container">
 
-          <div class="right menu">
-            <div class="ui horizontal list company trigger">
-              <div class="item">
+			<h2>Customer in USA looking to produce {{proposal.quantity | number}} units by {{proposal.completion | date:"mediumDate"}}</h2>
 
-                <img class="ui mini circular image" src="static/img/user-avatar.png">
-                <div class="content">
-                  <div class="ui sub header">{{company}}</div>
-                  3 new messages
-                </div>
+			<div class="ui centered relaxed grid">
+				<div class="sixteen wide tablet four wide computer column">
+					<div class="box">
+						<h3>Attached Documents</h3>
 
-              </div> <!-- .item -->
-            </div> <!-- .list -->
-          </div> <!-- .menu -->
-        </div> <!-- .menu -->
-      </header>
+						<div class="single-slide">
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
 
-      <div class="ui container">
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
 
-        <h2>Customer in USA looking to produce {{proposal.quantity | number}} units by {{proposal.completion | date:"mediumDate"}}</h2>
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+						</div> <!-- .single slide -->
+						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
+					</div> <!-- .box -->
+					<div class="box">
+						<h3>Image Gallery</h3>
 
-        <div class="ui centered relaxed grid">
-          <div class="sixteen wide tablet four wide computer column">
-            <div class="box">
-              <h3>Attached Documents</h3>
+						<div class="ui three doubling cards">
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+							<div class="card">
+								<div class="image">
+									<img src="http://placehold.it/100x100/eeeeee/333333">
+								</div>
+							</div>
+						</div>
 
-              <div class="single-slide">
-                  <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                  </div>
+					</div> <!-- .box -->
 
-                <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                  </div>
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet eight wide computer column container divided">
 
-                <div class="slided-item">
-                  <div class="ui cards">
-                    <div class="card">
-                      <div class="content">
-                        <img src="static/img/cad.png" class="ui centered image" />
-                      </div>
-                      <div class="ui bottom attached evergreen green button">
-                        View Document
-                      </div>
-                    </div> <!-- .card -->
-                  </div> <!-- .cards -->
-                </div>
-              </div> <!-- .single slide -->
-              <!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
-            </div> <!-- .box -->
-            <div class="box">
-              <h3>Image Gallery</h3>
+					<h3>Here’s what we’re trying to produce</h3>
 
-              <div class="ui three doubling cards">
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="image">
-                    <img src="http://placehold.it/100x100/eeeeee/333333">
-                  </div>
-                </div>
-              </div>
+					<div class="content box">
+						<h4>Where are they located?</h4>
+						<p ng-bind="proposal.zip"></p>
+					</div> <!-- .content box -->
 
-            </div> <!-- .box -->
-
-          </div> <!-- .column -->
-          <div class="sixteen wide tablet eight wide computer column container divided">
-
-            <h3>Here’s what we’re trying to produce</h3>
-
-            <div class="content box">
-              <h4>Where are they located?</h4>
-              <p ng-bind="proposal.zip"></p>
-            </div> <!-- .content box -->
-
-            <div class="content box">
-              <h4>How many units are they trying to produce?</h4>
-              <p ng-bind="proposal.quantity | number"></p>
-            </div> <!-- .content box -->
+					<div class="content box">
+						<h4>How many units are they trying to produce?</h4>
+						<p ng-bind="proposal.quantity | number"></p>
+					</div> <!-- .content box -->
 
 
-            <div class="ui basic segment center aligned nda-box" ng-show="!signed">
-              <h6>View full details</h6>
-              <p>Please read and accept the Non-Disclosure Agreement before moving forward with this offer</p>
+					<div class="ui basic segment center aligned nda-box" ng-show="!signed">
+						<h6>View full details</h6>
+						<p>Please read and accept the Non-Disclosure Agreement before moving forward with this offer</p>
 
-              <a class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
+						<a class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
 
-            </div>
-            
-            <div ng-show="signed">
-              <div class="content box">
-                <h4>And they need them by:</h4>
-                <p ng-bind="proposal.completion | date:'fullDate'"></p>
-                <img src="static/img/test-image.png" width="260" class="ui image" />
+					</div>
 
-              </div> <!-- .content box -->           
-            </div>
+					<div ng-show="signed">
+						<div class="content box">
+							<h4>And they need them by:</h4>
+							<p ng-bind="proposal.completion | date:'fullDate'"></p>
+							<img src="static/img/test-image.png" width="260" class="ui image" />
 
-          </div> <!-- .column -->
-          <div class="sixteen wide tablet four wide computer column">
+						</div> <!-- .content box -->           
+					</div>
 
-            <div class="ui segment buybox">
-              <h3>{{company}}</h3>
-              <p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet four wide computer column">
 
-              <div class="ui horizontal slider"></div>
+					<div class="ui segment buybox">
+						<h3>{{company}}</h3>
+						<p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
 
-              <a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()">MAKE AN OFFER</a>
+						<div class="ui horizontal slider"></div>
 
-            </div> <!-- .segment -->
+						<a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()">MAKE AN OFFER</a>
 
-            <div class="ui basic segment center aligned">
-              <small class="footnote">Evergeen charges 2% of the total cost as a service fee. <a href="" title="More about this">Find out more</a>.</small>
-            </div>
-          </div> <!-- .column -->
-        </div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
+					</div> <!-- .segment -->
 
-      </div> <!-- .container -->
+					<div class="ui basic segment center aligned">
+						<small class="footnote">Evergeen charges 2% of the total cost as a service fee. <a href="" title="More about this">Find out more</a>.</small>
+					</div>
+				</div> <!-- .column -->
+			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
 
+		</div> <!-- .container -->
 
-      <footer class="ui inverted vertical footer very padded segment">
-          <div class="ui container">
-            <div class="ui stackable inverted equal height stackable grid">
-              <div class="four wide column">
-                <h4 class="ui inverted header">Evergreen</h4>
+		<div ng-include="'partials/footer.html'"></div>
 
-                <address>
-                  <span>@: hi@wapik.com</span>
-                  <span>p: +62 202 555 0117</span>
-                  <span>a: 610 Overlook Circle Suite 323<br />
-                        Kalamazoo, MI 49009</span>
-                </address>
-
-                <div class="social-row">
-                  <a href="#" title="Facebook">
-                    <img src="static/img/icon-facebook.png" class="ui image" width="30" />
-                  </a>
-                  <a href="#" title="Twitter">
-                    <img src="static/img/icon-twitter.png" class="ui image" width="30" />
-                  </a>
-                  <a href="#" title="LinkedIn">
-                    <img src="static/img/icon-linkedin.png" class="ui image" width="30" />
-                  </a>
-                </div>
-
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Company</h4>
-                <div class="ui inverted link list">
-                  <a href="#" class="item">Home</a>
-                  <a href="#" class="item">About Us</a>
-                  <a href="#" class="item">Pricing</a>
-                  <a href="#" class="item">Contact Us</a>
-                </div>
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Others</h4>
-                <div class="ui inverted link list">
-                  <a href="#" class="item">Help &amp; Support</a>
-                  <a href="#" class="item">Privacy Policy</a>
-                  <a href="#" class="item">Terms</a>
-                  <a href="#" class="item">Sitemap</a>
-                </div>
-              </div> <!-- .column -->
-              <div class="four wide column">
-                <h4 class="ui inverted header">Newsletter</h4>
-                <p>Subscribe to our newsletter and get all the cool news</p>
-
-                <div class="ui fluid icon input">
-                  <input type="text" placeholder="Enter Email">
-                  <i class="send outline icon"></i>
-                </div> <!-- .input -->
-
-              </div> <!-- .column -->
-            </div> <!-- .grid -->
-          </div> <!-- .container -->
-
-          <div class="ui container">
-            <div class="ui horizontal divider"></div>
-            All rights reserved 2016.
-          </div>
-
-        </footer> <!-- .segment -->
-
-    </div> <!-- #greenwrapper -->
+	</div> <!-- #greenwrapper -->
 
 
-    <!-- the NDA modal -->
-    <div class="ui small modal" id="ndaWindow">
-      <i class="close icon"></i>
-      <div class="header">
-        Non-disclosure Agreement
-      </div>
+	<!-- the NDA modal -->
+	<div class="ui small modal" id="ndaWindow">
+		<i class="close icon"></i>
+		<div class="header">
+			Non-disclosure Agreement
+		</div>
 
-      <!-- modal content -->
-      <div class="ui padded basic segment">
-        <div class="ui grid">
-          <div class="sixteen wide tablet three wide computer column">
-            <!-- thumbnail will go here -->
-            <!-- here I'm calling the tabs triggers for the left part. For each thumbnail item we will add a tab menu as listed below -->
+		<!-- modal content -->
+		<div class="ui padded basic segment">
+			<div class="ui grid">
+				<div class="sixteen wide tablet three wide computer column">
+					<!-- thumbnail will go here -->
+					<!-- here I'm calling the tabs triggers for the left part. For each thumbnail item we will add a tab menu as listed below -->
 
-            <div class="thumbnails">
-              <a class="active item" data-tab="first">
-                <img src="http://placehold.it/105x140/eeeeee/333333">
-              </a>
-              <a class="item" data-tab="second">
-                <img src="http://placehold.it/105x140/eeeeee/333333">
-              </a>
-              <a class="item" data-tab="third">
-                <img src="http://placehold.it/105x140/eeeeee/333333">
-              </a>
-            </div>
+					<div class="thumbnails">
+						<a class="active item" data-tab="first">
+							<img src="http://placehold.it/105x140/eeeeee/333333">
+						</a>
+						<a class="item" data-tab="second">
+							<img src="http://placehold.it/105x140/eeeeee/333333">
+						</a>
+						<a class="item" data-tab="third">
+							<img src="http://placehold.it/105x140/eeeeee/333333">
+						</a>
+					</div>
 
-          </div>
-          <div class="sixteen wide tablet thirteen wide computer column">
-            <!-- preview will go here -->
+				</div>
+				<div class="sixteen wide tablet thirteen wide computer column">
+					<!-- preview will go here -->
 
-            <div class="ui tab active" data-tab="first">
-              <div class="paper">
-                <img src="static/img/paper.jpg" width="495" class="ui centered image" />
-              </div> <!-- .paper -->
-            </div>
-            <div class="ui tab" data-tab="second">
-              <div class="paper">
-                <img src="static/img/paper.jpg" width="495" class="ui centered image" />
-              </div> <!-- .paper -->
-            </div>
-            <div class="ui tab" data-tab="third">
-              <div class="paper">
-                <img src="static/img/paper.jpg" width="495" class="ui centered image" />
-              </div> <!-- .paper -->
-            </div>
+					<div class="ui tab active" data-tab="first">
+						<div class="paper">
+							<img src="static/img/paper.jpg" width="495" class="ui centered image" />
+						</div> <!-- .paper -->
+					</div>
+					<div class="ui tab" data-tab="second">
+						<div class="paper">
+							<img src="static/img/paper.jpg" width="495" class="ui centered image" />
+						</div> <!-- .paper -->
+					</div>
+					<div class="ui tab" data-tab="third">
+						<div class="paper">
+							<img src="static/img/paper.jpg" width="495" class="ui centered image" />
+						</div> <!-- .paper -->
+					</div>
 
-          </div>
-        </div> <!-- .grid -->
-      </div>
-      <div class="actions">
+				</div>
+			</div> <!-- .grid -->
+		</div>
+		<div class="actions">
 
-        <div class="ui equal width grid">
-          <div class="equal width row">
-            <div class="column">
-              <a href="" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
-            </div>
-            <div class="column">
-              <a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="signed=true">I agree</a>
-            </div>
-          </div> <!-- .row -->
-        </div> <!-- .grid -->
+			<div class="ui equal width grid">
+				<div class="equal width row">
+					<div class="column">
+						<a href="" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
+					</div>
+					<div class="column">
+						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="signed=true">I agree</a>
+					</div>
+				</div> <!-- .row -->
+			</div> <!-- .grid -->
 
-        <small class="footnote">By agreeing to this NDA you enable that the Maker can contact you through our website. No personal data will be made public to the maker.</small>
+			<small class="footnote">By agreeing to this NDA you enable that the Maker can contact you through our website. No personal data will be made public to the maker.</small>
 
-      </div> <!-- .actions -->
-    </div> <!-- modal -->
+		</div> <!-- .actions -->
+	</div> <!-- modal -->
 
 
-    <!-- the "are you sure" modal -->
-    <div class="ui tiny modal" id="areYouSure">
-      <i class="close icon"></i>
-      <div class="header">
-        Are you sure?
-      </div>
+	<!-- the "are you sure" modal -->
+	<div class="ui tiny modal" id="areYouSure">
+		<i class="close icon"></i>
+		<div class="header">
+			Are you sure?
+		</div>
 
-      <!-- modal content -->
-      <div class="ui padded basic segment">
-        <p>If you don’t agree with this NDA you will not be able to continue to this company’s offers.
-          If you are sure you want to skip this deal click “I’m Sure”. Otherwise, go back and click “Agree”.</p>
-      </div>
-      <div class="actions">
+		<!-- modal content -->
+		<div class="ui padded basic segment">
+			<p>If you don’t agree with this NDA you will not be able to continue to this company’s offers.
+				If you are sure you want to skip this deal click “I’m Sure”. Otherwise, go back and click “Agree”.</p>
+			</div>
+			<div class="actions">
 
-        <a href="" class="ui fluid evegreen uppercase big green button nda-trigger">Go back</a>
+				<a href="" class="ui fluid evegreen uppercase big green button nda-trigger">Go back</a>
 
-        <a href="" class="ui fluid grey big uppercase basic button close">I am sure</a>
+				<a href="" class="ui fluid grey big uppercase basic button close">I am sure</a>
 
-        </div> <!-- .grid -->
+			</div> <!-- .grid -->
 
-      </div> <!-- .actions -->
-    </div> <!-- modal -->
+		</div> <!-- .actions -->
+	</div> <!-- modal -->
 
-    <script src="static/js/slick.min.js"></script>
-    <script src="static/js/green.js"></script>
+	<script src="static/js/slick.min.js"></script>
+	<script src="static/js/green.js"></script>
 
- <!--    <script type="text/javascript">
-      $('.single-slide').slick({
-        dots: true
-      });
+<!--    <script type="text/javascript">
+$('.single-slide').slick({
+dots: true
+});
 
-    </script> -->
-  </div>
+</script> -->
+</div>

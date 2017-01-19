@@ -5,9 +5,7 @@ var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 
 module.exports = {
 	index: function(req, callback) {
-		console.log("in model")
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-			console.log(err)
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 			else {
@@ -16,7 +14,7 @@ module.exports = {
 
 
 				var query = "SELECT *, HEX(id) AS id FROM proposals"
-				connection.query(query, payload.id, function(err, data) {
+				connection.query(query, function(err, data) {
 					if (err)
 						callback({status: 400, message: "Please contact an admin."});
 					else if (data.length == 0)
@@ -62,7 +60,7 @@ module.exports = {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-			else if (!req.body.processes || !req.body.sga || !req.body.quantity || !req.body.completion ||
+			else if (!req.body.processes || !req.body.product || !req.body.quantity || !req.body.completion ||
 			!req.body.zip || req.body.audience === null)
 				callback({status: 400, message: "All form fields are required."});
 			else if (req.body.quantity < 1)
@@ -76,7 +74,7 @@ module.exports = {
 					else {
 						var data = {
 							status: 0,
-							sga: req.body.sga,
+							product: req.body.product,
 							quantity: req.body.quantity,
 							completion: req.body.completion,
 							zip: req.body.zip,
@@ -86,7 +84,7 @@ module.exports = {
 							updated_at: "NOW()",
 							user_id: `UNHEX('${payload.id}')`
 						}
-						connection.query("INSERT INTO proposals SET ?, id = @temp", _data, function(err) {
+						connection.query("INSERT INTO proposals SET ?, id = @temp", data, function(err) {
 							if (err)
 								callback({status: 400, message: "Please contact an admin."});
 							else {

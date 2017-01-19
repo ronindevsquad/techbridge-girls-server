@@ -78,6 +78,10 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.type = payload.type;
 			$rootScope.company = payload.company;
 			$rootScope.contact = payload.contact;
+			$rootScope.created_at = payload.created_at;
+			$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
+			$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
+			$rootScope.menu = false;
 			// $rootScope.messages = [];
 		}
 		
@@ -256,7 +260,7 @@ app.run(function($rootScope, $timeout) {
 	})();
 
 	// Define logout function:
-	$rootScope.logout = function(delay) {
+	$rootScope.logout = function() {
 		// Disconnect from sockets:
 		socket.emit("logout");
 		
@@ -270,14 +274,12 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.id = undefined;
 		$rootScope.type = undefined;
 		$rootScope.company = undefined;
-		$rootScope.contact = undefined;
+		$rootScope.created_at = undefined;
+		$rootScope.color = undefined;
+		$rootScope.user = undefined;
+		$rootScope.menu = undefined;
 		
 		// Relocate:
-		if (delay)
-			$timeout(function() {
-				location.href = ("/");				
-			}, 5000, false);			
-		else
-			location.href = ("/");
+		location.href = ("/");
 	};
 });

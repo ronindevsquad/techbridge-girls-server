@@ -1,6 +1,8 @@
 app.controller('messagesController', function ($scope, $rootScope, $location, $timeout,
 offersFactory, messagesFactory) {
-	if (payload ) {
+	if (payload) {
+		$scope.tab = "messages";
+
 		// offersFactory.index(function(data) {
 		// 	if (data.errors)
 		// 		console.log(data.errors);
@@ -8,19 +10,13 @@ offersFactory, messagesFactory) {
 		// 		$scope.offers = data;
 		// 	}
 		// });
+		if ($scope.type == 0) {
 
-		if ($scope.type == 0)
-			$scope.page = {
-				color: 'orange',
-				user: 'maker'
-			}
-		else {
-			$scope.page = {
-				color: 'green',
-				user: 'supplier'
-			}
 		}
-	}
+		else if ($scope.type == 1) {
+
+		}
+	}	
 	else
 		$location.url('/');
 
@@ -32,7 +28,7 @@ offersFactory, messagesFactory) {
 		$rootScope.cur_offer = offer;
 		messagesFactory.show(offer.id, function(data) {
 			if (data.status == 401)
-				$location.url("/logout");
+				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
@@ -58,7 +54,7 @@ offersFactory, messagesFactory) {
 
 			messagesFactory.create(data, function(data) {
 			if (data.status == 401)
-				$location.url("/logout");
+				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else
