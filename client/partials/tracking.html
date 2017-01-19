@@ -86,7 +86,7 @@
 												<li ng-repeat="report in key.reports">
 													<div class="actions">
 														<a href="" title="View Daily Report">
-															<span ng-if="report.status == 1">View Daily Report</span>
+															<span ng-if="report.status == 1">View Daily Report</span><span ng-if="report.status ==1 && type==1">|</span><span ng-click="reportForm(proposal.id)" ng-if="report.status == 1 && type==1">Add Note</span>
 														</a>
 													</div>
 													<span ng-if="report.status == 0">In progress...</span>
@@ -164,49 +164,37 @@
 										<ul class="detailed items">
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Started production
 											</li>
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Built 22.771 units
 											</li>
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Built 49.228 units
 											</li>
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Built 121.001 units
 											</li>
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Built 145.551 units
 											</li>
 											<li>
 												<div class="actions">
-													<a href="" title="View Daily Report">
-														View Daily Report
-													</a>
+													<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
 												</div>
 												Built 201.971 units
 											</li>
@@ -305,3 +293,48 @@
 
 	<script src="static/js/green.js"></script>
 </div>
+
+<!-- Modal -->
+<div class="ui small modal">
+	<div class="actions">
+		<div class="ui cancel button"><i class="remove icon"></i></div>
+	</div>
+	<div class="ui sixteen centered grid">
+		<div class="header fourteen wide column">
+			<h2>Add Production Note</h2>
+		</div>
+		<form ng-submit="reportSubmit();" class="ui form">
+			<div class="field five wide column">
+				<label>What did you input today?</label>
+			</div>
+			<div class="field sixteen wide column">
+				<input type="text" name="input" ng-model="form.input">
+			</div>
+			<div class="field five wide column">
+				<label>What did you output today?</label>
+			</div>
+			<div class="field sixteen wide column">
+				<input type="text" name="output" ng-model="form.output">
+			</div>
+			<div class="field five wide column left aligned">
+				<label>What did you ship today?</label>
+			</div>
+			<div class="field sixteen wide column">
+				<input type="text" name="output" ng-model="form.shipped">
+			</div>
+			<div class="field one wide column">
+				<label>Note</label>
+			</div>
+			<div class="field sixteen wide column">
+				<textarea rows="8" cols="80" ng-model="form.note"></textarea>
+			</div>
+			<div class="field sixteen wide column">
+				<button class="fluid ui green button" type="submit">Save Note</button>
+			</div>
+			<div class="field sixteen wide column">&nbsp;</div>
+		</form>
+	</div>
+
+</div>
+
+<script src="static/js/modal.js"></script>

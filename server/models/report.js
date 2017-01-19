@@ -20,5 +20,33 @@ module.exports = {
 				});
 			}
 		});
-	}
+	},
+
+	create: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			if (err)
+				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+			else {
+				data = {
+					id: 				"UNHEX(REPLACE(UUID(), '-', ''))",
+					status: 		1,
+					input: 			req.body.input,
+					output: 		req.body.output,
+					shipping: 	req.body.shipped,
+					note: 			req.body.note,
+					created_at: "NOW()",
+					updated_at: "NOW()",
+					user_id: 		`UNHEX('${payload.id}')`,
+					offer_id: 	req.body.offer_id
+				};
+				connection.query("INSERT INTO reports SET ?", data, function(err, data){
+					if (err)
+						callback({status: 400, message: "Please contact an admin."});
+					else {
+						callback(false);
+					}
+				});
+			}
+		});
+	},
 };

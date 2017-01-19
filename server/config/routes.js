@@ -32,6 +32,7 @@ module.exports = function(app) {
 
 	//reports
 	app.get('/api/reports', reports.index)
+	app.post('/api/reports', reports.create)
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);

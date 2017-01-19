@@ -8,5 +8,14 @@ module.exports = {
 			else
 				res.json(data);
 		});
-	}
+	},
+
+	create: function(req, res) {
+		report.create(req, function(err, data) {
+			if (err)
+				res.status(err.status).json({message: err.message});
+			else
+				res.json(data);
+		});
+	},
 }
