@@ -29,7 +29,6 @@ function setSocket() {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(payload)
 				for (var i = 0; i < data.length; i++)
 					socket.emit('subscribe', data[i].id);
 			},

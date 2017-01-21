@@ -29,89 +29,18 @@
 				</div>
 
 				<div class="item-cards list-cards">
-
 					<div class="ui horizontal divider"></div>
-
 					<div class="ui resulted items">
 
-
-						<!-- TESTING BLOCK -->
-						<span ng-repeat="key in proposalsAndReports" class="ui resulted items"> <!-- NG REPEAT BEGIN -->
-							<div class="item ui segment opened">
-								<div class="ui tiny image">
-									<img src="static/img/husky-logo.png" class="ui centered image" />
-								</div>
-								<div class="middle aligned content">
-									<div class="header">
-										{{key.sga}} | Quantity: {{key.quantity}} | percent complete: {{percentCompleted(key)}}
-									</div> <!-- ad title -->
-									<div class="description">
-
-										<div class="tracking progress">
-											<div class="flag start">
-												<img src="static/img/flag.png" width="13" />
-											</div>
-											<div class="ui indicating progress" data-percent="">
-
-												<div class="bar" style="width:{{percentCompleted(key)}}%;">
-													<div class="progress">{{percentCompleted(key)}}%</div>
-												</div>
-											</div>
-											<small>10 days left</small>
-
-										</div> <!-- .tracking progress -->
-
-									</div> <!-- .description -->
-
-								</div>
-								<div class="extra flex">
-									<a href="" class="ui evergreen grey button">Close</a>
-								</div>
-							</div> <!-- .item -->
-							<div class="detail-panel">
-
-								<div class="ui padded segment">
-
-									<div class="ui grid">
-										<div class="four wide column">
-											<div class="vertical timeline">
-												<ul class="timeline items">
-													<li ng-repeat="report in key.reports" ng-class="{'working': report.status == 0, 'done': report.status == 1 && report === key.reports[key.reports.length-1]}">{{report.created_at}}</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
-													<!-- add the .done class when the progress is over -->
-												</ul>
-											</div> <!-- .vertical timeline -->
-										</div> <!-- .column -->
-										<div class="twelve wide column">
-											<ul class="detailed items">
-												<li ng-repeat="report in key.reports">
-													<div class="actions">
-														<a href="" title="View Daily Report">
-															<span ng-if="report.status == 1">View Daily Report</span><span ng-if="report.status ==1 && type==1">|</span><span ng-click="reportForm(proposal.id)" ng-if="report.status == 1 && type==1">Add Note</span>
-														</a>
-													</div>
-													<span ng-if="report.status == 0">In progress...</span>
-													<span ng-if="report.status == 1">{{report.quantity}} units produced. <strong ng-if="report == key.reports[key.reports.length-1]">COMPLETED</strong></span>
-
-												</li>
-											</ul>
-										</div>
-									</div> <!-- .grid -->
-
-								</div> <!-- segment -->
-
-							</div> <!-- .detail-panel -->
-						</span> <!-- NG REPEAT END -->
-						<!-- END OF TESTING BLOCK -->
-
 						<!-- this is one item -->
-						<div class="item ui segment opened">
+						<!-- <div class="item ui segment opened">
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
 									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
+								</div>
 								<div class="description">
 
 									<div class="tracking progress">
@@ -126,22 +55,22 @@
 
 										<small>10 days left </small>
 
-									</div> <!-- .tracking progress -->
+									</div>
 
-								</div> <!-- .description -->
+								</div>
 
 							</div>
 							<div class="extra flex">
 								<a ng-click="" href="" class="ui evergreen grey button">Close</a>
 							</div>
-						</div> <!-- .item -->
+						</div>  -->
 
 
 
 						<!-- this item has a details panel that opens when you click View -->
 						<!-- DO NOT include this inside .item because the flex will mess it up -->
 
-						<div class="detail-panel">
+						<!-- <div class="detail-panel">
 
 							<div class="ui padded segment">
 
@@ -155,11 +84,11 @@
 												<li>January 30th, 2016</li>
 												<li>February 1st, 2016</li>
 												<li>February 2nd, 2016</li>
-												<li class="working">February 3rd, 2016</li> <!-- this is a .working class for the item before the last child / this will make the progress grey at this point -->
-												<li>February 4th, 2016</li> <!-- add the .done class when the progress is over -->
+												<li class="working">February 3rd, 2016</li>
+												<li>February 4th, 2016</li>
 											</ul>
-										</div> <!-- .vertical timeline -->
-									</div> <!-- .column -->
+										</div>
+									</div>
 									<div class="twelve wide column">
 										<ul class="detailed items">
 											<li>
@@ -204,91 +133,75 @@
 											<li>&nbsp;</li>
 										</ul>
 									</div>
-								</div> <!-- .grid -->
-
-							</div> <!-- segment -->
-
-						</div> <!-- .detail-panel -->
-
-						<!-- this is where we end the details panel -->
-
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
+								</div>
 							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								</div> <!-- ad title -->
-								<div class="description">
+						</div> -->
 
-									<div class="tracking progress">
-										<div class="flag start">
-											<img src="static/img/flag.png" width="13" />
+						<div ng-repeat="proposal in proposals" class="ui resulted items">
+							<div class="item" ng-class="proposalView == proposal.item ? 'ui segment opened' : ''"> <!-- ui segment opened -->
+								<div class="ui tiny image">
+									<img src="static/img/husky-logo.png" class="ui centered image" />
+								</div>
+								<div class="middle aligned content">
+									<div class="header">
+										{{proposal.item}}
+									</div>
+									<div class="description">
+										<div class="tracking progress">
+											<div class="flag start">
+												<img src="static/img/flag.png" width="13" />
+											</div>
+											<div class="ui indicating progress" data-percent="74">
+												<div class="bar">
+													<div class="progress"></div>
+												</div>
+											</div>
+											<small>24 days left</small>
 										</div>
-										<div class="ui indicating progress" data-percent="74">
-											<div class="bar">
-												<div class="progress"></div>
+									</div>
+								</div>
+								<div class="extra flex">
+									<a ng-click="getReports(proposal.item);" ng-class="proposalView==proposal.item ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal.item ? 'Close':'Details'}}</a>
+								</div>
+							</div>
+
+							<div ng-show="proposalView == proposal.item" class="detail-panel">
+
+								<div class="ui padded segment">
+									<div class="ui grid">
+										<div class="four wide column">
+											<div class="vertical timeline">
+												<ul class="timeline items">
+													<li ng-repeat="proposal in proposals" ng-class="{'working': $odd, 'done': $last}">January 27th, 2016</li>
+												</ul>
 											</div>
 										</div>
-
-										<small>24 days left</small>
-
-									</div> <!-- .tracking progress -->
-
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra flex">
-								<a ng-class="color" href="" class="ui evergreen button">Details</a>
-							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-								</div> <!-- ad title -->
-								<div class="description">
-
-									<div class="tracking progress">
-										<div class="flag start">
-											<img src="static/img/flag.png" width="13" />
+										<div class="twelve wide column">
+											<ul class="detailed items">
+												<li ng-repeat="proposal in proposals">
+													<div class="actions">
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
+													</div>
+													Started production
+												</li>
+												<li>&nbsp;</li>
+											</ul>
 										</div>
-										<div class="ui indicating progress" data-percent="4">
-											<div class="bar">
-												<div class="progress"></div>
-											</div>
-										</div>
-
-										<small>8 days left</small>
-
-									</div> <!-- .tracking progress -->
-
-								</div> <!-- .description -->
-
+									</div>
+								</div>
 							</div>
-							<div class="extra flex">
-								<a ng-class="color" href="" class="ui evergreen button">Details</a>
-							</div>
-						</div> <!-- .item -->
+						</div>
 
-					</div> <!-- .items -->
 
+
+
+
+					</div>
 				</div>
-			</div> <!-- .ui left continer -->
-
-		</section> <!-- .very padded segment -->
-
+			</div>
+		</section>
 		<div ng-include="'partials/footer.html'"></div>
-
-	</div> <!-- #greenwrapper -->
+	</div>
 
 
 	<script src="static/js/green.js"></script>

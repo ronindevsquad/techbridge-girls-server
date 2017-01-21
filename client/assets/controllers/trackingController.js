@@ -26,18 +26,16 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		else if (data.status >= 300)
 			console.log("error:", data.data.message)
 		else {
-			console.log(data);
-			$scope.proposals = data
+			$scope.proposals = data.proposals
+			console.log($scope.proposals);
 			reportsFactory.index(function(data){
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data);
 					$scope.reports = data;
 					$scope.proposalsAndReports = formatProposalsAndReports();
-					console.log($scope.proposalsAndReports);
 				}
 			});
 		}
@@ -54,7 +52,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				}
 			}
 		}
-		console.log(formattedObject);
 		return formattedObject;
 	}
 
@@ -65,6 +62,15 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			output: "",
 			shipped: "",
 			note: ""
+		}
+	};
+
+	$scope.getReports = function(id){
+		if ($scope.proposalView == id)
+			$scope.proposalView = undefined;
+		else {
+			$scope.proposalView = id;
+
 		}
 	};
 

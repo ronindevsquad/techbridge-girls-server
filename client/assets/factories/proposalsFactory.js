@@ -4,10 +4,8 @@ app.factory('proposalsFactory', function($http, $cookies) {
 			$http.get('/api/proposals', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
-				console.log("success: ", res)
 				callback(res.data);
 			}, function(res) {
-				console.log("error: ", res);
 				callback(res);
 			});
 		},
