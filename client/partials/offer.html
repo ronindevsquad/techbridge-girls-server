@@ -1,0 +1,536 @@
+<div class="details light">
+
+	<div id="greenwrapper">
+
+		<div ng-include="'partials/header.html'"></div>
+
+		<div class="ui container">
+
+			<h2>Customer in USA looking to produce {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
+
+			<div class="ui centered relaxed grid">
+				<div class="sixteen wide tablet three wide computer column">
+					<div class="box">
+						<h3>Attached Documents</h3>
+
+						<div class="single-slide">
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+
+							<div class="slided-item">
+								<div class="ui cards">
+									<div class="card">
+										<div class="content">
+											<img src="static/img/cad.png" class="ui centered image" />
+										</div>
+										<div class="ui bottom attached evergreen green button">
+											View Document
+										</div>
+									</div> <!-- .card -->
+								</div> <!-- .cards -->
+							</div>
+						</div> <!-- .single slide -->
+						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
+					</div> <!-- .box -->
+
+					<div class="ui segment buybox">
+						<h3>{{company}}</h3>
+						<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+
+					</div> <!-- .segment -->
+
+				</div> <!-- .column -->
+				<div class="sixteen wide tablet nine wide computer column container divided">
+
+					<div class="ui centered grid">
+						<h3 class="row">Make an offer</h3>
+					</div>				
+
+					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
+					<fieldset style="border: none;" ng-disabled="show_summary">
+						<!-- START the raw materials selection -->
+						<fieldset > 
+							<legend>&nbsp;Production Materials&nbsp;</legend><br>
+
+							<div ng-repeat="material in new_offer.materials track by $index">
+								<div class="ui grid second">
+
+									<div class="field sixteen wide column">
+										<label>
+											<span data-tooltip="This is one of the raw materials you plan to use to produce {{proposal.product}}." data-position="right center">Raw Material {{new_offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
+										</label>
+										<input placeholder="e.g. Aluminum (AL 6061/5052)" type="text" ng-model="material.material" required>
+									</div>
+									<div class="right aligned centered column">
+										<a style="color: red" href="" ng-click="new_offer.materials.splice($index,1)"><small>Remove</small></a>
+									</div>
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the weight (in kilograms)
+											 of how much {{material.material?material.material:'material'}} you'll use to produce each unit." data-position="right center">Weight <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 2.5" min="0.00" step="0.01" ng-model="material.weight" required>
+												<div class="ui basic label">
+													kg/unit
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the cost of {{material.weight?material.weight:'(e.g.) 2.5'}} kg of {{material.material?material.material:'Aluminum (AL 6061/5052)'}}." data-position="right center">Cost <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 7.50" min="0.00" step="0.01" ng-model="material.cost" required>
+												<div class="ui basic label">
+													$/weight
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div>
+								</div> <!-- .second -->
+								<div class="ui horizontal divider"></div>
+							</div>
+
+							<button type="button" class="ui fluid green button" ng-click="new_offer.materials.push({})">Click to add {{new_offer.materials.length>0?'another':'a'}} material</button>
+						</fieldset>
+						<!-- END the raw materials selection -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- START the raw machine labor -->
+						<fieldset > 
+							<legend>&nbsp;Production Machines&nbsp;</legend><br>
+
+							<div ng-repeat="machine in new_offer.machines track by $index">
+
+								<div class="ui grid second">
+
+									<div class="field sixteen wide column">
+										<label><span data-tooltip="This is one type of machine you'll use in production." data-position="right center">Machine {{new_offer.machines.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
+										<input placeholder="e.g. 300T Press" type="text" ng-model="machine.labor" required>
+									</div>
+
+									<div class="right aligned centered column">
+										<a style="color: red" href="" ng-click="new_offer.machines.splice($index,1)"><small>Remove</small></a>
+									</div>
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the time it takes the machine to process the raw material for one product." data-position="right center">Cycle Time <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 11" min="1" step="1" ng-model="machine.time" required>
+												<div class="ui basic label">
+													sec
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the cost of running the machine at an hourly rate." data-position="right center">Operation Cost <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 20.00" min="0.01" step="0.01" ng-model="machine.rate" required>
+												<div class="ui basic label">
+													$/hr
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the yield as a percentage of output products / input raw materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 98.5" min="0.01" step="0.01" ng-model="machine.yield" required>
+												<div class="ui basic label">
+													%
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label>Number of Machines <span data-tooltip="This is the quantity of this machine type that you'll have available for production." data-position="top right"><i class="help circle outline icon"></i></span></label>
+											<div class="ui input">
+												<input type="number" placeholder="e.g. 1" min="1" step="1" ng-model="machine.count" required>
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+								</div> <!-- .second -->
+								<div class="ui horizontal divider"></div>
+							</div>
+
+							<button type="button" class="ui fluid green button" ng-click="new_offer.machines.push({})">Click to add {{new_offer.machines.length>0?'another':'a'}} machine</button>
+						</fieldset>
+						<!-- END the raw machine labor -->
+
+						<div class="ui horizontal divider"></div>
+
+						<!-- START the raw machine labor -->
+						<fieldset > 
+
+							<legend>&nbsp;Manual Labor&nbsp;</legend><br>
+
+							<div ng-repeat="manual in new_offer.manuals track by $index">
+
+								<div class="ui grid second">
+
+									<div class="field sixteen wide column">
+										<label><span data-tooltip="This is one type of manual labor you'll need in production." data-position="right center">Labor {{new_offer.manuals.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
+										<input placeholder="e.g. Assembly" type="text" ng-model="manual.labor" required>
+									</div>
+
+									<div class="right aligned centered column">
+										<a style="color: red" href="" ng-click="new_offer.manuals.splice($index,1)"><small>Remove</small></a>
+									</div>
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the time it takes the laborer to complete {{manual.labor?manual.labor:'this labor'}} for one product." data-position="right center">Labor Time <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 600" min="1" step="1" ng-model="manual.time" required>
+												<div class="ui basic label">
+													sec
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the wage of the laborer as an hour rate." data-position="right center">Labor Rate <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 15.00" min="0.01" step="0.01" ng-model="manual.rate" required>
+												<div class="ui basic label">
+													$/hr
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label><span data-tooltip="This is the yield as a percentage of output products / input materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
+											<div class="ui right labeled input">
+												<input type="number" placeholder="e.g. 97.0" min="0.01" step="0.01" ng-model="manual.yield" required>
+												<div class="ui basic label">
+													%
+												</div> <!-- label -->
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+									<div class="eight wide column">
+										<div class="field">
+											<label>Number of Laborers <span data-tooltip="This is the number of workers you'll have available for {{manual.labor?manual.labor:'this labor'}}." data-position="top right"><i class="help circle outline icon"></i></span></label>
+											<div class="ui input">
+												<input type="number" placeholder="e.g. 5" min="1" step="1" ng-model="manual.count" required>
+											</div>
+										</div> <!-- .field -->
+									</div> <!-- .column -->
+
+								</div> <!-- .second -->
+								<div class="ui horizontal divider"></div>
+							</div>
+							<button type="button" class="ui fluid green button" ng-click="new_offer.manuals.push({})">Click to add {{new_offer.manuals.length>0?'another':'a'}} labor</button>
+						</fieldset>
+						<!-- END the raw machine labor -->
+
+						<div class="ui horizontal divider"></div>
+
+						<fieldset > 
+							<legend>&nbsp;Production Costs&nbsp;</legend><br>
+
+							<div class="field">
+								<label><span data-tooltip="This is the cost of your SG&A team." data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
+								<div class="ui right labeled input">
+									<input placeholder="50000.00" type="number" min="0" step="0.01" ng-model="new_offer.sga" required>
+									<div class="ui basic label">
+										$
+									</div> <!-- label -->
+								</div>
+							</div>
+							<div class="field">
+								<label><span data-tooltip="This is the overhead cost for..." data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
+								<div class="ui right labeled input">
+									<input placeholder="Profit" type="number" min="0" step="0.01" ng-model="new_offer.overhead" required>
+									<div class="ui basic label">
+										$
+									</div> <!-- label -->
+								</div>
+							</div> <!-- .field -->
+							<div class="field">
+								<label><span data-tooltip="This is how much you plan to profit per unit." data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
+								<div class="ui right labeled input">
+									<input placeholder="Profit" type="number" min="0" step="0.01" ng-model="new_offer.profit" required>
+									<div class="ui basic label">
+										$
+									</div> <!-- label -->
+								</div>
+							</div> <!-- .field -->
+							<div class="field">
+								<label><span data-tooltip="This is the total cost we've calculated from the number you've provided." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
+								<div class="ui right labeled input">
+									<input placeholder="Total Cost" type="number" min="0" step="0.01" ng-model="new_offer.total" required disabled>
+									<div class="ui basic label">
+										$
+									</div> <!-- label -->
+								</div>
+							</div> <!-- .field -->
+						</fieldset>
+
+						<div class="ui horizontal divider"></div>
+
+						<div class="ui grid">
+							<small class="row centered">Click below once you're done to review your offer in the right panel.</small>
+							<div class="row centered">
+								<input type="submit" class="ui green button" value="{{sent? 'Offer Sent' : 'View Summary'}}" ng-disabled="sent">
+							</div>
+						</div>
+						</fieldset>
+					</form>
+				</div> <!-- .column -->
+				
+				<div id="anchor_summary" class="sixteen wide tablet four wide computer column wall" id="offerWrapper" >
+					<div ng-show="show_summary">
+						<h3 >Offer Summary</h3>
+
+						<div class="ui segment" ng-show="new_offer.materials.length>0">
+							<div class="ui grid" ng-repeat="material in new_offer.materials track by $index">
+								<div class="sixteen wide column centered">
+									<label>Material</label>
+									<p>{{material.material}}</p>
+								</div> <!-- .column -->
+								<div class="two column row">
+									<div class="column">
+										<label>Weight</label>
+										<p>{{material.weight}}kg
+										</p>
+									</div>
+									<div class="column float right aligned">
+										<label>Cost</label>
+										<p>${{material.cost | number:2}}</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != new_offer.materials.length"></div>
+
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+						<div class="ui segment" ng-show="new_offer.machines.length>0">
+							<div class="ui four column grid" ng-repeat="machine in new_offer.machines">
+								<div class="one column row">
+									<div class="column">
+										<label>Machine</label>
+										<p>{{machine.labor}}</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="three column row">
+									<div class="column">
+										<label>Time</label>
+										<p>{{machine.time}}s</p>
+									</div>
+									<div class="column center aligned">
+										<label>Cost</label>
+										<p>${{machine.rate | number:2}}/hr</p>
+									</div>
+									<div class="column right aligned">
+										<label>Yield</label>
+										<p>{{machine.yield}}%</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != new_offer.machines.length"></div>
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+						<div class="ui segment" ng-show="new_offer.manuals.length>0">
+							<div class="ui four column grid" ng-repeat="manual in new_offer.manuals">
+								<div class="one column row">
+									<div class="column">
+										<label>Labor</label>
+										<p>{{manual.labor}}</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="three column row">
+									<div class="column">
+										<label>Time</label>
+										<p>{{manual.time}}s</p>
+									</div>
+									<div class="column center aligned">
+										<label>Wage</label>
+										<p>${{manual.rate | number:2}}/hr</p>
+									</div>
+									<div class="column right aligned">
+										<label>Yield</label>
+										<p>{{manual.yield}}%</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != new_offer.manuals.length"></div>
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+
+						<div class="ui segment">
+
+							<div class="ui right aligned grid">
+
+								<div class="two column row summary">
+									<div class="left aligned column">
+										Sub-total:
+									</div> <!-- .column -->
+									<div class="column">
+										$100
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column">
+										2% Service fee:
+									</div> <!-- .column -->
+									<div class="column">
+										$2
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column larger">
+										Total Cost:
+									</div> <!-- .column -->
+									<div class="column larger">
+										$102
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+
+							</div> <!-- .grid -->
+
+							<div class="ui horizontal divider"></div>
+
+							<button class="ui fluid evergreen orange button" ng-click="create()">SEND YOUR OFFER</button><br>
+							<div class="ui center aligned grid">
+								<a href="" ng-click="edit()">Click here to make changes</a>
+								<p style="color: red; text-align: center" ng-bind="error"></p>
+								<p style="color: red; text-align: center" ng-show="error">Make sure to remove any inputs that you are not using.</p>
+							</div>
+
+							<div class="ui horizontal divider"></div>
+
+						</div> <!-- .grid -->
+					</div> <!-- .segment -->
+
+					<div ng-show="!show_summary">
+						<p>Complete the form on the left and all the items will appear here so you can review before you send.</p>
+						<div class="ui horizontal divider"></div>
+					</div>
+					<br>
+					</div>
+				</div> <!-- .column -->
+			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
+
+		</div> <!-- .container -->
+
+		<div ng-include="'partials/footer.html'"></div>
+
+	</div> <!-- #greenwrapper -->
+
+	<!-- are you sure Modal -->
+	<div class="ui tiny basic modal centered aligned" id="offerSent">
+		<i class="close icon"></i>
+		<div class="header">
+
+			<img src="static/img/green-check.png" width="100" class="ui centered image" />
+			<div class="ui horizontal divider"></div>
+			Your offer has been sent to {{proposal.company}}!
+		</div>
+		<div class="ui padded basic segment">
+			<p>While they review, reach out to more hardware companies and find more leads.</p>
+		</div>
+		<div class="actions">
+			<a href="" class="ui fluid grey big uppercase green button close" ng-click="continue()">Continue</a>
+		</div>
+	</div>
+
+
+<!-- 
+	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDXQLL_ClsyH7eeZ8Nk7m8bnMt27wsnH0I&extension=.js&output=embed"></script> -->
+
+	<script src="static/js/slick.min.js"></script>
+	<script src="static/js/green.js"></script>
+<!--  <script type="text/javascript">
+// $('.single-slide').slick({
+//   dots: true
+// });
+
+/* Let's throw a map in here */
+var map;
+var myCenter = new google.maps.LatLng(52.537639, 13.396399);
+var marker = new google.maps.Marker({
+position: myCenter
+});
+
+function initialize() {
+var mapProp = {
+center: myCenter,
+zoom: 17,
+draggable: true,
+scrollwheel: false,
+streetViewControl: false,
+mapTypeId:google.maps.MapTypeId.ROADMAP,
+styles: [{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"23"}]},{"featureType":"poi.attraction","elementType":"geometry.fill","stylers":[{"color":"#f38eb0"}]},{"featureType":"poi.government","elementType":"geometry.fill","stylers":[{"color":"#ced7db"}]},{"featureType":"poi.medical","elementType":"geometry.fill","stylers":[{"color":"#ffa5a8"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#c7e5c8"}]},{"featureType":"poi.place_of_worship","elementType":"geometry.fill","stylers":[{"color":"#d6cbc7"}]},{"featureType":"poi.school","elementType":"geometry.fill","stylers":[{"color":"#c4c9e8"}]},{"featureType":"poi.sports_complex","elementType":"geometry.fill","stylers":[{"color":"#b1eaf1"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":"100"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"},{"lightness":"100"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffd4a5"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffe9d2"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"weight":"3.00"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"weight":"0.30"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"36"}]},{"featureType":"road.local","elementType":"labels.text.stroke","stylers":[{"color":"#e9e5dc"},{"lightness":"30"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":"100"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#d2e7f7"}]}]
+};
+
+map=new google.maps.Map(document.getElementById("mapCanvas"),mapProp);
+marker.setMap(map);
+
+google.maps.event.addListener(marker, 'click', function() {
+
+infowindow.setContent(contentString);
+infowindow.open(map, marker);
+
+});
+};
+google.maps.event.addDomListener(window, 'load', initialize);
+
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+function resizeMap() {
+if(typeof map =="undefined") return;
+setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+if(typeof map =="undefined") return;
+var center = map.getCenter();
+google.maps.event.trigger(map, "resize");
+map.setCenter(center);
+}
+
+</script> -->
+</div>

@@ -24,9 +24,9 @@ module.exports = {
 						for (var i = 0; i < data.length; i++)
 							_data.push(data[i].process);
 
-						var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
-						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
-						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
+						var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) \
+						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes \
+						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN \
 						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
 						connection.query(query, [_data], function(err, data) {
 							if (err)
@@ -96,7 +96,7 @@ module.exports = {
 										for (var i = 0; i < req.body.processes.length; i++)
 												data.push([req.body.processes[i], `UNHEX('${proposal[0].id}')`, "NOW()", "NOW()"]);
 
-										var query = "INSERT INTO processes_has_proposals (process_process, proposal_id, created_at, updated_at) VALUES ?";
+										var query = "INSERT INTO proposal_processes (process, proposal_id, created_at, updated_at) VALUES ?";
 										connection.query(query, [data], function(err) {
 											if (err)
 												callback({status: 400, message: "Please contact an admin."});

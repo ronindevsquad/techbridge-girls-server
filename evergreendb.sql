@@ -42,15 +42,6 @@ CREATE TABLE `addresses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `addresses`
---
-
-LOCK TABLES `addresses` WRITE;
-/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `attachments`
 --
 
@@ -71,15 +62,6 @@ CREATE TABLE `attachments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `attachments`
---
-
-LOCK TABLES `attachments` WRITE;
-/*!40000 ALTER TABLE `attachments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `attachments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `banks`
 --
 
@@ -98,15 +80,6 @@ CREATE TABLE `banks` (
   CONSTRAINT `fk_banks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `banks`
---
-
-LOCK TABLES `banks` WRITE;
-/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `cards`
@@ -132,48 +105,50 @@ CREATE TABLE `cards` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cards`
+-- Table structure for table `labors`
 --
 
-LOCK TABLES `cards` WRITE;
-/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `machines`
---
-
-DROP TABLE IF EXISTS `machines`;
+DROP TABLE IF EXISTS `labors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `machines` (
+CREATE TABLE `labors` (
   `id` binary(16) NOT NULL,
-  `machine` varchar(45) DEFAULT NULL,
-  `cycle_time` decimal(10,2) DEFAULT NULL,
+  `type` tinyint(1) DEFAULT NULL,
+  `labor` varchar(45) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
   `yield` int(11) DEFAULT NULL,
   `rate` decimal(10,2) DEFAULT NULL,
-  `laborers` int(11) DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
   `created_at` varchar(45) DEFAULT NULL,
   `updated_at` varchar(45) DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_machines_offers1_idx` (`proposal_id`,`user_id`),
-  CONSTRAINT `fk_machines_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_labors_offers1_idx` (`proposal_id`,`user_id`),
+  CONSTRAINT `fk_labors_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `machines`
+-- Table structure for table `leads`
 --
 
-LOCK TABLES `machines` WRITE;
-/*!40000 ALTER TABLE `machines` DISABLE KEYS */;
-INSERT INTO `machines` VALUES ('Û… û\Ù<æ”“ H\Â|2','Woodcutter',12.00,32,132.00,1,'2017-01-12 19:03:28','2017-01-12 19:03:28','ºY¿\Ù\Ù8æ”“ H\Â|2','M\rD/\Ù8æ”“ H\Â|2');
-/*!40000 ALTER TABLE `machines` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `leads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `leads` (
+  `maker_id` binary(16) NOT NULL,
+  `supplier_id` binary(16) NOT NULL,
+  `created_at` varchar(45) DEFAULT NULL,
+  `updated_at` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`maker_id`,`supplier_id`),
+  KEY `fk_users_has_users_users2_idx` (`supplier_id`),
+  KEY `fk_users_has_users_users1_idx` (`maker_id`),
+  CONSTRAINT `fk_users_has_users_users1` FOREIGN KEY (`maker_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_users_users2` FOREIGN KEY (`supplier_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `materials`
@@ -185,8 +160,8 @@ DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `id` binary(16) NOT NULL,
   `material` varchar(45) DEFAULT NULL,
-  `material_cost` decimal(12,2) DEFAULT NULL,
-  `unit_cost` decimal(12,2) DEFAULT NULL,
+  `weight` decimal(12,2) DEFAULT NULL,
+  `cost` decimal(12,2) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
@@ -196,16 +171,6 @@ CREATE TABLE `materials` (
   CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `materials`
---
-
-LOCK TABLES `materials` WRITE;
-/*!40000 ALTER TABLE `materials` DISABLE KEYS */;
-INSERT INTO `materials` VALUES ('\Ûx\Ù<æ”“ H\Â|2','Wood',100.00,25.00,'2017-01-12 19:03:28','2017-01-12 19:03:28','ºY¿\Ù\Ù8æ”“ H\Â|2','M\rD/\Ù8æ”“ H\Â|2');
-/*!40000 ALTER TABLE `materials` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `messages`
@@ -233,15 +198,6 @@ CREATE TABLE `messages` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `messages`
---
-
-LOCK TABLES `messages` WRITE;
-/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ndas`
 --
 
@@ -262,15 +218,6 @@ CREATE TABLE `ndas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ndas`
---
-
-LOCK TABLES `ndas` WRITE;
-/*!40000 ALTER TABLE `ndas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ndas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `offers`
 --
 
@@ -279,7 +226,7 @@ DROP TABLE IF EXISTS `offers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `offers` (
   `status` tinyint(1) DEFAULT NULL,
-  `sga` varchar(45) DEFAULT NULL,
+  `sga` decimal(12,2) DEFAULT NULL,
   `profit` decimal(12,2) DEFAULT NULL,
   `overhead` decimal(12,2) DEFAULT NULL,
   `total` decimal(12,2) DEFAULT NULL,
@@ -296,16 +243,6 @@ CREATE TABLE `offers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `offers`
---
-
-LOCK TABLES `offers` WRITE;
-/*!40000 ALTER TABLE `offers` DISABLE KEYS */;
-INSERT INTO `offers` VALUES (0,'idk',123.00,31.00,12123.00,'2017-01-12 19:03:28','2017-01-12 19:03:28','ºY¿\Ù\Ù8æ”“ H\Â|2','M\rD/\Ù8æ”“ H\Â|2');
-/*!40000 ALTER TABLE `offers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `processes`
 --
 
@@ -320,74 +257,24 @@ CREATE TABLE `processes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `processes`
+-- Table structure for table `proposal_processes`
 --
 
-LOCK TABLES `processes` WRITE;
-/*!40000 ALTER TABLE `processes` DISABLE KEYS */;
-INSERT INTO `processes` VALUES ('Automation & Test Equipment'),('Die Casting'),('Formula Batching & Filling'),('Injection Molding'),('Packaging (Primary)'),('Packaging (Secondary)'),('Tooling');
-/*!40000 ALTER TABLE `processes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `processes_has_proposals`
---
-
-DROP TABLE IF EXISTS `processes_has_proposals`;
+DROP TABLE IF EXISTS `proposal_processes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `processes_has_proposals` (
-  `process_process` varchar(45) NOT NULL,
+CREATE TABLE `proposal_processes` (
+  `process` varchar(45) NOT NULL,
   `proposal_id` binary(16) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`process_process`,`proposal_id`),
+  PRIMARY KEY (`process`,`proposal_id`),
   KEY `fk_processes_has_proposals_proposals1_idx` (`proposal_id`),
-  KEY `fk_processes_has_proposals_processes1_idx` (`process_process`),
-  CONSTRAINT `fk_processes_has_proposals_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  KEY `fk_processes_has_proposals_processes1_idx` (`process`),
+  CONSTRAINT `fk_processes_has_proposals_processes1` FOREIGN KEY (`process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_processes_has_proposals_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `processes_has_proposals`
---
-
-LOCK TABLES `processes_has_proposals` WRITE;
-/*!40000 ALTER TABLE `processes_has_proposals` DISABLE KEYS */;
-INSERT INTO `processes_has_proposals` VALUES ('Die Casting','ºY¿\Ù\Ù8æ”“ H\Â|2','2017-01-12 18:33:55','2017-01-12 18:33:55'),('Packaging (Primary)','ºY¿\Ù\Ù8æ”“ H\Â|2','2017-01-12 18:33:55','2017-01-12 18:33:55');
-/*!40000 ALTER TABLE `processes_has_proposals` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `processes_has_users`
---
-
-DROP TABLE IF EXISTS `processes_has_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `processes_has_users` (
-  `process_process` varchar(45) NOT NULL,
-  `user_id` binary(16) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`process_process`,`user_id`),
-  KEY `fk_processes_has_users_users1_idx` (`user_id`),
-  KEY `fk_processes_has_users_processes1_idx` (`process_process`),
-  CONSTRAINT `fk_processes_has_users_processes1` FOREIGN KEY (`process_process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `processes_has_users`
---
-
-LOCK TABLES `processes_has_users` WRITE;
-/*!40000 ALTER TABLE `processes_has_users` DISABLE KEYS */;
-INSERT INTO `processes_has_users` VALUES ('Die Casting','M\rD/\Ù8æ”“ H\Â|2','2017-01-12 18:31:34','2017-01-12 18:31:34'),('Injection Molding','M\rD/\Ù8æ”“ H\Â|2','2017-01-12 18:31:34','2017-01-12 18:31:34'),('Packaging (Secondary)','M\rD/\Ù8æ”“ H\Â|2','2017-01-12 18:31:34','2017-01-12 18:31:34'),('Tooling','M\rD/\Ù8æ”“ H\Â|2','2017-01-12 18:31:34','2017-01-12 18:31:34');
-/*!40000 ALTER TABLE `processes_has_users` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `proposals`
@@ -399,7 +286,7 @@ DROP TABLE IF EXISTS `proposals`;
 CREATE TABLE `proposals` (
   `id` binary(16) NOT NULL,
   `status` tinyint(1) DEFAULT NULL,
-  `sga` varchar(100) DEFAULT NULL,
+  `product` varchar(100) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `completion` datetime DEFAULT NULL,
   `zip` int(11) DEFAULT NULL,
@@ -416,16 +303,6 @@ CREATE TABLE `proposals` (
   CONSTRAINT `fk_proposals_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `proposals`
---
-
-LOCK TABLES `proposals` WRITE;
-/*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
-INSERT INTO `proposals` VALUES ('ºY¿\Ù\Ù8æ”“ H\Â|2',0,'Tables',129012,'2017-01-12 08:00:00',12356,0,'Some additional information',NULL,NULL,'2017-01-12 18:33:54','2017-01-12 18:33:54','•×°©\Ù8æ”“ H\Â|2');
-/*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `reports`
@@ -453,15 +330,6 @@ CREATE TABLE `reports` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `reports`
---
-
-LOCK TABLES `reports` WRITE;
-/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `urls`
 --
 
@@ -484,13 +352,24 @@ CREATE TABLE `urls` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `urls`
+-- Table structure for table `user_processes`
 --
 
-LOCK TABLES `urls` WRITE;
-/*!40000 ALTER TABLE `urls` DISABLE KEYS */;
-/*!40000 ALTER TABLE `urls` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `user_processes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_processes` (
+  `process` varchar(45) NOT NULL,
+  `user_id` binary(16) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`process`,`user_id`),
+  KEY `fk_processes_has_users_users1_idx` (`user_id`),
+  KEY `fk_processes_has_users_processes1_idx` (`process`),
+  CONSTRAINT `fk_processes_has_users_processes1` FOREIGN KEY (`process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `users`
@@ -511,20 +390,9 @@ CREATE TABLE `users` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `company_UNIQUE` (`company`)
+  UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('M\rD/\Ù8æ”“ H\Â|2',1,'Supplier','Supplier','supplier@supplier.com','$2a$10$XIkBGcHyuB5KO87iraYoDOl4EZbn18M27PfaOo149fnKtaFjnQdi6',NULL,'2017-01-12 18:30:51','2017-01-12 18:30:51'),('•×°©\Ù8æ”“ H\Â|2',0,'Maker','Maker','maker@maker.com','$2a$10$4bDg1z0F0dfBMWd2pPQht.Zvs7SND5FE0ihHtm2aBRyUmP5wcyNmS',NULL,'2017-01-12 18:32:53','2017-01-12 18:32:53');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -535,4 +403,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-12 23:53:11
+-- Dump completed on 2017-01-20 18:14:11

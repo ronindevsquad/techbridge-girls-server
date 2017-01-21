@@ -85,7 +85,7 @@ app.run(function($rootScope, $timeout) {
 			// $rootScope.messages = [];
 		}
 		
-		setSocket();
+		// setSocket();
 		if (socket) {
 	 		// Define socket event handlers:
 			socket.on('sent', function(data) {
