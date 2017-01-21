@@ -4,7 +4,20 @@ var offers = require('../controllers/offers.js');
 var processes = require('../controllers/processes');
 var offers = require('../controllers/offers');
 var reports = require('../controllers/reports');
-
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    console.log(file);
+    cb(null, new Date().toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').     // delete the dot and everything after)
+    replace(" ", '')  + '-' + file.originalname
+  )
+}});
+var upload = multer({storage:storage});
 module.exports = function(app) {
 	// USERS
 	// app.get('/users', users.index);
@@ -18,7 +31,7 @@ module.exports = function(app) {
 	// PROPOSALS
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
-	app.post('/api/proposals', proposals.create);
+	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},{name:'NDA', maxCount:1}]), proposals.create);
 	// app.put('/api/proposals/:action/:id', proposals.update);
 	// app.delete('/api/proposals/:id', proposals.delete);
 
