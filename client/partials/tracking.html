@@ -172,19 +172,31 @@
 										<div class="four wide column">
 											<div class="vertical timeline">
 												<ul class="timeline items">
-													<li ng-repeat="proposal in proposals" ng-class="{'working': $odd, 'done': $last}">January 27th, 2016</li>
+													<li>Start Date</li>
+													<li ng-repeat="report in reports" ng-class="{'working': $odd, 'done': $last}">January 27th, 2016</li>
 												</ul>
 											</div>
 										</div>
 										<div class="twelve wide column">
 											<ul class="detailed items">
-												<li ng-repeat="proposal in proposals">
-													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-if="type==1" href="">Add Note</a>
-													</div>
+												<li>
 													Started production
 												</li>
-												<li>&nbsp;</li>
+												<li ng-repeat="report in reports">
+													<div class="actions">
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-show="type==1" href="">Add Note</a>
+														<script type="text/javascript">
+															$('.add-note').click(function(){
+																$('.ui.modal').modal('show');
+															});
+
+															$('.form').submit(function(){
+																$('.ui.modal').modal('hide');
+															});
+														</script>
+													</div>
+													{{report.output}}
+												</li>
 											</ul>
 										</div>
 									</div>

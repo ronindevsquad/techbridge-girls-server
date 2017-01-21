@@ -28,16 +28,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		else {
 			$scope.proposals = data.proposals
 			console.log($scope.proposals);
-			reportsFactory.index(function(data){
-				if (data.status == 401)
-					$scope.logout();
-				else if (data.status >= 300)
-					console.log("error:", data.data.message)
-				else {
-					$scope.reports = data;
-					$scope.proposalsAndReports = formatProposalsAndReports();
-				}
-			});
 		}
 	});
 
@@ -70,7 +60,16 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			$scope.proposalView = undefined;
 		else {
 			$scope.proposalView = id;
-
+			reportsFactory.index(function(data){
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else {
+					$scope.reports = data;
+					// $scope.proposalsAndReports = formatProposalsAndReports();
+				}
+			});
 		}
 	};
 

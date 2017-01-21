@@ -9,9 +9,11 @@ module.exports = {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 			else {
-				var query = "SELECT HEX(offers.proposal_id) AS 'proposal_id', reports.* FROM proposals LEFT JOIN offers on proposals.id = offers.proposal_id LEFT JOIN reports ON offers.id = reports.offer_id where HEX(proposals.user_id) = ? ORDER BY reports.created_at ASC"
+				// var query = "SELECT HEX(offers.proposal_id) AS 'proposal_id', reports.* FROM proposals LEFT JOIN offers on proposals.id = offers.proposal_id LEFT JOIN reports ON offers.id = reports.offer_id where HEX(proposals.user_id) = ? ORDER BY reports.created_at ASC"
+				var query = "SELECT * FROM reports WHERE offer_id IN " +
+					"(SELECT id FROM offers WHERE proposal_id IN " +
+					"(SELECT id FROM proposals))" //WHERE id = 'proposal.id'
 				connection.query(query, payload.id, function(err, data) {
-					console.log(err)
 					if (err)
 						callback({status: 400, message: "Please contact an admin."});
 					else {
