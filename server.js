@@ -5,6 +5,7 @@ var helmet = require('helmet');
 var expressJwt = require('express-jwt');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
+
 var root = __dirname;
 var port = process.env.PORT || 8000;
 var app = express();

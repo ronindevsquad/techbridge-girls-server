@@ -52,9 +52,9 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/open-proposals.html',
 		controller: 'openProposalsController'
 	})
-	.when('/create-offer/:id',{
-		templateUrl: 'partials/create-offer.html',
-		controller: 'createOfferController'
+	.when('/offer/:id',{
+		templateUrl: 'partials/offer.html',
+		controller: 'offerController'
 	})
 	.when('/processes',{
 		templateUrl: 'partials/processes.html',

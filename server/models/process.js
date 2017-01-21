@@ -14,7 +14,7 @@ module.exports = {
 					if (req.body.hasOwnProperty(key) && req.body[key])
 						data.push([key, `UNHEX('${payload.id}')`, "NOW()", "NOW()"]);
 
-				var query = "INSERT INTO processes_has_users (process_process, user_id, created_at, updated_at) VALUES ?";
+				var query = "INSERT INTO user_processes (process, user_id, created_at, updated_at) VALUES ?";
 				connection.query(query, [data], function(err) {
 					if (err)
 						callback({status: 400, message: "Please contact an admin."});

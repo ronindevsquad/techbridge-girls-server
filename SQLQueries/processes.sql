@@ -1,8 +1,14 @@
 INSERT INTO evergreendb.processes (process) VALUES 
-('Automation & Test Equipment'),
+('Automation'),
+('Batch & Fill'),
+('Blow Molding'),
+('CNC'),
+('Cut & Sew'),
 ('Die Casting'),
-('Formula Batching & Filling'),
+('Die Cutting'),
+('Fiber Molding'),
 ('Injection Molding'),
-('Packaging (Primary)'),
-('Packaging (Secondary)'),
-('Tooling')
+('Laser Welding'),
+('Printing'),
+('Screen Printing'),
+('Thermaforming')
