@@ -1,4 +1,4 @@
-app.controller("createProposalController", function ($scope, $location, proposalsFactory) {
+app.controller("createProposalController", function ($scope, $route, $location, proposalsFactory) {
 	if (payload && $scope.type == 0) {
 		$scope.today = new Date();
 		$scope.step = 1;
@@ -6,14 +6,12 @@ app.controller("createProposalController", function ($scope, $location, proposal
 	else
 		$location.url("/");
 
-	$scope.reset = function() {
-		$scope.proposal = null;
-		$("#requestSuccess").modal("hide");
-		$scope.step = 1;
-	}
-
-	$scope.close = function() {
-		$("#requestSuccess").modal("hide");
+	$scope.close = function(_) {
+		$("#proposalSuccess").modal("hide");
+		if (_ == 0)
+			$route.reload();
+		else
+			$location.url("/dashboard");
 	}
 
 	$scope.create = function() {
@@ -24,7 +22,7 @@ app.controller("createProposalController", function ($scope, $location, proposal
 				$scope.error = data.data.message;
 			else {
 				$scope.step = 4
-				$("#requestSuccess").modal("show");
+				$("#proposalSuccess").modal("show");
 			}
 		});
 	}

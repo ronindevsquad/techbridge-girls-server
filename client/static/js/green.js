@@ -18,10 +18,6 @@ $('.send-offer').click(function() {
   $('#offerSent').modal('show');
 });
 
-$('.request-done').click(function() {
-  $('#requestSuccess').modal('show');
-});
-
 $('.nda-confirmation').click(function() {
   $('#areYouSure').modal('show');
 });
@@ -37,7 +33,6 @@ $('.download-folder').click(function() {
 $('.accept-offer').click(function() {
   $('#acceptOffer').modal('show');
 });
-
 
 $('.accepted-success').click(function() {
   $('#acceptedSuccess').modal('show');

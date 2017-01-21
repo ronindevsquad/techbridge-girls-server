@@ -1,5 +1,5 @@
 app.controller('proposalController', function ($scope, $location, $routeParams, proposalsFactory) {
-	if (payload && $scope.type == 1) {
+	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
@@ -19,6 +19,6 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 			$("#ndaWindow").modal("show");
 		}
 		else
-			$location.url(`create-offer/${$routeParams.id}`)
+			$location.url(`offer/${$routeParams.id}`)
 	}
 })
