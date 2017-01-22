@@ -219,6 +219,10 @@
 					<small class="footnote">(Ex. file types: CAD, Drawings, Renders)</small>
 				</div>
 			</div> <!-- .item -->
+			<div ng-repeat="documentinput in documentinputs">
+				<input  type="file" name="document" value="">
+				<a href="" ng-click="remove(documentinput)">remove</a>
+			</div>
 		</div> <!-- .items -->
 
 		<div class="ui horizontal divider"></div>
