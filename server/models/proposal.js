@@ -9,48 +9,38 @@ module.exports = {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 			else {
-				// var query = "SELECT * FROM proposals LEFT JOIN reports ON proposals.id = \
-				// proposal_id ORDER BY "
+				var _data = []
+
+				var query = "SELECT * FROM proposals LEFT JOIN reports ON proposals.id = \
+				proposal_id ORDER BY "
 
 
-				// var query = "SELECT *, HEX(id) AS id FROM proposals"
-				// connection.query(query, function(err, data) {
-				// 	if (err)
-				// 		callback({status: 400, message: "Please contact an admin."});
-				// 	else if (data.length == 0)
-				// 		callback(false)
-				// 	else {
-				// 		var _data = []
-				// 		for (var i = 0; i < data.length; i++)
-				// 			_data.push(data[i].process);
-				//
-				// 		var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
-				// 		AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
-				// 		ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
-				// 		(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
-				// 		connection.query(query, [_data], function(err, data) {
-				// 			if (err)
-				// 				callback({status: 400, message: "Please contact an admin."});
-				// 			else
-				// 				callback(false, data)
-				// 		});
-				// 	}
-				// });
-
-
-						var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) \
-						AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes \
-						ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN \
-						(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
-						connection.query(query, [_data], function(err, data) {
-							if (err)
-								callback({status: 400, message: "Please contact an admin."});
-							else
-								callback(false, data)
-						});
+				var query = "SELECT *, HEX(id) AS id FROM proposals" //Where user_id = ?
+				connection.query(query, function(err, data) {
+					if (err)
+						callback({status: 400, message: "Please contact an admin."});
+					else if (data.length == 0)
+						callback(false)
+					else {
+						callback(false, data);
+						// for (var i = 0; i < data.length; i++)
+						// 	_data.push(data[i].process);
+						//
+						// var query = "SELECT *, GROUP_CONCAT(process_process SEPARATOR ', ') AS processes, HEX(proposals.id) \
+						// AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN processes_has_proposals \
+						// ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process_process IN \
+						// (?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
+						// connection.query(query, [_data], function(err, data) {
+						// 	if (err)
+						// 		callback({status: 400, message: "Please contact an admin."});
+						// 	else
+						// 		callback(false, data)
+						// });
 					}
 				});
-			},
+			}
+		});
+	},
 
 	show: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {

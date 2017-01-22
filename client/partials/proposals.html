@@ -18,7 +18,7 @@
 					<div class="ui right aligned grid filters-top">
 
 						<div class="left aligned eight wide column">
-							<p class="count">10 Results</p>
+							<p class="count">{{proposals.length}} {{proposal.length == 1 ? 'Result':'Results'}}</p>
 						</div> <!-- left column -->
 						<div class="eight wide column">
 							<p class="toplabels">Order By:
@@ -230,174 +230,54 @@
 
 						<!-- this is where we end the details panel -->
 
-						<!-- this is one item -->
-						<div class="item">
+						<div ng-repeat="proposal in proposals" class="item">
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
+									Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}
+								</div>
 								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
+									<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
+								</div>
 
 							</div>
 							<div class="extra">
 								<a ng-class="color" href="" class="ui evergreen button">View</a>
 								<small>34 Views   |   5 Applicants   |   3 Leads</small>
 							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-						<!-- this is one item -->
-						<div class="item">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer in USA looking to produce 1M units by Sep. 16
-								</div> <!-- ad title -->
-								<div class="description">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut convallis, lacus eu elementum aliquet, enim odio porta tellus, vel tincidunt orci velit eu turpis.</p>
-								</div> <!-- .description -->
-
-							</div>
-							<div class="extra">
-								<a ng-class="color" href="" class="ui evergreen button">View</a>
-								<small>34 Views   |   5 Applicants   |   3 Leads</small>
-							</div>
-						</div> <!-- .item -->
-
-					</div> <!-- .items -->
-
-					<div class="ui pagination secondary menu">
-						<a class="active item">
-							1
-						</a>
-						<div class="disabled item">
-							...
 						</div>
-						<a class="item">
-							10
-						</a>
-						<a class="item">
-							11
-						</a>
-						<a class="item">
-							12
-						</a>
+
+						<div class="ui pagination secondary menu">
+							<a class="active item">
+								1
+							</a>
+							<div class="disabled item">
+								...
+							</div>
+							<a class="item">
+								10
+							</a>
+							<a class="item">
+								11
+							</a>
+							<a class="item">
+								12
+							</a>
+						</div>
+
 					</div>
-
 				</div>
+			</div>
 				<!-- End Maker Zone -->
-				<!-- ######################################################################### -->
-				<!-- Supplier Zone -->
-				<div ng-if="type==1" class="ui stackable four column grid middle item-cards">
 
-					<div class="column">
+				<!-- ##################################################################################################### -->
+
+				<!-- Supplier Zone -->
+				<div ng-if="type == 1" class="ui stackable four column grid middle item-cards">
+
+					<div ng-repeat="proposal in proposals" class="column">
 						<div class="ui padded segment center aligned">
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
@@ -420,210 +300,11 @@
 							</div> <!-- left column -->
 							<div class="eight wide column">
 								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
+								<p>{{proposal.completion | date:"MMM dd y"}}</p>
 							</div> <!-- .right column -->
 						</div>
 
 					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level1">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level2">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level4">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level1">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level2">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level4">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-					<div class="column">
-						<div class="ui padded segment center aligned">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
-							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level1">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>Apr. 20 2016</p>
-							</div> <!-- .right column -->
-						</div>
-
-					</div>
-
-				</div>
 				<!-- End Supplier Zone -->
 
 
