@@ -1,4 +1,5 @@
 var Promise = require('bluebird');
+var using = Promise.using;
 var mysql = require('mysql2/promise');
 var SqlString = require('mysql/lib/protocol/SqlString');
 
@@ -22,7 +23,13 @@ var pool = mysql.createPool({
 	Promise: Promise
 });
 
-pool.getConnection().then(function(connection) {
+function getConnection() {
+	return pool.getConnection().disposer(function(connection) {
+		connection.release();
+	});
+}
+
+using(getConnection(), function(connection) {
 	// console.log(connection)
 	// console.log(promise)
 	// connection.query("SELECT * FROM users", function(err, data) {
@@ -32,27 +39,69 @@ pool.getConnection().then(function(connection) {
 	// 		// console.log(data)
 	// 		return data
 	// 	}
-			
 	// })
 
-	return new Promise(function(resolve, reject) {
-		connection.query("SELECT * FROM ussers", function(err, data) {
-			// if (err)
-			// 	reject(err);
-			// else
-				return resolve([err, data])
-		});
+	// return new Promise(function(resolve, reject) {
+	// 	connection.query("SELECT *, HEX(id) FROM users", function(err, data) {
+	// 		if (err)
+	// 			reject(err);
+	// 		else
+	// 			resolve([err, data])
+	// 	});
+	// })
+	// var ar = [];
+	// for (var i = 0; i < 2; i++) {
+	// 	ar.push(new Promise(function(resolve, reject) {
+	// 		connection.query("INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), \
+	// 			created_at = NOW()", function(err, data) {
+	// 			if (err)
+	// 				reject(err);
+	// 			else
+	// 				resolve(data)
+	// 		});
+	// 	}))
+	// }
+	// return ar;
+
+
+	return Promise.join(new Promise(function(resolve, reject) {
+		connection.query("INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), \
+			created_at = NOW()", function(err, data) {
+				if (err)
+					reject(err);
+				else
+					resolve(data)
+			});
+	}), new Promise(function(resolve, reject) {
+		connection.query("INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), \
+			created_at = NOW()", function(err, data) {
+				if (err)
+					reject(err);
+				else
+					resolve(data)
+			});
+	}), function(one, two) {
+		// console.log("one: ", one)
+		// console.log("two: ", two)
+		return new Promise(function(resolve, reject) {
+			connection.query("SELECT * FROM userss ORDER BY created_at DESC LIMIT 2 ", function(err, data) {
+				if (err)
+					reject("err");
+				else
+					resolve(data)
+			});
+		})
+	// .then(function(data) {
+	// 	console.log("data is: ", data)
+	// })
+	// .catch(function(e) {
+	// 	console.log("found error: ", e)
+	// })
 	})
+
 })
-.spread(function(err, data) {
-	console.log("err: ", err)
-	console.log("Data: ", data)
-})
-.then(function() {
-	console.log("here")
-})
-.catch(function(e) {
-	console.log("error:", e)
+.catch(function(err) {
+	console.log("err:", err)
 })
 
 // connection.connect(function(err) {
@@ -76,4 +125,4 @@ pool.getConnection().then(function(connection) {
 // 	})
 // })
 
-// module.exports = connection;
+module.exports = getConnection;
