@@ -36,6 +36,10 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/profile.html',
 		controller: 'profileController'
 	})
+	.when('/profile/:id',{
+		templateUrl: 'partials/profile.html',
+		controller: 'profileController'
+	})
 	.when('/messages',{
 		templateUrl: 'partials/messages.html',
 		controller: 'messagesController'

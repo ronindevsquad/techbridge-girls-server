@@ -1,5 +1,5 @@
 var Promise = require('bluebird');
-var mysql = require('mysql2/promise');
+var mysql = require('mysql2');
 var SqlString = require('mysql/lib/protocol/SqlString');
 
 function queryFormat(sql, values, timeZone) {

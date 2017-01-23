@@ -13,32 +13,22 @@ module.exports = {
 	// 			callback(false, data)
 	// 	});
 	// },
-	// show: function(req, callback) {
-	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-	// 		if (err)
-	// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 		else {
-	// 			var response = {};
-	// 			var query = "SELECT * FROM users where HEX(id) = ? LIMIT 1";
-	// 			connection.query(query, req.params.id, function(err){
-	// 				if (err)
-	// 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 				else {
-	// 					response["user"] = payload;
-	// 					var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(user_id) = ?"
-	// 					connection.query(query, req.params.id, function(err, data){
-	// 						if (err)
-	// 							callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 						else {
-	// 							response["jobs"] = data;
-	// 							callback(false, response);
-	// 						}
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// },
+	show: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			if (err)
+				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+			else {
+				var query = "SELECT users.company, users.contact, users.email, users.picture, urls.homepage, urls.facebook, urls.instagram, urls.linkedin, urls.twitter FROM users LEFT JOIN urls ON users.id = urls.user_id where HEX(id) = ? LIMIT 1";
+				connection.query(query, req.params.id, function(err, data){
+					if (err)
+						callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+					else {
+						callback(false, data[0])
+					}
+				});
+			}
+		});
+	},
 	update: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)

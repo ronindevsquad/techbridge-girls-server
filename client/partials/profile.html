@@ -6,7 +6,7 @@
 
 		<section class="ui very padded basic segment offer form">
 
-			<h2>Profile</h2>
+			<h2 ng-show="viewingOtherProfile">Profile For: {{companyprofile}}</h2>
 			<p>Your public profile as visible to others</p>
 
 			<div class="ui horizontal divider"></div>
@@ -14,7 +14,7 @@
 
 			<div class="ui fluid container">
 				<div class="ui grid">
-					<div class="sixteen wide tablet eight wide computer column">
+					<div class="sixteen wide tablet sixteen wide computer column">
 
 						<h4>Contact Info</h4>
 
@@ -25,35 +25,35 @@
 										<div class="item">
 											<i class="world icon"></i>
 											<div class="content">
-												<a href="www.husky.com">www.husky.com</a>
+												<a href="http://{{user.homepage}}">{{user.homepage}}</a>
 											</div>
 										</div>
 										<div class="item">
 											<i class="linkedin icon"></i>
 											<div class="content">
-												linkedin.com/u/<a href="http://linkedin.com/u/husky">husky</a>
+												linkedin.com/u/<a href="http://{{user.linkedin}}">{{user.linkedin}}</a>
 											</div>
 										</div>
 										<div class="item">
 											<i class="facebook f icon"></i>
 											<div class="content">
-												facebook.com/<a href="http://facebook.com/husky">husky</a>
+												facebook.com/<a href="http://{{user.facebook}}">{{user.facebook}}</a>
 											</div>
 										</div>
 										<div class="item">
 											<i class="twitter icon"></i>
 											<div class="content">
-												twitter.com/<a href="http://twitter.com/husky">husky</a>
+												twitter.com/<a href="http://{{user.twitter}}">{{user.twitter}}</a>
 											</div>
 										</div>
 									</div> <!-- .ui list -->
 								</div> <!-- .column -->
-								<div class="sixteen wide tablet eight wide computer column middle aligned">
+								<!-- <div class="sixteen wide tablet eight wide computer column middle aligned">
 									<h4>Your Address</h4>
 									<p class="address footnote op50">
 										610 Overlook Circle Suite 323 Kalamazoo, MI 49009
 									</p>
-								</div> <!-- .column -->
+								</div>  --> <!-- .column -->
 							</div> <!-- .grid -->
 						</div> <!-- noborder -->
 
@@ -183,9 +183,8 @@
 						</div>
 
 					</div> <!-- .column -->
-					<div class="sixteen wide tablet eight wide computer column">
-						This is where the map will be
-					</div>
+					<!--THIS USED TO BE THE MAP AREA <div class="sixteen wide tablet eight wide computer column">
+					</div> -->
 				</div> <!-- .grid -->
 			</div> <!-- .fluid container -->
 
