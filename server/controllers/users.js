@@ -56,5 +56,13 @@ module.exports = {
 			else
 				res.cookie('evergreen_token', data).end();
 		});
+	},
+	addURLS: function(req, res){
+		user.addURLS(req, function(err, data) {
+			if (err)
+				res.status(err.status).json({message: err.message});
+			else
+				res.json(data).end();
+		});
 	}
 }

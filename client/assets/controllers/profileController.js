@@ -1,4 +1,5 @@
 app.controller('profileController', function ($scope, $location, $routeParams, usersFactory) {
+	$scope.editingURLS = false;
 	if (payload) {
 		$scope.tab = "profile";
 		$scope.company = payload.company; //used to determine whether some elements should be hidden or displayed.
@@ -15,9 +16,12 @@ app.controller('profileController', function ($scope, $location, $routeParams, u
 
 		}
 	}
-	else
+	else{
 		$location.url('/');
-	usersFactory.show($scope.profilerequest, function(data){ //we could be viewing our own profile or another company's
+	}
+
+	$scope.requestProfile = function(){
+		usersFactory.show($scope.profilerequest, function(data){ //we could be viewing our own profile or another company's
 		if(data.error){
 			console.log(error);
 		}else {
@@ -28,4 +32,24 @@ app.controller('profileController', function ($scope, $location, $routeParams, u
 			console.log(data);
 		}
 	});
+} //this function is invoked when the controller loads.
+
+
+$scope.switchEditingURLS = function(){
+	$scope.editingURLS? $scope.editingURLS=false:$scope.editingURLS=true
+}
+$scope.updateURLS = function(){
+	if($scope.urls){
+		usersFactory.addURLS($scope.urls, function(data){
+			console.log(data);
+			$scope.switchEditingURLS()
+			$scope.requestProfile()
+		});
+	}else {
+		$scope.switchEditingURLS()
+	}
+}
+
+//EXECUTE WHEN PAGE loads
+$scope.requestProfile()
 });

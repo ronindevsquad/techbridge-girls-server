@@ -27,6 +27,7 @@ module.exports = function(app) {
 	app.put('/users/changePassword', users.changePassword);
 	app.post('/users/register', users.register);
 	app.post('/users/login', users.login);
+	app.post('/users/urls', users.addURLS);
 
 	// PROPOSALS
 	app.get('/api/proposals', proposals.index);

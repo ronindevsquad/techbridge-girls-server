@@ -233,5 +233,56 @@ module.exports = {
 					});
 			});
 		}
+	},
+	addURLS: function(req, callback){
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			if (err)
+				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+			else {
+				var query = "SELECT * FROM urls where HEX(user_id) = ? LIMIT 1";
+				connection.query(query, payload.id, function(err, data){ //The first query determines whether or not the user has a URL record associated with their account yet.
+					if (err)
+						callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+					else {
+						if (data.length == 0){
+							var data = {
+								homepage: req.body.homepage,
+								facebook: req.body.facebook,
+								instagram: req.body.instagram,
+								linkedin: req.body.linkedin,
+								twitter: req.body.twitter,
+								created_at: "NOW()",
+								updated_at: "NOW()",
+							}
+							query = "INSERT INTO `evergreendb`.`urls` SET ?, user_id=UNHEX(?)"
+							connection.query(query, [data,payload.id], function(err, data){
+								if(err)
+									callback(err)
+								else{
+									callback(false, data)
+								}
+							})
+						}else {
+							query = "UPDATE `evergreendb`.`urls` SET ?, updated_at = NOW() WHERE HEX(user_id)=?"
+							// var data = {
+							// 	homepage: req.body.homepage,
+							// 	facebook: req.body.facebook,
+							// 	instagram: req.body.instagram,
+							// 	linkedin: req.body.linkedin,
+							// 	twitter: req.body.twitter,
+							// 	updated_at: "NOW()",
+							// }
+							connection.query(query, [req.body,payload.id], function(err, data){
+								if(err)
+									callback(err)
+								else{
+									callback(false, data)
+								}
+							});
+						}
+					}
+				});
+			}
+		});
 	}
 };

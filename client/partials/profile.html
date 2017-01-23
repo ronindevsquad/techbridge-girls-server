@@ -7,7 +7,7 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2 ng-show="viewingOtherProfile">Profile For: {{companyprofile}}</h2>
-			<p>Your public profile as visible to others</p>
+			<p ng-if="!viewingOtherProfile">Your public profile as visible to others</p>
 
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
@@ -25,27 +25,37 @@
 										<div class="item">
 											<i class="world icon"></i>
 											<div class="content">
-												<a href="http://{{user.homepage}}">{{user.homepage}}</a>
+												<a ng-show="!editingURLS" href="http://{{user.homepage}}">{{user.homepage}}</a><span ng-if="!user.homepage">No home page yet!</span>
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.homepage" placeholder="{{user.homepage}}">
 											</div>
 										</div>
 										<div class="item">
 											<i class="linkedin icon"></i>
 											<div class="content">
-												linkedin.com/u/<a href="http://{{user.linkedin}}">{{user.linkedin}}</a>
+												<a ng-show="!editingURLS" href="http://{{user.linkedin}}">{{user.linkedin}}</a><span ng-if="!user.linkedin">No LinkedIn page yet!</span>
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.linkedin" placeholder="{{user.linkedin}}">
+
 											</div>
 										</div>
 										<div class="item">
 											<i class="facebook f icon"></i>
 											<div class="content">
-												facebook.com/<a href="http://{{user.facebook}}">{{user.facebook}}</a>
+												<a ng-show="!editingURLS" href="http://{{user.facebook}}">{{user.facebook}}</a><span ng-if="!user.facebook">No Facebook page yet!</span>
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.facebook" placeholder="{{user.facebook}}">
+
 											</div>
 										</div>
 										<div class="item">
 											<i class="twitter icon"></i>
 											<div class="content">
-												twitter.com/<a href="http://{{user.twitter}}">{{user.twitter}}</a>
+												<a ng-show="!editingURLS" href="http://{{user.twitter}}">{{user.twitter}}</a><span ng-if="!user.twitter">No Twitter page yet!</span>
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.twitter" placeholder="{{user.twitter}}">
+
 											</div>
 										</div>
+										<button ng-show="!editingURLS && !viewingOtherProfile" ng-click="switchEditingURLS()" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
+										<button ng-show="editingURLS" ng-click="updateURLS()" type="button" name="button">Save</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
+										<button ng-show="editingURLS" ng-click="switchEditingURLS()" type="button" name="button">Cancel</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
 									</div> <!-- .ui list -->
 								</div> <!-- .column -->
 								<!-- <div class="sixteen wide tablet eight wide computer column middle aligned">
