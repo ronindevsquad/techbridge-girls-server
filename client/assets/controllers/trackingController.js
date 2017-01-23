@@ -26,7 +26,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		else if (data.status >= 300)
 			console.log("error:", data.data.message)
 		else {
-			$scope.proposals = data.proposals
+			$scope.proposals = data
 			console.log($scope.proposals);
 		}
 	});

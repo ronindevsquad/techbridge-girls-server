@@ -16,4 +16,13 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	}
 	else
 		$location.url('/');
+
+
+		$scope.getOffers = function(id){
+			if ($scope.proposalView == id)
+				$scope.proposalView = undefined;
+			else {
+				$scope.proposalView = id;
+			}
+		};
 })

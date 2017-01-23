@@ -33,7 +33,7 @@
 					<div class="ui resulted items">
 
 						<div ng-repeat="proposal in proposals" class="ui resulted items">
-							<div class="item" ng-class="proposalView == proposal.item ? 'ui segment opened' : ''"> <!-- ui segment opened -->
+							<div class="item" ng-class="proposalView == proposal.id ? 'ui segment opened' : ''"> <!-- ui segment opened -->
 								<div class="ui tiny image">
 									<img src="static/img/husky-logo.png" class="ui centered image" />
 								</div>
@@ -56,11 +56,11 @@
 									</div>
 								</div>
 								<div class="extra flex">
-									<a ng-click="getReports(proposal.item);" ng-class="proposalView==proposal.item ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal.item ? 'Close':'Details'}}</a>
+									<a ng-click="getReports(proposal.id);" ng-class="proposalView==proposal.id ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal.id ? 'Close':'Details'}}</a>
 								</div>
 							</div>
 
-							<div ng-show="proposalView == proposal.item" class="detail-panel">
+							<div ng-show="proposalView == proposal.id" class="detail-panel">
 
 								<div class="ui padded segment">
 									<div class="ui grid">
