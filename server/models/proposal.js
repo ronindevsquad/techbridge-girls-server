@@ -5,6 +5,24 @@ var jwt = require('jsonwebtoken');
 
 module.exports = function(jwt_key) {
 	return {
+		getMyProprosals: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p \
+						JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
+						return connection.execute(query);
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)

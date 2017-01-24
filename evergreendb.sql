@@ -42,6 +42,15 @@ CREATE TABLE `addresses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `addresses`
+--
+
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `attachments`
 --
 
@@ -62,6 +71,15 @@ CREATE TABLE `attachments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `attachments`
+--
+
+LOCK TABLES `attachments` WRITE;
+/*!40000 ALTER TABLE `attachments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `attachments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `banks`
 --
 
@@ -80,6 +98,15 @@ CREATE TABLE `banks` (
   CONSTRAINT `fk_banks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banks`
+--
+
+LOCK TABLES `banks` WRITE;
+/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `cards`
@@ -103,6 +130,15 @@ CREATE TABLE `cards` (
   CONSTRAINT `fk_cards_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cards`
+--
+
+LOCK TABLES `cards` WRITE;
+/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `labors`
@@ -131,6 +167,15 @@ CREATE TABLE `labors` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `labors`
+--
+
+LOCK TABLES `labors` WRITE;
+/*!40000 ALTER TABLE `labors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `labors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `leads`
 --
 
@@ -149,6 +194,15 @@ CREATE TABLE `leads` (
   CONSTRAINT `fk_users_has_users_users2` FOREIGN KEY (`supplier_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `leads`
+--
+
+LOCK TABLES `leads` WRITE;
+/*!40000 ALTER TABLE `leads` DISABLE KEYS */;
+/*!40000 ALTER TABLE `leads` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `materials`
@@ -171,6 +225,15 @@ CREATE TABLE `materials` (
   CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materials`
+--
+
+LOCK TABLES `materials` WRITE;
+/*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+/*!40000 ALTER TABLE `materials` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `messages`
@@ -198,6 +261,15 @@ CREATE TABLE `messages` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ndas`
 --
 
@@ -216,6 +288,15 @@ CREATE TABLE `ndas` (
   CONSTRAINT `fk_attachments_proposals10` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ndas`
+--
+
+LOCK TABLES `ndas` WRITE;
+/*!40000 ALTER TABLE `ndas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ndas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `offers`
@@ -243,6 +324,15 @@ CREATE TABLE `offers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `offers`
+--
+
+LOCK TABLES `offers` WRITE;
+/*!40000 ALTER TABLE `offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `processes`
 --
 
@@ -255,6 +345,16 @@ CREATE TABLE `processes` (
   UNIQUE KEY `process_UNIQUE` (`process`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `processes`
+--
+
+LOCK TABLES `processes` WRITE;
+/*!40000 ALTER TABLE `processes` DISABLE KEYS */;
+INSERT INTO `processes` VALUES ('Automation'),('Batch & Fill'),('Blow Molding'),('CNC'),('Cut & Sew'),('Die Casting'),('Die Cutting'),('Fiber Molding'),('Injection Molding'),('Laser Welding'),('Printing'),('Screen Printing'),('Thermaforming');
+/*!40000 ALTER TABLE `processes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `proposal_processes`
@@ -275,6 +375,15 @@ CREATE TABLE `proposal_processes` (
   CONSTRAINT `fk_processes_has_proposals_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proposal_processes`
+--
+
+LOCK TABLES `proposal_processes` WRITE;
+/*!40000 ALTER TABLE `proposal_processes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proposal_processes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `proposals`
@@ -305,6 +414,15 @@ CREATE TABLE `proposals` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `proposals`
+--
+
+LOCK TABLES `proposals` WRITE;
+/*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
+/*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `reports`
 --
 
@@ -330,6 +448,15 @@ CREATE TABLE `reports` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `reports`
+--
+
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `urls`
 --
 
@@ -353,6 +480,15 @@ CREATE TABLE `urls` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `urls`
+--
+
+LOCK TABLES `urls` WRITE;
+/*!40000 ALTER TABLE `urls` DISABLE KEYS */;
+/*!40000 ALTER TABLE `urls` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_processes`
 --
 
@@ -371,6 +507,15 @@ CREATE TABLE `user_processes` (
   CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_processes`
+--
+
+LOCK TABLES `user_processes` WRITE;
+/*!40000 ALTER TABLE `user_processes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_processes` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -394,6 +539,15 @@ CREATE TABLE `users` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -404,4 +558,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-24  0:28:10
+-- Dump completed on 2017-01-24 13:37:43
