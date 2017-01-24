@@ -1,4 +1,4 @@
-app.controller('profileController', function ($scope, $location, $routeParams, usersFactory) {
+app.controller('profileController', function ($scope, $location, $routeParams, usersFactory, urlsFactory) {
 	$scope.editingURLS = false;
 	if (payload) {
 		$scope.tab = "profile";
@@ -39,8 +39,8 @@ $scope.switchEditingURLS = function(){
 	$scope.editingURLS? $scope.editingURLS=false:$scope.editingURLS=true
 }
 $scope.updateURLS = function(){
-	if($scope.urls){
-		usersFactory.addURLS($scope.urls, function(data){
+	if(true){
+		urlsFactory.create($scope.urls, function(data){
 			console.log(data);
 			$scope.switchEditingURLS()
 			$scope.requestProfile()

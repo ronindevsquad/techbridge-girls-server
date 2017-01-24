@@ -345,6 +345,7 @@ CREATE TABLE `urls` (
   `user_id` binary(16) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
   UNIQUE KEY `supplier_id_UNIQUE` (`user_id`),
   KEY `fk_urls_suppliers1_idx` (`user_id`),
   CONSTRAINT `fk_urls_suppliers1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -403,4 +404,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-20 18:14:11
+-- Dump completed on 2017-01-24  0:28:10

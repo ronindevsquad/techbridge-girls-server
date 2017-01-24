@@ -56,14 +56,6 @@ app.factory('usersFactory', function($http, $cookies) {
 			}, function(res) {
 				callback(res);
 			});
-		},
-		addURLS: function (data, callback){
-			$http.post('/users/urls', data)
-			.then(function(res) {
-				callback(res.data);
-			}, function(res) {
-				callback(res);
-			});
 		}
 	}
 })

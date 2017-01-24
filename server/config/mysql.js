@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var using = Promise.using;
 var mysql = require('mysql2/promise');
-var SqlString = require('mysql/lib/protocol/SqlString');
+var SqlString = require('mysql2/node_modules/sqlstring');
 
 function queryFormat(sql, values, timeZone) {
 	console.log(sql)
@@ -15,9 +15,7 @@ function queryFormat(sql, values, timeZone) {
 	return sql;
 };
 
-
-
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
 	host: 'localhost',
 	port: '8889',
 	user: 'root',
@@ -34,13 +32,11 @@ function getConnection() {
 }
 
 // using(getConnection(), function(connection) {
-// 	return connection.query("SELECT * FROM users");
+// 	var data = {id: "UNHEX(REPLACE(UUID(), '-', ''))"}
+// 	return connection.query("SELECT * FROM users WHERE ?", data);
 // })
-// .then(function() {
-// 	throw {status: 400, message: "Some message"}
-// })
-// .then(function(data) {
-// 	console.log("data is: ",data)
+// .spread(function(data) {
+// 	console.log("data is: ",data[0])
 // })
 // .catch(err => {
 // 	console.log("err is ", err)
