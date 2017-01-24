@@ -235,6 +235,9 @@ module.exports = {
 		}
 	},
 	addURLS: function(req, callback){
+		if(!req.body){
+			res.json("body is empty.	")
+		}
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
