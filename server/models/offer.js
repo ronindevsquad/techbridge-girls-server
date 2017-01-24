@@ -249,7 +249,6 @@ module.exports = function(jwt_key) {
 					// 	});
 					// }).then()
 				}
-
 				// 	connection.query("INSERT INTO offers SET ?", data, function(err) {
 				// 		if (err)
 				// 			callback({status: 400, message: "Please contact an admin."});

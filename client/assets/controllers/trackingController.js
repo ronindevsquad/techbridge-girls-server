@@ -2,12 +2,12 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	if (payload) {
 		$scope.tab = "tracking";
 		if ($scope.type == 0) {
-		
+
 		}
 		else if ($scope.type == 1) {
 
 		}
-	} 
+	}
 	else
 		$location.url('/');
 // When the document loads, retrieve the offers (that have been accepted) and reports associated with the id logged in. The format of the JSON response should be an array of proposals, each having an (accepted) offer property which contains a reports proprty that is an array of report objects. The back end handles this information.
@@ -26,20 +26,8 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		else if (data.status >= 300)
 			console.log("error:", data.data.message)
 		else {
-			console.log(data);
 			$scope.proposals = data
-			reportsFactory.index(function(data){
-				if (data.status == 401)
-					$scope.logout();
-				else if (data.status >= 300)
-					console.log("error:", data.data.message)
-				else {
-					console.log(data);
-					$scope.reports = data;
-					$scope.proposalsAndReports = formatProposalsAndReports();
-					console.log($scope.proposalsAndReports);
-				}
-			});
+			console.log($scope.proposals);
 		}
 	});
 
@@ -54,9 +42,42 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				}
 			}
 		}
-		console.log(formattedObject);
 		return formattedObject;
 	}
+
+	$scope.reportForm = function(id){
+		$scope.form = {
+			offer_id: id,
+			input: "",
+			output: "",
+			shipped: "",
+			note: ""
+		}
+	};
+
+	$scope.getReports = function(id){
+		if ($scope.proposalView == id)
+			$scope.proposalView = undefined;
+		else {
+			$scope.proposalView = id;
+			reportsFactory.index(function(data){
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else {
+					$scope.reports = data;
+					// $scope.proposalsAndReports = formatProposalsAndReports();
+				}
+			});
+		}
+	};
+
+	$scope.reportSubmit = function(id){
+		reportsFactory.create($scope.form,function(data){
+			console.log(data);
+		});
+	};
 
 
 	$scope.percentCompleted = function(key){
@@ -70,6 +91,4 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		console.log(parseInt(numberToReturn));
 		return numberToReturn
 	}
-
-	$scope.test = "THIS IS PROOF THAT EJS WORKS";
 });
