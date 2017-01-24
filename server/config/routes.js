@@ -24,7 +24,7 @@ module.exports = function(app) {
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
-	app.get('/api/offers', offers.index);
+	app.get('/api/offers/:proposal_id', offers.index);
 	// app.get('/api/offers/:id', offers.show);
 	app.post('/api/offers', offers.create);
 	// app.put('/api/offers/:action/:id', offers.update);

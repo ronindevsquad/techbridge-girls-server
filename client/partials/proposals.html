@@ -73,16 +73,16 @@
 												<div class="ui vertical fluid tabular menu">
 
 													<div class="ui items message-contacts">
-														<a class="active item" data-tab="applicant1">
+														<a ng-repeat="offer in offers" class="active item" data-tab="applicant1">
 															<div class="ui tiny image">
 																<img src="static/img/husky-logo.png" class="ui centered image" />
 															</div>
 															<div class="middle aligned content">
-																<h4>{{type==0 ? 'Maker' : 'Supplier'}} {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
+																<h4>Supplier {{offer.company}}</h4>
+																<p class="footnote">Received {{offer.updated_at | date:"dd.MM.y"}}</p>
 															</div>
 														</a>
-														<a class="item" data-tab="applicant2">
+														<!-- <a class="item" data-tab="applicant2">
 															<div class="ui tiny image">
 																<img src="static/img/husky-logo.png" class="ui centered image" />
 															</div>
@@ -100,7 +100,7 @@
 																<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
 																<p class="footnote">Received 25.05.2016</p>
 															</div>
-														</a>
+														</a> -->
 													</div>
 												</div>
 											</div>
@@ -261,7 +261,7 @@
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
 							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messaging">Message</a>
+							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">Message</a>
 						</div> <!-- segment -->
 
 						<div class="ui right aligned grid">

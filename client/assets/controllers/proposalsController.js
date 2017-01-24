@@ -1,4 +1,4 @@
-app.controller('proposalsController', function ($scope, $location, proposalsFactory) {
+app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload) {
 		$scope.tab = "proposals";
 		if ($scope.type == 0) {
@@ -21,8 +21,10 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$scope.getOffers = function(id){
 			if ($scope.proposalView == id)
 				$scope.proposalView = undefined;
-			else {
-				$scope.proposalView = id;
-			}
+			else
+				offersFactory.index(id, function(data){
+					$scope.offers = data;
+					$scope.proposalView = id;
+				});
 		};
 })

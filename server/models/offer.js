@@ -21,163 +21,23 @@ module.exports = {
 			}
 		});
 	},
-	index: function(callback) {
-		// FOR NOW, THIS IS THE SIMULATED JSON RESPONSE
-		var sampleResponse = {
-			proposals:[
-				{
-					item: "Proposal for Hats",
-					quantity: 90,
-					accepted_offer:{
-						name: "gogo",
-						reports:[
-							{
-								units: 4,
-								status: 1
-							}, // end of single report
-							{
-								units: 13,
-								status: 1
-							}, // end of single report
-							{
-								units: 20,
-								status: 1
-							}, // end of single report
-							{
-								units: 10,
-								status: 1
-							}, // end of single report
-							{
-								units: 20,
-								status: 1
-							}, // end of single report
-							{
-								units: 5,
-								status: 1
-							}, // end of single report
-							{
-								units: 13,
-								status: 1
-							}, // end of single report
-							{
-								units: 0,
-								status: 0
-							}, // end of single report
-							{
-								units: 0,
-								status: 0
-							}, // end of single report
-							{
-								units: 0,
-								status: 0
-							}, // end of single report
-							{
-								units: 0,
-								status: 0
-							}, // end of single report
-						] // end of array of reports for offer
-					}// end of offer
-				}, // end of single proposal
-				{
-					item: "Proposal for cars",
-					quantity: 500,
-					accepted_offer:{
-						name: "mercedes",
-						reports:[
-							{
-								units: 0,
-								status: 1
-							}, // end of single report
-							{
-								units: 3,
-								status: 1
-							}, // end of single report
-							{
-								units: 9,
-								status: 1
-							}, // end of single report
-							{
-								units: 11,
-								status: 1
-							}, // end of single report
-							{
-								units: 8,
-								status: 0
-							}, // end of single report
-							{
-								units: 20,
-								status: 0
-							}, // end of single report
-							{
-								units: 22,
-								status: 0
-							}, // end of single report
-							{
-								units: 60,
-								status: 0
-							}, // end of single report
-						] // end of array of reports for offer
-					}// end of offer
-				}, // end of single proposal
-				{
-					item: "Proposal for toys",
-					quantity: 20,
-					accepted_offer:{
-						name: "mercedes",
-						reports:[
-							{
-								units: 0,
-								status: 1
-							}, // end of single report
-							{
-								units: 3,
-								status: 1
-							}, // end of single report
-							{
-								units: 2,
-								status: 1
-							}, // end of single report
-							{
-								units: 1,
-								status: 1
-							}, // end of single report
-							{
-								units: 3,
-								status: 1
-							}, // end of single report
-							{
-								units: 2,
-								status: 1
-							}, // end of single report
-							{
-								units: 1,
-								status: 1
-							}, // end of single report
-							{
-								units: 6,
-								status: 1
-							}, // end of single report
-						] // end of array of reports for offer
-					}// end of offer
-				}, // end of single proposal
-			] // end of proposals array
-		}// end of response object
-		callback(false, sampleResponse)
-		// jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-		// 	var query = "SELECT *, HEX(id) AS id FROM offers WHERE ?";
-		// 	connection.query(query, {id:data.id}, function(err, data) {
-		// 		if (err)
-		// 			callback({status: 400, message: "Please contact an admin."})
-		// 		else
-		// 			callback(false, data)
-		// 	})
-		// });
+	index: function(req, callback) {
+		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+			// var query = `SELECT * FROM offers WHERE HEX(proposal_id) = ?`;
+			var query = `SELECT o.*, u.company FROM offers o JOIN users U ON o.user_id = u.id WHERE HEX(proposal_id) = ?`;
+			connection.query(query, [req.params.proposal_id], function(err, data) {
+				if (err)
+					callback({status: 400, message: "Please contact an admin."})
+				else
+					callback(false, data)
+			})
+		});
 	},
 	// show: function(req, callback) {
 	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
 	// 		if (err)
 	// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 		else {		
+	// 		else {
 	// 			var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
 	// 			connection.query(query, req.params.id, function(err, data) {
 	// 				if (err)
@@ -189,7 +49,7 @@ module.exports = {
 	// 			});
 	// 		}
 	// 	});
-	// },	
+	// },
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err) {
@@ -200,18 +60,18 @@ module.exports = {
 			// Validate materials:
 			for (var i = 0; i < req.body.materials.length; i++) {
 				var material = req.body.materials[i];
-				if (!material.material || material.weight === undefined || material.cost === undefined ||  
+				if (!material.material || material.weight === undefined || material.cost === undefined ||
 					material.weight < 0 || material.cost < 0) {
 					callback({status: 400, message: "Invalid field(s) for materials provided."});
 					return;
 				}
 			}
-			
+
 			// Validate machines:
 			for (var i = 0; i < req.body.machines.length; i++) {
 				var machine = req.body.machines[i];
-				if (!machine.labor || machine.time === undefined || machine.rate === undefined || 
-					machine.yield === undefined || machine.count === undefined || machine.time < 1 || 
+				if (!machine.labor || machine.time === undefined || machine.rate === undefined ||
+					machine.yield === undefined || machine.count === undefined || machine.time < 1 ||
 					machine.rate < 0.01 || machine.yield < 0.01 || machine.count < 1) {
 					callback({status: 400, message: "Invalid field(s) for machines provided."});
 					return;
@@ -221,16 +81,16 @@ module.exports = {
 			// Validate manuals:
 			for (var i = 0; i < req.body.manuals.length; i++) {
 				var manual = req.body.manuals[i];
-				if (!manual.labor || manual.time === undefined || manual.rate === undefined || 
-					manual.yield === undefined || manual.count === undefined || manual.time < 1 || 
+				if (!manual.labor || manual.time === undefined || manual.rate === undefined ||
+					manual.yield === undefined || manual.count === undefined || manual.time < 1 ||
 					manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1) {
 					callback({status: 400, message: "Invalid field(s) for machines provided."});
 					return;
 				}
 			}
 
-			if (!req.body.proposal_id || req.body.sga === undefined || req.body.profit === undefined || 
-			req.body.overhead === undefined || req.body.total === undefined || req.body.sga < 0 || 
+			if (!req.body.proposal_id || req.body.sga === undefined || req.body.profit === undefined ||
+			req.body.overhead === undefined || req.body.total === undefined || req.body.sga < 0 ||
 			req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 				callback({status: 400, message: "All form fields are required."});
 			else {
@@ -294,7 +154,7 @@ module.exports = {
 			// 				}
 			// 			});
 			// 		}
-			// 	})	
+			// 	})
 			// }
 		});
 	},
