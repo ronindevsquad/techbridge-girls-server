@@ -37,12 +37,12 @@ app.factory('reportsFactory', function($http, $cookies) {
 		// 	});
 		// },
 		create: function(data, callback) {
-			$http.post('/api/proposals', data, {
+			$http.post('/api/reports', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			}, function(res) {
-				callback(res);
+				callback(res.data);
 			});
 		}
 	}

@@ -12,7 +12,6 @@ function setPayload() {
 			var base64Url = evergreen_token.split('.')[1];
 			var base64 = base64Url.replace('-', '+').replace('_', '/');
 			payload = JSON.parse(window.atob(base64));
-			console.log(evergreen_token)
 			break;
 		}
 	}
@@ -30,7 +29,6 @@ function setSocket() {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(payload)
 				for (var i = 0; i < data.length; i++)
 					socket.emit('subscribe', data[i].id);
 			},
@@ -61,7 +59,7 @@ function setSocket() {
 // 			enter: 'animated fadeInDown',
 // 			exit: 'animated fadeOutDown',
 // 		}
-// 	});	
+// 	});
 // }
 
 //////////////////////////////////////////////////////
@@ -84,8 +82,8 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.menu = false;
 			// $rootScope.messages = [];
 		}
-		
-		// setSocket();
+
+		setSocket();
 		if (socket) {
 	 		// Define socket event handlers:
 			socket.on('sent', function(data) {
@@ -94,14 +92,14 @@ app.run(function($rootScope, $timeout) {
 					$rootScope.$apply();
 					$timeout(function() {
 						var _ = document.getElementById("chat");
-						_.scrollTop = _.scrollHeight;				
+						_.scrollTop = _.scrollHeight;
 					}, 0, false);
 				}
 			});
 
 	// 		//////////////////////////////////////////////////////
 	// 		//										SENT FROM TRUCKERS
-	// 		//////////////////////////////////////////////////////			
+	// 		//////////////////////////////////////////////////////
 	// 		socket.on('applied', function(data) {
 	// 			if (data.user_id == $rootScope.id) {
 	// 				socket.emit("subscribe", data.offer_id);
@@ -119,7 +117,7 @@ app.run(function($rootScope, $timeout) {
 	// 					animate: {
 	// 						enter: 'animated fadeInUp',
 	// 						exit: 'animated fadeOutDown',
-	// 					} 
+	// 					}
 	// 				});
 	// 			}
 	// 		});
@@ -178,7 +176,7 @@ app.run(function($rootScope, $timeout) {
 	// 					exit: 'animated fadeOutDown',
 	// 				}
 	// 			});
-	// 		});			
+	// 		});
 
 	// 		socket.on('invoiced', function(data) {
 	// 			$.notify({
@@ -201,7 +199,7 @@ app.run(function($rootScope, $timeout) {
 
 	// 		//////////////////////////////////////////////////////
 	// 		//										SENT FROM USERS
-	// 		//////////////////////////////////////////////////////	
+	// 		//////////////////////////////////////////////////////
 	// 		socket.on('accepted', function(data) {
 	// 			$.notify({
 	// 				icon: "glyphicon glyphicon-check",
@@ -217,7 +215,7 @@ app.run(function($rootScope, $timeout) {
 	// 				animate: {
 	// 					enter: 'animated fadeInUp',
 	// 					exit: 'animated fadeOutDown',
-	// 				} 
+	// 				}
 	// 			});
 	// 		});
 
@@ -234,7 +232,7 @@ app.run(function($rootScope, $timeout) {
 	// 				animate: {
 	// 					enter: 'animated fadeInUp',
 	// 					exit: 'animated fadeOutDown',
-	// 				} 
+	// 				}
 	// 			});
 	// 		});
 
@@ -253,9 +251,9 @@ app.run(function($rootScope, $timeout) {
 	// 				animate: {
 	// 					enter: 'animated fadeInUp',
 	// 					exit: 'animated fadeOutDown',
-	// 				} 
+	// 				}
 	// 			});
-	// 		});			
+	// 		});
 		}
 	})();
 
@@ -263,10 +261,10 @@ app.run(function($rootScope, $timeout) {
 	$rootScope.logout = function() {
 		// Disconnect from sockets:
 		socket.emit("logout");
-		
+
 		// Destroy cookie:
 		document.cookie = "evergreen_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-		
+
 		// Reset globals:
 		payload = undefined;
 		evergreen_token = undefined;
@@ -278,7 +276,7 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.color = undefined;
 		$rootScope.user = undefined;
 		$rootScope.menu = undefined;
-		
+
 		// Relocate:
 		location.href = ("/");
 	};
