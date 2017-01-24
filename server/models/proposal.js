@@ -15,7 +15,7 @@ module.exports = {
 				proposal_id ORDER BY "
 
 
-				var query = "SELECT *, HEX(id) AS id FROM proposals" //Where user_id = ?
+					var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) as applications FROM proposals p JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
 				connection.query(query, function(err, data) {
 					if (err)
 						callback({status: 400, message: "Please contact an admin."});

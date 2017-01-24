@@ -4,6 +4,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		if ($scope.type == 0) {
 			//Get proposals that you've created
 			proposalsFactory.index(function(data){
+				console.log(data);
 				$scope.proposals = data
 			});
 		}
@@ -18,13 +19,20 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$location.url('/');
 
 
-		$scope.getOffers = function(id){
-			if ($scope.proposalView == id)
+		$scope.getOffers = function(proposal){
+			if ($scope.proposalView == proposal)
 				$scope.proposalView = undefined;
 			else
-				offersFactory.index(id, function(data){
+				offersFactory.index(proposal.id, function(data){
 					$scope.offers = data;
-					$scope.proposalView = id;
+					$scope.offerView = $scope.offers[0];
+					$scope.proposalView = proposal;
+					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 				});
+		};
+
+		$scope.getOffer = function(offer){
+			$scope.offerView = offer;
+			$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 		};
 })

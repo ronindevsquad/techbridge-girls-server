@@ -39,7 +39,7 @@
 
 						<!-- this is where we end the details panel -->
 						<div ng-repeat="proposal in proposals" class="ui resulted items">
-							<div class="item" ng-class="proposalView == proposal.id ? 'ui segment opened':''">
+							<div class="item" ng-class="proposalView == proposal ? 'ui segment opened':''">
 								<div class="ui tiny image">
 									<img src="static/img/husky-logo.png" class="ui centered image" />
 								</div>
@@ -53,12 +53,12 @@
 
 								</div>
 								<div class="extra">
-									<a ng-click="getOffers(proposal.id);" ng-class="proposalView==proposal.id ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal.id ? 'Close':'View'}}</a>
-									<small>34 Views   |   5 Applicants   |   3 Leads</small>
+									<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View'}}</a>
+									<small>34 Views   |   {{proposal.applications}} Applicants   |   3 Leads</small>
 								</div>
 							</div>
 
-							<div ng-show="proposalView == proposal.id" class="detail-panel">
+							<div ng-show="proposalView == proposal" class="detail-panel">
 								<div class="ui top attached tabular menu">
 									<a class="active item" data-tab="applicants">Applicants</a>
 									<a class="item" data-tab="leads">Leads</a>
@@ -73,34 +73,15 @@
 												<div class="ui vertical fluid tabular menu">
 
 													<div class="ui items message-contacts">
-														<a ng-repeat="offer in offers" class="active item" data-tab="applicant1">
+														<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="active item" data-tab="applicant1">
 															<div class="ui tiny image">
 																<img src="static/img/husky-logo.png" class="ui centered image" />
 															</div>
 															<div class="middle aligned content">
 																<h4>Supplier {{offer.company}}</h4>
-																<p class="footnote">Received {{offer.updated_at | date:"dd.MM.y"}}</p>
+																<p class="footnote">Received </p>
 															</div>
 														</a>
-														<!-- <a class="item" data-tab="applicant2">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-
-																<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
-															</div>
-														</a>
-														<a class="item" data-tab="applicant3">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-																<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
-															</div>
-														</a> -->
 													</div>
 												</div>
 											</div>
@@ -113,17 +94,17 @@
 														<div class="offer-details">
 															<div class="details-item">
 																<p class="footnote">Their offer per unit</p>
-																<div class="details-value"><span class="op50">$</span> 0.41</div>
+																<div class="details-value"><span class="op50">$</span> {{offerView.PPU}}</div>
 															</div>
 
 															<div class="details-item">
 																<p class="footnote">Total price</p>
-																<div class="details-value"><span class="op50">$</span> 1.514.511</div>
+																<div class="details-value"><span class="op50">$</span> {{offerView.total}}</div>
 															</div>
 
 															<div class="details-item">
 																<p class="footnote">Delivery date</p>
-																<div class="details-value"><i class="calendar outline icon op50"></i> 22.05.2016</div>
+																<div class="details-value"><i class="calendar outline icon op50"></i> {{offerView.updated_at | date:"dd.MM.y"}}</div>
 															</div>
 
 															<div class="details-item">
