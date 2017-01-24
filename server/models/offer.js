@@ -24,157 +24,19 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
-		index: function(callback) {
-			// FOR NOW, THIS IS THE SIMULATED JSON RESPONSE
-			var sampleResponse = {
-				proposals:[
-					{
-						item: "Proposal for Hats",
-						quantity: 90,
-						accepted_offer:{
-							name: "gogo",
-							reports:[
-								{
-									units: 4,
-									status: 1
-								}, // end of single report
-								{
-									units: 13,
-									status: 1
-								}, // end of single report
-								{
-									units: 20,
-									status: 1
-								}, // end of single report
-								{
-									units: 10,
-									status: 1
-								}, // end of single report
-								{
-									units: 20,
-									status: 1
-								}, // end of single report
-								{
-									units: 5,
-									status: 1
-								}, // end of single report
-								{
-									units: 13,
-									status: 1
-								}, // end of single report
-								{
-									units: 0,
-									status: 0
-								}, // end of single report
-								{
-									units: 0,
-									status: 0
-								}, // end of single report
-								{
-									units: 0,
-									status: 0
-								}, // end of single report
-								{
-									units: 0,
-									status: 0
-								}, // end of single report
-							] // end of array of reports for offer
-						}// end of offer
-					}, // end of single proposal
-					{
-						item: "Proposal for cars",
-						quantity: 500,
-						accepted_offer:{
-							name: "mercedes",
-							reports:[
-								{
-									units: 0,
-									status: 1
-								}, // end of single report
-								{
-									units: 3,
-									status: 1
-								}, // end of single report
-								{
-									units: 9,
-									status: 1
-								}, // end of single report
-								{
-									units: 11,
-									status: 1
-								}, // end of single report
-								{
-									units: 8,
-									status: 0
-								}, // end of single report
-								{
-									units: 20,
-									status: 0
-								}, // end of single report
-								{
-									units: 22,
-									status: 0
-								}, // end of single report
-								{
-									units: 60,
-									status: 0
-								}, // end of single report
-							] // end of array of reports for offer
-						}// end of offer
-					}, // end of single proposal
-					{
-						item: "Proposal for toys",
-						quantity: 20,
-						accepted_offer:{
-							name: "mercedes",
-							reports:[
-								{
-									units: 0,
-									status: 1
-								}, // end of single report
-								{
-									units: 3,
-									status: 1
-								}, // end of single report
-								{
-									units: 2,
-									status: 1
-								}, // end of single report
-								{
-									units: 1,
-									status: 1
-								}, // end of single report
-								{
-									units: 3,
-									status: 1
-								}, // end of single report
-								{
-									units: 2,
-									status: 1
-								}, // end of single report
-								{
-									units: 1,
-									status: 1
-								}, // end of single report
-								{
-									units: 6,
-									status: 1
-								}, // end of single report
-							] // end of array of reports for offer
-						}// end of offer
-					}, // end of single proposal
-				] // end of proposals array
-			}// end of response object
-			callback(false, sampleResponse)
-			// jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-			// 	var query = "SELECT *, HEX(id) AS id FROM offers WHERE ?";
-			// 	connection.query(query, {id:data.id}, function(err, data) {
-			// 		if (err)
-			// 			callback({status: 400, message: "Please contact an admin."})
-			// 		else
-			// 			callback(false, data)
-			// 	})
-			// });
+		index: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
+				using(getConnection(), connection => {
+					var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE HEX(proposal_id) = ?";
+					return connection.execute(query, [req.params.proposal_id]);
+				})
+				.spread(data => {
+					callback(false, data);
+				})
+				.catch(err => {
+					callback({status: 400, message: "Please contact an admin."})
+				});
+			});
 		},
 		// show: function(req, callback) {
 		// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
