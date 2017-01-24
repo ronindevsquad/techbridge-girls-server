@@ -57,7 +57,7 @@
 							<option value="Thermaforming">Thermaforming</option>
 						</select>
 						{{proposal.processes}}
-<!-- 
+<!--
 <div class="ui fitted boxed checkbox">
 <input type="checkbox" id="item6">
 <label for="item6 ">Tooling</label>
@@ -205,18 +205,24 @@
 			</span>
 		</h4>
 
-		<div class="ui relaxed items">
+		<div id="documents" class="ui relaxed items">
 			<div class="item">
+				<a ng-click="appendInputToDocuments()" href="">
 				<div class="ui tiny image">
 					<div class="plus">
 						+
 					</div> <!-- .plus -->
 				</div>
+				</a>
 				<div class="middle aligned content">
 					<div>Upload Documents</div>
 					<small class="footnote">(Ex. file types: CAD, Drawings, Renders)</small>
 				</div>
 			</div> <!-- .item -->
+			<div ng-repeat="documentinput in documentinputs">
+				<input  type="file" name="document" value="">
+				<a href="" ng-click="remove(documentinput)">remove</a>
+			</div>
 		</div> <!-- .items -->
 
 		<div class="ui horizontal divider"></div>
@@ -233,7 +239,7 @@
 			<div class="ui two column middle aligned relaxed fitted stackable grid">
 				<div class="column">
 
-					<div class="ui relaxed items">
+					<div id="NDA" class="ui relaxed items">
 						<div class="item">
 							<div class="ui tiny image">
 								<div class="plus">
