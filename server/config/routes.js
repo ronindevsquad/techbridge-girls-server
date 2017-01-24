@@ -1,4 +1,3 @@
-var fs = require("fs");
 var multer = require('multer');
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -43,7 +42,7 @@ module.exports = function(app, jwt_key) {
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
-	app.get('/api/offers', offers.index);
+	app.get('/api/offers/:proposal_id', offers.index);
 	app.post('/api/offers', offers.create);
 
 	// REPORTS

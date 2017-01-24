@@ -14,7 +14,7 @@ module.exports = function(jwt_key) {
 						var query = "SELECT * FROM reports WHERE offer_id IN " +
 						"(SELECT id FROM offers WHERE proposal_id IN " +
 						"(SELECT id FROM proposals))" //WHERE id = 'proposal.id'
-						return connection.query(query, payload.id);
+						return connection.execute(query);
 					})
 					.spread(data => {
 						callback(false, data);

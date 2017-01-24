@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 
 module.exports = function(jwt_key) {
 	return {
-		getMyProprosals: function(req, callback) {
+		getMyProposals: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -101,16 +101,8 @@ module.exports = function(jwt_key) {
 					})
 					.then(() => {
 						return using(getConnection(), connection => {
-							var data = [
-								0,
-								req.body.product,
-								req.body.quantity,
-								req.body.completion,
-								req.body.zip,
-								req.body.audience,
-								req.body.info,
-								payload.id
-							]
+							var data = [0, req.body.product, req.body.quantity, req.body.completion, req.body.zip, 
+							req.body.audience, req.body.info, payload.id];
 							var query = "INSERT INTO proposals id = @temp, status = ?, product = ?, quantity = ?, \
 							completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), created_at = NOW(), \
 							user_id = UNHEX(?)";
