@@ -52,7 +52,7 @@
 <div class="ui very padded segment noptoppadd" ng-if="tab">
 	<section class="nav">
 
-		<div class="ui relaxed items">
+		<div ng-show="!viewingOtherProfile" class="ui relaxed items">
 			<div class="item">
 				<div class="ui tiny image">
 					<img src="static/img/husky-logo.png" class="ui centered image" />
@@ -64,7 +64,7 @@
 			</div> <!-- .item -->
 		</div> <!-- .items -->
 
-		<div class="ui pointing secondary menu">
+		<div ng-show="!viewingOtherProfile" class="ui pointing secondary menu">
 			<a class="item" ng-if="type==1" ng-class="{active: tab=='open'}" href="#!/open-proposals">Open Proposals</a>
 			<a class="item" ng-class="{active: tab=='dashboard'}" href="#!/dashboard">Dashboard</a>
 			<a class="item" ng-class="{active: tab=='proposals'}" href="#!/proposals">Proposals
@@ -80,7 +80,7 @@
 			<a class="item" ng-class="{active: tab=='profile'}" href="#!/profile">Profile</a>
 		</div> <!-- .menu -->
 
-		<div ng-if="type==0" class="adbox">
+		<div ng-show="!viewingOtherProfile" ng-if="type==0" class="adbox">
 			<h4 class="title">Invite your supplier</h4>
 			<p class="footnote">Bring your supplier onto this platform to facilitate your communication. (?)</p>
 			<a ng-class="color" class="ui big evergreen uppercase button invite-supplier" href="">Invite supplier</a>
