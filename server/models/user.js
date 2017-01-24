@@ -7,67 +7,36 @@ var fs = require("fs");
 var jwt_key = fs.readFileSync("keys/jwt", "utf8");
 
 module.exports = {
-	// index: function(callback) {
-	// 	connection.query("SELECT *, HEX(id) AS id FROM users", function(err, data) {
-	// 		if (err)
-	// 			callback({status: 400, message: "Please contact an admin."});
-	// 		else
-	// 			callback(false, data)
-	// 	});
-	// },
-	// show: function(req, callback) {
-	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-	// 		if (err)
-	// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 		else {
-	// 			var response = {};
-	// 			var query = "SELECT * FROM users where HEX(id) = ? LIMIT 1";
-	// 			connection.query(query, req.params.id, function(err){
-	// 				if (err)
-	// 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 				else {
-	// 					response["user"] = payload;
-	// 					var query = "SELECT *, HEX(id) AS id FROM jobs where HEX(user_id) = ?"
-	// 					connection.query(query, req.params.id, function(err, data){
-	// 						if (err)
-	// 							callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 						else {
-	// 							response["jobs"] = data;
-	// 							callback(false, response);
-	// 						}
-	// 					});
-	// 				}
-	// 			});
-	// 		}
-	// 	});
-	// },
 	update: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 			else {
-				var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
-				connection.query(query, [req.body, payload.id], function(err) {
-					if (err)
-						callback({status: 400, message: "Please contact an admin."});
-					else {
-						// Retrieve updated user:
-						var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
-						connection.query(query, payload.id, function(err, data) {
-							if (err)
-								callback({status: 400, message: "Please contact an admin."});
-							else {
-								var evergreen_token = jwt.sign({
-									id: data[0].id,
-									type: data[0].type,
-									company: data[0].company,
-									contact: data[0].contact,
-									created_at: data[0].created_at
-								}, jwt_key, {expiresIn: "5d"});
-								callback(false, evergreen_token);
-							}
+				using(getConnection(), connection => {
+					var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+					return connection.query(query, [req.body, payload.id]);
+				})
+				.then(data => {
+					if (data.changedRows != 1)
+						throw {status: 400, message: "Failed to save changes."};
+					else
+						return using(getConnection(), connection => {
+							var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
+							return connection.execute(query, [payload.id]);
 						});
-					}
+				})
+				.then(data => {
+					var evergreen_token = jwt.sign({
+						id: data[0].id,
+						type: data[0].type,
+						company: data[0].company,
+						contact: data[0].contact,
+						created_at: data[0].created_at
+					}, jwt_key, {expiresIn: "5d"});
+					callback(false, evergreen_token);
+				})
+				.catch(err => {
+					callback({status: 400, message: "Please contact an admin."})
 				});
 			}
 		});
@@ -77,11 +46,17 @@ module.exports = {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 			else
-				connection.query("DELETE FROM users WHERE HEX(id) = ? LIMIT 1", payload.id, function(err) {
-					if (err)
-						callback({status: 400, message: "Please contact an admin."});
+				using(getConnection(), connection => {
+					return connection.execute("DELETE FROM users WHERE HEX(id) = ? LIMIT 1", [payload.id]);
+				})
+				.then(data => {
+					if (data.affectedRows != 1)
+						callback({status: 400, message: "Failed to delete your account."});
 					else
 						callback(false);
+				})
+				.catch(err => {
+					callback({status: 400, message: "Please contact an admin."})
 				});
 		});
 	},
@@ -89,40 +64,50 @@ module.exports = {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+			else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
+				callback({status: 400, message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."});
 			else
-				if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
-					callback({status: 400, message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."});
-				else
-					bcrypt.genSalt(10, function(err, salt) {
-						if (err)
-							callback({status: 400, message: "Salt error."});
-						else
-							bcrypt.hash(req.body.new, salt, function(err, hash) {
-								if (err)
-									callback({status: 400, message: "Hash error."});
-								else {
-									using(getConnection(), (connection) => {
-										var query = "UPDATE users password = ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
-										return connection.query(query, [hash, payload.id]);
-									})
-									.spread((data) => {
-										if (data.changedRows != 1)
-											callback({status: 400, message: "Unable to change password."});
-										else {
-											return using(getConnection(), (connection) => {
-												// Retrieve updated user:
-												var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
-												return connection.query(query, payload.id);
-											});
-										}
-									})
-									.catch((err) => {
+				bcrypt.genSalt(10, function(err, salt) {
+					if (err)
+						callback({status: 400, message: "Salt error."});
+					else
+						bcrypt.hash(req.body.new, salt, function(err, hash) {
+							if (err)
+								callback({status: 400, message: "Hash error."});
+							else
+								using(getConnection(), connection => {
+									var query = "UPDATE users SET password = ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+									return connection.execute(query, [hash, payload.id]);
+								})
+								.spread(data => {
+									if (data.changedRows != 1)
+										throw {status: 400, message: "Unable to change password."};
+									else
+										return using(getConnection(), connection => {
+											// Retrieve updated user:
+											var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
+											return connection.execute(query, [payload.id]);
+										});
+								})
+								.then(data => {
+									var evergreen_token = jwt.sign({
+										id: data[0].id,
+										type: data[0].type,
+										company: data[0].company,
+										contact: data[0].contact,
+										created_at: data[0].created_at
+									}, jwt_key, {expiresIn: "5d"});
+									callback(false, evergreen_token);
+								})
+								.catch(err => {
+									if (err.status)
+										callback(err);
+									else
 										callback({status: 400, message: "Please contact an admin."})
-									});
-								}
-							});
-					});
-			});
+								});
+						});
+				});
+		});
 	},
 	register: function(req, callback) {
 		if (req.body.type === undefined || !req.body.company || !req.body.contact || !req.body.email
@@ -153,27 +138,27 @@ module.exports = {
 					bcrypt.hash(req.body.password, salt, function(err, hash) {
 						if (err)
 							callback({status: 400, message: "Hash error."});
-						else {
-							using(getConnection(), (connection) => {
-								var data = {
-									id: "UNHEX(REPLACE(UUID(), '-', ''))",
-									type: req.body.type,
-									company: req.body.company,
-									contact: req.body.contact,
-									email: req.body.email,
-									password: hash,
-									created_at: "NOW()",
-									updated_at: "NOW()"
-								};
-								return connection.query("INSERT INTO users SET ?", data);
+						else
+							using(getConnection(), connection => {
+								var data = [
+									req.body.type,
+									req.body.company,
+									req.body.contact,
+									req.body.email,
+									hash
+								];
+								var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), \
+								type = ?, company = ?, contact = ?, email = ?, password = ?, created_at = NOW(), \
+								updated_at = NOW()";
+								return connection.execute(query, data);
 							})
 							.then(() => {
-								return using(getConnection(), (connection) => {
-									var query = "SELECT *, HEX(id) as id FROM users WHERE email = ? LIMIT 1";
-									return connection.query(query, req.body.email);
+								return using(getConnection(), connection => {
+									var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+									return connection.execute(query, [req.body.email]);
 								});
 							})
-							.spread((data) => {
+							.spread(data => {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
 									type: data[0].type,
@@ -183,13 +168,12 @@ module.exports = {
 								}, jwt_key, {expiresIn: "5d"});
 								callback(false, evergreen_token);
 							})
-							.catch((err) => {
+							.catch(err => {
 								if (err["code"] == "ER_DUP_ENTRY")
 									callback({status: 400, message: "Email already in use, please log in."});
 								else
 									callback({status: 400, message: "Please contact an admin."})
 							});
-						}
 					});
 			});
 	},
@@ -200,21 +184,21 @@ module.exports = {
 		else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.password))
 			callback({status: 400, message: "Invalid password."});
 		else
-			using(getConnection(), (connection) => {
+			using(getConnection(), connection => {
 				// Get user by email:
 				var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-				return connection.query(query, req.body.email);
+				return connection.execute(query, [req.body.email]);
 			})
-			.spread((data) => {
+			.spread(data => {
 				if (data.length == 0)
-					callback({status: 400, message: "Email does not exist, please register."});
+					throw {status: 400, message: "Email does not exist, please register."};
 				else
-						// Check valid password:
+					// Check valid password:
 					bcrypt.compare(req.body.password, data[0].password, function(err, isMatch) {
 						if (err)
-							callback({status: 400, message: "Invalid email/password."});
+							throw {status: 400, message: "Invalid email/password."};
 						else if (!isMatch)
-							callback({status: 400, message: "Email/password does not match."});
+							throw {status: 400, message: "Email/password does not match."};
 						else {
 							var evergreen_token = jwt.sign({
 								id: data[0].id,
@@ -227,8 +211,11 @@ module.exports = {
 						}
 					});
 			})
-			.catch((err) => {
-				callback({status: 400, message: "Please contact an admin."})
+			.catch(err => {
+				if (err.status)
+					callback(err);
+				else
+					callback({status: 400, message: "Please contact an admin."})
 			});
 	}
 };
