@@ -1,6 +1,14 @@
 module.exports = function(jwt_key) {
 	var proposal = require('../models/proposal')(jwt_key);
 	return {
+		getMyProposals: function(req, res) {
+			proposal.getMyProposals(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		index: function(req, res) {
 			proposal.index(req, function(err, data) {
 				if (err)
