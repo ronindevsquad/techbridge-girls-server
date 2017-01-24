@@ -1,4 +1,6 @@
-var connection = require('../config/mysql');
+var Promise = require("bluebird");
+var using = Promise.using;
+var getConnection = require("../config/mysql");
 var jwt = require('jsonwebtoken');
 var fs = require('fs');
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
@@ -8,17 +10,19 @@ module.exports = {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 			if (err)
 				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-			else {
-				var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON \
-				offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) \
-				AND offers.status > 0";
-				connection.query(query, [payload.id, payload.id], function(err, data) {
-					if (err)
-						callback({status: 400, message: "Please contact an admin."});
-					else
-						callback(false, data);
+			else
+				using(getConnection(), connection => {
+					var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON \
+					offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) \
+					AND offers.status > 0";
+					return connection.execute(query, [payload.id, payload.id]);
+				})
+				.spread(data => {
+					callback(false, data);
+				})
+				.catch(err => {
+					callback({status: 400, message: "Please contact an admin."});
 				});
-			}
 		});
 	},
 	index: function(callback) {
@@ -192,19 +196,15 @@ module.exports = {
 	// },	
 	create: function(req, callback) {
 		jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-			if (err) {
-				callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				return;
-			}
+			if (err)
+				return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 
 			// Validate materials:
 			for (var i = 0; i < req.body.materials.length; i++) {
 				var material = req.body.materials[i];
 				if (!material.material || material.weight === undefined || material.cost === undefined ||  
-					material.weight < 0 || material.cost < 0) {
-					callback({status: 400, message: "Invalid field(s) for materials provided."});
-					return;
-				}
+					material.weight < 0 || material.cost < 0)
+					return callback({status: 400, message: "Invalid field(s) for materials provided."});
 			}
 			
 			// Validate machines:
@@ -212,10 +212,8 @@ module.exports = {
 				var machine = req.body.machines[i];
 				if (!machine.labor || machine.time === undefined || machine.rate === undefined || 
 					machine.yield === undefined || machine.count === undefined || machine.time < 1 || 
-					machine.rate < 0.01 || machine.yield < 0.01 || machine.count < 1) {
-					callback({status: 400, message: "Invalid field(s) for machines provided."});
-					return;
-				}
+					machine.rate < 0.01 || machine.yield < 0.01 || machine.count < 1)
+					return callback({status: 400, message: "Invalid field(s) for machines provided."});
 			}
 
 			// Validate manuals:
@@ -223,17 +221,16 @@ module.exports = {
 				var manual = req.body.manuals[i];
 				if (!manual.labor || manual.time === undefined || manual.rate === undefined || 
 					manual.yield === undefined || manual.count === undefined || manual.time < 1 || 
-					manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1) {
-					callback({status: 400, message: "Invalid field(s) for machines provided."});
-					return;
-				}
+					manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1)
+					return callback({status: 400, message: "Invalid field(s) for machines provided."});
 			}
 
 			if (!req.body.proposal_id || req.body.sga === undefined || req.body.profit === undefined || 
 			req.body.overhead === undefined || req.body.total === undefined || req.body.sga < 0 || 
 			req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
-				callback({status: 400, message: "All form fields are required."});
+				return callback({status: 400, message: "All form fields are required."});
 			else {
+				console.log("validation done.")
 				// new Promise(function(resolve, reject) {
 				// 	var data = {
 				// 		status: 0,
@@ -297,43 +294,5 @@ module.exports = {
 			// 	})	
 			// }
 		});
-	},
-	// update: function(req, callback) {
-	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-	// 		if (err)
-	// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 		else {
-	// 			var data = {
-	// 				amount: req.body.amount,
-	// 				completion_date: req.body.completion_date,
-	// 				description: req.body.description,
-	// 				pickup_only: req.body.pickup_only,
-	// 				address: req.body.address,
-	// 				city: req.body.city,
-	// 				zip: req.body.zip
-	// 			}
-	// 			var query = "UPDATE offers SET ?, updated_at = NOW() WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
-	// 			connection.query(query, [data, req.params.id, payload.id], function(err, data) {
-	// 				if (err)
-	// 					callback({status: 400, message: "Please contact an admin."});
-	// 				else
-	// 					callback(false);
-	// 			});
-	// 		}
-	// 	});
-	// },
-	// delete: function(req, callback) {
-	// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-	// 		if (err)
-	// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-	// 		else
-	// 			var query = "DELETE FROM offers WHERE HEX(id) = ? AND HEX(contractor_id) = ? LIMIT 1";
-	// 			connection.query(query, [req.params.id, payload.id], function(err) {
-	// 				if (err)
-	// 					callback({status: 400, message: "Please contact an admin."});
-	// 				else
-	// 					callback(false);
-	// 			});
-	// 	});
-	// }
+	}
 };

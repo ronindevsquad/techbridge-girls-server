@@ -24,21 +24,5 @@ module.exports = {
 			else
 				res.json(data);
 		});
-	},
-	// update: function(req, res) {
-	// 	proposal.update(req, function(err, data) {
-			// if (err)
-			// 	res.status(err.status).json({message: err.message});
-			// else
-			// 	res.json(data);
-	// 	});
-	// },
-	// delete: function(req, res) {
-	// 	proposal.delete(req, function(err) {
-			// if (err)
-			// 	res.status(err.status).json({message: err.message});
-			// else
-			// 	res.json(data);
-	// 	});
-	// }
+	}
 }

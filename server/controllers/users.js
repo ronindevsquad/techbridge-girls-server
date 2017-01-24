@@ -1,14 +1,6 @@
 var user = require('../models/user');
 
 module.exports = {
-	// index: function(req, res) {
-	// 	user.index(function(err, data) {
-	// 		if (err)
-	// 			res.status(err.status).json({message: err.message});
-	// 		else
-	// 			res.json(data);
-	// 	});
-	// },
 	show: function(req, res) {
 		user.show(req, function(err, data) {
 			if (err)
