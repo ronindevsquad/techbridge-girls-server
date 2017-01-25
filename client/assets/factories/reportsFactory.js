@@ -9,6 +9,15 @@ app.factory('reportsFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		getReportsForProposal: function(proposalid, callback) {
+			$http.get(`/api/reports/${proposalid}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		// show: function(id, callback) {
 		// 	$http.get(`/api/proposals/${id}`, {
 		// 		headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}

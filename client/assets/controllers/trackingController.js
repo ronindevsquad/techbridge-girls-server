@@ -60,13 +60,14 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			$scope.proposalView = undefined;
 		else {
 			$scope.proposalView = id;
-			reportsFactory.index(function(data){
+			reportsFactory.getReportsForProposal(id,function(data){
 				console.log(data);
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
+					console.log(data);
 					$scope.reports = data;
 					// $scope.proposalsAndReports = formatProposalsAndReports();
 				}
@@ -82,14 +83,15 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 
 	$scope.percentCompleted = function(key){
+		console.log(key);
 		var cumulativeUnits = 0
-		for(i=0;i<key.reports.length;i++){
-			cumulativeUnits+=parseInt(key.reports[i].output)
+		for(i=0;i<$scope.reports.length;i++){
+			cumulativeUnits+=parseInt($scope.reports[i].output)
 		}
 		var numberToReturn = Math.floor(cumulativeUnits/key.quantity*100)
-		console.log("cumulative units: " + cumulativeUnits);
-		console.log("quantity proposal requested: " + key.quantity);
-		console.log(parseInt(numberToReturn));
+		// console.log("cumulative units: " + cumulativeUnits);
+		// console.log("quantity proposal requested: " + key.quantity);
+		// console.log(parseInt(numberToReturn));
 		return numberToReturn
 	}
 });

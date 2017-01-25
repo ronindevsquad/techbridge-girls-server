@@ -37,7 +37,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
-	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20}, 
+	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
 		{name:'NDA', maxCount:1}]), proposals.create);
 
 	//OFFERS
@@ -47,6 +47,7 @@ module.exports = function(app, jwt_key) {
 
 	// REPORTS
 	app.get('/api/reports', reports.index)
+	app.get('/api/reports/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
 
 	// PROCESSES
