@@ -282,8 +282,22 @@ app.run(function($rootScope, $timeout) {
 	};
 });
 
-
-
+var sampleData = [
+	{company:'apple', total:23},
+	{company:'google', total:13},
+	{company:'facebook', total:33},
+	{company:'twitter', total:3},
+	{company:'comp1', total:3},
+	{company:'comp2', total:3},
+	{company:'comp3', total:3},
+];
+function testfunction(){
+	chartObject.dataset = sampleData;
+	chartObject.firstNBars = [sampleData[3], sampleData[1]]
+	console.log(chartObject.firstNBars);
+	chartObject.customColorsForFirstNBars = ['orange','green']
+	chartObject.drawChart();
+}
 
 
 
@@ -297,39 +311,76 @@ var googlefinishedloading = false;
 
 function ChartGenerator(){
 	var self = this;
+	var defaultChartWidth = 1100
+	var defaultChartHeight = 700
 	this.template = {};
 	this.template.bartitle = 'Company';
 	this.template.metric = 'PPU';
-	this.template.width = 600
-	this.template.height = 600
-	this.dataset = {};
+	this.template.width = defaultChartWidth
+	this.template.height = defaultChartHeight
+	this.defaultColor = 'gray'
+	this.customColorsForFirstNBars = []; //determines the color for the first N bars in the chart. Use hexcodes or CSS color names. This is implemented in pushDataSet
+	this.firstNBars = [];//contains the first few bars to be displayed in the data set. They will be pushed first, then ignored when the pushDataSet function loops through the rest of the data.
+	this.dataset = [];
 	this.testfunction = function(){
 		console.log("The chart object is properly constructed.");
 	}
 	this.drawChart = function() {
-		if(!googlefinishedloading | this.template){
+		if(!googlefinishedloading){
 			console.log("google api isn't finished loading yet. Or one of the variables hasn't loaded.");
 			setTimeout(self.drawChart, 250)
 			return
 		}
 		// Create the data table.
-		var data = [[this.template.bartitle, this.template.metric, { role: 'style' }]]
-		data = pushDataSet(data)
-		data = google.visualization.arrayToDataTable(data);
-		// Set chart options
-		var options = {'title':'',
-		'legend':{position:'none'},
-		'width':this.template.width,
-		'height':this.template.height};
-		// Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('chart_div')); //the div containing the chart must have this ID.
-		chart.draw(data, options);
+		try{
+			var data = [[this.template.bartitle, this.template.metric, { role: 'style' }]]
+			data = pushDataSet(data)
+			data = google.visualization.arrayToDataTable(data);
+			// Set chart options
+			var options = {'title':'',
+			'chartArea': {'width': '80%', 'height': '80%'},
+			'legend':{position:'none'},
+			'width':this.template.width,
+			'height':this.template.height};
+			// Instantiate and draw our chart, passing in some options.
+			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div')); //the div containing the chart must have this ID.
+			chart.draw(data, options);
+		}
+		catch(err){
+			console.log(err);
+			setTimeout(drawChart,250);
+		}
 	}
 
-	function pushDataSet(arr){
-		var arrayCopy = arr
-		arrayCopy.push(['Copper', 8.94, 'color: #7AC200']);
-		return arrayCopy;
+	function pushDataSet(arr){ //when we generate the data for the table, we need to account for custom colors as well as ignoring a bar if it is intentionally placed first.
+		var customColorIndex = 0
+		for(var i=0;i<self.firstNBars.length;i++){ //first push the first few bars and give them colors
+			var customColor = self.defaultColor;
+			if (self.firstNBars[i]) { //if there exists a value to put in for the first nth value, place it
+				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
+					customColor=self.customColorsForFirstNBars[customColorIndex]
+					customColorIndex++;
+				}
+				arr.push([self.firstNBars[i].company, parseInt(self.firstNBars[i].total), customColor])
+			}
+		}
+		for(var i=0;i<self.dataset.length;i++){
+			var customColor= self.defaultColor;
+			var alreadyInArray = false;
+			for(var j=0;j<self.firstNBars.length;j++){
+				if(self.dataset[i] == self.firstNBars[j]){
+					alreadyInArray = true
+				}
+			}
+			if(!alreadyInArray){
+				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
+					customColor=self.customColorsForFirstNBars[customColorIndex]
+					customColorIndex++;
+				}
+				arr.push([self.dataset[i].company, parseInt(self.dataset[i].total), "color: "+customColor])
+			}
+		}
+		return arr
 	}
 }
 
