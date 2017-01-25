@@ -312,7 +312,7 @@ var googlefinishedloading = false;
 function ChartGenerator(){
 	var self = this;
 	var defaultChartWidth = 1000
-	var defaultChartHeight = 600
+	var defaultChartHeight = 400
 	this.template = {};
 	this.template.bartitle = 'Company';
 	this.template.metric = 'PPU';
