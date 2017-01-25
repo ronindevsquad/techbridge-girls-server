@@ -1,4 +1,4 @@
-var payload, evergreen_token, socket;
+var payload, evergreen_token, socket, notifications;
 
 //////////////////////////////////////////////////////
 //										HELPER FUNCTIONS
@@ -16,6 +16,27 @@ function setPayload() {
 		}
 	}
 }
+
+// Get Dashboard notifications
+function setNotifications(callback) {
+	if(evergreen_token) {
+		$.ajax({
+			type: "GET",
+			url: `/api/users/notifications/${payload.id}`,
+			dataType: "json",
+			headers: {'authorization': `Bearer ${evergreen_token}`},
+			success: function(data) {
+				callback(data);
+			},
+			error: function(error) {
+				if (error.status == 401)
+					location.href = ("/#!/logout");
+				else
+					console.log(error)
+			}
+		});
+	}
+};
 
 // Connect to sockets:
 function setSocket() {
@@ -81,7 +102,13 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
 			$rootScope.menu = false;
 			// $rootScope.messages = [];
+			setNotifications(function(notifications){
+				$rootScope.myProposals = notifications.proposals;
+				$rootScope.myMessages = notifications.messages;
+				$rootScope.myInbox = notifications.messages;
+			});
 		}
+
 
 		setSocket();
 		if (socket) {

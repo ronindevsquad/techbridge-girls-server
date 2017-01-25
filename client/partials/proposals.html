@@ -54,7 +54,7 @@
 								</div>
 								<div class="extra">
 									<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View'}}</a>
-									<small>34 Views   |   {{proposal.applications}} Applicants   |   3 Leads</small>
+									<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
 								</div>
 							</div>
 
