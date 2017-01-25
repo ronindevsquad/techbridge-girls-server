@@ -311,8 +311,8 @@ var googlefinishedloading = false;
 
 function ChartGenerator(){
 	var self = this;
-	var defaultChartWidth = 1100
-	var defaultChartHeight = 700
+	var defaultChartWidth = 1000
+	var defaultChartHeight = 600
 	this.template = {};
 	this.template.bartitle = 'Company';
 	this.template.metric = 'PPU';

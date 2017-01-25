@@ -53,6 +53,14 @@
 
 											</div>
 										</div>
+										<div class="item">
+											<i class="instagram icon"></i>
+											<div class="content">
+												<a ng-show="!editingURLS" href="http://{{user.instagram}}">{{user.instagram}}</a><span ng-if="!user.instagram">No Twitter page yet!</span>
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.instagram" placeholder="{{user.instagram}}">
+
+											</div>
+										</div>
 										<button ng-show="!editingURLS && !viewingOtherProfile" ng-click="switchEditingURLS()" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
 										<button ng-show="editingURLS" ng-click="updateURLS()" type="button" name="button">Save</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
 										<button ng-show="editingURLS" ng-click="switchEditingURLS()" type="button" name="button">Cancel</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
@@ -67,7 +75,7 @@
 							</div> <!-- .grid -->
 						</div> <!-- noborder -->
 
-					
+
 		</section> <!-- .very padded segment -->
 
 		<div ng-include="'partials/footer.html'"></div>

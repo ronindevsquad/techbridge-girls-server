@@ -20,7 +20,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	// 	}
 	// });
 
-	proposalsFactory.index(function(data){
+	proposalsFactory.getMyProposals(function(data){
 		if (data.status == 401)
 			$scope.logout();
 		else if (data.status >= 300)
@@ -61,6 +61,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		else {
 			$scope.proposalView = id;
 			reportsFactory.index(function(data){
+				console.log(data);
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
