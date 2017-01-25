@@ -10,7 +10,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		index: function(req, res) {
-			offer.index(function(err, data) {
+			offer.index(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
