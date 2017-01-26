@@ -56,17 +56,6 @@
 							<option value="Screen Printing">Screen Printing</option>
 							<option value="Thermaforming">Thermaforming</option>
 						</select>
-						{{proposal.processes}}
-<!--
-<div class="ui fitted boxed checkbox">
-<input type="checkbox" id="item6">
-<label for="item6 ">Tooling</label>
-</div>
-
-<div class="ui fitted boxed checkbox">
-<input type="checkbox" id="item7">
-<label for="item7">Automation &amp; Test Equipment</label>
-</div> -->
 
 <div class="ui horizontal divider"></div>
 
@@ -207,22 +196,20 @@
 
 		<div id="documents" class="ui relaxed items">
 			<div class="item">
-				<a ng-click="appendInputToDocuments()" href="">
-				<div class="ui tiny image">
-					<div class="plus">
-						+
-					</div> <!-- .plus -->
-				</div>
-				</a>
+				<label ng-file-select="uploadFiles($files)" >
+					<div class="ui tiny image">
+						<div class="plus">
+							+
+						</div>
+					</div>
+				</label>
+
 				<div class="middle aligned content">
-					<div>Upload Documents</div>
+					<div>Upload Documents (you may select multiple files)</div>
 					<small class="footnote">(Ex. file types: CAD, Drawings, Renders)</small>
 				</div>
 			</div> <!-- .item -->
-			<div ng-repeat="documentinput in documentinputs">
-				<input  type="file" name="document" value="">
-				<a href="" ng-click="remove(documentinput)">remove</a>
-			</div>
+			<small ng-show="proposal.docs.length>0">Selected file(s): <span ng-repeat="file in files track by $index">{{file.name}}<span ng-if="$index<files.length-1">, </span></span></small>
 		</div> <!-- .items -->
 
 		<div class="ui horizontal divider"></div>
