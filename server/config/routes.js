@@ -46,6 +46,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
 		{name:'NDA', maxCount:1}]), proposals.create);
+  app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
 
 
 	//OFFERS

@@ -24,7 +24,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 			formData.append("file",document.getElementById('ndaInput').files[i])
 		}
 		var request = new XMLHttpRequest();
-		request.open("POST", "/upload");
+		request.open("POST", "/uploadfiles");
 		request.onload = function(){
 			var filesarray = JSON.parse(this.responseText);
 			$scope.proposal.filesarray = filesarray;

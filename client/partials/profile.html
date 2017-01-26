@@ -26,14 +26,14 @@
 											<i class="world icon"></i>
 											<div class="content">
 												<a ng-show="!editingURLS" href="http://{{user.homepage}}">{{user.homepage}}</a><span ng-if="!user.homepage">No home page yet!</span>
-												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.homepage" placeholder="{{user.homepage}}">
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.homepage" placeholder="{{user.homepage}}">
 											</div>
 										</div>
 										<div class="item">
 											<i class="linkedin icon"></i>
 											<div class="content">
 												<a ng-show="!editingURLS" href="http://{{user.linkedin}}">{{user.linkedin}}</a><span ng-if="!user.linkedin">No LinkedIn page yet!</span>
-												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.linkedin" placeholder="{{user.linkedin}}">
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.linkedin" placeholder="{{user.linkedin}}">
 
 											</div>
 										</div>
@@ -41,7 +41,7 @@
 											<i class="facebook f icon"></i>
 											<div class="content">
 												<a ng-show="!editingURLS" href="http://{{user.facebook}}">{{user.facebook}}</a><span ng-if="!user.facebook">No Facebook page yet!</span>
-												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.facebook" placeholder="{{user.facebook}}">
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.facebook" placeholder="{{user.facebook}}">
 
 											</div>
 										</div>
@@ -49,7 +49,7 @@
 											<i class="twitter icon"></i>
 											<div class="content">
 												<a ng-show="!editingURLS" href="http://{{user.twitter}}">{{user.twitter}}</a><span ng-if="!user.twitter">No Twitter page yet!</span>
-												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.twitter" placeholder="{{user.twitter}}">
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.twitter" placeholder="{{user.twitter}}">
 
 											</div>
 										</div>
@@ -57,7 +57,7 @@
 											<i class="instagram icon"></i>
 											<div class="content">
 												<a ng-show="!editingURLS" href="http://{{user.instagram}}">{{user.instagram}}</a><span ng-if="!user.instagram">No Twitter page yet!</span>
-												<input ng-show="editingURLS" type="text" name="homepage" ng-model="urls.instagram" placeholder="{{user.instagram}}">
+												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.instagram" placeholder="{{user.instagram}}">
 
 											</div>
 										</div>
