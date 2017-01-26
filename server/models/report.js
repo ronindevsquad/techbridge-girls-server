@@ -25,13 +25,16 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getReportsForProposal: function(req, callback) {
-			console.log(req.params.id);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT reports.*, HEX(offers.proposal_id) as 'proposal_id' FROM evergreendb.proposals JOIN offers ON offers.proposal_id = proposals.id JOIN reports on reports.offer_id = offers.id where HEX(proposals.id) = ?" //WHERE id = 'proposal.id'
+						console.log("here");
+						// var query = "SELECT reports.*, HEX(offers.proposal_id) as 'proposal_id' FROM evergreendb.proposals \
+						// JOIN offers ON offers.proposal_id = proposals.id JOIN reports on reports.offer_id = offers.id \
+						// where HEX(proposals.id) = ?"
+						var query = "SELECT *, HEX(proposal_id) AS 'proposal_id' FROM reports WHERE HEX(proposal_id) = ?"
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {

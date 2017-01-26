@@ -33,7 +33,7 @@
 					<div class="ui resulted items">
 
 						<div ng-repeat="proposal in proposals" class="ui resulted items">
-							<div class="item" ng-class="proposalView == proposal.id ? 'ui segment opened' : ''"> <!-- ui segment opened -->
+							<div class="item" ng-class="proposalView == proposal ? 'ui segment opened' : ''"> <!-- ui segment opened -->
 								<div class="ui tiny image">
 									<img src="static/img/husky-logo.png" class="ui centered image" />
 								</div>
@@ -56,11 +56,11 @@
 									</div>
 								</div>
 								<div class="extra flex">
-									<a ng-click="getReports(proposal.id);" ng-class="proposalView==proposal.id ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal.id ? 'Close':'Details'}}</a>
+									<a ng-click="getReports(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'Details'}}</a>
 								</div>
 							</div>
 
-							<div ng-show="proposalView == proposal.id" class="detail-panel">
+							<div ng-show="proposalView == proposal" class="detail-panel">
 
 								<div class="ui padded segment">
 									<div class="ui grid">
@@ -69,15 +69,26 @@
 												<ul class="timeline items">
 													<li>Start Date</li>
 													<li ng-repeat="report in reports" ng-class="{'working': report.status == 0, 'done': $last && report.status == 1}">January 27th, 2016</li>
+													<li class="working"></li>
+													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li>
 												</ul>
 											</div>
 										</div>
 										<div class="twelve wide column">
 											<ul class="detailed items">
 												<li>
+													<div class="actions">
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
+													</div>
 													Started production
 												</li>
 												<li ng-repeat="report in reports">
+													<div class="actions">
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
+													</div>
+													{{report.output}}
+												</li>
+												<li>
 													<div class="actions">
 														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
 														<script type="text/javascript">
@@ -90,8 +101,9 @@
 															});
 														</script>
 													</div>
-													{{report.output}}
+													In Progress...
 												</li>
+												<li>&nbsp;</li>
 											</ul>
 										</div>
 									</div>
