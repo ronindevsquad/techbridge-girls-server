@@ -82,7 +82,10 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
+			console.log(req.file);
 			console.log(req.files);
+			console.log(req.body.docs)
+			return
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
