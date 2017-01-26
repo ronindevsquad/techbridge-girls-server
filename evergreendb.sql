@@ -18,35 +18,6 @@ USE `evergreendb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `attachments`
---
-
-DROP TABLE IF EXISTS `attachments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attachments` (
-  `id` binary(16) NOT NULL,
-  `attachment` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_attachments_proposals1_idx` (`proposal_id`),
-  CONSTRAINT `fk_attachments_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `attachments`
---
-
-LOCK TABLES `attachments` WRITE;
-/*!40000 ALTER TABLE `attachments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `attachments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `banks`
 --
 
@@ -108,13 +79,13 @@ LOCK TABLES `cards` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `documents`
+-- Table structure for table `files`
 --
 
-DROP TABLE IF EXISTS `documents`;
+DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `documents` (
+CREATE TABLE `files` (
   `filename` varchar(200) NOT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -122,18 +93,18 @@ CREATE TABLE `documents` (
   `proposal_id` binary(16) NOT NULL,
   PRIMARY KEY (`filename`),
   UNIQUE KEY `filename_UNIQUE` (`filename`),
-  KEY `fk_attachments_proposals1_idx` (`proposal_id`),
-  CONSTRAINT `fk_attachments_proposals10` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_files_proposals1_idx` (`proposal_id`),
+  CONSTRAINT `fk_files_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `documents`
+-- Dumping data for table `files`
 --
 
-LOCK TABLES `documents` WRITE;
-/*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-/*!40000 ALTER TABLE `documents` ENABLE KEYS */;
+LOCK TABLES `files` WRITE;
+/*!40000 ALTER TABLE `files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -524,4 +495,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-25 17:05:15
+-- Dump completed on 2017-01-25 20:24:45
