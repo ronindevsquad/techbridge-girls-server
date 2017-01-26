@@ -28,19 +28,8 @@ app.factory('proposalsFactory', function($http, $cookies) {
 			});
 		},
 		create: function(data, callback) {
-console.log(data)
-			var fd = new FormData();
-			console.log(fd)
-			fd.append("file", data);
-			$http({
-				url: '/api/proposals',
-				method: "POST",
-				headers: {
-					'Authorization': `Bearer ${$cookies.get('evergreen_token')}`,
-					'Content-Type': undefined
-				},
-				transformRequest: angular.identity,
-				data: fd
+			$http.post(`/api/proposals`, data, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
 			}, function(res) {

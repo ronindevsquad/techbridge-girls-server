@@ -39,6 +39,7 @@ $scope.switchEditingURLS = function(){
 	$scope.editingURLS? $scope.editingURLS=false:$scope.editingURLS=true
 }
 $scope.updateURLS = function(){
+	console.log($scope.urls);
 	if(true){
 		urlsFactory.create($scope.urls, function(data){
 			console.log(data);
