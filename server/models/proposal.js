@@ -12,7 +12,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p \
-						JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
+						LEFT OUTER JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
 						return connection.execute(query);
 					})
 					.spread(data => {
@@ -101,7 +101,7 @@ module.exports = function(jwt_key) {
 					})
 					.then(() => {
 						return using(getConnection(), connection => {
-							var data = [0, req.body.product, req.body.quantity, req.body.completion, req.body.zip, 
+							var data = [0, req.body.product, req.body.quantity, req.body.completion, req.body.zip,
 							req.body.audience, req.body.info, payload.id];
 							var query = "INSERT INTO proposals id = @temp, status = ?, product = ?, quantity = ?, \
 							completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), created_at = NOW(), \
