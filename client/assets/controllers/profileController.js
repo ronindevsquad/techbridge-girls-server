@@ -39,9 +39,8 @@ $scope.switchEditingURLS = function(){
 	$scope.editingURLS? $scope.editingURLS=false:$scope.editingURLS=true
 }
 $scope.updateURLS = function(){
-	console.log($scope.urls);
 	if(true){
-		urlsFactory.create($scope.urls, function(data){
+		urlsFactory.create($scope.user, function(data){
 			console.log(data);
 			$scope.switchEditingURLS()
 			$scope.requestProfile()

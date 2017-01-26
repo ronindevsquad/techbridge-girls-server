@@ -1,5 +1,4 @@
 var multer = require('multer');
-// var upload = multer({dest: "uploads/"});
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './uploads')
@@ -15,9 +14,6 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage: storage});
 
-// var multer = require('multer');
-// var upload = multer({ dest: './uploads'});
-
 module.exports = function(app, jwt_key) {
 	var users = require('../controllers/users.js')(jwt_key);
 	var urls = require('../controllers/urls.js')(jwt_key);
@@ -26,14 +22,14 @@ module.exports = function(app, jwt_key) {
 	var processes = require('../controllers/processes')(jwt_key);
 	var offers = require('../controllers/offers')(jwt_key);
 	var reports = require('../controllers/reports')(jwt_key);
-
+	var messages = require('../controllers/messages')(jwt_key);
 
 	// USERS
 	app.get('/api/users/:id', users.show);
 	app.get('/api/users/notifications/:id', users.notifications);
 	app.put('/api/users', users.update);
 	app.delete('/api/users', users.delete);
-	app.put('/users/changePassword', users.changePassword);
+	app.put('/api/users/changePassword', users.changePassword);
 	app.post('/users/register', users.register);
 	app.post('/users/login', users.login);
 
@@ -46,7 +42,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
 		{name:'NDA', maxCount:1}]), proposals.create);
-
+  app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
@@ -60,4 +56,10 @@ module.exports = function(app, jwt_key) {
 
 	// PROCESSES
 	app.post('/api/processes/set', processes.set);
+
+	// MESSAGES
+	app.get('/api/messages', messages.index);
+	app.get('/api/messages/:id', messages.show);
+	app.post('/api/messages', messages.create);
+
 }

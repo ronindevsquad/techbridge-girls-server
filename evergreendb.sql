@@ -404,7 +404,7 @@ CREATE TABLE `urls` (
   `facebook` varchar(255) DEFAULT NULL,
   `instagram` varchar(255) DEFAULT NULL,
   `linkedin` varchar(255) DEFAULT NULL,
-  `twiiter` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -484,6 +484,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('\Û,I#\ã–\æ…~ H\Â|2',0,'maker','maker','maker@maker.com','$2a$10$qWcHMAD5fBl8QVaHPxTIgu3GBoOeuqunYZj.lQmBu/KUvVG5/Wxwi',NULL,NULL,NULL,'2017-01-25 23:12:20','2017-01-25 23:12:20');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -496,4 +497,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-25 23:04:54
+-- Dump completed on 2017-01-26 13:31:56

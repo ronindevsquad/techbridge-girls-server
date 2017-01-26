@@ -17,7 +17,7 @@ function setPayload() {
 	}
 }
 
-// Get Dashboard notifications
+// // Get Dashboard notifications
 function setNotifications(callback) {
 	if(evergreen_token) {
 		$.ajax({
@@ -55,9 +55,9 @@ function setSocket() {
 			},
 			error: function(error) {
 				if (error.status == 401)
-				location.href = ("/#!/logout");
+					location.href = ("/#!/logout");
 				else
-				console.log(error)
+					console.log(error)
 			}
 		});
 	}
