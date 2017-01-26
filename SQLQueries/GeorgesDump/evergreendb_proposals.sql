@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
 --
 -- Host: 127.0.0.1    Database: evergreendb
 -- ------------------------------------------------------
--- Server version	5.5.49-log
+-- Server version	5.5.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -49,7 +49,7 @@ CREATE TABLE `proposals` (
 
 LOCK TABLES `proposals` WRITE;
 /*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
-INSERT INTO `proposals` VALUES ('5	\›\·\ƒ\ÊÉHê+4´\"',0,'fedoras',2000,'2017-06-14 13:34:10',95112,NULL,NULL,NULL,NULL,'2017-01-23 15:32:30','2017-01-23 15:32:30','≠ú;π\·≥\ÊÉHê+4´\"'),('\√\”$¶\·µ\ÊÉHê+4´\"',0,'fleshlights',101,'2017-02-23 13:34:10',94551,NULL,NULL,NULL,NULL,'2017-01-23 13:49:07','2017-01-23 13:49:07','≠ú;π\·≥\ÊÉHê+4´\"'),('\ÿg£®\·µ\ÊÉHê+4´\"',0,'sex dolls',50,'2017-05-23 13:34:10',95112,NULL,NULL,NULL,NULL,'2017-01-23 13:49:41','2017-01-23 13:49:41','≠ú;π\·≥\ÊÉHê+4´\"');
+INSERT INTO `proposals` VALUES ('	\Ï66\‡f\ÊÅ˛\Ìrq\ﬁ\nì',0,'Fleshlights',101,'2017-03-21 17:41:33',95112,NULL,'Need Asap',NULL,NULL,'2017-01-21 21:45:53','2017-01-21 21:45:53','\Á\ÂW∫\‡C\ÊÅ˛\Ìrq\ﬁ\nì'),('\Á_Ü\‚ö\Êì]3Wâ\\/',0,'butt plugs',9500,'2017-09-29 17:09:21',NULL,NULL,'dummy',NULL,NULL,'2017-01-24 17:09:21','2017-01-24 17:09:21','\ÁKr|\‚ö\Êì]3Wâ\\/'),('˝X\n.\‡g\ÊÅ˛\Ìrq\ﬁ\nì',0,'Blow Up Dolls',50,'2017-04-21 17:41:33',95112,NULL,'Extra tight please',NULL,NULL,'2017-01-21 21:59:51','2017-01-21 21:59:51','\Á\ÂW∫\‡C\ÊÅ˛\Ìrq\ﬁ\nì');
 /*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -62,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-23 18:16:28
+-- Dump completed on 2017-01-25 21:23:20
