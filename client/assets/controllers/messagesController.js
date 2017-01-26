@@ -2,20 +2,15 @@ app.controller('messagesController', function ($scope, $rootScope, $location, $t
 offersFactory, messagesFactory) {
 	if (payload) {
 		$scope.tab = "messages";
-
-		// offersFactory.index(function(data) {
-		// 	if (data.errors)
-		// 		console.log(data.errors);
-		// 	else {
-		// 		$scope.offers = data;
-		// 	}
-		// });
-		if ($scope.type == 0) {
-
-		}
-		else if ($scope.type == 1) {
-
-		}
+		messagesFactory.index(function(data) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				
+			}
+		});
 	}	
 	else
 		$location.url('/');
