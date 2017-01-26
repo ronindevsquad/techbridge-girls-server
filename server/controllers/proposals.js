@@ -26,12 +26,22 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, res) {
+			console.log("=======REQUEST BODY=======");
+			console.log(req.body);
 			proposal.create(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
 					res.json(data);
 			});
-		}
+		},
+		uploadfiles: function(req, res) {
+			proposal.uploadfiles(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 	}
 }
