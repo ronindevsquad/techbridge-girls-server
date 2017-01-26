@@ -90,69 +90,60 @@ module.exports = function(jwt_key) {
 				req.body.overhead === undefined || req.body.total === undefined || req.body.sga < 0 ||
 				req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 					return callback({status: 400, message: "All form fields are required."});
-				else {
-					console.log("validation done.")
-					// new Promise(function(resolve, reject) {
-					// 	var data = {
-					// 		status: 0,
-					// 		sga: req.body.sga,
-					// 		profit: req.body.profit,
-					// 		overhead: req.body.overhead,
-					// 		total: req.body.total,
-					// 		created_at: "NOW()",
-					// 		updated_at: "NOW()",
-					// 		proposal_id: `UNHEX('${req.body.proposal_id}')`,
-					// 		user_id: `UNHEX('${payload.id}')`
-					// 	}
-					// 	connection.query("INSERT INTO offers SET ?", data, function(err) {
-					// 		if (err)
-					// 			return reject(err);
-					// 		return resolve();
-					// 	});
-					// }).then()
-				}
-				// 	connection.query("INSERT INTO offers SET ?", data, function(err) {
-				// 		if (err)
-				// 			callback({status: 400, message: "Please contact an admin."});
-				// 		else {
-				// 			var data = {
-				// 				id: "UNHEX(REPLACE(UUID(), '-', ''))",
-				// 				material: req.body.material,
-				// 				material_cost: req.body.material_cost,
-				// 				unit_cost: req.body.unit_cost,
-				// 				created_at: "NOW()",
-				// 				updated_at: "NOW()",
-				// 				proposal_id: `UNHEX('${req.body.proposal_id}')`,
-				// 				user_id: `UNHEX('${payload.id}')`
-				// 			}
-				// 			connection.query("INSERT INTO materials SET ?", data, function(err) {
-				// 				if (err)
-				// 					callback({status: 400, message: "Please contact an admin."});
-				// 				else {
-				// 					var data = {
-				// 						id: "UNHEX(REPLACE(UUID(), '-', ''))",
-				// 						machine: req.body.machine,
-				// 						cycle_time: req.body.cycle_time,
-				// 						yield: req.body.yield,
-				// 						rate: req.body.rate,
-				// 						laborers: req.body.laborers,
-				// 						created_at: "NOW()",
-				// 						updated_at: "NOW()",
-				// 						proposal_id: `UNHEX('${req.body.proposal_id}')`,
-				// 						user_id: `UNHEX('${payload.id}')`
-				// 					}
-				// 					connection.query("INSERT INTO machines SET ?", data, function(err) {
-				// 						if (err)
-				// 							callback({status: 400, message: "Please contact an admin."});
-				// 						else {
-				// 							callback(false);
-				// 						}
-				// 					});
-				// 				}
-				// 			});
-				// 		}
-				// 	})
-				// }
+
+				// Validation done, insert into offers:
+				else
+					using(getConnection(), connection => {
+						var data = [req.body.sga, req.body.profit, req.body.overhead, req.body.total,
+						req.body.proposal_id, payload.id];
+						var query = "INSERT INTO offers set status = 0, sga = ?, profit = ?, overhead = ?, \
+						total = ?, created_at = NOW(), updated_at = NOW(), proposal_id = UNHEX(?), \
+						user_id = UNHEX(?)"
+						return connection.execute(query, data);
+					})
+					.then(() => {
+						// Insert materials:
+						return Promise.join(using(getConnection(), connection => {
+							var data = [];
+							for (var i = 0; i < req.body.materials.length; i++) {
+								var material = req.body.materials[i];
+								data.push(["UNHEX(REPLACE(UUID(), '-', ''))", material.material, material.weight,
+									material.cost, "NOW()", "NOW()", req.body.proposal_id, payload.id]);
+							}
+							var query = "INSERT INTO materials (id, material, weight, cost, created_at, \
+							updated_at, proposal_id, user_id) VALUES ?";
+							return connection.query(query, data);
+						// Insert machines:
+						}), using(getConnection(), connection => {
+							var data = [];
+							for (var i = 0; i < req.body.machines.length; i++) {
+								var machine = req.body.machines[i];
+								data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 0, machine.labor, machine.time,
+									machine.yield, machine.rate, machine.count, "NOW()", "NOW()",
+									req.body.proposal_id, payload.id]);
+							}
+							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, \
+							count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+							return connection.query(query, data);
+						// Insert manuals:
+						}), using(getConnection(), connection => {
+							var data = [];
+							for (var i = 0; i < req.body.manuals.length; i++) {
+								var manual = req.body.manuals[i];
+								data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 0, manual.labor, manual.time,
+									manual.yield, manual.rate, manual.count, "NOW()", "NOW()",
+									req.body.proposal_id, payload.id]);
+							}
+							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, \
+							count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+							return connection.query(query, data);
+						}), () => {
+							callback(false);
+						});
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
 			});
 		}
 	}

@@ -1,8 +1,9 @@
 app.factory('urlsFactory', function($http, $cookies) {
 	return {
 		create: function (data, callback){
-			$http.post('/apis/urls', data)
-			.then(function(res) {
+			$http.post('/api/urls', data, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);

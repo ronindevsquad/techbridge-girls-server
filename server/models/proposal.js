@@ -1,8 +1,19 @@
 var Promise = require("bluebird");
+var fs = require('fs');
 var using = Promise.using;
 var getConnection = require("../config/mysql");
 var jwt = require('jsonwebtoken');
-
+var aws = require('aws-sdk');
+aws.config.update({
+accessKeyId: "AKIAIFF4LTNLXH75IA2A",
+secretAccessKey: "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",
+region: "us-west-1"
+});
+var s3 = new aws.S3();
+var sig = require('amazon-s3-url-signer');
+var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF', {
+	host : 's3-us-west-1.amazonaws.com'
+});
 module.exports = function(jwt_key) {
 	return {
 		getMyProposals: function(req, callback) {
@@ -22,6 +33,56 @@ module.exports = function(jwt_key) {
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
+		},
+		uploadfiles: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err){
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				}
+				else{
+					function uploadFilesArray(index){ //upload all files using recursion because loops don't work for uploading to s3 buckets asynchronously
+						if(index==undefined){
+							index = 0
+						}
+						if(index==req.files.length){
+							return
+						}
+						fs.readFile(req.files[index].path, (err, data) => {
+							// if(err){console.log(err); callback(err);}
+							var filename = req.files[index].filename
+							var mimetype = req.files[index].mimetype
+							s3.putObject({
+								Bucket: "ronintestbucket/testfolder",
+								Key: req.files[index].filename,
+								Body: data,
+								ContentType: req.files[index].mimetype
+							}, function(err, success){
+								if (err){
+									console.log(err);
+								}
+								else {
+									console.log("==amazon upload success ETag=="); //
+									console.log(success); //
+									console.log("============"); //
+									fs.unlink(req.files[index].path, function(err){
+										if(err){
+											console.log(err);
+										}
+									});
+									uploadFilesArray(index+1)
+								}
+							}); //end s3 uploading file
+						}); //end of fs.readfile
+					}
+					uploadFilesArray()
+					var uploadedFileNames = []
+					for(var i=0;i<req.files.length-1;i++){ //this for loop should be temporary. A filename should only be appended to the array IF it was uploaded successfully. (elliot) could not figure out how to append items to an array within recursion
+						uploadedFileNames.push({type:0, filename:req.files[i].filename})
+					}
+					uploadedFileNames.push({type:1, filename:req.files[req.files.length-1].filename})
+					callback(false, {uploadedfiles:uploadedFileNames})
+				} //end of else statement
+			}); //end of jwt verify
 		},
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
@@ -82,7 +143,6 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-			console.log(req.files);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});

@@ -18,39 +18,6 @@ USE `evergreendb`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `addresses`
---
-
-DROP TABLE IF EXISTS `addresses`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `addresses` (
-  `street` varchar(45) DEFAULT NULL,
-  `street_ext` varchar(45) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `state` varchar(2) DEFAULT NULL,
-  `zip` int(11) DEFAULT NULL,
-  `country` varchar(45) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  PRIMARY KEY (`proposal_id`),
-  UNIQUE KEY `proposal_id_UNIQUE` (`proposal_id`),
-  KEY `fk_addresses_proposals1_idx` (`proposal_id`),
-  CONSTRAINT `fk_addresses_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `addresses`
---
-
-LOCK TABLES `addresses` WRITE;
-/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `attachments`
 --
 
@@ -138,6 +105,35 @@ CREATE TABLE `cards` (
 LOCK TABLES `cards` WRITE;
 /*!40000 ALTER TABLE `cards` DISABLE KEYS */;
 /*!40000 ALTER TABLE `cards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `documents`
+--
+
+DROP TABLE IF EXISTS `documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `documents` (
+  `filename` varchar(200) NOT NULL,
+  `type` tinyint(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `proposal_id` binary(16) NOT NULL,
+  PRIMARY KEY (`filename`),
+  UNIQUE KEY `filename_UNIQUE` (`filename`),
+  KEY `fk_attachments_proposals1_idx` (`proposal_id`),
+  CONSTRAINT `fk_attachments_proposals10` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `documents`
+--
+
+LOCK TABLES `documents` WRITE;
+/*!40000 ALTER TABLE `documents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -244,11 +240,8 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `id` binary(16) NOT NULL,
+  `message` varchar(1000) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
-  `pdf_attach_s` varchar(45) DEFAULT NULL,
-  `pdf_attach_m` varchar(45) DEFAULT NULL,
-  `jpg_attach_s` varchar(45) DEFAULT NULL,
-  `jpg_attach_m` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
@@ -267,35 +260,6 @@ CREATE TABLE `messages` (
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `ndas`
---
-
-DROP TABLE IF EXISTS `ndas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ndas` (
-  `id` binary(16) NOT NULL,
-  `nda` varchar(100) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_attachments_proposals1_idx` (`proposal_id`),
-  CONSTRAINT `fk_attachments_proposals10` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ndas`
---
-
-LOCK TABLES `ndas` WRITE;
-/*!40000 ALTER TABLE `ndas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ndas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -526,15 +490,17 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` binary(16) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `company` varchar(45) DEFAULT NULL,
   `contact` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `picture` varchar(45) DEFAULT NULL,
+  `country` varchar(45) DEFAULT NULL,
+  `zip` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`email`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -558,4 +524,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-24 13:37:43
+-- Dump completed on 2017-01-25 17:05:15

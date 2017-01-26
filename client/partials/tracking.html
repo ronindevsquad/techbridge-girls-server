@@ -47,8 +47,8 @@
 												<img src="static/img/flag.png" width="13" />
 											</div>
 											<div class="ui indicating progress" data-percent="74">
-												<div class="bar">
-													<div class="progress"></div>
+												<div class="bar" style="width: {{percentCompleted(proposal)}}%">
+													<div class="progress"><span ng-if="reports">{{percentCompleted(proposal)}}%</span></div>
 												</div>
 											</div>
 											<small>24 days left</small>
@@ -68,7 +68,7 @@
 											<div class="vertical timeline">
 												<ul class="timeline items">
 													<li>Start Date</li>
-													<li ng-repeat="report in reports" ng-class="{'working': $odd, 'done': $last}">January 27th, 2016</li>
+													<li ng-repeat="report in reports" ng-class="{'working': report.status == 0, 'done': $last && report.status == 1}">January 27th, 2016</li>
 												</ul>
 											</div>
 										</div>

@@ -1,9 +1,11 @@
 var multer = require('multer');
+// var upload = multer({dest: "uploads/"});
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './uploads')
 	},
 	filename: function (req, file, cb) {
+		console.log(req);
 		console.log(file);
 		cb(null, new Date().toISOString().
     replace(/T/, ' ').      // replace T with a space
@@ -13,6 +15,9 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage: storage});
 
+// var multer = require('multer');
+// var upload = multer({ dest: './uploads'});
+
 module.exports = function(app, jwt_key) {
 	var users = require('../controllers/users.js')(jwt_key);
 	var urls = require('../controllers/urls.js')(jwt_key);
@@ -21,6 +26,7 @@ module.exports = function(app, jwt_key) {
 	var processes = require('../controllers/processes')(jwt_key);
 	var offers = require('../controllers/offers')(jwt_key);
 	var reports = require('../controllers/reports')(jwt_key);
+
 
 	// USERS
 	app.get('/api/users/:id', users.show);
@@ -41,6 +47,7 @@ module.exports = function(app, jwt_key) {
 	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
 		{name:'NDA', maxCount:1}]), proposals.create);
 
+
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
 	app.get('/api/offers/:proposal_id', offers.index);
@@ -48,6 +55,7 @@ module.exports = function(app, jwt_key) {
 
 	// REPORTS
 	app.get('/api/reports', reports.index)
+	app.get('/api/reports/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
 
 	// PROCESSES

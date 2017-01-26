@@ -28,7 +28,7 @@ app.factory('proposalsFactory', function($http, $cookies) {
 			});
 		},
 		create: function(data, callback) {
-			$http.post('/api/proposals', data, {
+			$http.post(`/api/proposals`, data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
