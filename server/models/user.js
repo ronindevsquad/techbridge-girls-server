@@ -27,6 +27,29 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
+		notifications: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u \
+							LEFT OUTER JOIN proposals p on u.id = p.user_id \
+							LEFT OUTER JOIN messages m on u.id = m.user_id \
+							WHERE HEX(u.id) = ? GROUP BY u.id";
+						return connection.execute(query, [req.params.id]);
+					})
+					.spread(data => {
+						if (data.length != 1)
+							callback({status: 400, message: "Could not find user."});
+						else
+							callback(false, data[0]);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
 		update: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)

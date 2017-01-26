@@ -79,9 +79,9 @@
 												</li>
 												<li ng-repeat="report in reports">
 													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="add-note" ng-show="type==1" href="">Add Note</a>
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
 														<script type="text/javascript">
-															$('.add-note').click(function(){
+															$('.open-modal').click(function(){
 																$('.ui.modal').modal('show');
 															});
 
@@ -154,7 +154,6 @@
 			<div class="field sixteen wide column">&nbsp;</div>
 		</form>
 	</div>
-
 </div>
 
 <script src="static/js/modal.js"></script>

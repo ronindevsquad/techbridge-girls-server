@@ -30,6 +30,7 @@ module.exports = function(app, jwt_key) {
 
 	// USERS
 	app.get('/api/users/:id', users.show);
+	app.get('/api/users/notifications/:id', users.notifications);
 	app.put('/api/users', users.update);
 	app.delete('/api/users', users.delete);
 	app.put('/users/changePassword', users.changePassword);
@@ -43,8 +44,9 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
-	app.post('/api/proposals', proposals.create);
-	app.post('/upload', upload.array("file"), proposals.uploadfiles);
+	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
+		{name:'NDA', maxCount:1}]), proposals.create);
+
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);

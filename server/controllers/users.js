@@ -9,6 +9,14 @@ module.exports = function(jwt_key) {
 					res.json(data);
 			});
 		},
+		notifications: function(req, res) {
+			user.notifications(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		update: function(req, res) {
 			user.update(req, function(err, data) {
 				if (err)
@@ -48,6 +56,6 @@ module.exports = function(jwt_key) {
 				else
 					res.cookie('evergreen_token', data).end();
 			});
-		}	
+		}
 	}
 }
