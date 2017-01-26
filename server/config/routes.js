@@ -1,22 +1,22 @@
-// var multer = require('multer');
-// // var upload = multer({dest: "uploads/"});
-// var storage = multer.diskStorage({
-// 	destination: function (req, file, cb) {
-// 		cb(null, './uploads')
-// 	},
-// 	filename: function (req, file, cb) {
-// 		console.log(req);
-// 		console.log(file);
-// 		cb(null, new Date().toISOString().
-//     replace(/T/, ' ').      // replace T with a space
-//     replace(/\..+/, '').     // delete the dot and everything after)
-//     replace(" ", '')  + '-' + file.originalname);
-// 	}
-// });
-// var upload = multer({storage: storage});
-
 var multer = require('multer');
-var upload = multer({ dest: './uploads'});
+// var upload = multer({dest: "uploads/"});
+var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, './uploads')
+	},
+	filename: function (req, file, cb) {
+		console.log(req);
+		console.log(file);
+		cb(null, new Date().toISOString().
+    replace(/T/, ' ').      // replace T with a space
+    replace(/\..+/, '').     // delete the dot and everything after)
+    replace(" ", '')  + '-' + file.originalname);
+	}
+});
+var upload = multer({storage: storage});
+
+// var multer = require('multer');
+// var upload = multer({ dest: './uploads'});
 
 module.exports = function(app, jwt_key) {
 	var users = require('../controllers/users.js')(jwt_key);
@@ -26,6 +26,7 @@ module.exports = function(app, jwt_key) {
 	var processes = require('../controllers/processes')(jwt_key);
 	var offers = require('../controllers/offers')(jwt_key);
 	var reports = require('../controllers/reports')(jwt_key);
+
 
 	// USERS
 	app.get('/api/users/:id', users.show);
@@ -42,8 +43,8 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
-	// app.post('/api/proposals', proposals.create);
-	app.post('/upload', upload.array("files"), proposals.create);
+	app.post('/api/proposals', proposals.create);
+	app.post('/upload', upload.array("file"), proposals.uploadfiles);
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
@@ -52,6 +53,7 @@ module.exports = function(app, jwt_key) {
 
 	// REPORTS
 	app.get('/api/reports', reports.index)
+	app.get('/api/reports/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
 
 	// PROCESSES

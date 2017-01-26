@@ -2,7 +2,9 @@
   "name": "gdnd",
   "description": "",
   "dependencies": {
+    "amazon-s3-url-signer": "^0.1.0",
     "atob": "^2.0.3",
+    "aws-sdk": "^2.8.0",
     "bcrypt": "^0.8.7",
     "bluebird": "^3.4.7",
     "body-parser": "^1.13.1",
