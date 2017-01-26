@@ -54,7 +54,7 @@
 								</div>
 								<div class="extra">
 									<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View'}}</a>
-									<small>34 Views   |   {{proposal.applications}} Applicants   |   3 Leads</small>
+									<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
 								</div>
 							</div>
 
@@ -104,12 +104,26 @@
 
 															<div class="details-item">
 																<p class="footnote">Delivery date</p>
-																<div class="details-value"><i class="calendar outline icon op50"></i> {{offerView.updated_at | date:"dd.MM.y"}}</div>
+																<div class="details-value"><i class="calendar outline icon op50"></i> {{proposalView.completion | date:"dd.MM.y"}}</div>
 															</div>
 
 															<div class="details-item">
 																<p class="footnote">Offer Details</p>
-																<div class="details-value"><a href="" title="View full offer">View full offer</a></div>
+																<div class="details-value"><a href="" class="open-modal" title="View full offer">View full offer</a></div>
+																<script type="text/javascript">
+
+																	$('.coupled.modal').modal({
+																	    allowMultiple: false
+																	  });
+																	$('.open-modal').click(function(){
+																		$('.first.modal').modal('show');
+																	});
+																	$('.second.modal').modal(
+																		'attach events',
+																		$('.first.modal form').submit()
+																	);
+
+																</script>
 															</div>
 														</div>
 
@@ -118,7 +132,7 @@
 
 														<div class="ui horizontal divider"></div>
 
-														<a ng-class="color" href="" class="ui big evergreen uppercase button">Accept Offer</a>
+														<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept Offer</a>
 
 													</div>
 
@@ -243,7 +257,7 @@
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
 							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">Message</a>
+							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">View Offer</a>
 						</div> <!-- segment -->
 
 						<div class="ui right aligned grid">
@@ -279,4 +293,86 @@
 
 
 	<script src="static/js/green.js"></script>
+</div>
+
+<!-- Modal -->
+<div class="ui small first coupled modal sixteen centered grid">
+		<div class="five wide column" style="background-color: #47535F">
+			<div class="ui sixteen centered grid">
+				<div class="ui image sixteen wide column">
+					<img src="static/img/shield.png" class="ui centered image" />
+				</div>
+				<div class="sixteen wide column" style="color: white; text-align: center">
+					<p>Evergreen is 100%</p>
+				</div>
+				<div class="sixteen wide column" style="color: white; text-align: center">
+					<p>Safe & Secure</p>
+				</div>
+			</div>
+		</div>
+		<div class="ten wide column">
+			<div class="actions" style="float: right">
+				<div class="ui cancel button"><i class="remove icon"></i></div>
+			</div>
+			<div class="header six wide column">
+				<h2>Accept offer</h2>
+			</div>
+			<div class="ui ten centered grid">
+				<div class="five wide column">
+					<h5>Deliver Date</h5>
+					<p>{{proposalView.completion | date:"dd.MM.y"}}</p>
+				</div>
+				<div class="five wide column">
+					<h5>Sub-total</h5>
+					<p>$ {{offerView.total}}</p>
+				</div>
+			</div>
+			<div class="field sixteen wide column">&nbsp;</div>
+			<form ng-submit="acceptOffer();" class="ui form open-modal2">
+				<div class="field sixteen wide column">
+					<label>You will receive an invoice for the total amount of:</label>
+				</div>
+				<div class="field sixteen wide column">
+					<input type="text" name="input" ng-model="" ng-value="offerView.total">
+				</div>
+				<div class="field sixteen wide column">&nbsp;</div>
+				<div class="ui checkbox">
+				  <input type="checkbox" name="example">
+				  <label>I have read and accept the Terms & Conditions</label>
+				</div>
+				<div class="field sixteen wide column">&nbsp;</div>
+				<div class="field sixteen wide column">
+					<button class="fluid ui orange button open-modal2" type="submit">Accept and Continue</button>
+				</div>
+				<div class="field sixteen wide column">&nbsp;</div>
+			</form>
+		</div>
+</div>
+
+<div class="ui small second coupled modal sixteen centered grid">
+	<div class="actions">
+		<div class="ui cancel button"><i class="remove icon"></i></div>
+	</div>
+	<div class="ui small image" style="text-align: center">
+		<img class="ui centered image" src="static/img/green-check.png" alt="">
+	</div>
+	<div class="field sixteen wide column">&nbsp;</div>
+	<div class="sixteen wide column" style="text-align: center">
+		<h3>Congratulation on a deal well done!</h3>
+	</div>
+	<div class="sixteen wide column" style="text-align: center">
+		<h2>What's next?</h2>
+	</div>
+	<div class="sixteen wide column" style="text-align: center">
+		<p>You will be able to coordinate with the supplier, track your production</p>
+		<p>status and maintain the best costs</p>
+		<br>
+		<p>The Evergreen team is here for you.  Email or call us at anytime.</p>
+		<hr>
+		<p>Contact our Customer Support that is always ready to help you with any</p>
+		<p>possible questions, problems or information.</p>
+	</div>
+	<div class="five wide column">
+		<button class="fluid ui green button" type="submit">Your Account</button>
+	</div>
 </div>

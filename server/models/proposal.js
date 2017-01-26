@@ -23,7 +23,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p \
-						JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
+						LEFT OUTER JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
 						return connection.execute(query);
 					})
 					.spread(data => {
