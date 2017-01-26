@@ -5,6 +5,7 @@ var SqlString = require('mysql2/node_modules/sqlstring');
 
 function queryFormat(sql, values, timeZone) {
 	sql = SqlString.format(sql, values, false, timeZone);
+	sql = sql.replace(/'@temp'/g, "@temp");
 	sql = sql.replace(/'NOW\(\)'/g, "NOW()");
 	sql = sql.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))");
 	sql = sql.replace(/'UNHEX/g, "UNHEX");

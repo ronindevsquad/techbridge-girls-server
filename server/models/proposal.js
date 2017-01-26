@@ -143,6 +143,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
+			console.log(req.body);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -163,23 +164,34 @@ module.exports = function(jwt_key) {
 						return using(getConnection(), connection => {
 							var data = [0, req.body.product, req.body.quantity, req.body.completion, req.body.zip,
 							req.body.audience, req.body.info, payload.id];
-							var query = "INSERT INTO proposals id = @temp, status = ?, product = ?, quantity = ?, \
-							completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), created_at = NOW(), \
+							var query = "INSERT INTO proposals SET id = @temp, status = ?, product = ?, quantity = ?, \
+							completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), \
 							user_id = UNHEX(?)";
 							return connection.execute(query, data);
 						});
 					})
 					.then(() => {
-						return using(getConnection(), connection => {
+						return Promise.join(using(getConnection(), connection => {
 							var data = [];
 							for (var i = 0; i < req.body.processes.length; i++)
 								data.push([req.body.processes[i], "@temp", "NOW()", "NOW()"]);
-
 							var query = "INSERT INTO proposal_processes (process, proposal_id, created_at, updated_at) VALUES ?";
 							return connection.query(query, [data]);
+						}), using(getConnection(), connection => {
+							var data = [];
+							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
+								var file = req.body.filesarray.uploadedfiles[i];
+								console.log(file);
+								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
+							}
+							var query = "INSERT INTO files (filename, type, created_at, updated_at, proposal_id) VALUES ?";
+							return connection.query(query, [data]);
+						}), () => {
+							callback(false);
 						});
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
