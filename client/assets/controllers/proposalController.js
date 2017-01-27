@@ -1,4 +1,4 @@
-app.controller('proposalController', function ($scope, $location, $routeParams, proposalsFactory) {
+app.controller('proposalController', function ($scope, $location, $routeParams, proposalsFactory, offersFactory) {
 	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
