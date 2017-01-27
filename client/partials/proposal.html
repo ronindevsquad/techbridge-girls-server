@@ -16,10 +16,10 @@
 							<div ng-repeat="file in files" class="slided-item">
 								<div class="ui cards">
 									<div class="card">
-										<div class="content">
-											<p>{{file.substring(file.lastIndexOf("-")+1,file.lastIndexOf("?"))}}</p>
+										<div class="content" style="word-wrap: break-word;">
+											{{file.substring(file.lastIndexOf("-")+1,file.lastIndexOf("?"))}}
 										</div>
-										<a href="{{file}}"><div class="ui bottom attached evergreen green button">
+										<a href="{{file}}" target="_blank"><div class="ui bottom attached evergreen green button">
 											View Document
 										</div></a>
 									</div> <!-- .card -->

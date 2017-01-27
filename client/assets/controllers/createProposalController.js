@@ -26,10 +26,17 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		var request = new XMLHttpRequest();
 		request.open("POST", "/uploadfiles");
 		request.onload = function(){
-			var filesarray = JSON.parse(this.responseText);
-			$scope.proposal.filesarray = filesarray;
-			$scope.$apply();
-			$scope.create();
+			var responseText = JSON.parse(this.responseText);
+			var response = JSON.parse(this.response);
+			console.log(this.status);
+			if(!response.message){ //if the response has a message that indicates an error from the backend
+				$scope.proposal.filesarray = responseText;
+				$scope.$apply();
+				$scope.create();
+			}
+			else {
+				console.log(response.message);
+			}
 		}
 		request.send(formData);
 	}
