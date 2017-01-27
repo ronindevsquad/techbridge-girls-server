@@ -126,14 +126,14 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						if (payload.type == 0) {
-							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = payload_id " +
+							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
 							"WHERE HEX(id) = ? AND HEX(user_id) = ?";
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
 						else if (payload.type == 1) {
 							var query = "SELECT *, HEX(id) AS id, offers.status " +
 							"AS status FROM proposals LEFT JOIN offers ON id = proposal_id AND offers.user_id = ? " +
-							"LEFT JOIN files ON id = payload_id WHERE HEX(id) = ? AND proposals.status = 0";
+							"LEFT JOIN files ON id = files.proposal_id WHERE HEX(id) = ? AND proposals.status = 0";
 							return connection.execute(query, [payload.id, req.params.id]);
 						}
 					})
@@ -150,6 +150,7 @@ module.exports = function(jwt_key) {
 						}
 					})
 					.catch(err => {
+						console.log(err)
 						if (err.status)
 							callback(err);
 						else
