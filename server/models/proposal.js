@@ -61,9 +61,9 @@ module.exports = function(jwt_key) {
 									console.log(err);
 								}
 								else {
-									console.log("==amazon upload success ETag=="); //
-									console.log(success); //
-									console.log("============"); //
+									// console.log("==amazon upload success ETag=="); //
+									// console.log(success); //
+									// console.log("============"); //
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
 											console.log(err);
@@ -143,7 +143,6 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-			console.log(req.body);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -181,7 +180,7 @@ module.exports = function(jwt_key) {
 							var data = [];
 							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
 								var file = req.body.filesarray.uploadedfiles[i];
-								console.log(file);
+								// console.log(file);
 								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, proposal_id) VALUES ?";
