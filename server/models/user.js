@@ -12,8 +12,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, linkedin, twitter \
-						FROM users LEFT JOIN urls ON users.id = user_id WHERE HEX(id) = ? LIMIT 1";
+						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, \
+						linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE HEX(id) = ? LIMIT 1";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {

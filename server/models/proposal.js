@@ -1,9 +1,10 @@
 var Promise = require("bluebird");
-var fs = require('fs');
+var fs = require("fs");
 var using = Promise.using;
 var getConnection = require("../config/mysql");
-var jwt = require('jsonwebtoken');
-var aws = require('aws-sdk');
+var jwt = require("jsonwebtoken");
+var uuid = require("uuid/v1");
+var aws = require("aws-sdk");
 aws.config.update({
 accessKeyId: "AKIAIFF4LTNLXH75IA2A",
 secretAccessKey: "cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF",
@@ -22,8 +23,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p \
-						LEFT OUTER JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
+						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p " +
+						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id GROUP BY p.id" //Where user_id = ?
 						return connection.execute(query);
 					})
 					.spread(data => {
@@ -48,7 +49,8 @@ module.exports = function(jwt_key) {
 							return
 						}
 						fs.readFile(req.files[index].path, (err, data) => {
-							// if(err){console.log(err); callback(err);}
+							if(err)
+								console.log(err);
 							var filename = req.files[index].filename
 							var mimetype = req.files[index].mimetype
 							s3.putObject({
@@ -61,9 +63,6 @@ module.exports = function(jwt_key) {
 									console.log(err);
 								}
 								else {
-									console.log("==amazon upload success ETag=="); //
-									console.log(success); //
-									console.log("============"); //
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
 											console.log(err);
@@ -103,10 +102,10 @@ module.exports = function(jwt_key) {
 							for (var i = 0; i < data.length; i++)
 								_data.push(data[i].process);
 
-							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) \
-							AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes \
-							ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN \
-							(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
+							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
+							"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
+							"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
+							"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
 							return connection.query(query, [_data]);
 						}
 					})
@@ -124,8 +123,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(id) AS id, HEX(user_id) AS user_id FROM proposals WHERE HEX(id) = ? \
-						AND status = 0 LIMIT 1";
+						var query = "SELECT *, HEX(id) AS id, HEX(user_id) AS user_id FROM proposals WHERE HEX(id) = ? " +
+						"AND status = 0 LIMIT 1";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -143,7 +142,6 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-			console.log(req.body);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -156,35 +154,33 @@ module.exports = function(jwt_key) {
 					callback({status: 400, message: "You must specify a quantity of at least 1."});
 				else if (req.body.audience != 0 && req.body.audience != 1)
 					callback({status: 400, message: "Invalid target suppliers provided."});
-				else
+				else {
+					var proposal_id = uuid().replace(/\-/g, "");
+					console.log(proposal_id);
 					using(getConnection(), connection => {
-						return connection.execute("SET @temp = UNHEX(REPLACE(UUID(), '-', ''))");
-					})
-					.then(() => {
-						return using(getConnection(), connection => {
-							var data = [0, req.body.product, req.body.quantity, req.body.completion, req.body.zip,
-							req.body.audience, req.body.info, payload.id];
-							var query = "INSERT INTO proposals SET id = @temp, status = ?, product = ?, quantity = ?, \
-							completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), \
-							user_id = UNHEX(?)";
-							return connection.execute(query, data);
-						});
+						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion, 
+						req.body.zip, req.body.audience, req.body.info, payload.id];
+						var query = "INSERT INTO proposals SET id = UNHEX(?), status = ?, product = ?, quantity = ?, " +
+						"completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), " +
+						"user_id = UNHEX(?)";
+						return connection.execute(query, data);
 					})
 					.then(() => {
 						return Promise.join(using(getConnection(), connection => {
 							var data = [];
 							for (var i = 0; i < req.body.processes.length; i++)
-								data.push([req.body.processes[i], "@temp", "NOW()", "NOW()"]);
-							var query = "INSERT INTO proposal_processes (process, proposal_id, created_at, updated_at) VALUES ?";
+								data.push([req.body.processes[i], `UNHEX('${proposal_id}')`, "NOW()", "NOW()"]);
+							var query = "INSERT INTO proposal_processes (process, proposal_id, " +
+							"created_at, updated_at) VALUES ?";
 							return connection.query(query, [data]);
 						}), using(getConnection(), connection => {
 							var data = [];
 							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
 								var file = req.body.filesarray.uploadedfiles[i];
-								console.log(file);
-								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
+								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
 							}
-							var query = "INSERT INTO files (filename, type, created_at, updated_at, proposal_id) VALUES ?";
+							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
+							"proposal_id) VALUES ?";
 							return connection.query(query, [data]);
 						}), () => {
 							callback(false);
@@ -194,6 +190,7 @@ module.exports = function(jwt_key) {
 						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
+				}
 			});
 		}
 	}

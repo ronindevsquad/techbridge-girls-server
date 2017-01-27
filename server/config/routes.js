@@ -1,18 +1,19 @@
+var path = require('path');
 var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './uploads')
-	},
-	filename: function (req, file, cb) {
-		console.log(req);
-		console.log(file);
-		cb(null, new Date().toISOString().
-    replace(/T/, ' ').      // replace T with a space
-    replace(/\..+/, '').     // delete the dot and everything after)
-    replace(" ", '')  + '-' + file.originalname);
-	}
-});
-var upload = multer({storage: storage});
+// var storage = multer.diskStorage({
+// 	destination: function (req, file, cb) {
+// 		var _path = path.join(__dirname, "uploads/");
+// 		console.log(_path)
+// 		cb(null, __dirname);
+// 	},
+// 	filename: function (req, file, cb) {
+// 		cb(null, new Date().toISOString().
+//     replace(/T/, ' ').      // replace T with a space
+//     replace(/\..+/, '').     // delete the dot and everything after)
+//     replace(" ", '')  + '-' + file.originalname);
+// 	}
+// });
+var upload = multer({dest: 'uploads/'});
 
 module.exports = function(app, jwt_key) {
 	var users = require('../controllers/users.js')(jwt_key);
@@ -40,9 +41,8 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
-	app.post('/api/proposals', upload.fields([{name:'document', maxCount:20},
-		{name:'NDA', maxCount:1}]), proposals.create);
-  app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
+	app.post('/api/proposals', proposals.create);
+	app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);

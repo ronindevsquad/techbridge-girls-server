@@ -8,7 +8,7 @@ var fs = require('fs');
 
 var jwt_key = fs.readFileSync('keys/jwt', 'utf8');
 var root = __dirname;
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8002;
 var app = express();
 
 // app.use(helmet());
