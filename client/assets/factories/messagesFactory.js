@@ -46,4 +46,4 @@ app.factory('messagesFactory', function($http, $cookies) {
 			});
 		}
 	}
-})
+});

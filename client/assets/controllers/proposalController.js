@@ -7,6 +7,7 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				console.log(data[0])
 				if (data[0].status == 0)
 					$scope.signed = false;
 				else if (data[0].status > 0)
