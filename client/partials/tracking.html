@@ -68,9 +68,9 @@
 											<div class="vertical timeline">
 												<ul class="timeline items">
 													<li>Start Date</li>
-													<li ng-repeat="report in reports" ng-class="{'working': report.status == 0, 'done': $last && report.status == 1}">January 27th, 2016</li>
+													<li ng-repeat="report in reports" ng-class="{'working': report.status == 0}">January 27th, 2016</li>
 													<li class="working"></li>
-													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li>
+													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li><!-- , 'done': $last && report.status == 1 -->
 												</ul>
 											</div>
 										</div>
@@ -135,30 +135,30 @@
 		<div class="header fourteen wide column">
 			<h2>Add Production Note</h2>
 		</div>
-		<form ng-submit="reportSubmit();" class="ui form">
+		<form ng-submit="reportSubmit(proposalView.id);" class="ui form">
 			<div class="field five wide column">
 				<label>What did you input today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="input" ng-model="form.input">
+				<input type="text" name="input" ng-model="report.input">
 			</div>
 			<div class="field five wide column">
 				<label>What did you output today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="output" ng-model="form.output">
+				<input type="text" name="output" ng-model="report.output">
 			</div>
 			<div class="field five wide column left aligned">
 				<label>What did you ship today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="output" ng-model="form.shipped">
+				<input type="text" name="output" ng-model="report.shipped">
 			</div>
 			<div class="field one wide column">
 				<label>Note</label>
 			</div>
 			<div class="field sixteen wide column">
-				<textarea rows="8" cols="80" ng-model="form.note"></textarea>
+				<textarea rows="8" cols="80" ng-model="report.note"></textarea>
 			</div>
 			<div class="field sixteen wide column">
 				<button class="fluid ui green button" type="submit">Save Note</button>

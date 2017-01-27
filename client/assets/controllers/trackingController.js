@@ -27,7 +27,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			console.log("error:", data.data.message)
 		else {
 			$scope.proposals = data
-			console.log($scope.proposals);
 		}
 	});
 
@@ -67,7 +66,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data);
 					$scope.reports = data;
 					// $scope.proposalsAndReports = formatProposalsAndReports();
 				}
@@ -76,8 +74,9 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	};
 
 	$scope.reportSubmit = function(id){
-		reportsFactory.create($scope.form,function(data){
-			console.log(data);
+		$scope.report.proposal_id = id;
+		reportsFactory.create($scope.report,function(data){
+			$scope.reports = data;
 		});
 	};
 
