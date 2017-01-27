@@ -45,14 +45,14 @@
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
-									Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}
+									<a href="#!/proposal/{{proposal.id}}" target="_blank">Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}</a>
 								</div>
 								<div class="description">
 									<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
 								</div>
 							</div>
 							<div class="extra">
-								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View'}}</a>
+								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View Offers'}}</a>
 								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
 							</div>
 						</div>
