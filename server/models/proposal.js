@@ -53,7 +53,7 @@ module.exports = function(jwt_key) {
 						}
 						fs.readFile(req.files[index].path, (err, data) => {
 							if(err)
-								return callback({status: 401, message: "Internal error, please contact an admin."});								
+								return callback({status: 401, message: "Internal error, please contact an admin."});
 							var filename = req.files[index].filename
 							var mimetype = req.files[index].mimetype
 							s3.putObject({
@@ -63,12 +63,12 @@ module.exports = function(jwt_key) {
 								ContentType: req.files[index].mimetype
 							}, function(err, success){
 								if (err){
-									return callback({status: 401, message: "Internal error, please contact an admin."});								
+									return callback({status: 401, message: "Internal error, please contact an admin."});
 								}
 								else {
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
-											return callback({status: 401, message: "Internal error, please contact an admin."});								
+											return callback({status: 401, message: "Internal error, please contact an admin."});
 										}
 									});
 									uploadFilesArray(index+1)
@@ -146,8 +146,8 @@ module.exports = function(jwt_key) {
 						else {
 							// MODIFY DATA FILENAMES HERE ELLIOT:
 							for (var i =0; i < data.length; i++) {
+								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
 								// FETCH NEW_NAME FROM S3 BUCKET AND CHANGE IT HERE...
-								data[i].filename = "NEW_NAME";
 							}
 							callback(false, data);
 						}
