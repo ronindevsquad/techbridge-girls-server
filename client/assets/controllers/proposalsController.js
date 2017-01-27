@@ -8,7 +8,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		});
 	}
 	else
-		$location.url('/');
+	$location.url('/');
 
 
 	$scope.getOffers = function(proposal){
@@ -16,13 +16,16 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			$scope.proposalView = undefined;
 		}
 		else
-			offersFactory.index(proposal.id, function(data){
+		offersFactory.index(proposal.id, function(data){
+			console.log(data);
+			$scope.proposalView = proposal;
+			if(data.length>1){
 				$scope.offers = data;
 				$scope.offerView = $scope.offers[0];
-				$scope.proposalView = proposal;
 				$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 				refreshChart()
-			});
+			}
+		});
 	};
 
 	$scope.getOffer = function(offer){

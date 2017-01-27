@@ -8,6 +8,8 @@
 
 			<h2>Your Proposals</h2>
 			<p>Your opened proposals.</p>
+			<a ng-class="color"  href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
+
 
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
@@ -32,254 +34,257 @@
 				<div ng-if="type == 0" class="item-cards list-cards">
 
 					<div class="ui horizontal divider"></div>
-						<!-- this item has a details panel that opens when you click View -->
-						<!-- DO NOT include this inside .item because the flex will mess it up -->
+					<!-- this item has a details panel that opens when you click View -->
+					<!-- DO NOT include this inside .item because the flex will mess it up -->
 
 
 
-						<!-- this is where we end the details panel -->
-						<div ng-repeat="proposal in proposals" class="ui resulted items">
-							<div class="item" ng-class="proposalView == proposal ? 'ui segment opened':''">
-								<div class="ui tiny image">
-									<img src="static/img/husky-logo.png" class="ui centered image" />
-								</div>
-								<div class="middle aligned content">
-									<div class="header">
-										Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}
-									</div>
-									<div class="description">
-										<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
-									</div>
-
-								</div>
-								<div class="extra">
-									<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View'}}</a>
-									<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
-								</div>
-							</div>
-
-							<div ng-show="proposalView == proposal" class="detail-panel">
-								<div class="ui top attached tabular menu">
-									<a class="active item" data-tab="applicants">Applicants</a>
-									<a class="item" data-tab="leads">Leads</a>
-								</div>
-								<div class="ui bottom attached active tab" data-tab="applicants">
-									<div class="messaging-container insidetabs">
-
-										<!-- here we have the left vertical menu as tabs -->
-
-										<div class="ui stackable grid">
-											<div class="sixteen wide tablet four wide computer column">
-												<div class="ui vertical fluid tabular menu">
-
-													<div class="ui items message-contacts">
-														<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="active item" data-tab="applicant1">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-																<h4>Supplier {{offer.company}}</h4>
-																<p class="footnote">Received </p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</div>
-
-
-											<div class="sixteen wide tablet twelve wide computer column stretched">
-												<div class="ui very padded basic segment">
-													<div class="ui tab active" data-tab="applicant1">
-
-														<div class="offer-details">
-															<div class="details-item">
-																<p class="footnote">Their offer per unit</p>
-																<div class="details-value"><span class="op50">$</span> {{offerView.PPU}}</div>
-															</div>
-
-															<div class="details-item">
-																<p class="footnote">Total price</p>
-																<div class="details-value"><span class="op50">$</span> {{offerView.total}}</div>
-															</div>
-
-															<div class="details-item">
-																<p class="footnote">Delivery date</p>
-																<div class="details-value"><i class="calendar outline icon op50"></i> {{proposalView.completion | date:"dd.MM.y"}}</div>
-															</div>
-
-															<div class="details-item">
-																<p class="footnote">Offer Details</p>
-																<div class="details-value"><a href="" class="open-modal" title="View full offer">View full offer</a></div>
-																<script type="text/javascript">
-
-																	$('.coupled.modal').modal({
-																	    allowMultiple: false
-																	  });
-																	$('.open-modal').click(function(){
-																		$('.first.modal').modal('show');
-																	});
-																	$('.second.modal').modal(
-																		'attach events',
-																		$('.first.modal form').submit()
-																	);
-
-																</script>
-															</div>
-														</div>
-
-														<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
-														<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
-
-														<div class="ui horizontal divider"></div>
-
-														<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept Offer</a>
-
-													</div>
-
-													<div class="ui tab" data-tab="applicant2">
-														area 2
-													</div>
-													<div class="ui tab" data-tab="applicant3">
-														area 3
-													</div>
-												</div>
-											</div>
-										</div>
-
-									</div>
-
-								</div>
-								<div class="ui bottom attached tab" data-tab="leads">
-
-									<div class="messaging-container insidetabs">
-
-										<!-- here we have the left vertical menu as tabs -->
-
-										<div class="ui stackable grid">
-											<div class="sixteen wide tablet four wide computer column">
-												<div class="ui vertical fluid tabular menu">
-													<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
-													<div class="ui items message-contacts">
-														<a class="active item" data-tab="lead1">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-																<h4> {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
-															</div>
-														</a>
-														<a class="item" data-tab="lead2">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-
-																<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
-															</div>
-														</a>
-														<a class="item" data-tab="lead3">
-															<div class="ui tiny image">
-																<img src="static/img/husky-logo.png" class="ui centered image" />
-															</div>
-															<div class="middle aligned content">
-																<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
-																<p class="footnote">Received 25.05.2016</p>
-															</div>
-														</a>
-													</div>
-												</div>
-											</div>
-
-
-											<div class="sixteen wide tablet twelve wide computer column stretched">
-												<div class="ui very padded basic segment">
-													<div class="ui tab active" data-tab="lead1">
-
-														<div class="ui segment buybox">
-															<h3>Husky {{company}}</h3>
-															<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
-
-															<div class="ui horizontal slider"></div>
-
-															<div class="ui horizontal divider"></div>
-															<a class="ui big fluid red uppercase basic button" href="">Remove lead</a>
-														</div>
-
-													</div>
-
-													<div class="ui tab" data-tab="lead2">
-														area 2
-													</div>
-													<div class="ui tab" data-tab="lead3">
-														area 3
-													</div>
-												</div>
-											</div>
-										</div>
-
-									</div>
-
-								</div>
-							</div>
-						</div>
-
-						<div class="ui pagination secondary menu">
-							<a class="active item">
-								1
-							</a>
-							<div class="disabled item">
-								...
-							</div>
-							<a class="item">
-								10
-							</a>
-							<a class="item">
-								11
-							</a>
-							<a class="item">
-								12
-							</a>
-						</div>
-
-				</div>
-			</div>
-				<!-- End Maker Zone -->
-
-				<!-- ##################################################################################################### -->
-
-				<!-- Supplier Zone -->
-				<div ng-if="type == 1" class="ui stackable four column grid middle item-cards">
-
-					<div ng-repeat="proposal in proposals" class="column">
-						<div class="ui padded segment center aligned">
+					<!-- this is where we end the details panel -->
+					<div ng-repeat="proposal in proposals" class="ui resulted items">
+						<div class="item" ng-class="proposalView == proposal ? 'ui segment opened':''">
 							<div class="ui tiny image">
 								<img src="static/img/husky-logo.png" class="ui centered image" />
 							</div>
-							<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">View Offer</a>
-						</div> <!-- segment -->
-
-						<div class="ui right aligned grid">
-
-							<div class="left aligned eight wide column">
-								<p class="toplabels">Your offer rank:</p>
-
-								<div class="item-scale level3">
-									<div class="top"></div>
-									<div class="second"></div>
-									<div class="middle"></div>
-									<div class="last"></div>
-								</div> <!-- .item-scale -->
-
-							</div> <!-- left column -->
-							<div class="eight wide column">
-								<p class="toplabels">Responded</p>
-								<p>{{proposal.completion | date:"MMM dd y"}}</p>
-							</div> <!-- .right column -->
+							<div class="middle aligned content">
+								<div class="header">
+									<a href="#!/proposal/{{proposal.id}}" target="_blank">Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}</a>
+								</div>
+								<div class="description">
+									<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
+								</div>
+							</div>
+							<div class="extra">
+								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View Offers'}}</a>
+								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
+							</div>
 						</div>
+						<div ng-show="proposalView==proposal && !offers" class="detail-panel">
+							<h1 class="ui center aligned segment">No offers for this proposal yet.</h1>
+						</div>
+						<div ng-show="proposalView == proposal && offers.length>1" class="detail-panel">
+							<div class="ui top attached tabular menu">
+								<a class="active item" data-tab="applicants">Applicants</a>
+								<a class="item" data-tab="leads">Leads</a>
+							</div>
+							<div class="ui bottom attached active tab" data-tab="applicants">
+								<div class="messaging-container insidetabs">
 
+									<!-- here we have the left vertical menu as tabs -->
+
+									<div class="ui stackable grid">
+										<div class="sixteen wide tablet four wide computer column">
+											<div class="ui vertical fluid tabular menu">
+
+												<div class="ui items message-contacts">
+													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="active item" data-tab="applicant1">
+														<div class="ui tiny image">
+															<img src="static/img/husky-logo.png" class="ui centered image" />
+														</div>
+														<div class="middle aligned content">
+															<h4>Supplier {{offer.company}}</h4>
+															<p class="footnote">Received </p>
+														</div>
+													</a>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="sixteen wide tablet twelve wide computer column stretched">
+											<div class="ui very padded basic segment">
+												<div class="ui tab active" data-tab="applicant1">
+
+													<div class="offer-details">
+														<div class="details-item">
+															<p class="footnote">Their offer per unit</p>
+															<div class="details-value"><span class="op50">$</span> {{offerView.PPU}}</div>
+														</div>
+
+														<div class="details-item">
+															<p class="footnote">Total price</p>
+															<div class="details-value"><span class="op50">$</span> {{offerView.total}}</div>
+														</div>
+
+														<div class="details-item">
+															<p class="footnote">Delivery date</p>
+															<div class="details-value"><i class="calendar outline icon op50"></i> {{proposalView.completion | date:"dd.MM.y"}}</div>
+														</div>
+
+														<div class="details-item">
+															<p class="footnote">Offer Details</p>
+															<div class="details-value"><a href="" class="open-modal" title="View full offer">View full offer</a></div>
+															<script type="text/javascript">
+
+															$('.coupled.modal').modal({
+																allowMultiple: false
+															});
+															$('.open-modal').click(function(){
+																$('.first.modal').modal('show');
+															});
+															$('.second.modal').modal(
+																'attach events',
+																$('.first.modal form').submit()
+															);
+
+															</script>
+														</div>
+													</div>
+
+													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
+													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
+
+													<div class="ui horizontal divider"></div>
+
+													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept Offer</a>
+
+												</div>
+
+												<div class="ui tab" data-tab="applicant2">
+													area 2
+												</div>
+												<div class="ui tab" data-tab="applicant3">
+													area 3
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+							<div class="ui bottom attached tab" data-tab="leads">
+
+								<div class="messaging-container insidetabs">
+
+									<!-- here we have the left vertical menu as tabs -->
+
+									<div class="ui stackable grid">
+										<div class="sixteen wide tablet four wide computer column">
+											<div class="ui vertical fluid tabular menu">
+												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
+												<div class="ui items message-contacts">
+													<a class="active item" data-tab="lead1">
+														<div class="ui tiny image">
+															<img src="static/img/husky-logo.png" class="ui centered image" />
+														</div>
+														<div class="middle aligned content">
+															<h4> {{company}}</h4>
+															<p class="footnote">Received 25.05.2016</p>
+														</div>
+													</a>
+													<a class="item" data-tab="lead2">
+														<div class="ui tiny image">
+															<img src="static/img/husky-logo.png" class="ui centered image" />
+														</div>
+														<div class="middle aligned content">
+
+															<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
+															<p class="footnote">Received 25.05.2016</p>
+														</div>
+													</a>
+													<a class="item" data-tab="lead3">
+														<div class="ui tiny image">
+															<img src="static/img/husky-logo.png" class="ui centered image" />
+														</div>
+														<div class="middle aligned content">
+															<h4>{{type==0 ? 'Maker' : 'Supplier'}}  {{company}}</h4>
+															<p class="footnote">Received 25.05.2016</p>
+														</div>
+													</a>
+												</div>
+											</div>
+										</div>
+
+
+										<div class="sixteen wide tablet twelve wide computer column stretched">
+											<div class="ui very padded basic segment">
+												<div class="ui tab active" data-tab="lead1">
+
+													<div class="ui segment buybox">
+														<h3>Husky {{company}}</h3>
+														<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+
+														<div class="ui horizontal slider"></div>
+
+														<div class="ui horizontal divider"></div>
+														<a class="ui big fluid red uppercase basic button" href="">Remove lead</a>
+													</div>
+
+												</div>
+
+												<div class="ui tab" data-tab="lead2">
+													area 2
+												</div>
+												<div class="ui tab" data-tab="lead3">
+													area 3
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+							</div>
+						</div>
 					</div>
+
+
+
+					<div class="ui pagination secondary menu">
+						<a class="active item">
+							1
+						</a>
+						<div class="disabled item">
+							...
+						</div>
+						<a class="item">
+							10
+						</a>
+						<a class="item">
+							11
+						</a>
+						<a class="item">
+							12
+						</a>
+					</div>
+
+				</div>
+			</div>
+			<!-- End Maker Zone -->
+
+			<!-- ##################################################################################################### -->
+
+			<!-- Supplier Zone -->
+			<div ng-if="type == 1" class="ui stackable four column grid middle item-cards">
+
+				<div ng-repeat="proposal in proposals" class="column">
+					<div class="ui padded segment center aligned">
+						<div class="ui tiny image">
+							<img src="static/img/husky-logo.png" class="ui centered image" />
+						</div>
+						<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">View Offer</a>
+					</div> <!-- segment -->
+
+					<div class="ui right aligned grid">
+
+						<div class="left aligned eight wide column">
+							<p class="toplabels">Your offer rank:</p>
+
+							<div class="item-scale level3">
+								<div class="top"></div>
+								<div class="second"></div>
+								<div class="middle"></div>
+								<div class="last"></div>
+							</div> <!-- .item-scale -->
+
+						</div> <!-- left column -->
+						<div class="eight wide column">
+							<p class="toplabels">Responded</p>
+							<p>{{proposal.completion | date:"MMM dd y"}}</p>
+						</div> <!-- .right column -->
+					</div>
+
+				</div>
 				<!-- End Supplier Zone -->
 
 
@@ -297,56 +302,56 @@
 
 <!-- Modal -->
 <div class="ui small first coupled modal sixteen centered grid">
-		<div class="five wide column" style="background-color: #47535F">
-			<div class="ui sixteen centered grid">
-				<div class="ui image sixteen wide column">
-					<img src="static/img/shield.png" class="ui centered image" />
-				</div>
-				<div class="sixteen wide column" style="color: white; text-align: center">
-					<p>Evergreen is 100%</p>
-				</div>
-				<div class="sixteen wide column" style="color: white; text-align: center">
-					<p>Safe & Secure</p>
-				</div>
+	<div class="five wide column" style="background-color: #47535F">
+		<div class="ui sixteen centered grid">
+			<div class="ui image sixteen wide column">
+				<img src="static/img/shield.png" class="ui centered image" />
+			</div>
+			<div class="sixteen wide column" style="color: white; text-align: center">
+				<p>Evergreen is 100%</p>
+			</div>
+			<div class="sixteen wide column" style="color: white; text-align: center">
+				<p>Safe & Secure</p>
 			</div>
 		</div>
-		<div class="ten wide column">
-			<div class="actions" style="float: right">
-				<div class="ui cancel button"><i class="remove icon"></i></div>
+	</div>
+	<div class="ten wide column">
+		<div class="actions" style="float: right">
+			<div class="ui cancel button"><i class="remove icon"></i></div>
+		</div>
+		<div class="header six wide column">
+			<h2>Accept offer</h2>
+		</div>
+		<div class="ui ten centered grid">
+			<div class="five wide column">
+				<h5>Deliver Date</h5>
+				<p>{{proposalView.completion | date:"dd.MM.y"}}</p>
 			</div>
-			<div class="header six wide column">
-				<h2>Accept offer</h2>
+			<div class="five wide column">
+				<h5>Sub-total</h5>
+				<p>$ {{offerView.total}}</p>
 			</div>
-			<div class="ui ten centered grid">
-				<div class="five wide column">
-					<h5>Deliver Date</h5>
-					<p>{{proposalView.completion | date:"dd.MM.y"}}</p>
-				</div>
-				<div class="five wide column">
-					<h5>Sub-total</h5>
-					<p>$ {{offerView.total}}</p>
-				</div>
+		</div>
+		<div class="field sixteen wide column">&nbsp;</div>
+		<form ng-submit="acceptOffer();" class="ui form open-modal2">
+			<div class="field sixteen wide column">
+				<label>You will receive an invoice for the total amount of:</label>
+			</div>
+			<div class="field sixteen wide column">
+				<input type="text" name="input" ng-model="" ng-value="offerView.total">
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
-			<form ng-submit="acceptOffer();" class="ui form open-modal2">
-				<div class="field sixteen wide column">
-					<label>You will receive an invoice for the total amount of:</label>
-				</div>
-				<div class="field sixteen wide column">
-					<input type="text" name="input" ng-model="" ng-value="offerView.total">
-				</div>
-				<div class="field sixteen wide column">&nbsp;</div>
-				<div class="ui checkbox">
-				  <input type="checkbox" name="example">
-				  <label>I have read and accept the Terms & Conditions</label>
-				</div>
-				<div class="field sixteen wide column">&nbsp;</div>
-				<div class="field sixteen wide column">
-					<button class="fluid ui orange button open-modal2" type="submit">Accept and Continue</button>
-				</div>
-				<div class="field sixteen wide column">&nbsp;</div>
-			</form>
-		</div>
+			<div class="ui checkbox">
+				<input type="checkbox" name="example">
+				<label>I have read and accept the Terms & Conditions</label>
+			</div>
+			<div class="field sixteen wide column">&nbsp;</div>
+			<div class="field sixteen wide column">
+				<button class="fluid ui orange button open-modal2" type="submit">Accept and Continue</button>
+			</div>
+			<div class="field sixteen wide column">&nbsp;</div>
+		</form>
+	</div>
 </div>
 
 <div class="ui small second coupled modal sixteen centered grid">
