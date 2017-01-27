@@ -24,12 +24,12 @@ module.exports = function(jwt_key) {
 							var _data = [req.body.homepage, req.body.facebook, req.body.instagram,
 							req.body.linkedin, req.body.twitter, payload.id];
 							if (data.length == 0) {
-								query = "INSERT INTO urls SET homepage = ?, facebook = ?, instagram = ?, "
+								query = "INSERT INTO urls SET homepage = ?, facebook = ?, instagram = ?, " +
 								"linkedin = ?, twitter = ?, created_at = NOW(), updated_at = NOW(), user_id = UNHEX(?)"
 								return connection.execute(query, _data);
 							}
 							else {
-								query = "UPDATE urls SET homepage = ?, facebook = ?, instagram = ?, "
+								query = "UPDATE urls SET homepage = ?, facebook = ?, instagram = ?, " +
 								"linkedin = ?, twitter = ?, updated_at = NOW() WHERE HEX(user_id) = ?"
 								return connection.execute(query, _data);
 							}

@@ -15,6 +15,9 @@ var sig = require('amazon-s3-url-signer');
 var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF', {
 	host : 's3-us-west-1.amazonaws.com'
 });
+//EXAMPLE OF USING URL SIGNER TO GET URL, GIVEN THE FILE NAME
+// var filename = "GETFILENAME.extension"
+// var url1 = bucket1.getUrl('GET', `/testfolder/${filename}`, 'ronintestbucket', 1);
 module.exports = function(jwt_key) {
 	return {
 		getMyProposals: function(req, callback) {
@@ -50,7 +53,7 @@ module.exports = function(jwt_key) {
 						}
 						fs.readFile(req.files[index].path, (err, data) => {
 							if(err)
-								return callback({status: 401, message: "Internal error, please contact an admin."});								
+								return callback({status: 401, message: "Internal error, please contact an admin."});
 							var filename = req.files[index].filename
 							var mimetype = req.files[index].mimetype
 							s3.putObject({
@@ -60,12 +63,12 @@ module.exports = function(jwt_key) {
 								ContentType: req.files[index].mimetype
 							}, function(err, success){
 								if (err){
-									return callback({status: 401, message: "Internal error, please contact an admin."});								
+									return callback({status: 401, message: "Internal error, please contact an admin."});
 								}
 								else {
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
-											return callback({status: 401, message: "Internal error, please contact an admin."});								
+											return callback({status: 401, message: "Internal error, please contact an admin."});
 										}
 									});
 									uploadFilesArray(index+1)
@@ -143,8 +146,8 @@ module.exports = function(jwt_key) {
 						else {
 							// MODIFY DATA FILENAMES HERE ELLIOT:
 							for (var i =0; i < data.length; i++) {
+								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
 								// FETCH NEW_NAME FROM S3 BUCKET AND CHANGE IT HERE...
-								data[i].filename = "NEW_NAME";
 							}
 							callback(false, data);
 						}
@@ -174,7 +177,7 @@ module.exports = function(jwt_key) {
 				else {
 					var proposal_id = uuid().replace(/\-/g, "");
 					using(getConnection(), connection => {
-						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion, 
+						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion,
 						req.body.zip, req.body.audience, req.body.info, payload.id];
 						var query = "INSERT INTO proposals SET id = UNHEX(?), status = ?, product = ?, quantity = ?, " +
 						"completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), " +

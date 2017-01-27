@@ -3,7 +3,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	if (payload && $scope.type == 0) {
 		$scope.today = new Date();
 		$scope.documentsCount = 0;
-		$scope.step = 3;
+		$scope.step = 1;
 	}
 	else
 		$location.url("/");

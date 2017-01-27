@@ -10,15 +10,15 @@
 
 			<div class="steps-nav steps">
 				<div class="ui pointing secondary menu">
-					<a class="item trigger" ng-class="{active: step==1}">
+					<a ng-click="step = 1" class="item trigger" ng-class="{active: step==1}">
 						<span class="ui circular label">1</span>
 						Proposal
 					</a>
-					<a class="item trigger" ng-class="{active: step==2}">
+					<a ng-click="step = 2" class="item trigger" ng-class="{active: step==2}">
 						<span class="ui circular label">2</span>
 						Delivery
 					</a>
-					<a class="item trigger" ng-class="{active: step==3}">
+					<a ng-click="step = 3" class="item trigger" ng-class="{active: step==3}">
 						<span class="ui circular label">3</span>
 						Finalize Proposal
 					</a>
