@@ -58,6 +58,24 @@ module.exports = function(jwt_key) {
 		create: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						var query = "INSERT INTO offers SET status = 0, proposal_id = ?, user_id = ?, " +
+						"created_at = NOW(), updated_at = NOW()";
+						return connection.execute(query, [req.body.proposal_id, payload.id]);
+					})
+					.then(() => {
+						callback(false);
+					})
+					.catch((err) => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
+		send: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 
 				// Validate materials:
@@ -83,7 +101,7 @@ module.exports = function(jwt_key) {
 					if (!manual.labor || manual.time === undefined || manual.rate === undefined ||
 						manual.yield === undefined || manual.count === undefined || manual.time < 1 ||
 						manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1)
-						return callback({status: 400, message: "Invalid field(s) for machines provided."});
+						return callback({status: 400, message: "Invalid field(s) for manual labors provided."});
 				}
 
 				if (!req.body.proposal_id || req.body.sga === undefined || req.body.profit === undefined ||
@@ -96,9 +114,9 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						var data = [req.body.sga, req.body.profit, req.body.overhead, req.body.total,
 						req.body.proposal_id, payload.id];
-						var query = "INSERT INTO offers set status = 0, sga = ?, profit = ?, overhead = ?, " +
-						"total = ?, created_at = NOW(), updated_at = NOW(), proposal_id = UNHEX(?), " +
-						"user_id = UNHEX(?)"
+						var query = "UPDATE offers SET status = 1, sga = ?, profit = ?, overhead = ?, " +
+						"total = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
+						"AND status = 0";
 						return connection.execute(query, data);
 					})
 					.then(() => {
