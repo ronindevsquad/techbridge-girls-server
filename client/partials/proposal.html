@@ -6,7 +6,7 @@
 
 		<div class="ui container">
 
-			<h2>Customer in USA looking to produce {{proposal.quantity | number}} units by {{proposal.completion | date:"mediumDate"}}</h2>
+			<h2>Customer in USA looking to produce {{proposal[0].quantity | number}} units by {{proposal[0].completion | date:"mediumDate"}}</h2>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet four wide computer column">
@@ -100,12 +100,12 @@
 
 					<div class="content box">
 						<h4>Where are they located?</h4>
-						<p ng-bind="proposal.zip"></p>
+						<p ng-bind="proposal[0].zip"></p>
 					</div> <!-- .content box -->
 
 					<div class="content box">
 						<h4>How many units are they trying to produce?</h4>
-						<p ng-bind="proposal.quantity | number"></p>
+						<p ng-bind="proposal[0].quantity | number"></p>
 					</div> <!-- .content box -->
 
 
@@ -120,7 +120,7 @@
 					<div ng-show="signed">
 						<div class="content box">
 							<h4>And they need them by:</h4>
-							<p ng-bind="proposal.completion | date:'fullDate'"></p>
+							<p ng-bind="proposal[0].completion | date:'fullDate'"></p>
 							<img src="static/img/test-image.png" width="260" class="ui image" />
 
 						</div> <!-- .content box -->
@@ -135,7 +135,7 @@
 
 						<div class="ui horizontal slider"></div>
 
-						<a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()">MAKE AN OFFER</a>
+						<a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || !proposal[0].status">MAKE AN OFFER</a>
 
 					</div> <!-- .segment -->
 
@@ -209,7 +209,7 @@
 						<a href="" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
 					</div>
 					<div class="column">
-						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="signed=true">I agree</a>
+						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="create()">I agree</a>
 					</div>
 				</div> <!-- .row -->
 			</div> <!-- .grid -->
@@ -230,7 +230,7 @@
 		<!-- modal content -->
 		<div class="ui padded basic segment">
 			<p>If you don’t agree with this NDA you will not be able to continue to this company’s offers.
-				If you are sure you want to skip this deal click “I’m Sure”. Otherwise, go back and click “Agree”.</p>
+				If you are sure you want to skip this deal click “I am sure”. Otherwise, go back and click “I agree”.</p>
 			</div>
 			<div class="actions">
 
