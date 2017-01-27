@@ -15,6 +15,9 @@ var sig = require('amazon-s3-url-signer');
 var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF', {
 	host : 's3-us-west-1.amazonaws.com'
 });
+//EXAMPLE OF USING URL SIGNER TO GET URL, GIVEN THE FILE NAME
+// var filename = "GETFILENAME.extension"
+// var url1 = bucket1.getUrl('GET', `/testfolder/${filename}`, 'ronintestbucket', 1);
 module.exports = function(jwt_key) {
 	return {
 		getMyProposals: function(req, callback) {
