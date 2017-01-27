@@ -2,9 +2,11 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	if (payload) {
 		$scope.tab = "tracking";
 		if ($scope.type == 0) {
+			var builtUnits = 0;
 
 		}
 		else if ($scope.type == 1) {
+			var builtUnits = 0;
 
 		}
 	}
@@ -66,8 +68,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					$scope.reports = data;
-					// $scope.proposalsAndReports = formatProposalsAndReports();
+					assignReports(data);
 				}
 			});
 		}
@@ -76,13 +77,27 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	$scope.reportSubmit = function(id){
 		$scope.report.proposal_id = id;
 		reportsFactory.create($scope.report,function(data){
-			$scope.reports = data;
+			assignReports(data);
 		});
 	};
 
+	function assignReports(data) {
+		$scope.reports = data;
+		builtUnits = 0;
+		for (var i = 0; i < $scope.reports.length; i++){
+			builtUnits += parseInt($scope.reports[i].output);
+		}
 
-	$scope.percentCompleted = function(key){
-		// console.log(key);
+		if (builtUnits < $scope.proposalView.quantity)
+			$scope.finished = false;
+		else
+			$scope.finished = true;
+
+	};
+
+
+	$scope.percentCompleted = function(proposal){
+		// console.log(proposal);
 		// var cumulativeUnits = 0
 		// for(i=0;i<$scope.reports.length;i++){
 		// 	cumulativeUnits+=parseInt($scope.reports[i].output)
