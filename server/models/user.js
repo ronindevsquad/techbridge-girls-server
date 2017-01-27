@@ -60,7 +60,7 @@ module.exports = function(jwt_key) {
 						var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
 						return connection.execute(query, [req.body, payload.id]);
 					})
-					.spred(data => {
+					.spread(data => {
 						if (data.changedRows == 0)
 							throw {status: 400, message: "Failed to save changes."};
 						else
