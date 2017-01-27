@@ -135,7 +135,7 @@
 
 						<div class="ui horizontal slider"></div>
 
-						<a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()">MAKE AN OFFER</a>
+						<a class="ui fluid evergreen orange button" href="" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || !proposal.status">MAKE AN OFFER</a>
 
 					</div> <!-- .segment -->
 
@@ -209,7 +209,7 @@
 						<a href="" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
 					</div>
 					<div class="column">
-						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="signed=true">I agree</a>
+						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="create()">I agree</a>
 					</div>
 				</div> <!-- .row -->
 			</div> <!-- .grid -->
@@ -230,7 +230,7 @@
 		<!-- modal content -->
 		<div class="ui padded basic segment">
 			<p>If you don’t agree with this NDA you will not be able to continue to this company’s offers.
-				If you are sure you want to skip this deal click “I’m Sure”. Otherwise, go back and click “Agree”.</p>
+				If you are sure you want to skip this deal click “I am sure”. Otherwise, go back and click “I agree”.</p>
 			</div>
 			<div class="actions">
 

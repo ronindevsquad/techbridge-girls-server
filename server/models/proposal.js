@@ -50,7 +50,7 @@ module.exports = function(jwt_key) {
 						}
 						fs.readFile(req.files[index].path, (err, data) => {
 							if(err)
-								console.log(err);
+								return callback({status: 401, message: "Internal error, please contact an admin."});								
 							var filename = req.files[index].filename
 							var mimetype = req.files[index].mimetype
 							s3.putObject({
@@ -60,12 +60,12 @@ module.exports = function(jwt_key) {
 								ContentType: req.files[index].mimetype
 							}, function(err, success){
 								if (err){
-									console.log(err);
+									return callback({status: 401, message: "Internal error, please contact an admin."});								
 								}
 								else {
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
-											console.log(err);
+											return callback({status: 401, message: "Internal error, please contact an admin."});								
 										}
 									});
 									uploadFilesArray(index+1)
@@ -92,22 +92,24 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT *, HEX(id) AS id FROM proposals"
-						connection.execute(query);
+						return connection.execute(query);
 					})
 					.spread(data => {
-						if (data.length == 0)
-							callback(false);
-						else {
-							var _data = []
-							for (var i = 0; i < data.length; i++)
-								_data.push(data[i].process);
+						return using(getConnection(), connection => {
+							if (data.length == 0)
+								callback(false);
+							else {
+								var _data = []
+								for (var i = 0; i < data.length; i++)
+									_data.push(data[i].process);
 
-							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
-							"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
-							"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
-							"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
-							return connection.query(query, [_data]);
-						}
+								var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
+								"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
+								"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
+								"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
+								return connection.query(query, [_data]);
+							}
+						});
 					})
 					.spread(data => {
 						callback(false, data);
@@ -123,15 +125,29 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(id) AS id, HEX(user_id) AS user_id FROM proposals WHERE HEX(id) = ? " +
-						"AND status = 0 LIMIT 1";
-						return connection.execute(query, [req.params.id]);
+						if (payload.type == 0) {
+							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = payload_id " +
+							"WHERE HEX(id) = ? AND HEX(user_id) = ?";
+							return connection.execute(query, [req.params.id, payload.id]);
+						}
+						else if (payload.type == 1) {
+							var query = "SELECT *, HEX(id) AS id, offers.status " +
+							"AS status FROM proposals LEFT JOIN offers ON id = proposal_id AND offers.user_id = ? " +
+							"LEFT JOIN files ON id = payload_id WHERE HEX(id) = ? AND proposals.status = 0";
+							return connection.execute(query, [payload.id, req.params.id]);
+						}
 					})
 					.spread(data => {
-						if (data.length != 1 || data[0].user_id != payload.id && payload.type != 1)
+						if (data.length < 1)
 							throw {status: 400, message: "Not able to fetch valid proposal."};
-						else
-							callback(false, data[0]);
+						else {
+							// MODIFY DATA FILENAMES HERE ELLIOT:
+							for (var i =0; i < data.length; i++) {
+								// FETCH NEW_NAME FROM S3 BUCKET AND CHANGE IT HERE...
+								data[i].filename = "NEW_NAME";
+							}
+							callback(false, data);
+						}
 					})
 					.catch(err => {
 						if (err.status)
@@ -156,7 +172,6 @@ module.exports = function(jwt_key) {
 					callback({status: 400, message: "Invalid target suppliers provided."});
 				else {
 					var proposal_id = uuid().replace(/\-/g, "");
-					console.log(proposal_id);
 					using(getConnection(), connection => {
 						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion, 
 						req.body.zip, req.body.audience, req.body.info, payload.id];
@@ -178,7 +193,6 @@ module.exports = function(jwt_key) {
 							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
 								var file = req.body.filesarray.uploadedfiles[i];
 								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
-								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
 							"proposal_id) VALUES ?";
@@ -188,7 +202,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 				}
