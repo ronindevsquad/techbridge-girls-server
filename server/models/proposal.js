@@ -178,6 +178,7 @@ module.exports = function(jwt_key) {
 							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
 								var file = req.body.filesarray.uploadedfiles[i];
 								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
+								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
 							"proposal_id) VALUES ?";

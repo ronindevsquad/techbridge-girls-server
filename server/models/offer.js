@@ -11,9 +11,9 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON \
-						offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) \
-						AND offers.status > 0";
+						var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
+						"offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) " +
+						"AND offers.status > 0";
 						return connection.execute(query, [payload.id, payload.id]);
 					})
 					.spread(data => {
@@ -96,9 +96,9 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						var data = [req.body.sga, req.body.profit, req.body.overhead, req.body.total,
 						req.body.proposal_id, payload.id];
-						var query = "INSERT INTO offers set status = 0, sga = ?, profit = ?, overhead = ?, \
-						total = ?, created_at = NOW(), updated_at = NOW(), proposal_id = UNHEX(?), \
-						user_id = UNHEX(?)"
+						var query = "INSERT INTO offers set status = 0, sga = ?, profit = ?, overhead = ?, " +
+						"total = ?, created_at = NOW(), updated_at = NOW(), proposal_id = UNHEX(?), " +
+						"user_id = UNHEX(?)"
 						return connection.execute(query, data);
 					})
 					.then(() => {
@@ -110,8 +110,8 @@ module.exports = function(jwt_key) {
 								data.push(["UNHEX(REPLACE(UUID(), '-', ''))", material.material, material.weight,
 									material.cost, "NOW()", "NOW()", req.body.proposal_id, payload.id]);
 							}
-							var query = "INSERT INTO materials (id, material, weight, cost, created_at, \
-							updated_at, proposal_id, user_id) VALUES ?";
+							var query = "INSERT INTO materials (id, material, weight, cost, created_at, " +
+							"updated_at, proposal_id, user_id) VALUES ?";
 							return connection.query(query, data);
 						// Insert machines:
 						}), using(getConnection(), connection => {
@@ -122,8 +122,8 @@ module.exports = function(jwt_key) {
 									machine.yield, machine.rate, machine.count, "NOW()", "NOW()",
 									req.body.proposal_id, payload.id]);
 							}
-							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, \
-							count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
+							"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
 							return connection.query(query, data);
 						// Insert manuals:
 						}), using(getConnection(), connection => {
@@ -134,8 +134,8 @@ module.exports = function(jwt_key) {
 									manual.yield, manual.rate, manual.count, "NOW()", "NOW()",
 									req.body.proposal_id, payload.id]);
 							}
-							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, \
-							count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+							var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
+							"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
 							return connection.query(query, data);
 						}), () => {
 							callback(false);

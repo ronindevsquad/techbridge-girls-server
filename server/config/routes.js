@@ -42,7 +42,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', proposals.create);
-	app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
+  app.post('/uploadfiles', upload.array('file'), proposals.uploadfiles)
 
 	//OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
@@ -61,5 +61,4 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/messages', messages.index);
 	app.get('/api/messages/:id', messages.show);
 	app.post('/api/messages', messages.create);
-
 }

@@ -104,6 +104,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
+INSERT INTO `files` VALUES ('03fc7a0ba359431a194bf73395622276',0,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï'),('61b4ff207121992496af3a4fbdf00fd6',1,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï'),('6a6d1a1ed4f6588b0dd44911698dfe83',0,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,6 +319,7 @@ CREATE TABLE `proposal_processes` (
 
 LOCK TABLES `proposal_processes` WRITE;
 /*!40000 ALTER TABLE `proposal_processes` DISABLE KEYS */;
+INSERT INTO `proposal_processes` VALUES ('Batch & Fill','¢j:\ä\æ…~ H\Â|2','2017-01-26 14:48:29','2017-01-26 14:48:29'),('Blow Molding','\'Sû°\ä/\æ§/ak=ô\ï','2017-01-26 17:23:05','2017-01-26 17:23:05'),('Blow Molding','¬¿¹d\ä\Z\æ…~ H\Â|2','2017-01-26 14:55:55','2017-01-26 14:55:55'),('CNC','¨ñÉ€\ä0æ¹¢WB\Öð‚','2017-01-26 17:33:52','2017-01-26 17:33:52'),('Cut & Sew','¢j:\ä\æ…~ H\Â|2','2017-01-26 14:48:29','2017-01-26 14:48:29'),('Die Casting','\'Sû°\ä/\æ§/ak=ô\ï','2017-01-26 17:23:05','2017-01-26 17:23:05'),('Die Casting','¨ñÉ€\ä0æ¹¢WB\Öð‚','2017-01-26 17:33:52','2017-01-26 17:33:52'),('Fiber Molding','¨ñÉ€\ä0æ¹¢WB\Öð‚','2017-01-26 17:33:52','2017-01-26 17:33:52');
 /*!40000 ALTER TABLE `proposal_processes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -355,6 +357,7 @@ CREATE TABLE `proposals` (
 
 LOCK TABLES `proposals` WRITE;
 /*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
+INSERT INTO `proposals` VALUES ('\'Sû°\ä/\æ§/ak=ô\ï',0,'Condoms',2147483647,'2017-02-14 08:00:00',95127,0,'Imma fk Elliot\'s girl',NULL,NULL,'2017-01-26 17:23:05','2017-01-26 17:23:05','\Û,I#\ã–\æ…~ H\Â|2'),('¢j:\ä\æ…~ H\Â|2',0,'323',228,'3333-02-02 08:00:00',23,0,'23',NULL,NULL,'2017-01-26 14:48:28','2017-01-26 14:48:28','\Û,I#\ã–\æ…~ H\Â|2'),('¨ñÉ€\ä0æ¹¢WB\Öð‚',0,'Lube',2147483647,'2017-02-14 08:00:00',95127,0,'For Elliot\'s ass',NULL,NULL,'2017-01-26 17:33:52','2017-01-26 17:33:52','\Û,I#\ã–\æ…~ H\Â|2'),('¬¿¹d\ä\Z\æ…~ H\Â|2',0,'keyboards',123,'2122-12-21 08:00:00',213,0,'321',NULL,NULL,'2017-01-26 14:55:55','2017-01-26 14:55:55','\Û,I#\ã–\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -497,4 +500,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-26 13:31:56
+-- Dump completed on 2017-01-26 17:35:18
