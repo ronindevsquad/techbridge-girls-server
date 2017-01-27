@@ -1,3 +1,4 @@
+var path = require('path');
 var multer = require('multer');
 var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -58,5 +59,4 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/messages', messages.index);
 	app.get('/api/messages/:id', messages.show);
 	app.post('/api/messages', messages.create);
-
 }

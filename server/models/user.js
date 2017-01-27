@@ -12,8 +12,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, linkedin, twitter \
-						FROM users LEFT JOIN urls ON users.id = user_id WHERE HEX(id) = ? LIMIT 1";
+						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, " +
+						"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE HEX(id) = ? LIMIT 1";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -34,10 +34,10 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u \
-							LEFT OUTER JOIN proposals p on u.id = p.user_id \
-							LEFT OUTER JOIN messages m on u.id = m.user_id \
-							WHERE HEX(u.id) = ? GROUP BY u.id";
+						var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
+							"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+							"LEFT OUTER JOIN messages m on u.id = m.user_id " +
+							"WHERE HEX(u.id) = ? GROUP BY u.id";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -60,7 +60,7 @@ module.exports = function(jwt_key) {
 						var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
 						return connection.execute(query, [req.body, payload.id]);
 					})
-					.spred(data => {
+					.spread(data => {
 						if (data.changedRows == 0)
 							throw {status: 400, message: "Failed to save changes."};
 						else
@@ -185,9 +185,9 @@ module.exports = function(jwt_key) {
 							else
 								using(getConnection(), connection => {
 									var data = [req.body.type, req.body.company, req.body.contact, req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), \
-									type = ?, company = ?, contact = ?, email = ?, password = ?, created_at = NOW(), \
-									updated_at = NOW()";
+									var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), " +
+									"type = ?, company = ?, contact = ?, email = ?, password = ?, created_at = NOW(), " +
+									"updated_at = NOW()";
 									return connection.execute(query, data);
 								})
 								.then(() => {
