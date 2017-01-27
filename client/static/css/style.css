@@ -950,3 +950,7 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
   color: black;
   text-decoration: none;
 }
+
+.profile-maker{
+  border-color: #f5a623;
+}

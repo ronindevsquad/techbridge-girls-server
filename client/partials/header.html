@@ -77,7 +77,7 @@
 			<a class="item" ng-class="{active: tab=='tracking'}" href="#!/tracking">Track Progress
 				<span class="ui circular label">{{myProposals}}</span>
 			</a>
-			<a class="item" ng-class="{active: tab=='profile'}" href="#!/profile">Profile</a>
+			<a ng-style="{'background-color' : color}" class="item" ng-class="{active: tab=='profile'}" href="#!/profile">Profile</a>
 		</div> <!-- .menu -->
 
 		<div ng-show="!viewingOtherProfile" ng-if="type==0" class="adbox">
