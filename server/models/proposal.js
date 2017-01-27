@@ -158,7 +158,7 @@ module.exports = function(jwt_key) {
 					var proposal_id = uuid().replace(/\-/g, "");
 					console.log(proposal_id);
 					using(getConnection(), connection => {
-						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion, 
+						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion,
 						req.body.zip, req.body.audience, req.body.info, payload.id];
 						var query = "INSERT INTO proposals SET id = UNHEX(?), status = ?, product = ?, quantity = ?, " +
 						"completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), " +
@@ -178,7 +178,6 @@ module.exports = function(jwt_key) {
 							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
 								var file = req.body.filesarray.uploadedfiles[i];
 								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
-								data.push([file.filename, file.type, "NOW()", "NOW()", "@temp"]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
 							"proposal_id) VALUES ?";
