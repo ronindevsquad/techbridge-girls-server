@@ -12,7 +12,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
-						"offers.proposal_id = proposals.id WHERE (HEX(offers.user_id) = ? OR HEX(proposals.user_id) = ?) " +
+						"offers.proposal_id = proposals.id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
 						"AND offers.status > 0";
 						return connection.execute(query, [payload.id, payload.id]);
 					})
@@ -24,6 +24,32 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
+		getOffers: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						if (payload.type == 0) {
+							var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
+							"proposal_id = id LEFT JOIN users ON user_id = users.id  " +
+							"WHERE status > 0 WHERE proposals.user_id = UNHEX(?)";
+							return connection.execute(query, [payload.id]);
+						}
+						else if (payload.type == 1) {
+							var query = "SELECT * FROM offers WHERE status > 0";
+							return connection.execute(query, [req.params.proposal_id]);
+						}
+
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."})
+					});
+			});
+		},		
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
@@ -32,7 +58,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to viwe offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE HEX(proposal_id) = ?";
+						var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
 						return connection.execute(query, [req.params.proposal_id]);
 					})
 					.spread(data => {
@@ -54,8 +80,8 @@ module.exports = function(jwt_key) {
 							var proposal_id = id[0];
 							var user_id = id[1];
 							var query = "SELECT *, HEX(id) AS id FROM offers LEFT JOIN proposals ON proposal_id = id " +
-							"LEFT JOIN files ON id = files.proposal_id WHERE HEX(id) = ? AND HEX(offers.user_id) = ? AND " +
-							"HEX(proposals.user_id) = ?";
+							"LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) AND offers.user_id = UNHEX(?) AND " +
+							"proposals.user_id = UNHEX(?)";
 							return connection.execute(query, [proposal_id, user_id, payload.id]);
 						}
 						else if (payload.type == 1) {
@@ -149,7 +175,7 @@ module.exports = function(jwt_key) {
 						req.body.proposal_id, payload.id, req.body.proposal_id];
 						var query = "UPDATE offers SET status = 1, sga = ?, profit = ?, overhead = ?, " +
 						"total = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
-						"AND status = 0 AND EXISTS (SELECT * FROM proposals WHERE HEX(id) = ? AND status = 0 " +
+						"AND status = 0 AND EXISTS (SELECT * FROM proposals WHERE id = UNHEX(?) AND status = 0 " +
 						"LIMIT 1) LIMIT 1";
 						return connection.execute(query, data);
 					})
@@ -211,8 +237,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to accept offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = ? " +
-						"AND user_id = ? AND status = 0 LIMIT 1";
+						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = UNHEX(?) " +
+						"AND user_id = UNHEX(?) AND status = 0 LIMIT 1";
 						return connection.execute(query, [req.body.proposal_id, payload.id]);
 					})
 					.spread((data) => {
@@ -220,12 +246,12 @@ module.exports = function(jwt_key) {
 							throw {status: 400, message:"Unable to update your proposal status. Please contact an admin."};
 						else
 							return Promise.join(using(getConnection(), connection => {
-								var query = "UPDATE offers SET status = 2, updated_at = NOW() WHERE proposal_id = ? " +
-								"AND user_id = ? AND status = 1 LIMIT 1";
+								var query = "UPDATE offers SET status = 2, updated_at = NOW() WHERE proposal_id = UNHEX(?) " +
+								"AND user_id = UNHEX(?) AND status = 1 LIMIT 1";
 								return connection.execute(query, [req.body.proposal_id, req.body.user_id]);
 							}), using(getConnection(), connection => {
-								var query = "UPDATE offers SET status = -1, updated_at = NOW() WHERE proposal_id = ? " +
-								"AND user_id != ? AND status = 1";
+								var query = "UPDATE offers SET status = -1, updated_at = NOW() WHERE proposal_id = UNHEX(?) " +
+								"AND user_id != UNHEX(?) AND status = 1";
 								return connection.execute(query, [req.body.proposal_id, req.body.user_id]);
 							}), (data) => {
 								console.log(data);

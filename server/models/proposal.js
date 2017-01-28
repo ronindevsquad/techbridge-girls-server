@@ -42,18 +42,17 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err){
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				}
-				else{
+				} else {
 					if(req.files.length<1){
 						callback({status: 401, message: "No files were selected to upload."});
 						return
 					}
 					function uploadFilesArray(index){ //upload all files using recursion because loops don't work for uploading to s3 buckets asynchronously
 						if(index==undefined){
-							index = 0
+							index = 0;
 						}
-						if(index==req.files.length){
-							return
+						if (index==req.files.length){
+							return;
 						}
 						fs.readFile(req.files[index].path, (err, data) => {
 							if(err)
@@ -68,8 +67,7 @@ module.exports = function(jwt_key) {
 							}, function(err, success){
 								if (err){
 									return callback({status: 401, message: "Internal error, please contact an admin."});
-								}
-								else {
+								} else {
 									fs.unlink(req.files[index].path, function(err){
 										if(err){
 											return callback({status: 401, message: "Internal error, please contact an admin."});
@@ -134,7 +132,7 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						if (payload.type == 0) {
 							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
-							"WHERE HEX(id) = ? AND HEX(user_id) = ?";
+							"WHERE id = UNHEX(?) AND user_id = UNHEX(?)";
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
 						else if (payload.type == 1) {

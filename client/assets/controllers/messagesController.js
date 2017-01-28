@@ -2,13 +2,13 @@ app.controller('messagesController', function ($scope, $rootScope, $location, $t
 offersFactory, messagesFactory) {
 	if (payload) {
 		$scope.tab = "messages";
-		messagesFactory.index(function(data) {
+		offersFactory.index(function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				
+
 			}
 		});
 	}	

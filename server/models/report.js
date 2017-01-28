@@ -33,7 +33,7 @@ module.exports = function(jwt_key) {
 						// var query = "SELECT reports.*, HEX(offers.proposal_id) as 'proposal_id' FROM evergreendb.proposals " +
 						// "JOIN offers ON offers.proposal_id = proposals.id JOIN reports on reports.offer_id = offers.id " +
 						// "where HEX(proposals.id) = ?"
-						var query = "SELECT *, HEX(proposal_id) AS 'proposal_id' FROM reports WHERE HEX(proposal_id) = ? ORDER BY created_at"
+						var query = "SELECT *, HEX(proposal_id) AS 'proposal_id' FROM reports WHERE proposal_id = UNHEX(?) ORDER BY created_at"
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -70,7 +70,7 @@ module.exports = function(jwt_key) {
 						else
 							return using(getConnection(), connection => {
 								// Retrieve updated user:
-								var query = "SELECT *, HEX(proposal_id) AS 'proposal_id' FROM reports WHERE HEX(proposal_id) = ? ORDER BY created_at"
+								var query = "SELECT *, HEX(proposal_id) AS 'proposal_id' FROM reports WHERE proposal_id = UNHEX(?) ORDER BY created_at"
 								return connection.execute(query, [req.body.proposal_id]);
 							});
 					})

@@ -16,7 +16,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						// The first query determines whether or not the user has a URL record associated with their account yet.
-						var query = "SELECT * FROM urls where HEX(user_id) = ? LIMIT 1";
+						var query = "SELECT * FROM urls WHERE user_id = UNHEX(?) LIMIT 1";
 						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {
@@ -30,7 +30,7 @@ module.exports = function(jwt_key) {
 							}
 							else {
 								query = "UPDATE urls SET homepage = ?, facebook = ?, instagram = ?, " +
-								"linkedin = ?, twitter = ?, updated_at = NOW() WHERE HEX(user_id) = ?"
+								"linkedin = ?, twitter = ?, updated_at = NOW() WHERE user_id = UNHEX(?)"
 								return connection.execute(query, _data);
 							}
 						});

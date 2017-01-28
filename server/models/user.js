@@ -13,7 +13,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, " +
-						"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE HEX(id) = ? LIMIT 1";
+						"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE id = UNHEX(?) LIMIT 1";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -37,7 +37,7 @@ module.exports = function(jwt_key) {
 						var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
 							"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
 							"LEFT OUTER JOIN messages m on u.id = m.user_id " +
-							"WHERE HEX(u.id) = ? GROUP BY u.id";
+							"WHERE u.id = UNHEX(?) GROUP BY u.id";
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
@@ -57,7 +57,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					using(getConnection(), connection => {
-						var query = "UPDATE users SET ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+						var query = "UPDATE users SET ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
 						return connection.execute(query, [req.body, payload.id]);
 					})
 					.spread(data => {
@@ -65,7 +65,7 @@ module.exports = function(jwt_key) {
 							throw {status: 400, message: "Failed to save changes."};
 						else
 							return using(getConnection(), connection => {
-								var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
+								var query = "SELECT *, HEX(id) AS id FROM users WHERE id = UNHEX(?) LIMIT 1";
 								return connection.execute(query, [payload.id]);
 							});
 					})
@@ -91,7 +91,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						return connection.execute("DELETE FROM users WHERE HEX(id) = ? LIMIT 1", [payload.id]);
+						return connection.execute("DELETE FROM users WHERE id = UNHEX(?) LIMIT 1", [payload.id]);
 					})
 					.spread(data => {
 						if (data.affectedRows == 0)
@@ -120,7 +120,7 @@ module.exports = function(jwt_key) {
 									callback({status: 400, message: "Hash error."});
 								else
 									using(getConnection(), connection => {
-										var query = "UPDATE users SET password = ?, updated_at = NOW() WHERE HEX(id) = ? LIMIT 1";
+										var query = "UPDATE users SET password = ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
 										return connection.execute(query, [hash, payload.id]);
 									})
 									.spread(data => {
@@ -129,7 +129,7 @@ module.exports = function(jwt_key) {
 										else
 											return using(getConnection(), connection => {
 												// Retrieve updated user:
-												var query = "SELECT *, HEX(id) AS id FROM users WHERE HEX(id) = ? LIMIT 1";
+												var query = "SELECT *, HEX(id) AS id FROM users WHERE id = UNHEX(?) LIMIT 1";
 												return connection.execute(query, [payload.id]);
 											});
 									})
@@ -173,16 +173,16 @@ module.exports = function(jwt_key) {
 			else if (req.body.password != req.body.confirm_password)
 				callback({status: 400, message: "Passwords do not match."});
 			// Else valid new user:
-			else
+			else {
 				// Encrypt password and save:
 				bcrypt.genSalt(10, function(err, salt) {
-					if (err)
+					if (err) {
 						callback({status: 400, message: "Salt error."});
-					else
+					} else {
 						bcrypt.hash(req.body.password, salt, function(err, hash) {
-							if (err)
+							if (err) {
 								callback({status: 400, message: "Hash error."});
-							else
+							} else {
 								using(getConnection(), connection => {
 									var data = [req.body.type, req.body.company, req.body.contact, req.body.email, hash];
 									var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), " +
@@ -212,8 +212,11 @@ module.exports = function(jwt_key) {
 									else
 										callback({status: 400, message: "Please contact an admin."});
 								});
+							}
 						});
+					}
 				});
+			}
 		},
 		login: function(req, callback) {
 			// Validate login data:
