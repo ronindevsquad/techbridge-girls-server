@@ -24,6 +24,22 @@ module.exports = function(jwt_key) {
 				else
 					res.json(data);
 			});
+		},
+		send: function(req, res) {
+			offer.send(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
+		accept: function(req, res) {
+			offer.accept(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
 		}
 	}
 }

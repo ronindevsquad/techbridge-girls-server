@@ -39,7 +39,7 @@
 								</div>
 								<div class="middle aligned content">
 									<div class="header">
-										{{proposal.item}}
+										{{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"MMM. yy"}}
 									</div>
 									<div class="description">
 										<div class="tracking progress">
@@ -68,9 +68,9 @@
 											<div class="vertical timeline">
 												<ul class="timeline items">
 													<li>Start Date</li>
-													<li ng-repeat="report in reports" ng-class="{'working': report.status == 0}">January 27th, 2016</li>
-													<li class="working"></li>
-													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li><!-- , 'done': $last && report.status == 1 -->
+													<li ng-repeat="report in reports" ng-bind="report.created_at | date:'MMM d y'"></li>
+													<li ng-if="!finished" ng-class="working: !finished"></li>
+													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li>
 												</ul>
 											</div>
 										</div>
@@ -84,13 +84,13 @@
 												</li>
 												<li ng-repeat="report in reports">
 													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a class="open-modal" ng-show="type==1" href="">Add Note</a>
 													</div>
-													{{report.output}}
+													Built {{report.output}} units
 												</li>
-												<li>
+												<li ng-if="!finished">
 													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
+														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a class="open-modal" ng-show="type==1" href="">Add Note</a>
 														<script type="text/javascript">
 															$('.open-modal').click(function(){
 																$('.ui.modal').modal('show');
@@ -103,7 +103,7 @@
 													</div>
 													In Progress...
 												</li>
-												<li>&nbsp;</li>
+												<li>{{builtUnits >= proposalView.quantity ? 'Completed':'&nbsp;'}}</li>
 											</ul>
 										</div>
 									</div>

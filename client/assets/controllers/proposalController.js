@@ -7,9 +7,12 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data);
-				$scope.signed = false;
-				$scope.proposal = data;
+				console.log(data[0])
+				if (data[0].status == 0)
+					$scope.signed = false;
+				else if (data[0].status > 0)
+					$scope.signed = true;
+
 				for(var i = 0; i<data.length;i++){
 					if(data[i].type == 1){
 						$scope.ndasource = $sce.trustAsResourceUrl(data[i].filename)
@@ -18,6 +21,8 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 						$scope.files.push(data[i].filename)
 					}
 				}
+
+				$scope.proposal = data;
 				console.log($scope.ndasource);
 				console.log($scope.files);
 			}
@@ -32,5 +37,16 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 		}
 		else
 			$location.url(`offer/${$routeParams.id}`)
+	}
+
+	$scope.create = function() {
+		offersFactory.create({proposal_id: $routeParams.id}, function(data) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else 
+				$location.url(`/proposal/${$routeParams.id}#${Date.now()}`);
+		});
 	}
 })
