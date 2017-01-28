@@ -44,6 +44,10 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				}
 				else{
+					if(req.files.length<1){
+						callback({status: 401, message: "No files were selected to upload."});
+						return
+					}
 					function uploadFilesArray(index){ //upload all files using recursion because loops don't work for uploading to s3 buckets asynchronously
 						if(index==undefined){
 							index = 0
