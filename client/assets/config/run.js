@@ -348,10 +348,7 @@ function ChartGenerator(){
 	this.defaultColor = 'gray'
 	this.customColorsForFirstNBars = []; //determines the color for the first N bars in the chart. Use hexcodes or CSS color names. This is implemented in pushDataSet
 	this.firstNBars = [];//contains the first few bars to be displayed in the data set. They will be pushed first, then ignored when the pushDataSet function loops through the rest of the data.
-	this.dataset = [];
-	this.testfunction = function(){
-		console.log("The chart object is properly constructed.");
-	}
+	this.dataset = [{company:"blanderschmidt", total:50}, {company:"goopenheimer", total:20}];
 	this.drawChart = function() {
 		if(!googlefinishedloading){
 			console.log("google api isn't finished loading yet. Or one of the variables hasn't loaded.");
@@ -375,7 +372,7 @@ function ChartGenerator(){
 		}
 		catch(err){
 			console.log(err);
-			setTimeout(drawChart,250);
+			setTimeout(this.drawChart,250);
 		}
 	}
 
@@ -388,7 +385,7 @@ function ChartGenerator(){
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;
 				}
-				arr.push([self.firstNBars[i].company, parseInt(self.firstNBars[i].total), customColor])
+				arr.push([self.firstNBars[i].company, parseInt(self.firstNBars[i].total), "color: "+customColor])
 			}
 		}
 		for(var i=0;i<self.dataset.length;i++){
@@ -409,6 +406,6 @@ function ChartGenerator(){
 		}
 		return arr
 	}
-}
+} //end of chart class
 
 var chartObject = new ChartGenerator();;
