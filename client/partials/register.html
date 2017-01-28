@@ -25,10 +25,10 @@
 							<div class="field">
 								<input placeholder="Email Address" type="email" ng-model="new_user.email" required>
 							</div>
-							<div class="field">
+							<div ng-if="!isAuthorized()" class="field">
 								<input placeholder="Password" type="password" ng-model="new_user.password" required>
 							</div>
-							<div class="field">
+							<div ng-if="!isAuthorized()" class="field">
 								<input placeholder="Confirm Password" type="password" ng-model="new_user.confirm_password" required>
 							</div>
 
@@ -40,7 +40,7 @@
 							<div class="ui horizontal divider"></div>
 							<small>Make it simple. Join with your LinkedIn Account</small>
 
-							<a href="" class="ui fluid primary basic button"><img src="static/img/icon-linkedin.png" width="24"> Join with LinkedIn</a>
+							<a href="" ng-click="linkedInLogin();" class="ui fluid primary basic button"><img src="static/img/icon-linkedin.png" width="24"> Join with LinkedIn</a>
 						</form> <!-- .large form -->
 
 					</div> <!-- .segment -->
@@ -53,3 +53,5 @@
 		</div> <!-- .grid -->
 	</div> <!-- #greenwrapper -->
 </div>
+
+<!-- <script  src="static/js/linkedInLogin.js"></script> -->

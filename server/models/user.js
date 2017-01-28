@@ -215,6 +215,50 @@ module.exports = function(jwt_key) {
 						});
 				});
 		},
+		registerLinkedIn: function(req, callback) {
+			if (req.body.type === undefined || !req.body.company || !req.body.contact || !req.body.email)
+				callback({status: 400, message: "All form fields are required."});
+			// Validate company:
+			else if (!req.body.company)
+				callback({status: 400, message: "Company name cannot be blank."});
+			// Validate contact:
+			else if (!/^[a-z ]{2,32}$/i.test(req.body.contact))
+				callback({status: 400, message: "Invalid contact name."});
+			// Validate email:
+			else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
+				callback({status: 400, message: "Invalid email. Email format should be: email@mailserver.com."});
+			// Else valid new user:
+			else
+				using(getConnection(), connection => {
+					var data = [req.body.type, req.body.company, req.body.contact, req.body.email];
+					var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), " +
+					"type = ?, company = ?, contact = ?, email = ?, password = UUID(), created_at = NOW(), " +
+					"updated_at = NOW()";
+					return connection.execute(query, data);
+				})
+				.then(() => {
+					return using(getConnection(), connection => {
+						var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+						return connection.execute(query, [req.body.email]);
+					});
+				})
+				.spread(data => {
+					var evergreen_token = jwt.sign({
+						id: data[0].id,
+						type: data[0].type,
+						company: data[0].company,
+						contact: data[0].contact,
+						created_at: data[0].created_at
+					}, jwt_key, {expiresIn: "5d"});
+					callback(false, evergreen_token);
+				})
+				.catch(err => {
+					if (err["code"] == "ER_DUP_ENTRY")
+						callback({status: 400, message: "Email already in use, please log in."});
+					else
+						callback({status: 400, message: "Please contact an admin."});
+				});
+		},
 		login: function(req, callback) {
 			// Validate login data:
 			if (!req.body.email || !req.body.password)
@@ -248,6 +292,37 @@ module.exports = function(jwt_key) {
 								callback(false, evergreen_token);
 							}
 						});
+				})
+				.catch(err => {
+					if (err.status)
+						callback(err);
+					else
+						callback({status: 400, message: "Please contact an admin."});
+				});
+		},
+		loginLinkedIn: function(req, callback) {
+			// Validate login data:
+			if (!req.body.email)
+				callback({status: 400, message: "LinkedIn login was unsuccessful"});
+			else
+				using(getConnection(), connection => {
+					// Get user by email:
+					var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+					return connection.execute(query, [req.body.email]);
+				})
+				.spread(data => {
+					if (data.length == 0)
+						throw {status: 400, message: "Email does not exist, please register."};
+					else
+						// Check valid password:
+						var evergreen_token = jwt.sign({
+							id: data[0].id,
+							type: data[0].type,
+							company: data[0].company,
+							contact: data[0].contact,
+							created_at: data[0].created_at
+						}, jwt_key, {expiresIn: "5d"});
+						callback(false, evergreen_token);
 				})
 				.catch(err => {
 					if (err.status)

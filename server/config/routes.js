@@ -31,7 +31,9 @@ module.exports = function(app, jwt_key) {
 	app.delete('/api/users', users.delete);
 	app.put('/api/users/changePassword', users.changePassword);
 	app.post('/users/register', users.register);
+	app.post('/users/register/linkedIn', users.registerLinkedIn);
 	app.post('/users/login', users.login);
+	app.post('/users/login/linkedIn', users.loginLinkedIn);
 
 	// URLS
 	app.post('/api/urls', urls.create);

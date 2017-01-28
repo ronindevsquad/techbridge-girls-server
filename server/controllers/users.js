@@ -49,12 +49,30 @@ module.exports = function(jwt_key) {
 					res.cookie('evergreen_token', data).end();
 			});
 		},
+		registerLinkedIn: function(req, res) {
+			user.registerLinkedIn(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.cookie('evergreen_token', data).end();
+			});
+		},
 		login: function(req, res) {
 			user.login(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
 					res.cookie('evergreen_token', data).end();
+			});
+		},
+		loginLinkedIn: function(req, res) {
+			user.loginLinkedIn(req, function(err, data) {
+				if (err) {
+					res.status(err.status).json({message: err.message});
+				}
+				else {
+					res.cookie('evergreen_token', data).end();
+				}
 			});
 		}
 	}
