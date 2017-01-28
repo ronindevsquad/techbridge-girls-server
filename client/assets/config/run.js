@@ -304,6 +304,11 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.user = undefined;
 		$rootScope.menu = undefined;
 
+		if(IN.User.isAuthorized())
+			IN.User.logout(function(){
+				location.href = ("/");
+			});
+
 		// Relocate:
 		location.href = ("/");
 	};

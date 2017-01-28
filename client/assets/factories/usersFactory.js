@@ -49,8 +49,24 @@ app.factory('usersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		registerLinkedIn: function(data, callback) {
+			$http.post('/users/register/linkedIn', data)
+			.then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		login: function(data, callback) {
 			$http.post('/users/login', data)
+			.then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
+		loginLinkedIn: function(data, callback) {
+			$http.post('/users/login/linkedIn', data)
 			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
