@@ -12,4 +12,6 @@ app.controller('dashboardController', function ($scope, $location, offersFactory
 	}
 	else
 		$location.url('/');
+	chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
+	chartObject.drawChart();
 });
