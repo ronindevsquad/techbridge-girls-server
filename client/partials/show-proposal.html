@@ -13,19 +13,19 @@
 					<div class="box">
 						<h3>Attached Documents</h3>
 
-							<div ng-repeat="file in files" class="slided-item">
-								<div class="ui cards">
-									<div class="card">
-										<div class="content">
-											<p>{{file.substring(file.lastIndexOf("-")+1,file.lastIndexOf("?"))}}</p>
-										</div>
-										<a href="{{file}}"><div class="ui bottom attached evergreen green button">
-											View Document
-										</div></a>
-									</div> <!-- .card -->
-								</div> <!-- .cards -->
-							</div>
-						</div> <!-- .single slide -->
+						<div ng-repeat="file in files" class="slided-item">
+							<div class="ui cards">
+								<div class="card">
+									<div class="content">
+										<p>{{file.substring(file.lastIndexOf("-")+1,file.lastIndexOf("?"))}}</p>
+									</div>
+									<a href="{{file}}"><div class="ui bottom attached evergreen green button">
+										View Document
+									</div></a>
+								</div> <!-- .card -->
+							</div> <!-- .cards -->
+						</div>
+					</div> <!-- .single slide -->
 						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
 					<div class="box">
 						<h3>Image Gallery</h3>

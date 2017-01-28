@@ -1,5 +1,4 @@
-app.controller('proposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
-	$scope.files = [];
+app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
@@ -7,12 +6,13 @@ app.controller('proposalController', function ($scope, $location, $routeParams, 
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data[0])
-				if (data[0].status == 0)
+				console.log(data[0].status)
+				if (data[0].status === null)
 					$scope.signed = false;
-				else if (data[0].status > 0)
+				else if (data[0].status >= 0)
 					$scope.signed = true;
 
+				$scope.files = [];
 				for(var i = 0; i<data.length;i++){
 					if(data[i].type == 1){
 						$scope.ndasource = $sce.trustAsResourceUrl(data[i].filename)

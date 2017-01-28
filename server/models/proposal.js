@@ -134,21 +134,18 @@ module.exports = function(jwt_key) {
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
 						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id, offers.status " +
-							"AS status FROM proposals LEFT JOIN offers ON id = proposal_id AND offers.user_id = ? " +
-							"LEFT JOIN files ON id = files.proposal_id WHERE HEX(id) = ? AND proposals.status = 0";
-							return connection.execute(query, [payload.id, req.params.id]);
+							var query = "SELECT *, HEX(id) AS id, offers.status AS status FROM proposals LEFT JOIN offers " +
+							"ON id = proposal_id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) " +
+							"AND offers.user_id = UNHEX(?) AND proposals.status = 0";
+							return connection.execute(query, [req.params.id, payload.id]);
 						}
 					})
 					.spread(data => {
-						if (data.length < 1)
+						if (data.length < 1 || data.status < 0)
 							throw {status: 400, message: "Not able to fetch valid proposal."};
 						else {
-							// MODIFY DATA FILENAMES HERE ELLIOT:
-							for (var i =0; i < data.length; i++) {
+							for (var i =0; i < data.length; i++)
 								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
-								// FETCH NEW_NAME FROM S3 BUCKET AND CHANGE IT HERE...
-							}
 							callback(false, data);
 						}
 					})

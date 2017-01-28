@@ -13,6 +13,10 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/login.html',
 		controller: 'indexController'
 	})
+	.when('/success',{
+		templateUrl: 'partials/success.html',
+		controller: 'successController'
+	})
 	.when('/recover',{
 		templateUrl: 'partials/recover.html'
 	})
@@ -23,10 +27,6 @@ app.config(function ($routeProvider) {
 	.when('/proposals',{
 		templateUrl: 'partials/proposals.html',
 		controller: 'proposalsController'
-	})
-	.when('/success',{
-		templateUrl: 'partials/success.html',
-		controller: 'successController'
 	})
 	.when('/tracking',{
 		templateUrl: 'partials/tracking.html',
@@ -44,9 +44,9 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/messages.html',
 		controller: 'messagesController'
 	})
-	.when('/proposal/:id',{
-		templateUrl: 'partials/proposal.html',
-		controller: 'proposalController'
+	.when('/show-proposal/:id',{
+		templateUrl: 'partials/show-proposal.html',
+		controller: 'showProposalController'
 	})
 	.when('/create-proposal',{
 		templateUrl: 'partials/create-proposal.html',
@@ -55,6 +55,10 @@ app.config(function ($routeProvider) {
 	.when('/open-proposals',{
 		templateUrl: 'partials/open-proposals.html',
 		controller: 'openProposalsController'
+	})
+	.when('/create-offer/:id',{
+		templateUrl: 'partials/create-offer.html',
+		controller: 'createOfferController'
 	})
 	.when('/offer/:id',{
 		templateUrl: 'partials/offer.html',

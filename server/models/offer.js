@@ -25,36 +25,54 @@ module.exports = function(jwt_key) {
 			});
 		},
 		index: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-				using(getConnection(), connection => {
-					var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE HEX(proposal_id) = ?";
-					return connection.execute(query, [req.params.proposal_id]);
-				})
-				.spread(data => {
-					callback(false, data);
-				})
-				.catch(err => {
-					callback({status: 400, message: "Please contact an admin."})
-				});
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 0)
+					callback({status: 401, message: "Only Makers are allowed to viwe offers."});
+				else
+					using(getConnection(), connection => {
+						var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE HEX(proposal_id) = ?";
+						return connection.execute(query, [req.params.proposal_id]);
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."})
+					});
 			});
 		},
-		// show: function(req, callback) {
-		// 	jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, data) {
-		// 		if (err)
-		// 			callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-		// 		else {
-		// 			var query = "SELECT *, HEX(id) AS id FROM proposals WHERE HEX(id) = ? AND status = 0 LIMIT 1";
-		// 			connection.query(query, req.params.id, function(err, data) {
-		// 				if (err)
-		// 					callback({status: 400, message: "Please contact an admin."});
-		// 				else if (data.length == 0)
-		// 					callback({status: 400, message: `Not able to fetch valid proposal.`});
-		// 				else
-		// 					callback(false, data[0]);
-		// 			});
-		// 		}
-		// 	});
-		// },
+		show: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						if (payload.type == 0) {
+							var id = req.params.id.split(".");
+							var proposal_id = id[0];
+							var user_id = id[1];
+							var query = "SELECT *, HEX(id) AS id FROM offers LEFT JOIN proposals ON proposal_id = id " +
+							"LEFT JOIN files ON id = files.proposal_id WHERE HEX(id) = ? AND HEX(offers.user_id) = ? AND " +
+							"HEX(proposals.user_id) = ?";
+							return connection.execute(query, [proposal_id, user_id, payload.id]);
+						}
+						else if (payload.type == 1) {
+							var query = "SELECT *, HEX(id) AS id, offers.status AS status FROM offers LEFT JOIN proposals " +
+							"ON proposal_id = id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) " +
+							"AND offers.user_id = UNHEX(?)";
+							return connection.execute(query, [req.params.id, payload.id]);
+						}
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."})
+					});
+			});
+		},
 		create: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
@@ -136,6 +154,7 @@ module.exports = function(jwt_key) {
 						return connection.execute(query, data);
 					})
 					.spread((data) => {
+						console.log(data)
 						if (data.changedRows == 0)
 							throw {status: 400, message: "Unable to save your offer. Please contact an admin."}
 						else
@@ -145,10 +164,10 @@ module.exports = function(jwt_key) {
 								for (var i = 0; i < req.body.materials.length; i++) {
 									var material = req.body.materials[i];
 									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", material.material, material.weight,
-										material.cost, "NOW()", "NOW()", req.body.proposal_id, payload.id]);
+										material.cost, "NOW()", "NOW()", `UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
 								var query = "INSERT INTO materials (id, material, weight, cost, created_at, " +
-								"updated_at, proposal_id, user_id) VALUES ?";
+								"updated_at, proposal_id, user_id) VALUES (?)";
 								return connection.query(query, data);
 							// Insert machines:
 							}), using(getConnection(), connection => {
@@ -157,10 +176,10 @@ module.exports = function(jwt_key) {
 									var machine = req.body.machines[i];
 									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 0, machine.labor, machine.time,
 										machine.yield, machine.rate, machine.count, "NOW()", "NOW()",
-										req.body.proposal_id, payload.id]);
+										`UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
 								var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
-								"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+								"count, created_at, updated_at, proposal_id, user_id) VALUES (?)"
 								return connection.query(query, data);
 							// Insert manuals:
 							}), using(getConnection(), connection => {
@@ -169,16 +188,17 @@ module.exports = function(jwt_key) {
 									var manual = req.body.manuals[i];
 									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 0, manual.labor, manual.time,
 										manual.yield, manual.rate, manual.count, "NOW()", "NOW()",
-										req.body.proposal_id, payload.id]);
+										`UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
 								var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
-								"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+								"count, created_at, updated_at, proposal_id, user_id) VALUES (?)"
 								return connection.query(query, data);
 						}), () => {
 							callback(false);
 						});
 					})
 					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

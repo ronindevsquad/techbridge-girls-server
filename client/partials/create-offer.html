@@ -7,48 +7,22 @@
 		<div class="ui container">
 
 			<h2>Customer in USA looking to produce {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
-<h1>ALL OF THIS NEEDS TO BE CHANGED</h1>
+
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet three wide computer column">
 					<div class="box">
 						<h3>Attached Documents</h3>
 
 						<div class="single-slide">
-							<div class="slided-item">
+							<div ng-repeat="file in proposal" class="slided-item">
 								<div class="ui cards">
 									<div class="card">
 										<div class="content">
-											<img src="static/img/cad.png" class="ui centered image" />
+											<p>{{file.filename.substring(file.filename.lastIndexOf("-")+1,file.filename.lastIndexOf("?"))}}</p>
 										</div>
-										<div class="ui bottom attached evergreen green button">
+										<a href="{{file.filename}}"><div class="ui bottom attached evergreen green button">
 											View Document
-										</div>
-									</div> <!-- .card -->
-								</div> <!-- .cards -->
-							</div>
-
-							<div class="slided-item">
-								<div class="ui cards">
-									<div class="card">
-										<div class="content">
-											<img src="static/img/cad.png" class="ui centered image" />
-										</div>
-										<div class="ui bottom attached evergreen green button">
-											View Document
-										</div>
-									</div> <!-- .card -->
-								</div> <!-- .cards -->
-							</div>
-
-							<div class="slided-item">
-								<div class="ui cards">
-									<div class="card">
-										<div class="content">
-											<img src="static/img/cad.png" class="ui centered image" />
-										</div>
-										<div class="ui bottom attached evergreen green button">
-											View Document
-										</div>
+										</div></a>
 									</div> <!-- .card -->
 								</div> <!-- .cards -->
 							</div>
@@ -319,6 +293,138 @@
 					</form>
 				</div> <!-- .column -->
 				
+				<div id="anchor_summary" class="sixteen wide tablet four wide computer column wall" id="offerWrapper" >
+					<div ng-show="show_summary">
+						<h3 >Offer Summary</h3>
+
+						<div class="ui segment" ng-show="offer.materials.length>0">
+							<div class="ui grid" ng-repeat="material in offer.materials track by $index">
+								<div class="sixteen wide column centered">
+									<label>Material</label>
+									<p>{{material.material}}</p>
+								</div> <!-- .column -->
+								<div class="two column row">
+									<div class="column">
+										<label>Weight</label>
+										<p>{{material.weight}}kg
+										</p>
+									</div>
+									<div class="column float right aligned">
+										<label>Cost</label>
+										<p>${{material.cost | number:2}}</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != offer.materials.length"></div>
+
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+						<div class="ui segment" ng-show="offer.machines.length>0">
+							<div class="ui four column grid" ng-repeat="machine in offer.machines">
+								<div class="one column row">
+									<div class="column">
+										<label>Machine</label>
+										<p>{{machine.labor}}</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="three column row">
+									<div class="column">
+										<label>Time</label>
+										<p>{{machine.time}}s</p>
+									</div>
+									<div class="column center aligned">
+										<label>Cost</label>
+										<p>${{machine.rate | number:2}}/hr</p>
+									</div>
+									<div class="column right aligned">
+										<label>Yield</label>
+										<p>{{machine.yield}}%</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != offer.machines.length"></div>
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+						<div class="ui segment" ng-show="offer.manuals.length>0">
+							<div class="ui four column grid" ng-repeat="manual in offer.manuals">
+								<div class="one column row">
+									<div class="column">
+										<label>Labor</label>
+										<p>{{manual.labor}}</p>
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+								<div class="three column row">
+									<div class="column">
+										<label>Time</label>
+										<p>{{manual.time}}s</p>
+									</div>
+									<div class="column center aligned">
+										<label>Wage</label>
+										<p>${{manual.rate | number:2}}/hr</p>
+									</div>
+									<div class="column right aligned">
+										<label>Yield</label>
+										<p>{{manual.yield}}%</p>
+									</div>
+								</div> <!-- .row -->
+								<div class="ui fitted divider" ng-show="$index+1 != offer.manuals.length"></div>
+							</div> <!-- .grid -->
+						</div> <!-- .segment -->
+
+
+						<div class="ui segment">
+
+							<div class="ui right aligned grid">
+
+								<div class="two column row summary">
+									<div class="left aligned column">
+										Sub-total:
+									</div> <!-- .column -->
+									<div class="column">
+										$100
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column">
+										2% Service fee:
+									</div> <!-- .column -->
+									<div class="column">
+										$2
+									</div> <!-- .column -->
+
+									<div class="ui horizontal divider"></div>
+
+									<div class="left aligned column larger">
+										Total Cost:
+									</div> <!-- .column -->
+									<div class="column larger">
+										$102
+									</div> <!-- .column -->
+								</div> <!-- .row -->
+
+							</div> <!-- .grid -->
+
+							<div class="ui horizontal divider"></div>
+
+							<button class="ui fluid evergreen orange button" ng-click="send()">SEND YOUR OFFER</button><br>
+							<div class="ui center aligned grid">
+								<a href="" ng-click="edit()">Click here to make changes</a>
+								<p style="color: red; text-align: center" ng-bind="error"></p>
+								<p style="color: red; text-align: center" ng-show="error">Make sure to remove any inputs that you are not using.</p>
+							</div>
+
+							<div class="ui horizontal divider"></div>
+
+						</div> <!-- .grid -->
+					</div> <!-- .segment -->
+
+					<div ng-show="!show_summary">
+						<p>Complete the form on the left and all the items will appear here so you can review before you send.</p>
+						<div class="ui horizontal divider"></div>
+					</div>
+					<br>
+					</div>
 				</div> <!-- .column -->
 			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
 
@@ -328,7 +434,77 @@
 
 	</div> <!-- #greenwrapper -->
 
+	<!-- are you sure Modal -->
+	<div class="ui tiny basic modal centered aligned" id="offerSent">
+		<i class="close icon"></i>
+		<div class="header">
+
+			<img src="static/img/green-check.png" width="100" class="ui centered image" />
+			<div class="ui horizontal divider"></div>
+			Your offer has been sent to {{proposal.company}}!
+		</div>
+		<div class="ui padded basic segment">
+			<p>While they review, reach out to more hardware companies and find more leads.</p>
+		</div>
+		<div class="actions">
+			<a href="" class="ui fluid grey big uppercase green button close" ng-click="continue()">Continue</a>
+		</div>
+	</div>
+
+
+<!-- 
+	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDXQLL_ClsyH7eeZ8Nk7m8bnMt27wsnH0I&extension=.js&output=embed"></script> -->
+
 	<script src="static/js/slick.min.js"></script>
 	<script src="static/js/green.js"></script>
+<!--  <script type="text/javascript">
+// $('.single-slide').slick({
+//   dots: true
+// });
 
+/* Let's throw a map in here */
+var map;
+var myCenter = new google.maps.LatLng(52.537639, 13.396399);
+var marker = new google.maps.Marker({
+position: myCenter
+});
+
+function initialize() {
+var mapProp = {
+center: myCenter,
+zoom: 17,
+draggable: true,
+scrollwheel: false,
+streetViewControl: false,
+mapTypeId:google.maps.MapTypeId.ROADMAP,
+styles: [{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"23"}]},{"featureType":"poi.attraction","elementType":"geometry.fill","stylers":[{"color":"#f38eb0"}]},{"featureType":"poi.government","elementType":"geometry.fill","stylers":[{"color":"#ced7db"}]},{"featureType":"poi.medical","elementType":"geometry.fill","stylers":[{"color":"#ffa5a8"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#c7e5c8"}]},{"featureType":"poi.place_of_worship","elementType":"geometry.fill","stylers":[{"color":"#d6cbc7"}]},{"featureType":"poi.school","elementType":"geometry.fill","stylers":[{"color":"#c4c9e8"}]},{"featureType":"poi.sports_complex","elementType":"geometry.fill","stylers":[{"color":"#b1eaf1"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":"100"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"},{"lightness":"100"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#ffd4a5"}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#ffe9d2"}]},{"featureType":"road.local","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","elementType":"geometry.fill","stylers":[{"weight":"3.00"}]},{"featureType":"road.local","elementType":"geometry.stroke","stylers":[{"weight":"0.30"}]},{"featureType":"road.local","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.local","elementType":"labels.text.fill","stylers":[{"color":"#747474"},{"lightness":"36"}]},{"featureType":"road.local","elementType":"labels.text.stroke","stylers":[{"color":"#e9e5dc"},{"lightness":"30"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":"100"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#d2e7f7"}]}]
+};
+
+map=new google.maps.Map(document.getElementById("mapCanvas"),mapProp);
+marker.setMap(map);
+
+google.maps.event.addListener(marker, 'click', function() {
+
+infowindow.setContent(contentString);
+infowindow.open(map, marker);
+
+});
+};
+google.maps.event.addDomListener(window, 'load', initialize);
+
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+function resizeMap() {
+if(typeof map =="undefined") return;
+setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+if(typeof map =="undefined") return;
+var center = map.getCenter();
+google.maps.event.trigger(map, "resize");
+map.setCenter(center);
+}
+
+</script> -->
 </div>
