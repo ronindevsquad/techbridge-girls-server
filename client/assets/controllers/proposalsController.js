@@ -3,7 +3,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$scope.tab = "proposals";
 		//Get proposals that you've created
 		proposalsFactory.getMyProposals(function(data) {
-			console.log(data);
 			$scope.proposals = data
 		});
 	}
@@ -35,11 +34,8 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	};
 
 	function refreshChart(){
-		console.log("The chart is being refreshed");
 		try{
 			chartObject.dataset = $scope.offers
-			console.log("THESE ARE THE OFFERS BEING INSERTED INTO THE CHART OBJECT");
-			console.log($scope.offers);
 			chartObject.firstNBars = [$scope.offerView]
 			chartObject.customColorsForFirstNBars = ['orange','green']
 			chartObject.drawChart();
