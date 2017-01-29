@@ -13,7 +13,7 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
 						"offers.proposal_id = proposals.id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
-						"AND offers.status > 0";
+						"AND offers.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
 					})
 					.spread(data => {
@@ -35,7 +35,8 @@ module.exports = function(jwt_key) {
 							"offers.status AS offer_status, " +
 							"proposals.status AS proposal_status FROM offers LEFT JOIN proposals ON " +
 							"proposal_id = id LEFT JOIN users ON offers.user_id = users.id  " +
-							"WHERE proposals.user_id = UNHEX(?) ORDER BY proposals.created_at DESC, offers.created_at DESC";
+							"WHERE proposals.user_id = UNHEX(?) AND offers.status >= 0 ORDER BY proposals.created_at " +
+							"DESC, offers.created_at DESC";
 							return connection.execute(query, [payload.id]);
 						}
 						else if (payload.type == 1) {
@@ -238,6 +239,8 @@ module.exports = function(jwt_key) {
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
 					callback({status: 401, message: "Only Makers are allowed to accept offers."});
+				else if (!req.body.proposal_id || !req.body.user_id)
+					callback({status: 401, message: "Invalid offer details."});
 				else
 					using(getConnection(), connection => {
 						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = UNHEX(?) " +
@@ -254,7 +257,7 @@ module.exports = function(jwt_key) {
 								return connection.execute(query, [req.body.proposal_id, req.body.user_id]);
 							}), using(getConnection(), connection => {
 								var query = "UPDATE offers SET status = -1, updated_at = NOW() WHERE proposal_id = UNHEX(?) " +
-								"AND user_id != UNHEX(?) AND status = 1";
+								"AND user_id != UNHEX(?)";
 								return connection.execute(query, [req.body.proposal_id, req.body.user_id]);
 							}), (data) => {
 								console.log(data);

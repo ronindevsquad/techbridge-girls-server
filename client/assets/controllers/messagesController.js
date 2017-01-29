@@ -38,32 +38,52 @@ offersFactory, messagesFactory) {
 	}
 
 	//////////////////////////////////////////////////////
+	//										OFFER
+	//////////////////////////////////////////////////////
+	$scope.accept = function() {
+		var offer = {
+			proposal_id: $scope.cur_offer.proposal_id,
+			user_id: $scope.cur_offer.user_id
+		};
+		offersFactory.accept(offer, function(data) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				socket.emit("accept", offer);
+				$location.url(`/message#${Date.now()}`)
+			}
+		});
+	}
+
+	//////////////////////////////////////////////////////
 	//										MESSAGE
 	//////////////////////////////////////////////////////
 	$scope.showMessages = function(offer) {
 		$rootScope.messages = [];
 		$rootScope.cur_offer = offer;
-		// messagesFactory.show(offer.id, function(data) {
-		// 	if (data.status == 401)
-		// 		$scope.logout();
-		// 	else if (data.status >= 300)
-		// 		console.log("error:", data.data.message)
-		// 	else {
-		// 		$rootScope.messages = data;
-		// 		$timeout(function() {
-		// 			var _ = document.getElementById("chat");
-		// 			_.scrollTop = _.scrollHeight;
-		// 		}, 0, false);
-		// 	}
-		// });
+		if (offer.offer_status > 1) {
+			messagesFactory.show(offer.proposal_id, function(data) {
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else {
+					$rootScope.messages = data;
+					$timeout(function() {
+						var _ = document.getElementById("chat");
+						_.scrollTop = _.scrollHeight;
+					}, 0, false);
+				}
+			});
+		}
 	}
 
 	$scope.createMessage = function() {
-		if ($scope.new_message) {
-			console.log("here")
+		if ($scope.new_message && $scope.status == 1) {
 			var data = {
-				company: $scope.company,
-				offer_id: $scope.cur_offer.id,
+				proposal_id: $scope.cur_offer.proposal_id,
 				message: $scope.new_message,
 				created_at: new Date()
 			}

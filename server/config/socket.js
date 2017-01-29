@@ -2,12 +2,12 @@ module.exports = function(server) {
 	var io = require("socket.io").listen(server);
 
 	io.sockets.on("connection", function(socket) {			
-		socket.on('subscribe', function(offer_id) {
-			socket.join(offer_id);
+		socket.on('subscribe', function(proposal_id) {
+			socket.join(proposal_id);
 		});
 
 		socket.on('send', function(data) {
-			io.to(data.offer_id).emit('sent', data);
+			io.to(data.proposal_id).emit('sent', data);
 		});
 
 		socket.on("logout", function() {
@@ -40,12 +40,12 @@ module.exports = function(server) {
 		// });
 		
 		//////////////////////////////////////////////////////
-		//										SENT FROM USERS
+		//										SENT FROM MAKERS
 		//////////////////////////////////////////////////////			
-		// socket.on('accept', function(data) {
-		// 	console.log("accept data:", data)
-		// 	socket.broadcast.to(data.application_id).emit('accepted', data);
-		// });		
+		socket.on('accept', function(data) {
+			socket.join(data.proposal_id)
+			socket.broadcast.emit('accepted', data);
+		});		
 		
 		// socket.on('decline', function(data) {
 		// 	socket.broadcast.to(data.application_id).emit('declined', data);
