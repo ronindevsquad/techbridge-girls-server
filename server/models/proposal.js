@@ -136,19 +136,65 @@ module.exports = function(jwt_key) {
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
 						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id, offers.status AS status FROM proposals LEFT JOIN offers " +
-							"ON id = proposal_id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) " +
-							"AND offers.user_id = UNHEX(?) AND proposals.status = 0";
-							return connection.execute(query, [req.params.id, payload.id]);
+							var query = "SELECT *, HEX(id) AS id FROM proposals " + // offers.status
+							"LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?)" +
+							"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?)
+							return connection.execute(query, [req.params.id]); //TEMPORARILY REMOVED , payload.id
 						}
 					})
 					.spread(data => {
-						if (data.length < 1 || data.status < 0)
+						if (data.length < 1) //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
 							throw {status: 400, message: "Not able to fetch valid proposal."};
 						else {
-							for (var i =0; i < data.length; i++)
-								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
-							callback(false, data);
+
+
+
+
+							using(getConnection(), connection => { //once we know the proposal exists, check to see if an offer is associated with it.
+								if (payload.type == 0) {
+									var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
+									"WHERE id = UNHEX(?) AND user_id = UNHEX(?)";
+									return connection.execute(query, [req.params.id, payload.id]);
+								}
+								else if (payload.type == 1) {
+									var query = "SELECT *, HEX(id) AS id, offers.status AS offer_status FROM proposals LEFT JOIN offers " + // offers.status
+									"ON id = proposal_id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) AND offers.user_id = UNHEX(?)" +
+									"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?)
+									return connection.execute(query, [req.params.id, payload.id]); //TEMPORARILY REMOVED , payload.id
+								}
+							})
+							.spread(_data => {
+								if (_data.length < 1){ //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
+									console.log("no offers with the payload id");
+									data.push(false);
+									console.log(data);
+									for (var i =0; i < data.length; i++){ //remove all the files that the user does not have permission to see.
+										if(data[i].type == 0){
+											data[i].filename = "PROTECTED"
+										}
+									}
+									for (var i =0; i < data.length; i++){
+										if(data[i].filename != "PROTECTED"){
+											data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+										}
+									}
+									callback(false, data);
+								}
+								else {
+									data.push(true);
+									for (var i =0; i < data.length; i++){
+											data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+										}
+										callback(false, data);
+									}
+							})
+							.catch(err => {
+								console.log(err)
+								if (err.status)
+									callback(err);
+								else
+									callback({status: 400, message: "Please contact an admin."});
+							});
 						}
 					})
 					.catch(err => {
