@@ -29,7 +29,6 @@ app.controller('profileController', function ($scope, $location, $routeParams, u
 			if($scope.viewingOtherProfile){
 				$scope.companyprofile = data.company
 			}
-			console.log(data);
 		}
 	});
 } //this function is invoked when the controller loads.
@@ -41,7 +40,6 @@ $scope.switchEditingURLS = function(){
 $scope.updateURLS = function(){
 	if(true){
 		urlsFactory.create($scope.user, function(data){
-			console.log(data);
 			$scope.switchEditingURLS()
 			$scope.requestProfile()
 		});

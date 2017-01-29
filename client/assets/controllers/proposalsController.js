@@ -1,10 +1,17 @@
 app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload) {
 		$scope.tab = "proposals";
-		//Get proposals that you've created
-		proposalsFactory.getMyProposals(function(data) {
-			$scope.proposals = data
-		});
+
+		if ($scope.type == 0) {
+			//Get proposals that you've created
+			proposalsFactory.getMyProposals(function(data) {
+				$scope.proposals = data;
+			});
+		} else if ($scope.type == 1) {
+			proposalsFactory.getMyApplications(function(data) {
+				$scope.proposals = data;
+			});
+		}
 	}
 	else
 	$location.url('/');
