@@ -8,7 +8,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		});
 	}
 	else
-	$location.url('/');
+		$location.url('/');
 
 
 	$scope.getOffers = function(proposal){
