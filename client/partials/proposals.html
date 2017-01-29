@@ -61,7 +61,7 @@
 						<div ng-show="proposalView==proposal && !offers" class="detail-panel">
 							<h1 class="ui center aligned segment">No offers for this proposal yet.</h1>
 						</div>
-						<div ng-show="proposalView == proposal && offers.length>1" class="detail-panel">
+						<div ng-show="proposalView == proposal && offers.length>=1" class="detail-panel">
 							<div class="ui top attached tabular menu">
 								<a class="active item" data-tab="applicants">Applicants</a>
 								<a class="item" data-tab="leads">Leads</a>
@@ -81,7 +81,7 @@
 															<img src="static/img/husky-logo.png" class="ui centered image" />
 														</div>
 														<div class="middle aligned content">
-															<h4>Supplier {{offer.company}}</h4>
+															<h4>{{offer.company}}</h4>
 															<p class="footnote">Received </p>
 														</div>
 													</a>
