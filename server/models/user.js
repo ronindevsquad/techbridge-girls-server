@@ -34,10 +34,16 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
-							"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+						if (payload.type == 0)
+							var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
+								"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+								"LEFT OUTER JOIN messages m on u.id = m.user_id " +
+								"WHERE u.id = UNHEX(?) GROUP BY u.id";
+						else
+							var query = "select u.id , COUNT(o.user_id) as proposals, COUNT(m.id) as messages from users u " +
+							"LEFT OUTER JOIN offers o on o.user_id = u.id " +
 							"LEFT OUTER JOIN messages m on u.id = m.user_id " +
-							"WHERE u.id = UNHEX(?) GROUP BY u.id";
+							"WHERE u.id = UNHEX(?) GROUP BY u.id"
 						return connection.execute(query, [req.params.id]);
 					})
 					.spread(data => {
