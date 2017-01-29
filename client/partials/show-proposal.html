@@ -12,7 +12,7 @@
 				<div class="sixteen wide tablet four wide computer column">
 					<div class="box">
 						<h3>Attached Documents</h3>
-
+						<span ng-if="!signed">Attached documents are not viewable until the NDA is signed.</span>
 						<div ng-repeat="file in files" class="slided-item">
 							<div class="ui cards">
 								<div class="card">

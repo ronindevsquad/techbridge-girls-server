@@ -157,7 +157,7 @@ function testfunction(){
 	chartObject.dataset = sampleData;
 	chartObject.firstNBars = [sampleData[3], sampleData[1]]
 	console.log(chartObject.firstNBars);
-	chartObject.customColorsForFirstNBars = ['orange','green']
+	chartObject.customColorsForFirstNBars = ['orange','#7AC200']
 	chartObject.drawChart();
 }
 
@@ -192,22 +192,22 @@ function ChartGenerator(){
 		}
 		// Create the data table.
 		try{
-			var data = [[this.template.bartitle, this.template.metric, { role: 'style' }]]
+			var data = [[self.template.bartitle, self.template.metric, { role: 'style' }]]
 			data = pushDataSet(data)
 			data = google.visualization.arrayToDataTable(data);
 			// Set chart options
 			var options = {'title':'',
 			'chartArea': {'width': '80%', 'height': '80%'},
 			'legend':{position:'none'},
-			'width':this.template.width,
-			'height':this.template.height};
+			'width':self.template.width,
+			'height':self.template.height};
 			// Instantiate and draw our chart, passing in some options.
 			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div')); //the div containing the chart must have this ID.
 			chart.draw(data, options);
 		}
 		catch(err){
 			console.log(err);
-			setTimeout(this.drawChart,250);
+			setTimeout(self.drawChart,250);
 		}
 	}
 

@@ -19,11 +19,16 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		offersFactory.index(proposal.id, function(data){
 			console.log(data);
 			$scope.proposalView = proposal;
-			if(data.length>1){
+			if(data.length>=1){
 				$scope.offers = data;
 				$scope.offerView = $scope.offers[0];
 				$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 				refreshChart()
+			}else{
+				$scope.offers = undefined;
+				$scope.offerView = undefined;
+				$scope.offerView.PPU = undefined;
+
 			}
 		});
 	};
@@ -41,8 +46,9 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			console.log("THESE ARE THE OFFERS BEING INSERTED INTO THE CHART OBJECT");
 			console.log($scope.offers);
 			chartObject.firstNBars = [$scope.offerView]
-			chartObject.customColorsForFirstNBars = ['orange','green']
+			chartObject.customColorsForFirstNBars = ['orange','#7AC200']
 			chartObject.drawChart();
+			$scope.$apply();
 		}
 		catch(err){
 			console.log(err);
