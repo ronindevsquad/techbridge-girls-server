@@ -347,7 +347,7 @@ function ChartGenerator(){
 	var defaultChartHeight = 400
 	this.template = {};
 	this.template.bartitle = 'Company';
-	this.template.metric = 'PPU';
+	this.template.metric = 'Total';
 	this.template.width = defaultChartWidth
 	this.template.height = defaultChartHeight
 	this.defaultColor = 'gray'
@@ -386,6 +386,12 @@ function ChartGenerator(){
 		for(var i=0;i<self.firstNBars.length;i++){ //first push the first few bars and give them colors
 			var customColor = self.defaultColor;
 			if (self.firstNBars[i]) { //if there exists a value to put in for the first nth value, place it
+				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
+					customColor=self.customColorsForFirstNBars[customColorIndex]
+					customColorIndex++;
+				}
+				// Evergreen Cost Bar
+				arr.push(["EG Estimate", parseInt(self.firstNBars[i].EGcost), "color: "+customColor])
 				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;

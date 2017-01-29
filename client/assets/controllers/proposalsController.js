@@ -23,13 +23,13 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else
 		offersFactory.index(proposal.id, function(data){
-			console.log(data);
 			$scope.proposalView = proposal;
 			if(data.length>1){
 				$scope.offers = data;
 				$scope.offerView = $scope.offers[0];
 				$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-				refreshChart()
+				refreshChart();
+				$scope.$apply();
 			}
 		});
 	};
@@ -37,14 +37,15 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	$scope.getOffer = function(offer){
 		$scope.offerView = offer;
 		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-		refreshChart()
+		refreshChart();
+		$scope.$apply();
 	};
 
 	function refreshChart(){
 		try{
 			chartObject.dataset = $scope.offers
 			chartObject.firstNBars = [$scope.offerView]
-			chartObject.customColorsForFirstNBars = ['orange','green']
+			chartObject.customColorsForFirstNBars = ['#7AC200','#F6A623']
 			chartObject.drawChart();
 		}
 		catch(err){
