@@ -9,6 +9,14 @@ module.exports = function(jwt_key) {
 					res.json(data);
 			});
 		},
+		getOffers: function(req, res) {
+			offer.getOffers(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		index: function(req, res) {
 			offer.index(req, function(err, data) {
 				if (err)

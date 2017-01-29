@@ -36,7 +36,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 			$("#ndaWindow").modal("show");
 		}
 		else
-			$location.url(`offer/${$routeParams.id}`)
+			$location.url(`create-offer/${$routeParams.id}`)
 	}
 
 	$scope.create = function() {
@@ -46,7 +46,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else 
-				$location.url(`/proposal/${$routeParams.id}#${Date.now()}`);
+				$location.url(`/show-proposal/${$routeParams.id}#${Date.now()}`);
 		});
 	}
 })

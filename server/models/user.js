@@ -110,15 +110,15 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
 					callback({status: 400, message: "Password must be at least 8 characters long and have a lowercase letter, an uppercase letter, and a number."});
-				else
+				else {
 					bcrypt.genSalt(10, function(err, salt) {
 						if (err)
 							callback({status: 400, message: "Salt error."});
-						else
+						else {
 							bcrypt.hash(req.body.new, salt, function(err, hash) {
 								if (err)
 									callback({status: 400, message: "Hash error."});
-								else
+								else {
 									using(getConnection(), connection => {
 										var query = "UPDATE users SET password = ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
 										return connection.execute(query, [hash, payload.id]);
@@ -149,8 +149,11 @@ module.exports = function(jwt_key) {
 										else
 											callback({status: 400, message: "Please contact an admin."});
 									});
+								}
 							});
+						}
 					});
+				}
 			});
 		},
 		register: function(req, callback) {

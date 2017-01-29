@@ -47,6 +47,7 @@ module.exports = function(app, jwt_key) {
 
 	// OFFERS
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
+	app.get('/api/getOffers', offers.getOffers);
 	app.get('/api/offers/:proposal_id', offers.index);
 	app.get('/api/offer/:id', offers.show);
 	app.post('/api/offers', offers.create);

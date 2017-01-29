@@ -31,21 +31,24 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						if (payload.type == 0) {
-							var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
-							"proposal_id = id LEFT JOIN users ON user_id = users.id  " +
-							"WHERE status > 0 WHERE proposals.user_id = UNHEX(?)";
+							var query = "SELECT *, HEX(proposal_id) AS proposal_id, HEX(offers.user_id) AS user_id, " +
+							"offers.status AS offer_status, " +
+							"proposals.status AS proposal_status FROM offers LEFT JOIN proposals ON " +
+							"proposal_id = id LEFT JOIN users ON offers.user_id = users.id  " +
+							"WHERE proposals.user_id = UNHEX(?) ORDER BY proposals.created_at DESC, offers.created_at DESC";
 							return connection.execute(query, [payload.id]);
 						}
 						else if (payload.type == 1) {
-							var query = "SELECT * FROM offers WHERE status > 0";
-							return connection.execute(query, [req.params.proposal_id]);
+							throw {status: 400, message: "Not done yet."}
+							// var query = "SELECT * FROM offers WHERE status > 0";
+							// return connection.execute(query, [req.params.proposal_id]);
 						}
-
 					})
 					.spread(data => {
 						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."})
 					});
 			});
