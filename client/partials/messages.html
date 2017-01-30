@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="messaging-container">
-					<div style="height: 500px;" class="ui stackable grid">
+					<div style="height: 700px;" class="ui stackable grid">
 						<div style="overflow-y: auto;" class="sixteen wide tablet four wide computer column">
 							<div class="ui tabular menu">
 								<a class="item" ng-class="{active: status==0}" ng-click="status=0">Pending</a>
@@ -42,7 +42,7 @@
 										<div style="text-align: center;">
 											<a href="#!/show-proposal/{{offers[0].proposal_id}}">{{offers[0].quantity}} {{offers[0].product}}</a>
 										</div>
-										<a class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers" ng-click="showMessages(offer)">
+										<a ng-style="{'background-color': offer.id==cur_offer.id&&type?'#7AC200':offer.id==cur_offer.id&&!type?'#F6A623':''}" class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers" ng-click="showMessages(offer)">
 											<div class="ui tiny image">
 												<img src="static/img/husky-logo.png" class="ui centered image" />
 											</div>
@@ -62,16 +62,16 @@
 							<div class="ui padded basic segment">
 								<p class="message-ad" ng-show="!cur_offer">Click on a supplier on the left to load the conversation.</p>
 								<div ng-show="cur_offer">
-									<a href="#!/offer/{{cur_offer.proposal_id}}.{{cur_offer.user_id}}" ng-if="cur_offer.offer_status>0">View offer details from {{cur_offer.company}}</a>
+									<a href="#!/offer/{{cur_offer.proposal_id}}.{{cur_offer.user_id}}" ng-show="cur_offer.offer_status>0 && !type">View offer details from {{cur_offer.company}}</a>
 
-									<div class="message-ad" ng-if="cur_offer.offer_status==0">
+									<div class="message-ad" ng-show="cur_offer.offer_status==0 && !type">
 										<div class="right floated">
 											<a ng-class="color" class="ui big evergreen uppercase button" href="">Send Request to Offer</a>
 										</div>
 										<p>{{cur_offer.company}} has not made an offer yet. Would you like to make a request for their offer?</p>
 									</div>
 
-									<div class="message-ad" ng-if="cur_offer.offer_status==1">
+									<div class="message-ad" ng-show="cur_offer.offer_status==1 && !type">
 										<div class="right floated">
 											<a ng-class="color" class="ui big evergreen uppercase button accept-offer" href="" ng-click="accept()">Accept Offer</a>
 											<a ng-class="color" class="ui big evergreen uppercase button" href="">Decline Offer</a>
@@ -79,44 +79,33 @@
 										<p>If the terms are agreeable you can start your collaboration with {{cur_offer.company}} at any time.</p>
 									</div>
 
-									<div style="height: 350px; overflow-y: auto;" class="messages ui padded basic segment" id="chat" ng-if="cur_offer.offer_status>1">
+									<div ng-show="cur_offer.offer_status==1 && type">
+										<p>Waiting for {{cur_offer.company}} to approve your offer. You will not be connected with {{cur_offer.company}} until they accept your offer.</p>
+									</div>
+
+									<div style="height: 550px; overflow-y: auto;" class="messages ui padded basic segment" id="chat" ng-show="cur_offer.offer_status>1">
 										<!-- this is one message -->
 
-										<div ng-repeat="message in messages">
-
-											<!-- SUPPLIER -->
-											<div class="ui grid entry" ng-if="message.user_id != id">
-												<div class="left aligned eight wide column">
-
-													<div class="ui tiny image">
-														<img src="static/img/husky-logo.png" class="ui centered image" />
-													</div>
-
-													<div class="content">
-														<p ng-bind="message.message"></p>
-														<small ng-bind="mesage.created_at | date:'short'"></small>
-													</div>
-												</div> <!-- .right column -->
-											</div>
-
-											<!-- MAKER -->
-											<!-- .if it's sent by the user it's .right floated column -->
-											<div class="ui grid entry" ng-if="message.user_id == id">
-												<div class="right aligned right floated eight wide column">
-													<p ng-bind="message.message"></p>
-													<small ng-bind="mesage.created_at | date:'short'"></small>
-												</div> <!-- .right column -->
+										<div class="ui grid" ng-repeat="message in messages">
+											<div class="row">
+												<div class="two wide column">
+													<img src="static/img/husky-logo.png" class="ui tiny centered image">
+												</div>
+												<div class="fourteen wide column">
+													<b>{{message.contact}} ({{message.company}})</b> - <small class="muted" ng-bind="message.created_at | date:'short'"></small>
+													<p style="opacity: 1;" ng-bind="message.message"></p>
+												</div>
 											</div>
 
 										</div>
 
 									</div> <!-- messages -->
 
-									<div class="send-area ui padded basic segment" ng-if="cur_offer.offer_status>1">
-										<div class="ui fluid action input">
+									<div class="send-area ui padded basic segment" ng-show="cur_offer.offer_status>1">
+										<form class="ui fluid action input" ng-submit="createMessage()">
 											<input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="cur_offer.status<1">
-											<button ng-class="color" class="ui evergreen button flat" ng-click="createMessage()" ng-disabled="cur_offer.status<1">Send</button>
-										</div>
+											<button type="submit" ng-class="color" class="ui evergreen button flat" ng-disabled="cur_offer.status<1">Send</button>
+										</form>
 									</div> <!-- .send-area -->
 
 

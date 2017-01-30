@@ -40,9 +40,12 @@ module.exports = function(jwt_key) {
 							return connection.execute(query, [payload.id]);
 						}
 						else if (payload.type == 1) {
-							throw {status: 400, message: "Not done yet."}
-							// var query = "SELECT * FROM offers WHERE status > 0";
-							// return connection.execute(query, [req.params.proposal_id]);
+							var query = "SELECT *, HEX(proposal_id) AS proposal_id, HEX(proposals.user_id) AS user_id, " +
+							"offers.status AS offer_status, " +
+							"proposals.status AS proposal_status FROM offers LEFT JOIN proposals ON " +
+							"proposal_id = id LEFT JOIN users ON proposals.user_id = users.id  " +
+							"WHERE offers.user_id = UNHEX(?) AND offers.status > 0 ORDER BY offers.created_at DESC";
+							return connection.execute(query, [payload.id]);
 						}
 					})
 					.spread(data => {

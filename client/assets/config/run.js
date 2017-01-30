@@ -92,7 +92,9 @@ app.run(function($rootScope, $timeout) {
 		if (socket) {
 			// Define socket event handlers:
 			socket.on('sent', function(data) {
-				if (data.offer_id == $rootScope.cur_offer.id && window.location.hash.includes("messages")) {
+				console.log(data)
+				if (data.proposal_id == $rootScope.cur_offer.proposal_id && 
+					window.location.hash.includes("messages")) {
 					$rootScope.messages.push(data);
 					$rootScope.$apply();
 					$timeout(function() {
@@ -106,8 +108,10 @@ app.run(function($rootScope, $timeout) {
 			//										SENT FROM USERS
 			//////////////////////////////////////////////////////
 			socket.on("accepted", function(data) {
-				if ($rootScope.id == data.user_id)
+				if ($rootScope.id == data.user_id) {
+					console.log("subbing")
 					socket.emit("subscribe", data.proposal_id);
+				}
 			});
 		}
 	})();

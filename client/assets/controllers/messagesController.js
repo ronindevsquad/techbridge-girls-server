@@ -52,7 +52,7 @@ offersFactory, messagesFactory) {
 				console.log("error:", data.data.message)
 			else {
 				socket.emit("accept", offer);
-				$location.url(`/message#${Date.now()}`)
+				$location.url(`/messages#${Date.now()}`)
 			}
 		});
 	}
@@ -70,6 +70,7 @@ offersFactory, messagesFactory) {
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
+					console.log(data)
 					$rootScope.messages = data;
 					$timeout(function() {
 						var _ = document.getElementById("chat");
@@ -83,8 +84,11 @@ offersFactory, messagesFactory) {
 	$scope.createMessage = function() {
 		if ($scope.new_message && $scope.status == 1) {
 			var data = {
-				proposal_id: $scope.cur_offer.proposal_id,
 				message: $scope.new_message,
+				company: $rootScope.company,
+				contact: $rootScope.contact,
+				proposal_id: $scope.cur_offer.proposal_id,
+				user_id: $rootScope.id,
 				created_at: new Date()
 			}
 			socket.emit('send', data);
@@ -95,7 +99,7 @@ offersFactory, messagesFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else
-					$scope.new_message = "";				
+				$scope.new_message = "";				
 			});	
 		}
 	}

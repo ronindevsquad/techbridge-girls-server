@@ -3,6 +3,7 @@ var using = Promise.using;
 var getConnection = require("../config/mysql");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+var uuid = require("uuid/v1");
 
 module.exports = function(jwt_key) {
 	return {
@@ -187,10 +188,10 @@ module.exports = function(jwt_key) {
 								callback({status: 400, message: "Hash error."});
 							} else {
 								using(getConnection(), connection => {
-									var data = [req.body.type, req.body.company, req.body.contact, req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), " +
-									"type = ?, company = ?, contact = ?, email = ?, password = ?, created_at = NOW(), " +
-									"updated_at = NOW()";
+									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, 
+									req.body.contact, req.body.email, hash];
+									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
+									"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
 									return connection.execute(query, data);
 								})
 								.then(() => {
@@ -234,36 +235,50 @@ module.exports = function(jwt_key) {
 			else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
 				callback({status: 400, message: "Invalid email. Email format should be: email@mailserver.com."});
 			// Else valid new user:
-			else
-				using(getConnection(), connection => {
-					var data = [req.body.type, req.body.company, req.body.contact, req.body.email];
-					var query = "INSERT INTO users SET id = UNHEX(REPLACE(UUID(), '-', '')), " +
-					"type = ?, company = ?, contact = ?, email = ?, password = UUID(), created_at = NOW(), " +
-					"updated_at = NOW()";
-					return connection.execute(query, data);
-				})
-				.then(() => {
-					return using(getConnection(), connection => {
-						var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-						return connection.execute(query, [req.body.email]);
-					});
-				})
-				.spread(data => {
-					var evergreen_token = jwt.sign({
-						id: data[0].id,
-						type: data[0].type,
-						company: data[0].company,
-						contact: data[0].contact,
-						created_at: data[0].created_at
-					}, jwt_key, {expiresIn: "5d"});
-					callback(false, evergreen_token);
-				})
-				.catch(err => {
-					if (err["code"] == "ER_DUP_ENTRY")
-						callback({status: 400, message: "Email already in use, please log in."});
-					else
-						callback({status: 400, message: "Please contact an admin."});
+			else {
+				// Encrypt password and save:
+				bcrypt.genSalt(10, function(err, salt) {
+					if (err) {
+						callback({status: 400, message: "Salt error."});
+					} else {
+						bcrypt.hash(uuid().replace(/\-/g, ""), salt, function(err, hash) {
+							if (err) {
+								callback({status: 400, message: "Hash error."});
+							} else {
+								using(getConnection(), connection => {
+									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact, 
+									req.body.email, hash];
+									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
+									"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
+									return connection.execute(query, data);
+								})
+								.then(() => {
+									return using(getConnection(), connection => {
+										var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+										return connection.execute(query, [req.body.email]);
+									});
+								})
+								.spread(data => {
+									var evergreen_token = jwt.sign({
+										id: data[0].id,
+										type: data[0].type,
+										company: data[0].company,
+										contact: data[0].contact,
+										created_at: data[0].created_at
+									}, jwt_key, {expiresIn: "5d"});
+									callback(false, evergreen_token);
+								})
+								.catch(err => {
+									if (err["code"] == "ER_DUP_ENTRY")
+										callback({status: 400, message: "Email already in use, please log in."});
+									else
+										callback({status: 400, message: "Please contact an admin."});
+								});
+							}
+						});
+					}
 				});
+			}
 		},
 		login: function(req, callback) {
 			// Validate login data:

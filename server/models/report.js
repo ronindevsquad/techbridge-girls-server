@@ -50,19 +50,12 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						data = {
-							id: 					"UNHEX(REPLACE(UUID(), '-', ''))",
-							status: 			1,
-							input: 				req.body.input,
-							output: 			req.body.output,
-							shipping: 		req.body.shipped,
-							note: 				req.body.note,
-							created_at: 	"NOW()",
-							updated_at: 	"NOW()",
-							user_id: 			`UNHEX('${payload.id}')`,
-							proposal_id: 	`UNHEX('${req.body.proposal_id}')`
-						};
-						return connection.query("INSERT INTO reports SET ?", data);
+						data = [uuid().replace(/\-/g, ""), req.body.input,	req.body.output,	req.body.shipped,	
+						req.body.note, payload.id, req.body.proposal_id];
+						var query = "INSERT INTO reports SET id = UNHEX(?), status = 1, input = ?, output = ?, " +
+						"shipping = ?, note = ?, created_at = NOW(), updated_at = NOW(), user_id = UNHEX(?), " +
+						"proposal_id = UNHEX(?)";
+						return connection.execute(query, data);
 					})
 					.spread(data => {
 						if (data.changedRows == 0)

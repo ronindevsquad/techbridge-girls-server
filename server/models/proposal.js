@@ -146,10 +146,6 @@ module.exports = function(jwt_key) {
 						if (data.length < 1) //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
 							throw {status: 400, message: "Not able to fetch valid proposal."};
 						else {
-
-
-
-
 							using(getConnection(), connection => { //once we know the proposal exists, check to see if an offer is associated with it.
 								if (payload.type == 0) {
 									var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +

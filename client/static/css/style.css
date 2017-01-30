@@ -954,3 +954,11 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
 .profile-maker{
   border-color: #f5a623;
 }
+
+.green-bg {
+  background-color: #7AC200;
+}
+
+.orange-bg {
+  background-color: #F6A623;
+}
