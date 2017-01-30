@@ -104,7 +104,7 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES ('03fc7a0ba359431a194bf73395622276',0,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï'),('61b4ff207121992496af3a4fbdf00fd6',1,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï'),('6a6d1a1ed4f6588b0dd44911698dfe83',0,'2017-01-26 17:23:05','2017-01-26 17:23:05','\'Sû°\ä/\æ§/ak=ô\ï');
+INSERT INTO `files` VALUES ('18890e79b5596e41a1878180dd2866d4',0,'2017-01-29 15:42:26','2017-01-29 15:42:26','—3 \æ|\æ®À=\Ğü£\''),('29f7ebbab62a5ac56b9f14676bf1de72',0,'2017-01-29 15:40:13','2017-01-29 15:40:13','G6À\æ|\æµì·±[‚/\ä'),('3b728226553f81de2def4fdd6452d1f1',0,'2017-01-29 15:49:36','2017-01-29 15:49:36','—4\æ}æ«˜\àrÁ\n'),('4a55a0b9c2b6df87c2deb2e40b967b45',0,'2017-01-29 15:49:00','2017-01-29 15:49:00','\Æ\\ \æ}æ«˜\àrÁ\n'),('5f1ed9e83a392a7c474ebaa48c7a5672',0,'2017-01-29 15:42:26','2017-01-29 15:42:26','—3 \æ|\æ®À=\Ğü£\''),('82683ccc6c5e139c21b50b110b14c43c',0,'2017-01-29 15:40:13','2017-01-29 15:40:13','G6À\æ|\æµì·±[‚/\ä'),('a83b4987a091320d6e40f414db3d9561',1,'2017-01-29 15:49:00','2017-01-29 15:49:00','\Æ\\ \æ}æ«˜\àrÁ\n'),('ae9a1d5962466f3d212bb0ed78072544',0,'2017-01-29 15:49:36','2017-01-29 15:49:36','—4\æ}æ«˜\àrÁ\n'),('c52b9b6f4109571a91ef06cbb1cfe3bd',1,'2017-01-29 15:49:36','2017-01-29 15:49:36','—4\æ}æ«˜\àrÁ\n'),('c9f1656c6076444fdf535fb2325163c7',1,'2017-01-29 15:40:13','2017-01-29 15:40:13','G6À\æ|\æµì·±[‚/\ä'),('d25542e03d71971c074dbc4c0033e4ff',1,'2017-01-29 15:42:26','2017-01-29 15:42:26','—3 \æ|\æ®À=\Ğü£\''),('f85f99eede4e86c468d25cb5831029cf',0,'2017-01-29 15:49:00','2017-01-29 15:49:00','\Æ\\ \æ}æ«˜\àrÁ\n');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `labors` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_labors_offers1_idx` (`proposal_id`,`user_id`),
-  CONSTRAINT `fk_labors_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `fk_labors_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -140,37 +140,8 @@ CREATE TABLE `labors` (
 
 LOCK TABLES `labors` WRITE;
 /*!40000 ALTER TABLE `labors` DISABLE KEYS */;
+INSERT INTO `labors` VALUES ('4şF¯\æ~\æ…~ H\Â|2',0,'5',145,45,45.00,45,'2017-01-29 15:53:02','2017-01-29 15:53:02','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('4şQ\æ~\æ…~ H\Â|2',0,'45',45,45,45.00,45,'2017-01-29 15:53:02','2017-01-29 15:53:02','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('CmfÁ\æ€\æ…~ H\Â|2',0,'645',87897,987,78.00,5,'2017-01-29 16:07:45','2017-01-29 16:07:45','—3 \æ|\æ®À=\Ğü£\'','@q½\æ€\æ…~ H\Â|2'),('Cmp\í\æ€\æ…~ H\Â|2',0,'578',5,78,658.00,75,'2017-01-29 16:07:45','2017-01-29 16:07:45','—3 \æ|\æ®À=\Ğü£\'','@q½\æ€\æ…~ H\Â|2'),('…gQ\æ€\æ…~ H\Â|2',0,'83',383,38381,838.00,12,'2017-01-29 16:09:36','2017-01-29 16:09:36','—4\æ}æ«˜\àrÁ\n','@q½\æ€\æ…~ H\Â|2'),('…gYS\æ€\æ…~ H\Â|2',0,'13',213,2,321.00,2,'2017-01-29 16:09:36','2017-01-29 16:09:36','—4\æ}æ«˜\àrÁ\n','@q½\æ€\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `labors` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `leads`
---
-
-DROP TABLE IF EXISTS `leads`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `leads` (
-  `proposal_id` binary(16) NOT NULL,
-  `user_id` binary(16) NOT NULL,
-  `status` tinyint(1) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`proposal_id`,`user_id`),
-  KEY `fk_leads_proposals1_idx` (`proposal_id`),
-  KEY `fk_leads_users1_idx` (`user_id`),
-  CONSTRAINT `fk_leads_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_leads_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `leads`
---
-
-LOCK TABLES `leads` WRITE;
-/*!40000 ALTER TABLE `leads` DISABLE KEYS */;
-/*!40000 ALTER TABLE `leads` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -183,15 +154,16 @@ DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `id` binary(16) NOT NULL,
   `material` varchar(45) DEFAULT NULL,
-  `weight` decimal(12,2) DEFAULT NULL,
-  `cost` decimal(12,2) DEFAULT NULL,
+  `weight` decimal(12,5) DEFAULT NULL,
+  `cost` decimal(12,5) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_materials_offers1_idx` (`proposal_id`,`user_id`),
-  CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -201,6 +173,7 @@ CREATE TABLE `materials` (
 
 LOCK TABLES `materials` WRITE;
 /*!40000 ALTER TABLE `materials` DISABLE KEYS */;
+INSERT INTO `materials` VALUES ('4ş7„\æ~\æ…~ H\Â|2','al',52.00000,213.00000,'2017-01-29 15:53:02','2017-01-29 15:53:02','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('Cl\Öı\æ€\æ…~ H\Â|2','SD',78.00000,898976.00000,'2017-01-29 16:07:45','2017-01-29 16:07:45','—3 \æ|\æ®À=\Ğü£\'','@q½\æ€\æ…~ H\Â|2'),('…gL \æ€\æ…~ H\Â|2','Hydrogen',37.00000,9.00000,'2017-01-29 16:09:36','2017-01-29 16:09:36','—4\æ}æ«˜\àrÁ\n','@q½\æ€\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `materials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,12 +190,14 @@ CREATE TABLE `messages` (
   `status` tinyint(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
   `proposal_id` binary(16) NOT NULL,
+  `user_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_messages_offers1_idx` (`user_id`,`proposal_id`),
-  CONSTRAINT `fk_messages_offers1` FOREIGN KEY (`user_id`, `proposal_id`) REFERENCES `offers` (`user_id`, `proposal_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_messages_proposals1_idx` (`proposal_id`),
+  KEY `fk_messages_users1_idx` (`user_id`),
+  CONSTRAINT `fk_messages_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_messages_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -232,6 +207,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES ('\0\Ë\í\r\æ‰\æ…~ H\Â|2','okay',0,'2017-01-29 17:10:19','2017-01-29 17:10:19','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('øò\Ú\æ‰\æ…~ H\Â|2','10101010',0,'2017-01-29 17:10:23','2017-01-29 17:10:23','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('&‰— \æ‰\æ…~ H\Â|2','testet',0,'2017-01-29 17:11:22','2017-01-29 17:11:22','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('(¯ˆP\æ‰\æ…~ H\Â|2','okokoko',0,'2017-01-29 17:11:26','2017-01-29 17:11:26','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('+&!\æˆ\æ…~ H\Â|2','fkkkkk',0,'2017-01-29 17:04:20','2017-01-29 17:04:20','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('T*£\æˆ\æ…~ H\Â|2','bd',0,'2017-01-29 17:05:29','2017-01-29 17:05:29','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('xmÌŠ\æˆ\æ…~ H\Â|2','testing',0,'2017-01-29 17:06:30','2017-01-29 17:06:30','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('~–:\æˆ\æ…~ H\Â|2','hi',0,'2017-01-29 17:06:40','2017-01-29 17:06:40','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('Š\Ë¥\æ‰\æ…~ H\Â|2','why',0,'2017-01-29 17:14:10','2017-01-29 17:14:10','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\r7\Ù\æ‰\æ…~ H\Â|2','why not',0,'2017-01-29 17:14:16','2017-01-29 17:14:16','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('•¦úF\æ‡\æ…~ H\Â|2','gas',0,'2017-01-29 17:00:10','2017-01-29 17:00:10','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('Ÿ\ØÙŒ\æ‡\æ…~ H\Â|2','lol',0,'2017-01-29 17:00:27','2017-01-29 17:00:27','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\Öd;\à\æ‰\æ˜\Èw‡\á\Ô}','test',0,'2017-01-29 17:17:16','2017-01-29 17:17:16','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\Ø€\æ‰\æ˜\Èw‡\á\Ô}','test',0,'2017-01-29 17:17:19','2017-01-29 17:17:19','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\ØğŒ\æ‰\æ˜\Èw‡\á\Ô}','with',0,'2017-01-29 17:17:20','2017-01-29 17:17:20','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\Ùe•\0\æ‰\æ˜\Èw‡\á\Ô}','new',0,'2017-01-29 17:17:21','2017-01-29 17:17:21','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('\Ú5ğ\æ‰\æ˜\Èw‡\á\Ô}','uuid',0,'2017-01-29 17:17:22','2017-01-29 17:17:22','\Æ\\ \æ}æ«˜\àrÁ\n','\çoö\æz\æ…~ H\Â|2'),('ß¥ \æ‰\æ˜\Èw‡\á\Ô}','it w',0,'2017-01-29 17:17:31','2017-01-29 17:17:31','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('\àD@\æ‰\æ˜\Èw‡\á\Ô}','work',0,'2017-01-29 17:17:32','2017-01-29 17:17:32','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),('\à´(0\æ‰\æ˜\Èw‡\á\Ô}','s',0,'2017-01-29 17:17:33','2017-01-29 17:17:33','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,6 +242,7 @@ CREATE TABLE `offers` (
 
 LOCK TABLES `offers` WRITE;
 /*!40000 ALTER TABLE `offers` DISABLE KEYS */;
+INSERT INTO `offers` VALUES (2,45.00,45.00,45.00,45.00,'2017-01-29 15:50:59','2017-01-29 15:54:39','\Æ\\ \æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2'),(1,78.00,78.00,75.00,78.00,'2017-01-29 16:06:55','2017-01-29 16:07:45','—3 \æ|\æ®À=\Ğü£\'','@q½\æ€\æ…~ H\Â|2'),(1,23.00,44.00,23.00,2312.00,'2017-01-29 16:08:48','2017-01-29 16:09:36','—4\æ}æ«˜\àrÁ\n','@q½\æ€\æ…~ H\Â|2'),(0,NULL,NULL,NULL,NULL,'2017-01-29 15:50:51','2017-01-29 15:50:51','—4\æ}æ«˜\àrÁ\n','\ÚÁò\ß\æ}\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `offers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +296,7 @@ CREATE TABLE `proposal_processes` (
 
 LOCK TABLES `proposal_processes` WRITE;
 /*!40000 ALTER TABLE `proposal_processes` DISABLE KEYS */;
-INSERT INTO `proposal_processes` VALUES ('Batch & Fill','¢j:\ä\æ…~ H\Â|2','2017-01-26 14:48:29','2017-01-26 14:48:29'),('Blow Molding','\'Sû°\ä/\æ§/ak=ô\ï','2017-01-26 17:23:05','2017-01-26 17:23:05'),('Blow Molding','¬¿¹d\ä\Z\æ…~ H\Â|2','2017-01-26 14:55:55','2017-01-26 14:55:55'),('CNC','¨ñÉ€\ä0æ¹¢WB\Öğ‚','2017-01-26 17:33:52','2017-01-26 17:33:52'),('Cut & Sew','¢j:\ä\æ…~ H\Â|2','2017-01-26 14:48:29','2017-01-26 14:48:29'),('Die Casting','\'Sû°\ä/\æ§/ak=ô\ï','2017-01-26 17:23:05','2017-01-26 17:23:05'),('Die Casting','¨ñÉ€\ä0æ¹¢WB\Öğ‚','2017-01-26 17:33:52','2017-01-26 17:33:52'),('Fiber Molding','¨ñÉ€\ä0æ¹¢WB\Öğ‚','2017-01-26 17:33:52','2017-01-26 17:33:52');
+INSERT INTO `proposal_processes` VALUES ('Batch & Fill','\Æ\\ \æ}æ«˜\àrÁ\n','2017-01-29 15:49:00','2017-01-29 15:49:00'),('Blow Molding','\Æ\\ \æ}æ«˜\àrÁ\n','2017-01-29 15:49:00','2017-01-29 15:49:00'),('Injection Molding','—4\æ}æ«˜\àrÁ\n','2017-01-29 15:49:36','2017-01-29 15:49:36'),('Thermaforming','—4\æ}æ«˜\àrÁ\n','2017-01-29 15:49:36','2017-01-29 15:49:36');
 /*!40000 ALTER TABLE `proposal_processes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,8 +316,6 @@ CREATE TABLE `proposals` (
   `zip` int(11) DEFAULT NULL,
   `audience` tinyint(1) DEFAULT NULL,
   `info` varchar(1000) DEFAULT NULL,
-  `attachment` varchar(45) DEFAULT NULL,
-  `nda` varchar(45) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
@@ -357,7 +332,7 @@ CREATE TABLE `proposals` (
 
 LOCK TABLES `proposals` WRITE;
 /*!40000 ALTER TABLE `proposals` DISABLE KEYS */;
-INSERT INTO `proposals` VALUES ('\'Sû°\ä/\æ§/ak=ô\ï',0,'Condoms',2147483647,'2017-02-14 08:00:00',95127,0,'Imma fk Elliot\'s girl',NULL,NULL,'2017-01-26 17:23:05','2017-01-26 17:23:05','\Û,I#\ã–\æ…~ H\Â|2'),('¢j:\ä\æ…~ H\Â|2',0,'323',228,'3333-02-02 08:00:00',23,0,'23',NULL,NULL,'2017-01-26 14:48:28','2017-01-26 14:48:28','\Û,I#\ã–\æ…~ H\Â|2'),('¨ñÉ€\ä0æ¹¢WB\Öğ‚',0,'Lube',2147483647,'2017-02-14 08:00:00',95127,0,'For Elliot\'s ass',NULL,NULL,'2017-01-26 17:33:52','2017-01-26 17:33:52','\Û,I#\ã–\æ…~ H\Â|2'),('¬¿¹d\ä\Z\æ…~ H\Â|2',0,'keyboards',123,'2122-12-21 08:00:00',213,0,'321',NULL,NULL,'2017-01-26 14:55:55','2017-01-26 14:55:55','\Û,I#\ã–\æ…~ H\Â|2');
+INSERT INTO `proposals` VALUES ('G6À\æ|\æµì·±[‚/\ä',0,'sd',20,'2222-02-22 08:00:00',9123,0,'asd','2017-01-29 15:40:13','2017-01-29 15:40:13','\çoö\æz\æ…~ H\Â|2'),('\Æ\\ \æ}æ«˜\àrÁ\n',2,'Wheels',521,'2019-02-22 08:00:00',512,0,'','2017-01-29 15:49:00','2017-01-29 15:54:39','\çoö\æz\æ…~ H\Â|2'),('—3 \æ|\æ®À=\Ğü£\'',0,'sd',20,'2222-02-22 08:00:00',9123,0,'asd','2017-01-29 15:42:26','2017-01-29 15:42:26','\çoö\æz\æ…~ H\Â|2'),('—4\æ}æ«˜\àrÁ\n',0,'756',64,'2017-01-31 08:00:00',73,0,'','2017-01-29 15:49:36','2017-01-29 15:49:36','\çoö\æz\æ…~ H\Â|2');
 /*!40000 ALTER TABLE `proposals` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,8 +350,8 @@ CREATE TABLE `reports` (
   `output` varchar(45) DEFAULT NULL,
   `shipping` varchar(45) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `created_at` varchar(45) DEFAULT NULL,
-  `updated_at` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   `user_id` binary(16) NOT NULL,
   `proposal_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
@@ -453,6 +428,7 @@ CREATE TABLE `user_processes` (
 
 LOCK TABLES `user_processes` WRITE;
 /*!40000 ALTER TABLE `user_processes` DISABLE KEYS */;
+INSERT INTO `user_processes` VALUES ('Batch & Fill','@q½\æ€\æ…~ H\Â|2','2017-01-29 16:06:41','2017-01-29 16:06:41'),('Batch & Fill','\ÚÁò\ß\æ}\æ…~ H\Â|2','2017-01-29 15:50:35','2017-01-29 15:50:35'),('Cut & Sew','@q½\æ€\æ…~ H\Â|2','2017-01-29 16:06:41','2017-01-29 16:06:41'),('Cut & Sew','\ÚÁò\ß\æ}\æ…~ H\Â|2','2017-01-29 15:50:35','2017-01-29 15:50:35'),('Die Casting','\ÚÁò\ß\æ}\æ…~ H\Â|2','2017-01-29 15:50:35','2017-01-29 15:50:35'),('Injection Molding','@q½\æ€\æ…~ H\Â|2','2017-01-29 16:06:41','2017-01-29 16:06:41');
 /*!40000 ALTER TABLE `user_processes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -487,7 +463,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('\Û,I#\ã–\æ…~ H\Â|2',0,'maker','maker','maker@maker.com','$2a$10$qWcHMAD5fBl8QVaHPxTIgu3GBoOeuqunYZj.lQmBu/KUvVG5/Wxwi',NULL,NULL,NULL,'2017-01-25 23:12:20','2017-01-25 23:12:20');
+INSERT INTO `users` VALUES ('@q½\æ€\æ…~ H\Â|2',1,'Elliot & Co','Elliot','elliot@ec.com','$2a$10$MdllsaNzU0loVzQO3UbnPu4JuC1EWILseenr3N21iey385gpgGr7W',NULL,NULL,NULL,'2017-01-29 16:06:38','2017-01-29 16:06:38'),('\çoö\æz\æ…~ H\Â|2',0,'Maker','Mak','mak@maker.com','$2a$10$W1ximrjdK.yxCD2ZJ/dWUurEEFE/R4w0BUCqqMOKTiol/AZCiBPSC',NULL,NULL,NULL,'2017-01-29 15:27:20','2017-01-29 15:27:20'),('\ÚÁò\ß\æ}\æ…~ H\Â|2',1,'Supplier','Su','su@supplier.com','$2a$10$vB4CbF.qLWb.yDl6dOkB5uWXUtqfAmyh8/4bHla8qlBNMo2TrIkH6',NULL,NULL,NULL,'2017-01-29 15:50:31','2017-01-29 15:50:31'),('\æeV²\æŠ\æ…~ H\Â|2',1,'jk','njk','njk@njk.nk','$2a$10$GO5DfZ16Wu/WMHF1U3TsTefKwK5kjqY47Xrh5GGYhExaNtBqiooc6',NULL,NULL,NULL,'2017-01-29 17:23:54','2017-01-29 17:23:54');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -500,4 +476,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-26 17:35:18
+-- Dump completed on 2017-01-29 19:08:49
