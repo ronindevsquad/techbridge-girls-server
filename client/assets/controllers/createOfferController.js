@@ -9,7 +9,7 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 			else if (data[0].status < 0)
 				$location.url("/open-proposals");
 			else if (data[0].status > 0)
-				$location.url(`/offer/${$routeParams.id}`);
+				$location.url(`/offer/${$routeParams.id}/${payload.id}`);
 			else if (data[0].status === 0) {
 				$scope.offer = {
 					proposal_id: $routeParams.id,
@@ -20,7 +20,7 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 				$scope.proposal = data;
 				console.log(data)
 			}
-			else 
+			else
 				$location.url(`/show-proposal/${$routeParams.id}`)
 		});
 	}

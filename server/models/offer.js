@@ -106,6 +106,39 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
+		showAcceptedOffer: function(req, callback) {
+			console.log("Inside show accepted Offer");
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type == 1 && req.params.offer_user_id != payload.id)
+					callback({status:401, message: "You are not Authorized to view this offer."})
+				else
+					using(getConnection(), connection => {
+						if (payload.type == 0) {
+							var proposal_id = req.params.proposal_id;
+							var user_id = req.params.offer_user_id;
+							var query = "SELECT proposals.*,offers.*, users.company, HEX(proposals.id) AS proposal_id, offers.status AS status FROM offers LEFT JOIN proposals ON proposal_id = proposals.id JOIN users ON users.id = offers.user_id" +
+							"WHERE proposals.id = UNHEX(?) AND offers.user_id = UNHEX(?) AND " + //TEMPORARILY REMOVED LEFT JOIN files ON id = files.proposal_id
+							"proposals.user_id = UNHEX(?)";
+							return connection.query(query, [proposal_id, user_id, payload.id]);
+						}
+						else if (payload.type == 1) {
+							var query = "SELECT proposals.*,offers.*, users.company, HEX(proposals.id) AS proposal_id, offers.status AS status FROM offers LEFT JOIN proposals " +
+							"ON proposal_id = proposals.id JOIN users ON users.id = offers.user_id WHERE proposals.id = UNHEX(?)" + //TEMPORARILY REMOVED LEFT JOIN files ON id = files.proposal_id
+							"AND offers.user_id = UNHEX(?)";
+							return connection.query(query, [req.params.proposal_id, payload.id]);
+						}
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						console.log(err);
+						callback({status: 400, message: "Please contact an admin."})
+					});
+			});
+		},
 		create: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)

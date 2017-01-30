@@ -45,17 +45,23 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$scope.$apply();
 	};
 
+	$scope.acceptOffer = function(){
+		//LOGIC TO SUBMIT ACCEPT offer
+		$location.url('/messages')
+	}
+
 	function refreshChart(){
 		try{
+			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers
 			chartObject.firstNBars = [$scope.offerView]
 			chartObject.customColorsForFirstNBars = ['orange','#7AC200']
 			chartObject.drawChart();
-			$scope.$apply();
+			$scope.$apply()
 		}
 		catch(err){
-			console.log(err);
-			setTimeout(refreshChart,250);
+			// console.log(err);
+			setTimeout(refreshChart,500);
 		}
 	}
 })

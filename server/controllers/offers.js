@@ -33,6 +33,14 @@ module.exports = function(jwt_key) {
 					res.json(data);
 			});
 		},
+		showAcceptedOffer: function(req, res) {
+			offer.showAcceptedOffer(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		create: function(req, res) {
 			offer.create(req, function(err, data) {
 				if (err)
