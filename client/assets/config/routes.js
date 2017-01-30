@@ -60,7 +60,7 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/create-offer.html',
 		controller: 'createOfferController'
 	})
-	.when('/offer/:id',{
+	.when('/offer/:proposal_id/:offer_user_id',{
 		templateUrl: 'partials/offer.html',
 		controller: 'offerController'
 	})

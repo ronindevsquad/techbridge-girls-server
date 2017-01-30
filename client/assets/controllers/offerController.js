@@ -1,7 +1,7 @@
-app.controller('offerController', function ($scope, $location, $routeParams, $anchorScroll,
+app.controller('offerController', function ($scope, $location, $routeParams,
 	proposalsFactory, offersFactory) {
 	if (payload && $scope.type == 1) {
-		proposalsFactory.show($routeParams.id, function(data) {
+		offersFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
