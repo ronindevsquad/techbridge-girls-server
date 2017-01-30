@@ -1,8 +1,8 @@
 app.controller("createProposalController", function ($scope, $route, $location, proposalsFactory) {
-	$scope.proposal = {};
 	if (payload && $scope.type == 0) {
 		$scope.today = new Date();
 		$scope.documentsCount = 0;
+		$scope.proposal = {info: ""};
 		$scope.step = 1;
 	}
 	else

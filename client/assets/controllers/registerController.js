@@ -23,13 +23,30 @@ app.controller("registerController", function ($scope, $location, $routeParams, 
 	};
 
 	function registerLinkedIn(new_user){
-		usersFactory.registerLinkedIn($scope.new_user, function(data){
-			if (data.status == 401)
-				$scope.logout();
-			else if (data.status >= 300)
-				$scope.error = data.data.message;
-			else
-				$location.url('/success');
+		IN.API.Raw('/people/~:(id,first-name,last-name,email-address)?format=json').result(function(data){
+			if ($scope.new_user.email == data.emailAddress){
+				usersFactory.registerLinkedIn($scope.new_user, function(data){
+					if (data.status == 401)
+					$scope.logout();
+					else if (data.status >= 300)
+					$scope.error = data.data.message;
+					else
+					$location.url('/success');
+				});
+			} else {
+				$scope.error = "Email is not LinkedIn Email"
+				$scope.$apply();
+			}
+		});
+	};
+
+	function fillForm(){
+		IN.User.authorize(function(){
+			IN.API.Raw('/people/~:(id,first-name,last-name,email-address)?format=json').result(function(data){
+				$scope.new_user.contact = `${data.firstName} ${data.lastName}`;
+				$scope.new_user.email = data.emailAddress;
+				$scope.$apply();
+			});
 		});
 	};
 
@@ -41,19 +58,10 @@ app.controller("registerController", function ($scope, $location, $routeParams, 
 	};
 
 	$scope.linkedInLogin = function(){
-		if (IN.User.isAuthorized()) {
-	    IN.API.Raw('/people/~:(id,first-name,last-name,email-address)?format=json').result(function(data){
-				$scope.new_user.contact = `${data.firstName} ${data.lastName}`;
-				$scope.new_user.email = data.emailAddress;
-	    });
+		if (!IN.User.isAuthorized()) {
+			IN.User.authorize(fillForm);
 	  } else {
-	    IN.User.authorize(function(){
-				IN.API.Raw('/people/~:(id,first-name,last-name,email-address)?format=json').result(function(data){
-		      $scope.new_user.contact = `${data.firstName} ${data.lastName}`;
-					$scope.new_user.email = data.emailAddress;
-					$scope.$apply();
-		    });
-	    });
+	    fillForm();
 	  }
 	}
 });

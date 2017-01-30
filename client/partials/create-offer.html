@@ -6,7 +6,7 @@
 
 		<div class="ui container">
 
-			<h2>Customer in USA looking to produce {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
+			<h2>Customer in USA looking to produce {{proposal[0].quantity}} {{proposal[0].product}} by {{proposal[0].completion | date:"mediumDate"}}</h2>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet three wide computer column">
@@ -54,7 +54,7 @@
 
 									<div class="field sixteen wide column">
 										<label>
-											<span data-tooltip="This is one of the raw materials you plan to use to produce {{proposal.product}}." data-position="right center">Raw Material {{offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
+											<span data-tooltip="This is one of the raw materials you plan to use to produce {{proposal[0].product}}." data-position="right center">Raw Material {{offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
 										</label>
 										<input placeholder="e.g. Aluminum (AL 6061/5052)" type="text" ng-model="material.material" required>
 									</div>
@@ -441,7 +441,7 @@
 
 			<img src="static/img/green-check.png" width="100" class="ui centered image" />
 			<div class="ui horizontal divider"></div>
-			Your offer has been sent to {{proposal.company}}!
+			Your offer has been sent to {{proposal[0].company}}!
 		</div>
 		<div class="ui padded basic segment">
 			<p>While they review, reach out to more hardware companies and find more leads.</p>

@@ -1,10 +1,17 @@
 app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload) {
 		$scope.tab = "proposals";
-		//Get proposals that you've created
-		proposalsFactory.getMyProposals(function(data) {
-			$scope.proposals = data
-		});
+
+		if ($scope.type == 0) {
+			//Get proposals that you've created
+			proposalsFactory.getMyProposals(function(data) {
+				$scope.proposals = data;
+			});
+		} else if ($scope.type == 1) {
+			proposalsFactory.getMyApplications(function(data) {
+				$scope.proposals = data;
+			});
+		}
 	}
 	else
 		$location.url('/');
@@ -26,7 +33,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 				$scope.offers = undefined;
 				$scope.offerView = undefined;
 				$scope.offerView.PPU = undefined;
-
+				refreshChart();
 			}
 		});
 	};
@@ -34,7 +41,8 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	$scope.getOffer = function(offer){
 		$scope.offerView = offer;
 		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-		refreshChart()
+		refreshChart();
+		$scope.$apply();
 	};
 
 	$scope.acceptOffer = function(){

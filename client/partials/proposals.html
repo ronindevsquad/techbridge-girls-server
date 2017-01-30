@@ -7,7 +7,7 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2>Your Proposals</h2>
-			<p>Your opened proposals.</p>
+			<p>Your {{type == 0 ?'opened':'applied'}} proposals.</p>
 			<a ng-if="type==0" ng-class="color"  href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
 
