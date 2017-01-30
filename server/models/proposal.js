@@ -27,7 +27,24 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT p.*, HEX(p.id) AS id, COUNT(o.updated_at) AS applications FROM proposals p " +
-						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id WHERE p.user_id = UNHEX(?) GROUP BY p.id" //Where user_id = ?
+						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id WHERE p.user_id = UNHEX(?) GROUP BY p.id"
+						return connection.execute(query, [payload.id]);
+					})
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
+		getMyApplications: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						var query = "SELECT * FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?))"
 						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {

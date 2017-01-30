@@ -56,7 +56,7 @@ module.exports = function(jwt_key) {
 						callback({status: 400, message: "Please contact an admin."})
 					});
 			});
-		},		
+		},
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
@@ -65,8 +65,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to viwe offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT o.*, u.company FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
-						return connection.execute(query, [req.params.proposal_id]);
+						var query = "SELECT o.*, u.company, EvergreenCost(?,HEX(u.id)) AS EGcost FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
+						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					})
 					.spread(data => {
 						callback(false, data);
@@ -116,7 +116,7 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						console.log(req.body.proposal_id)
 						var query = "SELECT status FROM proposals WHERE id = UNHEX(?) LIMIT 1";
-						return connection.execute(query, [req.body.proposal_id]);						
+						return connection.execute(query, [req.body.proposal_id]);
 					})
 					.spread((data) => {
 						if (data.length == 0 || data[0].status != 0)

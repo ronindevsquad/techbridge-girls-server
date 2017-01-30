@@ -1,11 +1,17 @@
 app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload) {
 		$scope.tab = "proposals";
-		//Get proposals that you've created
-		proposalsFactory.getMyProposals(function(data) {
-			console.log(data);
-			$scope.proposals = data
-		});
+
+		if ($scope.type == 0) {
+			//Get proposals that you've created
+			proposalsFactory.getMyProposals(function(data) {
+				$scope.proposals = data;
+			});
+		} else if ($scope.type == 1) {
+			proposalsFactory.getMyApplications(function(data) {
+				$scope.proposals = data;
+			});
+		}
 	}
 	else
 		$location.url('/');
@@ -17,7 +23,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else
 		offersFactory.index(proposal.id, function(data){
-			console.log(data);
 			$scope.proposalView = proposal;
 			if(data.length>=1){
 				$scope.offers = data;
@@ -28,7 +33,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 				$scope.offers = undefined;
 				$scope.offerView = undefined;
 				$scope.offerView.PPU = undefined;
-
+				refreshChart();
 			}
 		});
 	};
@@ -36,15 +41,13 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	$scope.getOffer = function(offer){
 		$scope.offerView = offer;
 		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-		refreshChart()
+		refreshChart();
+		$scope.$apply();
 	};
 
 	function refreshChart(){
-		console.log("The chart is being refreshed");
 		try{
 			chartObject.dataset = $scope.offers
-			console.log("THESE ARE THE OFFERS BEING INSERTED INTO THE CHART OBJECT");
-			console.log($scope.offers);
 			chartObject.firstNBars = [$scope.offerView]
 			chartObject.customColorsForFirstNBars = ['orange','#7AC200']
 			chartObject.drawChart();
