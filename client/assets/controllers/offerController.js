@@ -9,6 +9,7 @@ app.controller('offerController', function ($scope, $location, $routeParams,
 			else {
 				console.log(data);
 				$scope.offer = {
+					company: data[0].company,
 					proposal_id: $routeParams.id,
 					materials: [{}],
 					machines: [{}],
