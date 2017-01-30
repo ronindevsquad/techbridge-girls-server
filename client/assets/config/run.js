@@ -376,7 +376,7 @@ function ChartGenerator(){
 			chart.draw(data, options);
 		}
 		catch(err){
-			console.log(err);
+			// console.log(err);
 			setTimeout(self.drawChart,250);
 		}
 	}

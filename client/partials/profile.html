@@ -61,7 +61,7 @@
 
 											</div>
 										</div>
-										<button ng-show="!editingURLS && !viewingOtherProfile" ng-click="switchEditingURLS()" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
+										<button ng-class="color" class="ui big uppercase button" ng-show="!editingURLS && !viewingOtherProfile" ng-click="switchEditingURLS()" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
 										<button ng-show="editingURLS" ng-click="updateURLS()" type="button" name="button">Save</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
 										<button ng-show="editingURLS" ng-click="switchEditingURLS()" type="button" name="button">Cancel</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
 									</div> <!-- .ui list -->

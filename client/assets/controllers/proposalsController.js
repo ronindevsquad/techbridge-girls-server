@@ -3,7 +3,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$scope.tab = "proposals";
 		//Get proposals that you've created
 		proposalsFactory.getMyProposals(function(data) {
-			console.log(data);
 			$scope.proposals = data
 		});
 	}
@@ -17,7 +16,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else
 		offersFactory.index(proposal.id, function(data){
-			console.log(data);
 			$scope.proposalView = proposal;
 			if(data.length>=1){
 				$scope.offers = data;
@@ -39,20 +37,23 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		refreshChart()
 	};
 
+	$scope.acceptOffer = function(){
+		//LOGIC TO SUBMIT ACCEPT offer
+		$location.url('/messages')
+	}
+
 	function refreshChart(){
-		console.log("The chart is being refreshed");
 		try{
+			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers
-			console.log("THESE ARE THE OFFERS BEING INSERTED INTO THE CHART OBJECT");
-			console.log($scope.offers);
 			chartObject.firstNBars = [$scope.offerView]
 			chartObject.customColorsForFirstNBars = ['orange','#7AC200']
 			chartObject.drawChart();
-			$scope.$apply();
+			$scope.$apply()
 		}
 		catch(err){
-			console.log(err);
-			setTimeout(refreshChart,250);
+			// console.log(err);
+			setTimeout(refreshChart,500);
 		}
 	}
 })

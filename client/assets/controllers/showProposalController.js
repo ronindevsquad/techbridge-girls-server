@@ -1,13 +1,11 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data)
 				if (data[data.length-1] == false)
 					$scope.signed = false;
 				else
@@ -24,8 +22,6 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 				}
 
 				$scope.proposal = data;
-				console.log($scope.signed);
-				console.log($scope.files);
 			}
 		});
 	}

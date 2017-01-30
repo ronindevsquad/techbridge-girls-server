@@ -1,4 +1,5 @@
 app.controller('dashboardController', function ($scope, $location, offersFactory) {
+	chartObject.dataset = null
 	if (payload) {
 		$scope.tab = "dashboard";
 		offersFactory.getAcceptedOffers(function(data) {
