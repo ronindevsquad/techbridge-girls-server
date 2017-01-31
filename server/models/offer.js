@@ -52,7 +52,6 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err)
 						callback({status: 400, message: "Please contact an admin."})
 					});
 			});
@@ -105,12 +104,10 @@ module.exports = function(jwt_key) {
 							data.files = files[0];
 							data.materials = materials[0];
 							data.labors = labors[0];
-							console.log(data)
 							callback(false, data);
 						}
 					})
 					.catch(err => {
-						console.log(err)
 						callback({status: 400, message: "Please contact an admin."})
 					});
 				}
@@ -124,7 +121,6 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Suppliers are allowed to create offers."});
 				else
 					using(getConnection(), connection => {
-						console.log(req.body.proposal_id)
 						var query = "SELECT status FROM proposals WHERE id = UNHEX(?) LIMIT 1";
 						return connection.execute(query, [req.body.proposal_id]);
 					})
@@ -142,7 +138,6 @@ module.exports = function(jwt_key) {
 						callback(false);
 					})
 					.catch((err) => {
-						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -180,24 +175,24 @@ module.exports = function(jwt_key) {
 						return callback({status: 400, message: "Invalid field(s) for manual labors provided."});
 				}
 
-				if (!req.body.proposal_id || req.body.sga === undefined || req.body.profit === undefined ||
-				req.body.overhead === undefined || req.body.total === undefined || req.body.sga < 0 ||
-				req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
+				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined || 
+					req.body.profit === undefined || req.body.overhead === undefined || 
+					req.body.total === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
+					req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 					return callback({status: 400, message: "All form fields are required."});
 
 				// Validation done, insert into offers:
 				else
 					using(getConnection(), connection => {
-						var data = [req.body.sga, req.body.profit, req.body.overhead, req.body.total,
-						req.body.proposal_id, payload.id, req.body.proposal_id];
-						var query = "UPDATE offers SET status = 1, sga = ?, profit = ?, overhead = ?, " +
+						var data = [req.body.tooling, req.body.sga, req.body.profit, req.body.overhead, 
+						req.body.total, req.body.proposal_id, payload.id, req.body.proposal_id];
+						var query = "UPDATE offers SET status = 1, tooling = ?, sga = ?, profit = ?, overhead = ?, " +
 						"total = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
 						"AND status = 0 AND EXISTS (SELECT * FROM proposals WHERE id = UNHEX(?) AND status = 0 " +
 						"LIMIT 1) LIMIT 1";
 						return connection.execute(query, data);
 					})
 					.spread((data) => {
-						console.log(data)
 						if (data.changedRows == 0)
 							throw {status: 400, message: "Unable to save your offer. Please contact an admin."}
 						else
@@ -241,7 +236,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -273,7 +267,6 @@ module.exports = function(jwt_key) {
 								"AND user_id != UNHEX(?)";
 								return connection.execute(query, [req.body.proposal_id, req.body.user_id]);
 							}), (data) => {
-								console.log(data);
 								callback(false);
 							});
 					})

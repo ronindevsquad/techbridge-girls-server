@@ -1,36 +1,18 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
 	if (payload) {
-		$scope.tab = "tracking";
-		if ($scope.type == 0) {
-			var builtUnits = 0;
-
-		}
-		else if ($scope.type == 1) {
-			var builtUnits = 0;
-
-		}
+		proposalsFactory.getPercentCompleted(function(data) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				$scope.proposals = data;
+			}
+		});
 	}
-	else
+	else {
 		$location.url('/');
-// When the document loads, retrieve the offers (that have been accepted) and reports associated with the id logged in. The format of the JSON response should be an array of proposals, each having an (accepted) offer property which contains a reports proprty that is an array of report objects. The back end handles this information.
-	// offersFactory.index(function(data){
-	// 	if (data.errors){
-	// 		console.log(data.errors);
-	// 	} else{
-	// 		console.log(data);
-	// 		$scope.proposals = data.proposals
-	// 	}
-	// });
-
-	proposalsFactory.getMyProposals(function(data){
-		if (data.status == 401)
-			$scope.logout();
-		else if (data.status >= 300)
-			console.log("error:", data.data.message)
-		else {
-			$scope.proposals = data
-		}
-	});
+	}
 
 	// function formatProposalsAndReports(){
 	// 	var formattedObject = [];

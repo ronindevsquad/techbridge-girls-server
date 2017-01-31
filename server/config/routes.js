@@ -41,6 +41,7 @@ module.exports = function(app, jwt_key) {
 	// PROPOSALS
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals/getMyApplications', proposals.getMyApplications);
+	app.get('/api/proposals/getPercentCompleted', proposals.getPercentCompleted);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', proposals.create);

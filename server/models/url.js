@@ -42,7 +42,6 @@ module.exports = function(jwt_key) {
 							callback(false);
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

@@ -82,7 +82,7 @@ offersFactory, messagesFactory) {
 	}
 
 	$scope.createMessage = function() {
-		if ($scope.new_message && $scope.status == 1) {
+		if ($scope.new_message) {
 			var data = {
 				message: $scope.new_message,
 				company: $rootScope.company,

@@ -50,7 +50,6 @@ function setSocket() {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(data)
 				for (var i = 0; i < data.length; i++)
 					socket.emit('subscribe', data[i].proposal_id);
 			},
