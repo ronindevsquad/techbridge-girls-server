@@ -44,13 +44,36 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT * FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?))"
+						var query = "SELECT *, HEX(id) AS id FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?))"
 						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {
 						callback(false, data);
 					})
 					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
+		getPercentCompleted: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else
+					using(getConnection(), connection => {
+						var query = "SELECT *, HEX(proposals.id) AS proposal_id, SUM(reports.output) " +
+						"AS completed FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN " +
+						"reports ON offers.proposal_id = reports.proposal_id AND offers.user_id = " +
+						"reports.user_id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
+						"AND offers.status > 1 AND proposals.status > 1 GROUP BY reports.proposal_id";
+						return connection.execute(query, [payload.id, payload.id]);
+					})
+					.spread(data => {
+						console.log(data)
+						callback(false, data);
+					})
+					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -178,9 +201,7 @@ module.exports = function(jwt_key) {
 							})
 							.spread(_data => {
 								if (_data.length < 1){ //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
-									console.log("no offers with the payload id");
 									data.push(false);
-									console.log(data);
 									for (var i =0; i < data.length; i++){ //remove all the files that the user does not have permission to see.
 										if(data[i].type == 0){
 											data[i].filename = "PROTECTED"
@@ -202,7 +223,6 @@ module.exports = function(jwt_key) {
 									}
 							})
 							.catch(err => {
-								console.log(err)
 								if (err.status)
 									callback(err);
 								else
@@ -211,7 +231,6 @@ module.exports = function(jwt_key) {
 						}
 					})
 					.catch(err => {
-						console.log(err)
 						if (err.status)
 							callback(err);
 						else
@@ -220,7 +239,6 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-			console.log(req.body.completion);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});

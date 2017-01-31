@@ -223,12 +223,6 @@ function ChartGenerator(){
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;
 				}
-				// Evergreen Cost Bar
-				arr.push(["EG Estimate", parseInt(self.firstNBars[i].EGcost), "color: "+customColor])
-				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
-					customColor=self.customColorsForFirstNBars[customColorIndex]
-					customColorIndex++;
-				}
 				arr.push([self.firstNBars[i].company, parseInt(self.firstNBars[i].total), "color: "+customColor])
 			}
 		}

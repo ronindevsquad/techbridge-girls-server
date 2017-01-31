@@ -18,8 +18,8 @@ app.factory('offersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
-		index: function(id, callback) {
-			$http.get(`/api/offers/${id}`, {
+		index: function(proposal_id, callback) {
+			$http.get(`/api/offers/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);
@@ -27,17 +27,8 @@ app.factory('offersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
-		show: function(id, callback) {
-			$http.get(`/api/offer/${id}/`, {
-				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
-				callback(res.data);
-			}, function(res) {
-				callback(res);
-			});
-		},
-		showAcceptedOffer: function(proposal_id, offer_user_id, callback) {
-			$http.get(`/api/offer/${proposal_id}/${offer_user_id}`, {
+		show: function(proposal_id, user_id, callback) {
+			$http.get(`/api/offer/${proposal_id}/${user_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);

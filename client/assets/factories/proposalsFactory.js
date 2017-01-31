@@ -18,6 +18,15 @@ app.factory('proposalsFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		getPercentCompleted: function(callback) {
+			$http.get('/api/proposals/getPercentCompleted', {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		index: function(callback) {
 			$http.get('/api/proposals', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}

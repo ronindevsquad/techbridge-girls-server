@@ -6,257 +6,124 @@
 
 		<div class="ui container">
 
-			<h2>Customer in USA looking to produce {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
 			<div class="ui centered relaxed grid">
+				<h2>{{offer.quantity}} {{offer.product}} to be produced by {{offer.completion | date:"mediumDate"}}</h2>
 
-				<div class="sixteen wide tablet twelve wide computer column container divided">
-
+				<div class="sixteen wide tablet twelve wide computer column container">
 					<div class="ui centered grid">
 						<h3 class="row">{{offer.company}}'s offer</h3>
-					</div>
+						<div class="row">
+							<table class="ui collapsing celled table">
+								<thead>
+									<tr>
+										<th>Raw Material</th>
+										<th>Weight (kg/unit)</th>
+										<th>Cost ($/kg)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="center aligned" ng-repeat="material in offer.materials">
+										<td ng-bind="material.material"></td>
+										<td ng-bind="material.weight"></td>
+										<td ng-bind="material.cost | number:2"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
-					<fieldset style="border: none;" ng-disabled="show_summary">
-						<!-- START the raw materials selection -->
-						<fieldset>
-							<legend>&nbsp;Production Materials&nbsp;</legend><br>
+						<div class="row">
+							<table class="ui collapsing celled table">
+								<thead>
+									<tr>
+										<th>Machine</th>
+										<th>Cycle Time (sec)</th>
+										<th>Operation Cost ($/hr)</th>
+										<th>Yield (%)</th>
+										<th>Number of Machines</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="center aligned" ng-repeat="machine in offer.labors | filter:{type:0}">
+										<td ng-bind="machine.labor"></td>
+										<td ng-bind="machine.time"></td>
+										<td ng-bind="machine.rate | number:2"></td>
+										<td ng-bind="machine.yield | number:2"></td>
+										<td ng-bind="machine.count"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-							<div ng-repeat="material in offer.materials track by $index">
-								<div class="ui grid second">
+						<div class="row">
+							<table class="ui collapsing celled table">
+								<thead>
+									<tr>
+										<th>Labor</th>
+										<th>Labor Time (sec)</th>
+										<th>Labor Rate ($/hr)</th>
+										<th>Yield (%)</th>
+										<th>Number of Laborers</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="center aligned" ng-repeat="manual in offer.labors | filter:{type:1}">
+										<td ng-bind="manual.labor"></td>
+										<td ng-bind="manual.time"></td>
+										<td ng-bind="manual.rate | number:2"></td>
+										<td ng-bind="manual.yield | number:2"></td>
+										<td ng-bind="manual.count"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-									<div class="field sixteen wide column">
-										<label>
-											<span data-tooltip="This is one of the raw materials you plan to use to produce {{proposal.product}}." data-position="right center">Raw Material {{offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
-										</label>
-										<input type="text" ngng-model="material.material" disabled>
-									</div>
-
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the weight (in kilograms)
-											 of how much {{material.material?material.material:'material'}} you'll use to produce each unit." data-position="right center">Weight <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" min="0.00" step="0.01" ngng-model="material.weight" disabled>
-												<div class="ui basic label">
-													kg/unit
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the cost of {{material.weight?material.weight:'(e.g.) 2.5'}} kg of {{material.material?material.material:'Aluminum (AL 6061/5052)'}}." data-position="right center">Cost <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ngng-model="material.cost" disabled>
-												<div class="ui basic label">
-													$/weight
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div>
-								</div> <!-- .second -->
-								<div class="ui horizontal divider"></div>
-							</div>
-
-
-						</fieldset>
-						<!-- END the raw materials selection -->
-
-						<div class="ui horizontal divider"></div>
-
-						<!-- START the raw machine labor -->
-						<fieldset >
-							<legend>&nbsp;Production Machines&nbsp;</legend><br>
-
-							<div ng-repeat="machine in offer.machines track by $index">
-
-								<div class="ui grid second">
-
-									<div class="field sixteen wide column">
-										<label><span data-tooltip="This is one type of machine you'll use in production." data-position="right center">Machine {{offer.machines.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
-										<input type="text" ngng-model="machine.labor" disabled>
-									</div>
-
-
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the time it takes the machine to process the raw material for one product." data-position="right center">Cycle Time <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ng-model="machine.time" disabled>
-												<div class="ui basic label">
-													sec
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the cost of running the machine at an hourly rate." data-position="right center">Operation Cost <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" min="0.01" step="0.01" ngng-model="machine.rate" disabled>
-												<div class="ui basic label">
-													$/hr
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the yield as a percentage of output products / input raw materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ng-model="machine.yield" disabled>
-												<div class="ui basic label">
-													%
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label>Number of Machines <span data-tooltip="This is the quantity of this machine type that you'll have available for production." data-position="top right"><i class="help circle outline icon"></i></span></label>
-											<div class="ui input">
-												<input type="number" ng-model="machine.count" disabled>
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-								</div> <!-- .second -->
-								<div class="ui horizontal divider"></div>
-							</div>
-
-
-						</fieldset>
-						<!-- END the raw machine labor -->
+						<div class="row">
+							<table class="ui collapsing celled table">
+								<thead>
+									<tr>
+										<th>Cost</th>
+										<th>$</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>SG&amp;A <small>(Sales, General, and Admin)</small></td>
+										<td class="center aligned" ng-bind="offer.sga | number:2"></td>
+									</tr>
+									<tr>
+										<td>Overhead</td>
+										<td class="center aligned" ng-bind="offer.overhead | number:2"></td>
+									</tr>
+									<tr>
+										<td>Profit</td>
+										<td class="center aligned" ng-bind="offer.profit | number:2"></td>
+									</tr>
+									<tr>
+										<td>Total</td>
+										<td class="center aligned" ng-bind="offer.total | number:2"></td>
+									</tr>
+								</tbody>
+								<tfoot class="full-width" ng-if="type==0">
+									<tr>
+										<th colspan="4">
+											<button class="ui small green button">
+												Accept Application
+											</button>
+											<button class="ui small orange button">
+												Decline Application
+											</button>
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 
 						<div class="ui horizontal divider"></div>
+					</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
 
-						<!-- START the raw machine labor -->
-						<fieldset >
-
-							<legend>&nbsp;Manual Labor&nbsp;</legend><br>
-
-							<div ng-repeat="manual in offer.manuals track by $index">
-
-								<div class="ui grid second">
-
-									<div class="field sixteen wide column">
-										<label><span data-tooltip="This is one type of manual labor you'll need in production." data-position="right center">Labor {{offer.manuals.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
-										<input ng-model="manual.labor" disabled>
-									</div>
-
-
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the time it takes the laborer to complete {{manual.labor?manual.labor:'this labor'}} for one product." data-position="right center">Labor Time <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ng-model="manual.time" disabled>
-												<div class="ui basic label">
-													sec
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the wage of the laborer as an hour rate." data-position="right center">Labor Rate <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ng-model="manual.rate" disabled>
-												<div class="ui basic label">
-													$/hr
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label><span data-tooltip="This is the yield as a percentage of output products / input materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input type="number" ng-model="manual.yield" disabled>
-												<div class="ui basic label">
-													%
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-									<div class="eight wide column">
-										<div class="field">
-											<label>Number of Laborers <span data-tooltip="This is the number of workers you'll have available for {{manual.labor?manual.labor:'this labor'}}." data-position="top right"><i class="help circle outline icon"></i></span></label>
-											<div class="ui input">
-												<input type="number" ng-model="manual.count" disabled>
-											</div>
-										</div> <!-- .field -->
-									</div> <!-- .column -->
-
-								</div> <!-- .second -->
-								<div class="ui horizontal divider"></div>
-							</div>
-
-						</fieldset>
-						<!-- END the raw machine labor -->
-
-						<div class="ui horizontal divider"></div>
-
-						<fieldset >
-							<legend>&nbsp;Production Costs&nbsp;</legend><br>
-
-							<div class="field">
-								<label><span data-tooltip="This is the cost of your SG&A team." data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
-								<div class="ui right labeled input">
-									<input ng-model="offer.sga" disabled>
-									<div class="ui basic label">
-										$
-									</div> <!-- label -->
-								</div>
-							</div>
-							<div class="field">
-								<label><span data-tooltip="This is the overhead cost for..." data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
-								<div class="ui right labeled input">
-									<input ng-model="offer.overhead" disabled>
-									<div class="ui basic label">
-										$
-									</div> <!-- label -->
-								</div>
-							</div> <!-- .field -->
-							<div class="field">
-								<label><span data-tooltip="This is how much you plan to profit per unit." data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
-								<div class="ui right labeled input">
-									<input ng-model="offer.profit" disabled>
-									<div class="ui basic label">
-										$
-									</div> <!-- label -->
-								</div>
-							</div> <!-- .field -->
-							<div class="field">
-								<label><span data-tooltip="This is the total cost we've calculated from the number you've provided." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
-								<div class="ui right labeled input">
-									<input ng-model="offer.total" disabled>
-									<div class="ui basic label">
-										$
-									</div> <!-- label -->
-								</div>
-							</div> <!-- .field -->
-						</fieldset>
-
-						<div class="ui horizontal divider"></div>
-
-						</fieldset>
-					</form>
-				</div> <!-- .column -->
-
-				</div> <!-- .column -->
-			</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->
-
-		</div> <!-- .container -->
+				</div> <!-- .container -->
+			</div>
+		</div>
 
 		<div ng-include="'partials/footer.html'"></div>
 
