@@ -4,20 +4,18 @@ var mysql = require('mysql2/promise');
 var SqlString = require('mysql2/node_modules/sqlstring');
 
 function queryFormat(sql, values, timeZone) {
-	console.log(sql)
 	sql = SqlString.format(sql, values, false, timeZone);
 	sql = sql.replace(/'NOW\(\)'/g, "NOW()");
 	sql = sql.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))");
 	sql = sql.replace(/'UNHEX/g, "UNHEX");
 	sql = sql.replace(/\\'\)'/g, "')");
 	sql = sql.replace(/\\/g, "");
-	console.log(sql)
 	return sql;
 };
 
 var pool = mysql.createPool({
 	host: 'localhost',
-	port: '3306',
+	port: '8889',
 	user: 'root',
 	password: 'root',
 	database: 'evergreendb',

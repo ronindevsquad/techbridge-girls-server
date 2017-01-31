@@ -50,7 +50,6 @@ function setSocket() {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(data)
 				for (var i = 0; i < data.length; i++)
 					socket.emit('subscribe', data[i].proposal_id);
 			},
@@ -93,7 +92,7 @@ app.run(function($rootScope, $timeout) {
 			// Define socket event handlers:
 			socket.on('sent', function(data) {
 				console.log(data)
-				if (data.proposal_id == $rootScope.cur_offer.proposal_id && 
+				if (data.proposal_id == $rootScope.cur_offer.proposal_id &&
 					window.location.hash.includes("messages")) {
 					$rootScope.messages.push(data);
 					$rootScope.$apply();
