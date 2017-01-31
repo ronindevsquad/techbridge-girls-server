@@ -62,7 +62,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
-					callback({status: 401, message: "Only Makers are allowed to viwe offers."});
+					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else
 					using(getConnection(), connection => {
 						var query = "SELECT o.*, u.company, EvergreenCost(?,HEX(u.id)) AS EGcost FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
@@ -72,6 +72,7 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."})
 					});
 			});
