@@ -81,63 +81,39 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else
-					using(getConnection(), connection => {
-						if (payload.type == 0) {
-							var id = req.params.id.split(".");
-							var proposal_id = id[0];
-							var user_id = id[1];
-							var query = "SELECT *, HEX(id) AS id FROM offers LEFT JOIN proposals ON proposal_id = id " +
-							"LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) AND offers.user_id = UNHEX(?) AND " +
-							"proposals.user_id = UNHEX(?)";
-							return connection.execute(query, [proposal_id, user_id, payload.id]);
+				else {
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT offers.*, proposals.*, company,offers.status AS status FROM offers LEFT JOIN " +
+						"users ON user_id = id LEFT JOIN " +
+						"proposals ON proposal_id = proposals.id WHERE proposals.id = UNHEX(?) AND offers.user_id = " +
+						"UNHEX(?) AND (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) LIMIT 1";
+						return connection.execute(query, [req.params.proposal_id, req.params.user_id, payload.id, payload.id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT * FROM files WHERE proposal_id = UNHEX(?)";
+						return connection.execute(query, [req.params.proposal_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT * FROM materials WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?)";
+						return connection.execute(query, [req.params.proposal_id, req.params.user_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT * FROM labors WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?)";
+						return connection.execute(query, [req.params.proposal_id, req.params.user_id]);
+					}), (offer, files, materials, labors) => {
+						if (offer[0].length == 0)
+							throw {status: 400, message: "Could not find offer."};
+						else {
+							var data = offer[0][0];
+							data.files = files[0];
+							data.materials = materials[0];
+							data.labors = labors[0];
+							console.log(data)
+							callback(false, data);
 						}
-						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id, offers.status AS status FROM offers LEFT JOIN proposals " +
-							"ON proposal_id = id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) " +
-							"AND offers.user_id = UNHEX(?)";
-							return connection.execute(query, [req.params.id, payload.id]);
-						}
-					})
-					.spread(data => {
-						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."})
 					});
-			});
-		},
-		showAcceptedOffer: function(req, callback) {
-			console.log("Inside show accepted Offer");
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				if (err)
-					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else if (payload.type == 1 && req.params.offer_user_id != payload.id)
-					callback({status:401, message: "You are not Authorized to view this offer."})
-				else
-					using(getConnection(), connection => {
-						if (payload.type == 0) {
-							var proposal_id = req.params.proposal_id;
-							var user_id = req.params.offer_user_id;
-							var query = "SELECT proposals.*,offers.*, users.company, HEX(proposals.id) AS proposal_id, offers.status AS status FROM offers LEFT JOIN proposals ON proposal_id = proposals.id JOIN users ON users.id = offers.user_id" +
-							"WHERE proposals.id = UNHEX(?) AND offers.user_id = UNHEX(?) AND " + //TEMPORARILY REMOVED LEFT JOIN files ON id = files.proposal_id
-							"proposals.user_id = UNHEX(?)";
-							return connection.query(query, [proposal_id, user_id, payload.id]);
-						}
-						else if (payload.type == 1) {
-							var query = "SELECT proposals.*,offers.*, users.company, HEX(proposals.id) AS proposal_id, offers.status AS status FROM offers LEFT JOIN proposals " +
-							"ON proposal_id = proposals.id JOIN users ON users.id = offers.user_id WHERE proposals.id = UNHEX(?)" + //TEMPORARILY REMOVED LEFT JOIN files ON id = files.proposal_id
-							"AND offers.user_id = UNHEX(?)";
-							return connection.query(query, [req.params.proposal_id, payload.id]);
-						}
-					})
-					.spread(data => {
-						callback(false, data);
-					})
-					.catch(err => {
-						console.log(err);
-						callback({status: 400, message: "Please contact an admin."})
-					});
+				}
 			});
 		},
 		create: function(req, callback) {
@@ -253,7 +229,7 @@ module.exports = function(jwt_key) {
 								var data = [];
 								for (var i = 0; i < req.body.manuals.length; i++) {
 									var manual = req.body.manuals[i];
-									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 0, manual.labor, manual.time,
+									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", 1, manual.labor, manual.time,
 										manual.yield, manual.rate, manual.count, "NOW()", "NOW()",
 										`UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
