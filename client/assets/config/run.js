@@ -92,7 +92,7 @@ app.run(function($rootScope, $timeout) {
 			// Define socket event handlers:
 			socket.on('sent', function(data) {
 				console.log(data)
-				if (data.proposal_id == $rootScope.cur_offer.proposal_id && 
+				if (data.proposal_id == $rootScope.cur_offer.proposal_id &&
 					window.location.hash.includes("messages")) {
 					$rootScope.messages.push(data);
 					$rootScope.$apply();
@@ -219,12 +219,6 @@ function ChartGenerator(){
 		for(var i=0;i<self.firstNBars.length;i++){ //first push the first few bars and give them colors
 			var customColor = self.defaultColor;
 			if (self.firstNBars[i]) { //if there exists a value to put in for the first nth value, place it
-				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
-					customColor=self.customColorsForFirstNBars[customColorIndex]
-					customColorIndex++;
-				}
-				// Evergreen Cost Bar
-				arr.push(["EG Estimate", parseInt(self.firstNBars[i].EGcost), "color: "+customColor])
 				if(self.customColorsForFirstNBars[customColorIndex]){ //if there exists a custom color for the first nth value, set it
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;
