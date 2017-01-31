@@ -220,6 +220,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
+			console.log(req.body.completion);
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -240,7 +241,7 @@ module.exports = function(jwt_key) {
 						var query = "INSERT INTO proposals SET id = UNHEX(?), status = ?, product = ?, quantity = ?, " +
 						"completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), " +
 						"user_id = UNHEX(?)";
-						return connection.execute(query, data);
+						return connection.query(query, data);
 					})
 					.then(() => {
 						return Promise.join(using(getConnection(), connection => {
