@@ -76,7 +76,7 @@
 											<div class="ui vertical fluid tabular menu">
 
 												<div class="ui items message-contacts">
-													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="active item" data-tab="applicant1">
+													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="item" ng-class="{active: offer == offerView}" data-tab="applicant1">
 														<div class="ui tiny image">
 															<img src="static/img/husky-logo.png" class="ui centered image" />
 														</div>
@@ -268,7 +268,7 @@
 						<div class="ui tiny image">
 							<img src="static/img/husky-logo.png" class="ui centered image" />
 						</div>
-						<a ng-class="color" class="ui evergreen uppercase button" href="#!/messages">View Offer</a>
+						<a ng-class="color" class="ui evergreen uppercase button" href="#!/offer/{{proposal.id}}/{{id}}">View Your Offer</a>
 					</div> <!-- segment -->
 
 					<div class="ui right aligned grid">

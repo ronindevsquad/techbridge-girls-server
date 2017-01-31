@@ -47,8 +47,8 @@
 												<img src="static/img/flag.png" width="13" />
 											</div>
 											<div class="ui indicating progress" data-percent="74">
-												<div class="bar" style="width: {{percentCompleted(proposal)}}%">
-													<div class="progress"><span ng-if="reports">{{percentCompleted(proposal)}}%</span></div>
+												<div class="bar" style="width: {{proposal.completed/proposal.quantity}}%">
+													<div class="progress"><span ng-if="reports">{{proposal.completed/proposal.quantity}}%</span></div>
 												</div>
 											</div>
 											<small>24 days left</small>

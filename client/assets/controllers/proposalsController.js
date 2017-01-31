@@ -1,15 +1,16 @@
 app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload) {
 		$scope.tab = "proposals";
-
 		if ($scope.type == 0) {
 			//Get proposals that you've created
 			proposalsFactory.getMyProposals(function(data) {
 				$scope.proposals = data;
+				console.log(data);
 			});
 		} else if ($scope.type == 1) {
 			proposalsFactory.getMyApplications(function(data) {
 				$scope.proposals = data;
+				console.log(data);
 			});
 		}
 	}
@@ -24,12 +25,13 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		else
 		offersFactory.index(proposal.id, function(data){
 			$scope.proposalView = proposal;
+			$scope.EGcost = data.pop();
 			if(data.length>=1){
 				$scope.offers = data;
 				$scope.offerView = $scope.offers[0];
 				$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 				refreshChart()
-			}else{
+			} else {
 				$scope.offers = undefined;
 				$scope.offerView = undefined;
 				$scope.offerView.PPU = undefined;
@@ -54,8 +56,8 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		try{
 			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers
-			chartObject.firstNBars = [$scope.offerView]
-			chartObject.customColorsForFirstNBars = ['orange','#7AC200']
+			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]
+			chartObject.customColorsForFirstNBars = ['#7AC200','orange']
 			chartObject.drawChart();
 			$scope.$apply()
 		}

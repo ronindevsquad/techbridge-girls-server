@@ -62,7 +62,7 @@
 							<div class="ui padded basic segment">
 								<p class="message-ad" ng-show="!cur_offer">Click on a supplier on the left to load the conversation.</p>
 								<div ng-show="cur_offer">
-									<a href="#!/offer/{{cur_offer.proposal_id}}.{{cur_offer.user_id}}" ng-show="cur_offer.offer_status>0 && !type">View offer details from {{cur_offer.company}}</a>
+									<a href="#!/offer/{{cur_offer.proposal_id}}/{{cur_offer.user_id}}" ng-show="cur_offer.offer_status>0 && !type">View offer details from {{cur_offer.company}}</a>
 
 									<div class="message-ad" ng-show="cur_offer.offer_status==0 && !type">
 										<div class="right floated">

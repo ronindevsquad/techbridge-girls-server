@@ -41,6 +41,7 @@ module.exports = function(app, jwt_key) {
 	// PROPOSALS
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals/getMyApplications', proposals.getMyApplications);
+	app.get('/api/proposals/getPercentCompleted', proposals.getPercentCompleted);
 	app.get('/api/proposals', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', proposals.create);
@@ -50,8 +51,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
 	app.get('/api/getOffers', offers.getOffers);
 	app.get('/api/offers/:proposal_id', offers.index);
-	app.get('/api/offer/:proposal_id/:offer_user_id', offers.showAcceptedOffer);
-	app.get('/api/offer/:id', offers.show);
+	app.get('/api/offer/:proposal_id/:user_id', offers.show);
 	app.post('/api/offers', offers.create);
 	app.put('/api/offers/send', offers.send);
 	app.put('/api/offers/accept', offers.accept);
