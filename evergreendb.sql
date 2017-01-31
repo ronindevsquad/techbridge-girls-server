@@ -481,6 +481,51 @@ INSERT INTO `users` VALUES ('@q½ææ~\�',1,'Elliot & Co','Elliot','elliot
 UNLOCK TABLES;
 
 --
+-- Dumping routines for database 'evergreendb'
+--
+/*!50003 DROP FUNCTION IF EXISTS `EvergreenCost` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `EvergreenCost`(p_id VARCHAR(50),u_id VARCHAR(50)) RETURNS decimal(10,2)
+BEGIN
+	DECLARE evergreencost decimal(10,2);
+
+	-- Get Total Material cost
+	SET @MaterialCost = (SELECT SUM(COSTperKG*weight)
+	FROM materials m JOIN material_averages ma ON m.material = ma.material
+	WHERE proposal_id = UNHEX(p_id) AND user_id = UNHEX(u_id));
+
+	-- Get Yield Loss Per Part
+	SET @YieldLossPerPart =
+	(SELECT SUM((1-la.average_yield/100)*@MaterialCost)FROM 
+	labors l JOIN labor_averages la ON l.labor = la.labor
+	WHERE proposal_id = UNHEX(p_id) AND user_id = UNHEX(u_id));
+	 
+	 
+	-- Get Material Cost Per Part 
+	SET @MaterialCostPerPart =
+	(SELECT SUM(la.average_rate/3600*la.average_cycle_time) FROM 
+	labors l JOIN labor_averages la ON l.labor = la.labor
+	WHERE proposal_id = UNHEX(p_id) AND user_id = UNHEX(u_id));
+
+	 
+	SET evergreencost = (select quantity*(@MaterialCostPerPart + @YieldLossPerPart) from proposals WHERE id = UNHEX(p_id));
+RETURN evergreencost;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
 -- Final view structure for view `labor_averages`
 --
 
@@ -507,4 +552,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-29 19:37:24
+-- Dump completed on 2017-01-30 14:38:02
