@@ -2,7 +2,10 @@ var Promise = require("bluebird");
 var using = Promise.using;
 var getConnection = require("../config/mysql");
 var jwt = require('jsonwebtoken');
-
+var sig = require('amazon-s3-url-signer');
+var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF', {
+	host : 's3-us-west-1.amazonaws.com'
+});
 module.exports = function(jwt_key) {
 	return {
 		getAcceptedOffers: function(req, callback) {
@@ -88,7 +91,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT offers.*, proposals.*, company,offers.status AS status FROM offers LEFT JOIN " +
+						var query = "SELECT offers.*, proposals.*, company, offers.status AS status FROM offers LEFT JOIN " +
 						"users ON user_id = id LEFT JOIN " +
 						"proposals ON proposal_id = proposals.id WHERE proposals.id = UNHEX(?) AND offers.user_id = " +
 						"UNHEX(?) AND (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) LIMIT 1";
@@ -108,6 +111,9 @@ module.exports = function(jwt_key) {
 						else {
 							var data = offer[0][0];
 							data.files = files[0];
+							for (var i =0; i < data.files.length; i++){
+									data.files[i].filename = bucket1.getUrl('GET', `/testfolder/${data.files[i].filename}`, 'ronintestbucket', 2);
+								}
 							data.materials = materials[0];
 							data.labors = labors[0];
 							callback(false, data);
@@ -242,6 +248,7 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -251,9 +258,9 @@ module.exports = function(jwt_key) {
 				if (err)
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
-					callback({status: 401, message: "Only Makers are allowed to accept offers."});
+					callback({status: 400, message: "Only Makers are allowed to accept offers."});
 				else if (!req.body.proposal_id || !req.body.user_id)
-					callback({status: 401, message: "Invalid offer details."});
+					callback({status: 400, message: "Invalid offer details."});
 				else
 					using(getConnection(), connection => {
 						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = UNHEX(?) " +
