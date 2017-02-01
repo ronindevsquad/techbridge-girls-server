@@ -67,7 +67,13 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT o.*, u.company, EvergreenCost(?,HEX(u.id)) AS EGcost, HEX(proposal_id) AS proposal_id, HEX(user_id) AS user_id FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
+						var query = "SELECT o.status, sga, profit, overhead, total, tooling, u.company " +
+						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)" +
+						"UNION " +
+						"SELECT 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"(MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling)), " +
+						"MIN(tooling), 'EG Estimate'" +
+						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					})
 					.spread(data => {
@@ -85,7 +91,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT offers.*, proposals.*, company,offers.status AS status FROM offers LEFT JOIN " +
+						var query = "SELECT offers.*, proposals.*, company, offers.status AS status FROM offers LEFT JOIN " +
 						"users ON user_id = id LEFT JOIN " +
 						"proposals ON proposal_id = proposals.id WHERE proposals.id = UNHEX(?) AND offers.user_id = " +
 						"UNHEX(?) AND (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) LIMIT 1";
@@ -252,9 +258,9 @@ module.exports = function(jwt_key) {
 				if (err)
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
-					callback({status: 401, message: "Only Makers are allowed to accept offers."});
+					callback({status: 400, message: "Only Makers are allowed to accept offers."});
 				else if (!req.body.proposal_id || !req.body.user_id)
-					callback({status: 401, message: "Invalid offer details."});
+					callback({status: 400, message: "Invalid offer details."});
 				else
 					using(getConnection(), connection => {
 						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = UNHEX(?) " +
