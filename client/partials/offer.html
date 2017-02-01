@@ -15,7 +15,7 @@
 						<div class="row">
 							<table class="ui celled table">
 								<thead>
-									<tr>
+									<tr class="center aligned">
 										<th>Raw Material</th>
 										<th>Weight (kg/unit)</th>
 										<th>Cost ($/kg)</th>
@@ -34,7 +34,7 @@
 						<div class="row">
 							<table class="ui celled table">
 								<thead>
-									<tr>
+									<tr class="center aligned">
 										<th>Machine</th>
 										<th>Cycle Time (sec)</th>
 										<th>Operation Cost ($/hr)</th>
@@ -57,7 +57,7 @@
 						<div class="row">
 							<table class="ui celled table">
 								<thead>
-									<tr>
+									<tr class="center aligned">
 										<th>Labor</th>
 										<th>Labor Time (sec)</th>
 										<th>Labor Rate ($/hr)</th>
@@ -80,31 +80,31 @@
 						<div class="row">
 							<table class="ui celled table">
 								<thead>
-									<tr>
+									<tr class="center aligned">
 										<th>Cost</th>
 										<th>$</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr class="center aligned">
 										<td>SG&amp;A <small>(Sales, General, and Admin)</small></td>
 										<td class="center aligned" ng-bind="offer.sga | number:2"></td>
 									</tr>
-									<tr>
+									<tr class="center aligned">
 										<td>Overhead</td>
 										<td class="center aligned" ng-bind="offer.overhead | number:2"></td>
 									</tr>
-									<tr>
+									<tr class="center aligned">
 										<td>Profit</td>
 										<td class="center aligned" ng-bind="offer.profit | number:2"></td>
 									</tr>
-									<tr>
+									<tr class="center aligned">
 										<td>Total</td>
 										<td class="center aligned" ng-bind="offer.total | number:2"></td>
 									</tr>
 								</tbody>
 								<tfoot class="full-width" ng-if="type==0">
-									<tr>
+									<tr class="center aligned">
 										<th colspan="4">
 											<button class="ui small green button">
 												Accept Application
