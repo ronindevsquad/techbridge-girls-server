@@ -5,8 +5,9 @@
 		<div ng-include="'partials/header.html'"></div>
 
 		<div class="ui container">
-
-			<h2>Customer in USA looking to produce {{proposal[0].quantity}} {{proposal[0].product}} by {{proposal[0].completion | date:"mediumDate"}}</h2>
+			<div class="ui centered grid">
+				<h2>Creating offer for {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
+			</div>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet three wide computer column">
@@ -18,7 +19,7 @@
 								<div class="ui cards">
 									<div class="card">
 										<div class="content">
-											<p>{{file.filename.substring(file.filename.lastIndexOf("-")+1,file.filename.lastIndexOf("?"))}}</p>
+											<p style="word-wrap: break-word;">{{file.filename.substring(file.filename.lastIndexOf("-")+1,file.filename.lastIndexOf("?"))}}</p>
 										</div>
 										<a href="{{file.filename}}"><div class="ui bottom attached evergreen green button">
 											View Document
@@ -41,12 +42,12 @@
 
 					<div class="ui centered grid">
 						<h3 class="row">Make an offer</h3>
-					</div>				
+					</div>
 
 					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
 					<fieldset style="border: none;" ng-disabled="show_summary">
 						<!-- START the raw materials selection -->
-						<fieldset > 
+						<fieldset >
 							<legend>&nbsp;Production Materials&nbsp;</legend><br>
 
 							<div ng-repeat="material in offer.materials track by $index">
@@ -223,7 +224,7 @@
 						<div class="ui horizontal divider"></div>
 
 						<!-- START the raw machine labor -->
-						<fieldset > 
+						<fieldset >
 							<legend>&nbsp;Production Machines&nbsp;</legend><br>
 
 							<div ng-repeat="machine in offer.machines track by $index">
@@ -459,7 +460,7 @@
 						<div class="ui horizontal divider"></div>
 
 						<!-- START the raw machine labor -->
-						<fieldset > 
+						<fieldset >
 
 							<legend>&nbsp;Manual Labor&nbsp;</legend><br>
 
@@ -549,7 +550,7 @@
 
 						<div class="ui horizontal divider"></div>
 
-						<fieldset > 
+						<fieldset >
 							<legend>&nbsp;Production Costs&nbsp;</legend><br>
 
 							<div class="field">
@@ -611,7 +612,7 @@
 						</fieldset>
 					</form>
 				</div> <!-- .column -->
-				
+
 				<div id="anchor_summary" class="sixteen wide tablet four wide computer column wall" id="offerWrapper" >
 					<div ng-show="show_summary">
 						<h3 >Offer Summary</h3>
@@ -771,7 +772,7 @@
 	</div>
 
 
-<!-- 
+<!--
 	<script type='text/javascript' src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDXQLL_ClsyH7eeZ8Nk7m8bnMt27wsnH0I&extension=.js&output=embed"></script> -->
 
 	<script src="static/js/slick.min.js"></script>

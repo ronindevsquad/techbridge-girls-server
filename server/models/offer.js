@@ -2,7 +2,10 @@ var Promise = require("bluebird");
 var using = Promise.using;
 var getConnection = require("../config/mysql");
 var jwt = require('jsonwebtoken');
-
+var sig = require('amazon-s3-url-signer');
+var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLsVRclFiuOumtrF', {
+	host : 's3-us-west-1.amazonaws.com'
+});
 module.exports = function(jwt_key) {
 	return {
 		getAcceptedOffers: function(req, callback) {
@@ -64,7 +67,13 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT o.*, u.company, EvergreenCost(?,HEX(u.id)) AS EGcost FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)";
+						var query = "SELECT o.status, sga, profit, overhead, total, tooling, u.company " +
+						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)" +
+						"UNION " +
+						"SELECT 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"(MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling)), " +
+						"MIN(tooling), 'EG Estimate'" +
+						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					})
 					.spread(data => {
@@ -102,6 +111,9 @@ module.exports = function(jwt_key) {
 						else {
 							var data = offer[0][0];
 							data.files = files[0];
+							for (var i =0; i < data.files.length; i++){
+									data.files[i].filename = bucket1.getUrl('GET', `/testfolder/${data.files[i].filename}`, 'ronintestbucket', 2);
+								}
 							data.materials = materials[0];
 							data.labors = labors[0];
 							callback(false, data);
@@ -175,8 +187,8 @@ module.exports = function(jwt_key) {
 						return callback({status: 400, message: "Invalid field(s) for manual labors provided."});
 				}
 
-				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined || 
-					req.body.profit === undefined || req.body.overhead === undefined || 
+				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined ||
+					req.body.profit === undefined || req.body.overhead === undefined ||
 					req.body.total === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
 					req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 					return callback({status: 400, message: "All form fields are required."});
@@ -184,7 +196,7 @@ module.exports = function(jwt_key) {
 				// Validation done, insert into offers:
 				else
 					using(getConnection(), connection => {
-						var data = [req.body.tooling, req.body.sga, req.body.profit, req.body.overhead, 
+						var data = [req.body.tooling, req.body.sga, req.body.profit, req.body.overhead,
 						req.body.total, req.body.proposal_id, payload.id, req.body.proposal_id];
 						var query = "UPDATE offers SET status = 1, tooling = ?, sga = ?, profit = ?, overhead = ?, " +
 						"total = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
@@ -236,6 +248,7 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -245,9 +258,9 @@ module.exports = function(jwt_key) {
 				if (err)
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
-					callback({status: 401, message: "Only Makers are allowed to accept offers."});
+					callback({status: 400, message: "Only Makers are allowed to accept offers."});
 				else if (!req.body.proposal_id || !req.body.user_id)
-					callback({status: 401, message: "Invalid offer details."});
+					callback({status: 400, message: "Invalid offer details."});
 				else
 					using(getConnection(), connection => {
 						var query = "UPDATE proposals SET status = 2, updated_at = NOW() WHERE id = UNHEX(?) " +

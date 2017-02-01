@@ -63,7 +63,7 @@ module.exports = function(jwt_key) {
 					using(getConnection(), connection => {
 						var query = "SELECT *, HEX(proposals.id) AS proposal_id, SUM(reports.output) " +
 						"AS completed FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN " +
-						"reports ON offers.proposal_id = reports.proposal_id AND offers.user_id = " + 
+						"reports ON offers.proposal_id = reports.proposal_id AND offers.user_id = " +
 						"reports.user_id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
 						"AND offers.status > 1 AND proposals.status > 1 GROUP BY reports.proposal_id";
 						return connection.execute(query, [payload.id, payload.id]);
@@ -237,7 +237,6 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -258,7 +257,7 @@ module.exports = function(jwt_key) {
 						var query = "INSERT INTO proposals SET id = UNHEX(?), status = ?, product = ?, quantity = ?, " +
 						"completion = ?, zip = ?, audience = ?, info = ?, created_at = NOW(), updated_at = NOW(), " +
 						"user_id = UNHEX(?)";
-						return connection.execute(query, data);
+						return connection.query(query, data);
 					})
 					.then(() => {
 						return Promise.join(using(getConnection(), connection => {

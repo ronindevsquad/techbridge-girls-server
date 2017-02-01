@@ -1,5 +1,6 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
 	if (payload) {
+		$scope.tab = "tracking";
 		proposalsFactory.getPercentCompleted(function(data) {
 			if (data.status == 401)
 				$scope.logout();
