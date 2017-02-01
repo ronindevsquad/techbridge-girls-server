@@ -64,13 +64,17 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT o.status, sga, profit, overhead, total, tooling, u.company " +
-						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)" +
+						var query = "SELECT o.user_id, o.proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						"FROM offers o JOIN users u ON o.user_id = u.id " +
+						"WHERE proposal_id = UNHEX(?) " +
 						"UNION " +
-						"SELECT 1, MIN(sga), MIN(profit), MIN(overhead), " +
-						"(MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling)), " +
-						"MIN(tooling), 'EG Estimate'" +
-						"FROM offers o JOIN users u ON o.user_id = u.id WHERE proposal_id = UNHEX(?)"
+						"SELECT o.user_id, o.proposal_id, 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
+						"MIN(tooling), 'EG Estimate' " +
+						"FROM offers o JOIN users u ON o.user_id = u.id " +
+						"JOIN proposals p on p.id = o.proposal_id " +
+						"JOIN labor_costs l on l.proposal_id = o.proposal_id " +
+						"WHERE o.proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					})
 					.spread(data => {
