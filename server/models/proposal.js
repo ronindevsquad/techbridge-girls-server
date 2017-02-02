@@ -176,7 +176,7 @@ module.exports = function(jwt_key) {
 						else if (payload.type == 1) {
 							var query = "SELECT *, HEX(id) AS id FROM proposals " + // offers.status
 							"LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?)" +
-							"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?)
+							"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?), AND proposals.status = 0
 							return connection.execute(query, [req.params.id]); //TEMPORARILY REMOVED , payload.id
 						}
 					})

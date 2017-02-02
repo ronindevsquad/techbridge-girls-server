@@ -265,6 +265,8 @@
 
 				<div ng-repeat="proposal in proposals" class="column">
 					<div class="ui padded segment center aligned">
+						<a href="#!/show-proposal/{{proposal.id}}"><h4>{{proposal.product}}</h4></a>
+						<br>
 						<div class="ui tiny image">
 							<img src="static/img/husky-logo.png" class="ui centered image" />
 						</div>
@@ -274,7 +276,7 @@
 					<div class="ui right aligned grid">
 
 						<div class="sixteen wide column">
-							<p class="toplabels">Responded</p>
+							<p class="toplabels">You Responded On:</p>
 							<p>{{proposal.completion | date:"MMM dd y"}}</p>
 						</div> <!-- .right column -->
 					</div>
