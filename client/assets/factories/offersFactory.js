@@ -27,6 +27,15 @@ app.factory('offersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		getOffersForProposal: function(proposal_id, callback) {
+			$http.get(`/api/getOffersForProposal/${proposal_id}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		show: function(proposal_id, user_id, callback) {
 			$http.get(`/api/offer/${proposal_id}/${user_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
