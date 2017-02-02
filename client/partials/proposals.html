@@ -6,8 +6,8 @@
 
 		<section class="ui very padded basic segment offer form">
 
-			<h2>Your Proposals</h2>
-			<p>Your {{type == 0 ?'opened':'applied'}} proposals.</p>
+			<h2>Your <span ng-if="type == 0">Proposals</span><span ng-if="type == 1">Offers</span></h2>
+			<p><span ng-if="type==0">Your proposals</span><span ng-if="type==1">Proposals you've made offers for</span>.</p>
 			<a ng-if="type==0" ng-class="color"  href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
 
@@ -265,12 +265,15 @@
 
 				<div ng-repeat="proposal in proposals" class="column">
 					<div class="ui padded segment center aligned">
-						<a href="#!/show-proposal/{{proposal.id}}"><h4>{{proposal.product}}</h4></a>
+						<h4>{{proposal.product}}</h4>
 						<br>
 						<div class="ui tiny image">
 							<img src="static/img/husky-logo.png" class="ui centered image" />
 						</div>
 						<a ng-class="color" class="ui evergreen uppercase button" href="#!/offer/{{proposal.id}}/{{id}}">View Your Offer</a>
+						<br>
+						<br>
+						<a class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View the Proposal</a>
 					</div> <!-- segment -->
 
 					<div class="ui right aligned grid">
