@@ -19,6 +19,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 
 
 	$scope.getOffers = function(proposal){
+		$scope.proposalTab = 0;
 		if ($scope.proposalView == proposal){
 			$scope.proposalView = undefined;
 		}

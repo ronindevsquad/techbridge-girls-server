@@ -55,7 +55,7 @@
 							</div>
 							<div class="extra">
 								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View Offers'}}</a>
-								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications > 1 ? 'Applicant': 'Applicants'}}   |   {{(proposal.applications/2).toFixed(0)}} Leads</small>
+								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications == 1 ? 'Applicant': 'Applicants'}}   |   {{proposal.leads}} {{proposal.leads == 1 ? 'Lead': 'Leads'}}</small>
 							</div>
 						</div>
 						<div ng-show="proposalView==proposal && !offers" class="detail-panel">
@@ -63,10 +63,10 @@
 						</div>
 						<div ng-show="proposalView == proposal && offers.length>=1" class="detail-panel">
 							<div class="ui top attached tabular menu">
-								<a class="active item" data-tab="applicants">Applicants</a>
-								<a class="item" data-tab="leads">Leads</a>
+								<a ng-class="proposalTab == 0 ? 'active':''" class="item" ng-click="proposalTab = 0" data-tab="applicants">Applicants</a>
+								<a ng-class="proposalTab == 1 ? 'active':''" class="item" ng-click="proposalTab = 1" data-tab="leads">Leads</a>
 							</div>
-							<div class="ui bottom attached active tab" data-tab="applicants">
+							<div ng-class="proposalTab == 0 ? 'active':''" class="ui bottom attached tab" data-tab="applicants">
 								<div class="messaging-container insidetabs">
 
 									<!-- here we have the left vertical menu as tabs -->
@@ -114,23 +114,12 @@
 															<p class="footnote">Offer Details</p>
 															<div class="details-value"><a href="#!/offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
 															<script type="text/javascript">
-															// JQUERY SECTION
-															// $('.coupled.modal').modal({
-															// 	allowMultiple: false
-															// });
 															$('.open-modal').click(function(){
 																$('.modal').modal('show');
 															});
 															$('.form').submit(function(){
 																$('.modal').modal('hide');
 															});
-															// $('.second.modal').modal(
-															// 	'attach events',
-															// 	$('.first.modal form').submit()
-															// );
-															// $('#returnToAccount').click(function(){
-															// 	$('.second.modal').modal('hide');
-															// });
 
 															</script>
 														</div>
@@ -158,7 +147,7 @@
 								</div>
 
 							</div>
-							<div class="ui bottom attached tab" data-tab="leads">
+							<div ng-class="proposalTab == 1 ? 'active':''" class="ui bottom attached tab" data-tab="leads">
 
 								<div class="messaging-container insidetabs">
 
@@ -175,25 +164,6 @@
 														</div>
 														<div class="middle aligned content">
 															<h4> {{company}}</h4>
-															<p class="footnote">Received 25.05.2016</p>
-														</div>
-													</a>
-													<a class="item" data-tab="lead2">
-														<div class="ui tiny image">
-															<img src="static/img/husky-logo.png" class="ui centered image" />
-														</div>
-														<div class="middle aligned content">
-
-															<h4>{{company}}</h4>
-															<p class="footnote">Received 25.05.2016</p>
-														</div>
-													</a>
-													<a class="item" data-tab="lead3">
-														<div class="ui tiny image">
-															<img src="static/img/husky-logo.png" class="ui centered image" />
-														</div>
-														<div class="middle aligned content">
-															<h4>{{company}}</h4>
 															<p class="footnote">Received 25.05.2016</p>
 														</div>
 													</a>
