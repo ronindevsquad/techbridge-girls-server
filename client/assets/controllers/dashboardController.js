@@ -1,10 +1,18 @@
-app.controller('dashboardController', function ($scope, $location, offersFactory) {
+app.controller('dashboardController', function ($scope, $location, proposalsFactory, offersFactory) {
 	chartObject.dataset = null
 	if (payload) {
 		$scope.tab = "dashboard";
 		if($scope.type == 0){
+			proposalsFactory.getMyProposals(function(data){
+				$scope.proposals = data
+			})
 			console.log("type 0");
 		}else{
+
+			proposalsFactory.getMyApplications(function(data){
+				console.log(data);
+				$scope.proposals = data;
+			});
 			console.log("type 1");
 		}
 
@@ -18,6 +26,18 @@ app.controller('dashboardController', function ($scope, $location, offersFactory
 		})
 	}else
 		$location.url('/');
+	$scope.print = function(proposal){
+		console.log(proposal.product);
+		console.log(proposal);
+		offersFactory.index(proposal.id, function(data){
+			console.log(data);
+			$scope.offers = data;
+			chartObject.dataset = $scope.offers
+			chartObject.drawChart()
+			$scope.$apply();
+		});
+
+	}
 	chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 	chartObject.drawChart();
 });
