@@ -18,27 +18,33 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		$location.url('/');
 
 
+
 	$scope.getOffers = function(proposal){
 		$scope.proposalTab = 0;
 		if ($scope.proposalView == proposal){
 			$scope.proposalView = undefined;
 		}
-		else
-		offersFactory.index(proposal.id, function(data){
-			$scope.proposalView = proposal;
-			$scope.EGcost = data.pop();
-			if(data.length>=1){
-				$scope.offers = data;
-				$scope.offerView = $scope.offers[0];
-				$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-				refreshChart()
-			} else {
-				$scope.offers = undefined;
-				$scope.offerView = undefined;
-				$scope.offerView.PPU = undefined;
-				refreshChart();
-			}
-		});
+		else {
+			offersFactory.index(proposal.id, function(data){
+				$scope.proposalView = proposal;
+				if(data.applications.length>=1){
+					$scope.EGcost = data.applications.pop();
+					$scope.offers = data.applications;
+					$scope.offerView = $scope.offers[0];
+					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
+					if(data.leads.length >= 1){
+						$scope.leads = data.leads;
+						console.log($scope.leads);
+					}
+					refreshChart()
+				} else {
+					$scope.offers = undefined;
+					$scope.offerView = undefined;
+					$scope.offerView.PPU = undefined;
+					refreshChart();
+				}
+			});
+		}
 	};
 
 	$scope.getOffer = function(offer){

@@ -65,8 +65,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
-				else
-					using(getConnection(), connection => {
+				else {
+					Promise.join(using(getConnection(), connection => {
 						var query = "SELECT HEX(o.user_id), HEX(o.proposal_id), o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 " +
@@ -79,14 +79,22 @@ module.exports = function(jwt_key) {
 						"JOIN labor_costs l on l.proposal_id = o.proposal_id " +
 						"WHERE o.proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
-					})
-					.spread(data => {
+					}), using(getConnection(), connection => {
+						var query = "SELECT HEX(o.user_id), HEX(o.proposal_id), o.status, u.company, o.created_at " +
+						"FROM offers o JOIN users u ON o.user_id = u.id " +
+						"WHERE proposal_id = UNHEX(?) AND o.status = 0";
+						return connection.execute(query, [req.params.proposal_id]);
+					}), (applications, leads) => {
+						var data = {};
+						data.applications = applications[0];
+						data.leads = leads[0];
 						callback(false, data);
 					})
 					.catch(err => {
 						console.log(err);
 						callback({status: 400, message: "Please contact an admin."})
 					});
+				}
 			});
 		},
 		show: function(req, callback) {

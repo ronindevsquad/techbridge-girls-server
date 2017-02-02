@@ -162,9 +162,9 @@
 														<div class="ui tiny image">
 															<img src="static/img/husky-logo.png" class="ui centered image" />
 														</div>
-														<div class="middle aligned content">
-															<h4> {{company}}</h4>
-															<p class="footnote">Received 25.05.2016</p>
+														<div ng-repeat="lead in leads" class="middle aligned content">
+															<h4> {{lead.company}}</h4>
+															<p class="footnote">Received {{lead.created_at | date: "dd.MM.y"}}</p>
 														</div>
 													</a>
 												</div>
@@ -177,8 +177,8 @@
 												<div class="ui tab active" data-tab="lead1">
 
 													<div class="ui segment buybox">
-														<h3>Husky {{company}}</h3>
-														<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+														<h3>{{lead.company}}</h3>
+														<!-- <p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p> -->
 
 														<div class="ui horizontal slider"></div>
 
