@@ -41,8 +41,8 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		request.send(formData);
 	}
 	$scope.create = function() {
-		$scope.proposal.completion = $scope.proposal.completion.toISOString().slice(0,10);
 		console.log($scope.proposal);
+		$scope.proposal.completion = $scope.proposal.completion.toISOString().slice(0,10);
 		proposalsFactory.create($scope.proposal, function(data) {
 			if (data.status == 401)
 				$scope.logout();
@@ -65,7 +65,6 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	};
 
 	$scope.uploadFiles = function (files) {
-		console.log(files)
 		$scope.files = files;
 		if (files && files.length) {
 			Upload.upload({

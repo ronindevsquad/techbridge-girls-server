@@ -29,9 +29,7 @@
 									<i class="dropdown icon"></i>
 									<div class="default text">Select Proposal</div>
 									<div class="menu">
-										<div class="item" data-value="1">Proposal #1</div>
-										<div class="item" data-value="0">Proposal #2</div>
-										<div class="item" data-value="2">Proposal #3</div>
+										<div ng-click="print(proposal)" ng-repeat="proposal in proposals" class="item" data-value="1">{{proposal.product}}</div>
 									</div> <!-- .menu -->
 								</div> <!-- .dropdown -->
 							</div> <!-- .field -->

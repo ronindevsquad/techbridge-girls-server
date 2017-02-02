@@ -64,7 +64,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(proposals.id) AS proposal_id, SUM(reports.output) " +
+						var query = "SELECT *, HEX(proposals.id) AS proposal_id, HEX(offers.user_id) AS user_id, " +
+						"SUM(reports.output) " +
 						"AS completed FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN " +
 						"reports ON offers.proposal_id = reports.proposal_id AND offers.user_id = " +
 						"reports.user_id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
@@ -121,7 +122,7 @@ module.exports = function(jwt_key) {
 					}
 					uploadFilesArray()
 					var uploadedFileNames = []
-					for(var i=0;i<req.files.length-1;i++){ //this for loop should be temporary. A filename should only be appended to the array IF it was uploaded successfully. (elliot) could not figure out how to append items to an array within recursion
+					for(var i = 0;i<req.files.length-1;i++){ //this for loop should be temporary. A filename should only be appended to the array IF it was uploaded successfully. (elliot) could not figure out how to append items to an array within recursion
 						uploadedFileNames.push({type:0, filename:req.files[i].filename})
 					}
 					uploadedFileNames.push({type:1, filename:req.files[req.files.length-1].filename})
@@ -169,7 +170,7 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else
+				else {
 					using(getConnection(), connection => {
 						if (payload.type == 0) {
 							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
@@ -177,58 +178,31 @@ module.exports = function(jwt_key) {
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
 						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id FROM proposals " + // offers.status
-							"LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?)" +
-							"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?)
-							return connection.execute(query, [req.params.id]); //TEMPORARILY REMOVED , payload.id
+							var query = "SELECT *, HEX(id) AS id, offers.status AS offer_status FROM proposals LEFT JOIN " +
+							"offers ON id = offers.proposal_id LEFT JOIN files ON id = files.proposal_id " +
+							"WHERE id = UNHEX(?) AND (offers.user_id is null OR offers.user_id = UNHEX(?)) AND " +
+							"(proposals.status = 0 OR offers.status > 1)";
+							return connection.execute(query, [req.params.id, payload.id]);
 						}
 					})
 					.spread(data => {
-						if (data.length < 1) //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
-							throw {status: 400, message: "Not able to fetch valid proposal."};
+						if (data.length == 0)
+							throw {status: 400, message: "Could not find valid proposal."};
+						else if (!data[0].offer_status && payload.type != 0) {
+							var _data = [];
+							for (var i = 0; i < data.length; i++) {
+								if (data[i].type == 1) {
+									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+									_data.push(data);
+								}
+							}
+							callback(false, _data);
+						}
 						else {
-							using(getConnection(), connection => { //once we know the proposal exists, check to see if an offer is associated with it.
-								if (payload.type == 0) {
-									var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
-									"WHERE id = UNHEX(?) AND user_id = UNHEX(?)";
-									return connection.execute(query, [req.params.id, payload.id]);
-								}
-								else if (payload.type == 1) {
-									var query = "SELECT *, HEX(id) AS id, offers.status AS offer_status FROM proposals LEFT JOIN offers " + // offers.status
-									"ON id = proposal_id LEFT JOIN files ON id = files.proposal_id WHERE id = UNHEX(?) AND offers.user_id = UNHEX(?)" +
-									"AND proposals.status = 0"; //TEMPORARILY REMOVED AND offers.user_id = UNHEX(?)
-									return connection.execute(query, [req.params.id, payload.id]); //TEMPORARILY REMOVED , payload.id
-								}
-							})
-							.spread(_data => {
-								if (_data.length < 1){ //TEMPORARILY REMOVED CONDITION WHERE IF offer.status < 0 DO NOT SEND BACK DATA
-									data.push(false);
-									for (var i =0; i < data.length; i++){ //remove all the files that the user does not have permission to see.
-										if(data[i].type == 0){
-											data[i].filename = "PROTECTED"
-										}
-									}
-									for (var i =0; i < data.length; i++){
-										if(data[i].filename != "PROTECTED"){
-											data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
-										}
-									}
-									callback(false, data);
-								}
-								else {
-									data.push(true);
-									for (var i =0; i < data.length; i++){
-											data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
-										}
-										callback(false, data);
-									}
-							})
-							.catch(err => {
-								if (err.status)
-									callback(err);
-								else
-									callback({status: 400, message: "Please contact an admin."});
-							});
+							for (var i = 0; i < data.length; i++){
+								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+							}
+							callback(false, data);
 						}
 					})
 					.catch(err => {
@@ -237,6 +211,7 @@ module.exports = function(jwt_key) {
 						else
 							callback({status: 400, message: "Please contact an admin."});
 					});
+				}
 			});
 		},
 		create: function(req, callback) {
@@ -284,6 +259,7 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 				}
