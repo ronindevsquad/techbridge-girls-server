@@ -22,6 +22,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else
 		offersFactory.index(proposal.id, function(data){
+			console.log(data);
 			$scope.proposalView = proposal;
 			$scope.EGcost = data.pop();
 			if(data.length>=1){

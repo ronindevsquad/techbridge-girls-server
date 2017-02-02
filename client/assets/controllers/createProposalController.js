@@ -41,6 +41,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		request.send(formData);
 	}
 	$scope.create = function() {
+		console.log($scope.proposal);
 		$scope.proposal.completion = $scope.proposal.completion.toISOString().slice(0,10);
 		proposalsFactory.create($scope.proposal, function(data) {
 			if (data.status == 401)
