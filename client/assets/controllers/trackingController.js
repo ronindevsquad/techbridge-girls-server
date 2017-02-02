@@ -1,18 +1,85 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
 	if (payload) {
 		$scope.tab = "tracking";
+		$scope.show_report = false;
+		$scope.today = new Date().setHours(0,0,0,0);
+		$scope.reported_today = false;
+		console.log($scope.today)
+		$scope.report;
 		proposalsFactory.getPercentCompleted(function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				$scope.days_left = daysBetween($scope.today, data[0].completion)
 				$scope.proposals = data;
+				console.log(data)
 			}
 		});
 	}
 	else {
 		$location.url('/');
+	}
+
+	//////////////////////////////////////////////////////
+	//										HELPER FUNCTIONS
+	//////////////////////////////////////////////////////
+	function treatAsUTC(date) {
+		var result = new Date(date);
+		result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+		return result;
+	}
+
+	function daysBetween(startDate, endDate) {
+		var millisecondsPerDay = 24 * 60 * 60 * 1000;
+		console.log((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay)
+		return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
+	}
+
+	function assignReports(data) {
+		$scope.reports = data;
+		var builtUnits = 0;
+		for (var i = 0; i < $scope.reports.length; i++){
+			builtUnits += parseInt($scope.reports[i].output);
+		}
+
+		if (builtUnits < $scope.proposalView.quantity)
+			$scope.finished = false;
+		else
+			$scope.finished = true;
+
+	};
+
+	$scope.percentCompleted = function(proposal){
+		// console.log(proposal);
+		// var cumulativeUnits = 0
+		// for(i=0;i<$scope.reports.length;i++){
+		// 	cumulativeUnits+=parseInt($scope.reports[i].output)
+		// }
+		// var numberToReturn = Math.floor(cumulativeUnits/key.quantity*100)
+		// // console.log("cumulative units: " + cumulativeUnits);
+		// // console.log("quantity proposal requested: " + key.quantity);
+		// // console.log(parseInt(numberToReturn));
+		// return numberToReturn
+
+		return 50;
+	}
+
+	$scope.reportForm = function(id){
+		$scope.form = {
+			offer_id: id,
+			input: "",
+			output: "",
+			shipped: "",
+			note: ""
+		}
+	};
+
+	$scope.showReport = function(report) {
+		console.log("here")
+		$scope.cur_report = report;
+		$("#show-modal").modal("show");
 	}
 
 	// function formatProposalsAndReports(){
@@ -29,69 +96,43 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	// 	return formattedObject;
 	// }
 
-	$scope.reportForm = function(id){
-		$scope.form = {
-			offer_id: id,
-			input: "",
-			output: "",
-			shipped: "",
-			note: ""
-		}
-	};
+	//////////////////////////////////////////////////////
+	//										REPORT
+	//////////////////////////////////////////////////////
 
-	$scope.getReports = function(proposal){
+	$scope.getReports = function(proposal) {
 		if ($scope.proposalView == proposal)
 			$scope.proposalView = undefined;
 		else {
 			$scope.proposalView = proposal;
-
-			reportsFactory.getReportsForProposal(proposal.id,function(data){
+			reportsFactory.getReportsForProposal(proposal.proposal_id, function(data) {
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
+					console.log(data)
+					if (new Date(data[data.length - 1]).setHours(0,0,0,0) == $scope.today)
+						$scope.reported_today = true;
+					console.log($scope.reported_today)
 					assignReports(data);
 				}
 			});
 		}
 	};
 
-	$scope.reportSubmit = function(id){
-		$scope.report.proposal_id = id;
-		reportsFactory.create($scope.report,function(data){
-			assignReports(data);
+	$scope.reportSubmit = function(){
+		$scope.new_report.proposal_id = $scope.proposalView.proposal_id;
+		reportsFactory.create($scope.new_report, function(data) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				assignReports(data);
+			}
 		});
 	};
 
-	function assignReports(data) {
-		$scope.reports = data;
-		builtUnits = 0;
-		for (var i = 0; i < $scope.reports.length; i++){
-			builtUnits += parseInt($scope.reports[i].output);
-		}
 
-		if (builtUnits < $scope.proposalView.quantity)
-			$scope.finished = false;
-		else
-			$scope.finished = true;
-
-	};
-
-
-	$scope.percentCompleted = function(proposal){
-		// console.log(proposal);
-		// var cumulativeUnits = 0
-		// for(i=0;i<$scope.reports.length;i++){
-		// 	cumulativeUnits+=parseInt($scope.reports[i].output)
-		// }
-		// var numberToReturn = Math.floor(cumulativeUnits/key.quantity*100)
-		// // console.log("cumulative units: " + cumulativeUnits);
-		// // console.log("quantity proposal requested: " + key.quantity);
-		// // console.log(parseInt(numberToReturn));
-		// return numberToReturn
-
-
-		return 50;
-	}
 });

@@ -1,9 +1,14 @@
 $(document).ready(function(){
-  $('.open-modal').click(function(){
-    $('.ui.modal').modal('show');
-  });
+		$('.open-modal').click(function(){
+			$('#create-modal').modal('show');
+		});
 
-  $('.form').submit(function(){
-    $('.ui.modal').modal('hide');
-  });
+		$('.show-report').click(function(){
+			$('#show-modal').modal('show');
+		});
+
+		$('.form').submit(function(){
+			$('.ui.modal').modal('hide');
+		});
+
 });

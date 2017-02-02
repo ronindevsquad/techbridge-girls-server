@@ -1,3 +1,5 @@
+<script src="static/js/modal.js"></script>
+
 <div ng-class="user" class="userarea">
 
 	<div id="greenwrapper">
@@ -39,7 +41,8 @@
 								</div>
 								<div class="middle aligned content">
 									<div class="header">
-										{{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"MMM. yy"}}
+										{{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date}}<br>
+										<small><a href="#!/show-proposal/{{proposal.proposal_id}}">View proposal</a> - <a href="#!/offer/{{proposal.proposal_id}}/{{proposal.user_id}}">View offer</a></small>
 									</div>
 									<div class="description">
 										<div class="tracking progress">
@@ -51,7 +54,7 @@
 													<div class="progress"><span ng-if="reports">{{proposal.completed/proposal.quantity}}%</span></div>
 												</div>
 											</div>
-											<small>24 days left</small>
+											<small>{{days_left}} days left</small>
 										</div>
 									</div>
 								</div>
@@ -76,89 +79,66 @@
 										</div>
 										<div class="twelve wide column">
 											<ul class="detailed items">
-												<li>
+												<li ng-repeat="report in reports track by $index">
 													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a ng-click="reportForm(1234);" class="open-modal" ng-show="type==1" href="">Add Note</a>
+														<a href="" title="View Daily Report" class="show-report" ng-click="showReport(report)">View Daily Report</a>
 													</div>
-													Started production
+													<small>{{report.created_at | date}} - </small>Built {{report.output}} units
 												</li>
-												<li ng-repeat="report in reports">
+												<li ng-if="type==1 && !reported_today && !finished">
 													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a class="open-modal" ng-show="type==1" href="">Add Note</a>
+														<a ng-click="reportForm();" class="open-modal" href="">Add Report</a>
 													</div>
-													Built {{report.output}} units
-												</li>
-												<li ng-if="!finished">
-													<div class="actions">
-														<a href="" title="View Daily Report">View Daily Report</a><span ng-if="type==1">|</span><a class="open-modal" ng-show="type==1" href="">Add Note</a>
-														<script type="text/javascript">
-															$('.open-modal').click(function(){
-																$('.ui.modal').modal('show');
-															});
+													Report not submitted for {{today | date}}
 
-															$('.form').submit(function(){
-																$('.ui.modal').modal('hide');
-															});
-														</script>
-													</div>
-													In Progress...
 												</li>
-												<li>{{builtUnits >= proposalView.quantity ? 'Completed':'&nbsp;'}}</li>
 											</ul>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
-
-
-
-
 					</div>
 				</div>
 			</div>
 		</section>
 		<div ng-include="'partials/footer.html'"></div>
 	</div>
-
-
-	<script src="static/js/green.js"></script>
 </div>
 
 <!-- Modal -->
-<div class="ui small modal">
+<div class="ui small modal" id="create-modal">
 	<div class="actions">
 		<div class="ui cancel button"><i class="remove icon"></i></div>
 	</div>
-	<div class="ui sixteen centered grid">
+	<div class="ui sixteen padded grid">
 		<div class="header fourteen wide column">
 			<h2>Add Production Note</h2>
 		</div>
-		<form ng-submit="reportSubmit(proposalView.id);" class="ui form">
+		<form ng-submit="reportSubmit();" class="ui form">
 			<div class="field five wide column">
 				<label>What did you input today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="input" ng-model="report.input">
+				<input type="number" min="0" name="input" ng-model="new_report.input">
 			</div>
 			<div class="field five wide column">
 				<label>What did you output today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="output" ng-model="report.output">
+				<input type="number" min="0" name="output" ng-model="new_report.output">
 			</div>
-			<div class="field five wide column left aligned">
+			<div class="field five wide column">
 				<label>What did you ship today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="output" ng-model="report.shipped">
+				<input type="number" min="0" name="output" ng-model="new_report.shipped">
 			</div>
 			<div class="field one wide column">
-				<label>Note</label>
+				<label>Notes</label>
 			</div>
 			<div class="field sixteen wide column">
-				<textarea rows="8" cols="80" ng-model="report.note"></textarea>
+				<textarea rows="8" cols="80" ng-model="new_report.note"></textarea>
 			</div>
 			<div class="field sixteen wide column">
 				<button class="fluid ui green button" type="submit">Save Note</button>
@@ -168,4 +148,32 @@
 	</div>
 </div>
 
-<script src="static/js/modal.js"></script>
+<div class="ui small modal" id="show-modal">
+	<div class="header">
+		Viewing Report For {{cur_report.created_at}}
+	</div>
+	<div class="content">
+		<p style="opacity: 1;">Report submitted at 10:00pm.</p>
+		<table class="ui celled table">
+			<tbody>
+				<tr>
+					<td>Input</td>
+					<td ng-bind="cur_report.input"></td>
+				</tr>
+				<tr>
+					<td>Output</td>
+					<td ng-bind="cur_report.output"></td>
+				</tr>
+				<tr>
+					<td>Shipped</td>
+					<td ng-bind="cur_report.shipped"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p style="opacity: 1;">Notes:</p>
+		<p style="opacity: 1;" ng-bind="cur_report.notes"></p>
+	</div>
+	<div class="actions">
+		<div class="ui cancel black button">Close</div>
+	</div>
+</div>

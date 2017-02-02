@@ -11,7 +11,7 @@ $('.nda-trigger').click(function() {
 });
 
 $('.nda-view').click(function() {
-  $('#ndaWiew').modal('show');
+  $('#ndaView').modal('show');
 });
 
 $('.send-offer').click(function() {

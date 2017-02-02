@@ -10,7 +10,6 @@ offersFactory, messagesFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data)
 				$scope.proposals = [];
 				// Organize offers into groups:
 				for (var i = 0; i < data.length; i++) {
@@ -70,7 +69,6 @@ offersFactory, messagesFactory) {
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data)
 					$rootScope.messages = data;
 					$timeout(function() {
 						var _ = document.getElementById("chat");
