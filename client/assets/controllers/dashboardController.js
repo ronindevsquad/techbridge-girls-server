@@ -8,7 +8,6 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			})
 			console.log("type 0");
 		}else{
-
 			proposalsFactory.getMyApplications(function(data){
 				console.log(data);
 				$scope.proposals = data;
