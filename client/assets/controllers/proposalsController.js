@@ -5,12 +5,10 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			//Get proposals that you've created
 			proposalsFactory.getMyProposals(function(data) {
 				$scope.proposals = data;
-				console.log(data);
 			});
 		} else if ($scope.type == 1) {
 			proposalsFactory.getMyApplications(function(data) {
 				$scope.proposals = data;
-				console.log(data);
 			});
 		}
 	}
@@ -48,7 +46,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	};
 
 	$scope.accept = function() {
-		console.log("accepted offer");
 		var offer = {
 			proposal_id: $scope.offerView.proposal_id,
 			user_id: $scope.offerView.user_id
@@ -75,7 +72,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			$scope.$apply()
 		}
 		catch(err){
-			// console.log(err);
 			setTimeout(refreshChart,500);
 		}
 	}
