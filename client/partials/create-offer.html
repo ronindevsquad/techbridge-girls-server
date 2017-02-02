@@ -6,39 +6,12 @@
 
 		<div class="ui container">
 			<div class="ui centered grid">
-				<h2>Creating offer for {{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</h2>
+				<h2>Creating offer for <a href="#!/show-proposal/{{proposal.proposal_id}}">{{proposal.quantity}} {{proposal.product}} by {{proposal.completion | date:"mediumDate"}}</a></h2>
 			</div>
 
 			<div class="ui centered relaxed grid">
-				<div class="sixteen wide tablet three wide computer column">
-					<div class="box">
-						<h3>Attached Documents</h3>
 
-						<div class="single-slide">
-							<div ng-repeat="file in proposal.files" class="slided-item">
-								<div class="ui cards">
-									<div class="card">
-										<div class="content">
-											<p style="word-wrap: break-word;">{{file.filename.substring(file.filename.lastIndexOf("-")+1,file.filename.lastIndexOf("?"))}}</p>
-										</div>
-										<a href="{{file.filename}}"><div class="ui bottom attached evergreen green button">
-											View Document
-										</div></a>
-									</div> <!-- .card -->
-								</div> <!-- .cards -->
-							</div>
-						</div> <!-- .single slide -->
-						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
-					</div> <!-- .box -->
-
-					<div class="ui segment buybox">
-						<h3>{{company}}</h3>
-						<p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
-
-					</div> <!-- .segment -->
-
-				</div> <!-- .column -->
-				<div class="sixteen wide tablet nine wide computer column container divided">
+				<div class="sixteen wide tablet twelve wide computer column container">
 
 					<div class="ui centered grid">
 						<h3 class="row">Make an offer</h3>

@@ -14,7 +14,7 @@
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
 
-			<div class="ui left details">
+			<div class="ui left details"  style="margin-bottom: 50px;">
 
 				<div class="ui segment">
 					<div class="ui right aligned grid filters-top">
@@ -23,9 +23,9 @@
 							<p class="count">{{proposals.length}} {{proposal.length == 1 ? 'Result':'Results'}}</p>
 						</div> <!-- left column -->
 						<div class="eight wide column">
-							<p class="toplabels">Order By:
+							<!-- <p class="toplabels">Order By:
 								<a href="" title="Date" class="selected-link">Date</a> &bull; <a href="" title="Rating">Rating</a> &bull; <a href="" title="Relevance">Relevance</a>
-							</p>
+							</p> -->
 						</div> <!-- .right column -->
 					</div>
 				</div>
@@ -273,18 +273,7 @@
 
 					<div class="ui right aligned grid">
 
-						<div class="left aligned eight wide column">
-							<p class="toplabels">Your offer rank:</p>
-
-							<div class="item-scale level3">
-								<div class="top"></div>
-								<div class="second"></div>
-								<div class="middle"></div>
-								<div class="last"></div>
-							</div> <!-- .item-scale -->
-
-						</div> <!-- left column -->
-						<div class="eight wide column">
+						<div class="sixteen wide column">
 							<p class="toplabels">Responded</p>
 							<p>{{proposal.completion | date:"MMM dd y"}}</p>
 						</div> <!-- .right column -->
