@@ -32,7 +32,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		console.log(proposal);
 		offersFactory.index(proposal.id, function(data){
 			console.log(data);
-			$scope.offers = data;
+			$scope.offers = data.applications;
 			chartObject.dataset = $scope.offers
 			chartObject.drawChart()
 			$scope.$apply();
