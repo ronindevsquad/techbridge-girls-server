@@ -93,9 +93,9 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON " +
-						"offers.proposal_id = proposals.id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
-						"AND offers.status > 1";
+						var query = "SELECT *, HEX(proposal_id) AS proposal_id, HEX(user_id) AS user_id, FROM offers " +
+						"LEFT JOIN proposals ON offers.proposal_id = proposals.id WHERE (offers.user_id = UNHEX(?) OR " +
+						"proposals.user_id = UNHEX(?)) AND offers.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
 					})
 					.spread(data => {
@@ -103,38 +103,6 @@ module.exports = function(jwt_key) {
 					})
 					.catch(err => {
 						callback({status: 400, message: "Please contact an admin."});
-					});
-			});
-		},
-		getOffers: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				if (err)
-					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else
-					using(getConnection(), connection => {
-						if (payload.type == 0) {
-							var query = "SELECT *, HEX(proposal_id) AS proposal_id, HEX(offers.user_id) AS user_id, " +
-							"offers.status AS offer_status, " +
-							"proposals.status AS proposal_status FROM offers LEFT JOIN proposals ON " +
-							"proposal_id = id LEFT JOIN users ON offers.user_id = users.id  " +
-							"WHERE proposals.user_id = UNHEX(?) AND offers.status >= 0 ORDER BY proposals.created_at " +
-							"DESC, offers.created_at DESC";
-							return connection.execute(query, [payload.id]);
-						}
-						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(proposal_id) AS proposal_id, HEX(proposals.user_id) AS user_id, " +
-							"offers.status AS offer_status, " +
-							"proposals.status AS proposal_status FROM offers LEFT JOIN proposals ON " +
-							"proposal_id = id LEFT JOIN users ON proposals.user_id = users.id  " +
-							"WHERE offers.user_id = UNHEX(?) AND offers.status > 0 ORDER BY offers.created_at DESC";
-							return connection.execute(query, [payload.id]);
-						}
-					})
-					.spread(data => {
-						callback(false, data);
-					})
-					.catch(err => {
-						callback({status: 400, message: "Please contact an admin."})
 					});
 			});
 		},
@@ -201,9 +169,9 @@ module.exports = function(jwt_key) {
 						else {
 							var data = offer[0][0];
 							data.files = files[0];
-							for (var i =0; i < data.files.length; i++){
-									data.files[i].filename = bucket1.getUrl('GET', `/testfolder/${data.files[i].filename}`, 'ronintestbucket', 2);
-								}
+							for (var i =0; i < data.files.length; i++) {
+								data.files[i].filename = bucket1.getUrl('GET', `/testfolder/${data.files[i].filename}`, 'ronintestbucket', 2);
+							}
 							data.materials = materials[0];
 							data.labors = labors[0];
 							callback(false, data);

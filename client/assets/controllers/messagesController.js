@@ -4,20 +4,15 @@ offersFactory, messagesFactory) {
 		$scope.tab = "messages";
 		$scope.status = 0;
 
-		offersFactory.getOffers(function(data) {
+		offersFactory.getAcceptedOffers(function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				$scope.proposals = [];
-				// Organize offers into groups:
-				for (var i = 0; i < data.length; i++) {
-					if ($scope.proposals.length == 0 || $scope.proposals[$scope.proposals.length - 1][0].proposal_id != data[i].proposal_id)
-						$scope.proposals.push([data[i]]);
-					else if ($scope.proposals[$scope.proposals.length - 1][0].proposal_id == data[i].proposal_id)
-						$scope.proposals[$scope.proposals.length - 1].push(data[i]);
-				}
+				console.log(data)
+				$scope.offers = data;
+
 			}
 		});
 	}	

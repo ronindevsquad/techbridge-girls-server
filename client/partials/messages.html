@@ -31,18 +31,13 @@
 				<div class="messaging-container">
 					<div style="height: 700px;" class="ui stackable grid">
 						<div style="overflow-y: auto;" class="sixteen wide tablet four wide computer column">
-							<div class="ui tabular menu">
-								<a class="item" ng-class="{active: status==0}" ng-click="status=0">Pending</a>
-								<a class="item" ng-class="{active: status==1}" ng-click="status=1">Active</a>
-							</div>
-
-							<div class="ui menu" ng-repeat="offers in proposals | filter:filterByStatus">
+							<div class="ui menu" ng-repeat="offer in offers">
 								<div class="ui fluid vertical menu">
 									<div class="ui items message-contacts">
 										<div style="text-align: center;">
-											<a href="#!/show-proposal/{{offers[0].proposal_id}}">{{offers[0].quantity}} {{offers[0].product}}</a>
+											<a href="#!/show-proposal/{{offer.proposal_id}}">{{offer.quantity}} {{offer.product}}</a>
 										</div>
-										<a ng-style="{'background-color': offer.id==cur_offer.id&&type?'#7AC200':offer.id==cur_offer.id&&!type?'#F6A623':''}" class="item" data-tab="message1" ng-class="{active: offer.id==cur_offer.id}" ng-repeat="offer in offers" ng-click="showMessages(offer)">
+										<a ng-style="{'background-color': offer.proposal_id==cur_offer.proposal_id&&type?'#7AC200':offer.proposal_id==cur_offer.proposal_id&&!type?'#F6A623':''}" class="item" data-tab="message1" ng-class="{active: offer.proposal_id==cur_offer.proposal_id}" ng-click="showMessages(offer)">
 											<div class="ui tiny image">
 												<img src="static/img/husky-logo.png" class="ui centered image" />
 											</div>
@@ -62,30 +57,8 @@
 							<div class="ui padded basic segment">
 								<p class="message-ad" ng-show="!cur_offer">Click on a supplier on the left to load the conversation.</p>
 								<div ng-show="cur_offer">
-									<a href="#!/offer/{{cur_offer.proposal_id}}/{{cur_offer.user_id}}" ng-show="cur_offer.offer_status>0 && !type">View offer details from {{cur_offer.company}}</a>
-
-									<div class="message-ad" ng-show="cur_offer.offer_status==0 && !type">
-										<div class="right floated">
-											<a ng-class="color" class="ui big evergreen uppercase button" href="">Send Request to Offer</a>
-										</div>
-										<p>{{cur_offer.company}} has not made an offer yet. Would you like to make a request for their offer?</p>
-									</div>
-
-									<div class="message-ad" ng-show="cur_offer.offer_status==1 && !type">
-										<div class="right floated">
-											<a ng-class="color" class="ui big evergreen uppercase button accept-offer" href="" ng-click="accept()">Accept Offer</a>
-											<a ng-class="color" class="ui big evergreen uppercase button" href="">Decline Offer</a>
-										</div>
-										<p>If the terms are agreeable you can start your collaboration with {{cur_offer.company}} at any time.</p>
-									</div>
-
-									<div ng-show="cur_offer.offer_status==1 && type">
-										<p>Waiting for {{cur_offer.company}} to approve your offer. You will not be connected with {{cur_offer.company}} until they accept your offer.</p>
-									</div>
-
-									<div style="height: 550px; overflow-y: auto;" class="messages ui padded basic segment" id="chat" ng-show="cur_offer.offer_status>1">
+									<div style="height: 550px; overflow-y: auto;" class="messages ui padded basic segment" id="chat">
 										<!-- this is one message -->
-
 										<div class="ui grid" ng-repeat="message in messages">
 											<div class="row">
 												<div class="two wide column">
@@ -96,27 +69,17 @@
 													<p style="opacity: 1;" ng-bind="message.message"></p>
 												</div>
 											</div>
-
 										</div>
-
 									</div> <!-- messages -->
-
-									<div class="send-area ui padded basic segment" ng-show="cur_offer.offer_status>1">
+									<div class="send-area ui padded basic segment">
 										<form class="ui fluid action input" ng-submit="createMessage()">
-											<input type="text" placeholder="Enter your message here" ng-model="new_message" ng-disabled="cur_offer.status<1">
-											<button type="submit" ng-class="color" class="ui evergreen button flat" ng-disabled="cur_offer.status<1">Send</button>
+											<input type="text" placeholder="Enter your message here" ng-model="new_message">
+											<button type="submit" ng-class="color" class="ui evergreen button flat">Send</button>
 										</form>
 									</div> <!-- .send-area -->
-
-
 								</div>
 							</div>
 						</div>
-
-
-
-
-
 					</div> <!-- .grid -->
 
 				</div> <!-- .messaging-container -->
@@ -126,100 +89,6 @@
 		</section> <!-- .very padded segment -->
 
 		<div ng-include="'partials/footer.html'"></div>
-
-		<!-- accept offfer modal -->
-
-		<div class="ui small modal offermodal" id="acceptOffer">
-			<i class="close icon"></i>
-
-			<div class="ui grid">
-
-				<div class="leftcol sixteen wide table five wide computer column middle aligned">
-					<img src="static/img/shield.png" width="100" class="ui centered image" />
-					<p style="text-align: center;">Evergreen is 100% Safe &amp; Secure</p>
-				</div> <!-- .column -->
-
-				<div class="sixteen wide table eleven wide computer column white">
-					<div class="ui basic segment">
-						<div class="header">
-							<h6>Accept Offer</h6>
-						</div> <!-- .header -->
-
-						<div class="offer-details">
-							<div class="details-item">
-								<p class="footnote">Deliver Date</p>
-								<div class="details-value">22.12.2016</div>
-								<small style="display: block; padding-top: 4px;"><a href="" title="View offer details">View offer details</a></small>
-							</div>
-
-							<div class="details-item">
-								<p class="footnote">Sub-total</p>
-								<div class="details-value"><span class="op50">$</span> 1.514.511,00</div>
-							</div>
-
-						</div> <!-- .offer-details -->
-
-
-						<p>You will receive an invoice for the total amount of:</p>
-						<div class="ui fluid large label">
-							$ 1.514.511,00
-						</div>
-
-						<div class="ui horizontal divider"></div>
-
-						<div class="ui checkbox toppad">
-							<input type="checkbox" name="example" id="item99">
-							<label for="item99">I have read and accept the <a href="" title="Terms & Conditions">Terms &amp; Conditions</a></label>
-						</div>
-
-						<div class="ui horizontal divider"></div>
-
-						<a ng-class="color" class="ui big fluid evergreen uppercase button accepted-success" href="">Accept and Continue</a>
-						<a ng-class="color" class="ui big fluid evergreen uppercase button accepted-success" href="">Accept and Continue</a>
-
-						<div class="ui horizontal divider"></div>
-						<div class="ui divider"></div>
-						<div class="ui horizontal divider"></div>
-						<a href="" title="Contact Us">Or contact one of our customer representatives <i class="angle right icon"></i></a>
-
-					</div> <!-- .basic segment -->
-				</div> <!-- .column -->
-
-			</div> <!-- .grid -->
-		</div> <!-- .modal -->
-
-
-
-		<!-- accepted success modal -->
-
-		<div class="ui small modal welldone centered aligned" id="acceptedSuccess">
-			<i class="close icon"></i>
-
-			<div class="ui very padded basic segment">
-				<img src="static/img/{{color}}-check.png" alt="Check" width="120" />
-				<img src="static/img/{{color}}-check.png" alt="Check" width="120" />
-				<h2>Congratulation on a deal <br />well done!</h2>
-
-				<h1>What’s next?</h1>
-
-				<p>You will be able to coordinate with the supplier, track your production status and maintain the best costs with Evergreen.</p>
-
-				<p>The Evergreen team is here for you.  Email or call us at anytime.</p>
-
-				<div class="ui horizontal divider"></div>
-				<div class="ui divider"></div>
-				<div class="ui horizontal divider"></div>
-
-				<p class="op50">Contact our Customer Support that is always ready to help you with any possible questions, problems or information.</p>
-
-				<div class="ui horizontal divider"></div>
-				<a ng-class="color" class="ui big fluid evergreen uppercase button" href="#!/dashboard">Your account</a>
-
-			</div>
-
-		</div> <!-- .modal -->
-
-
 
 	</div> <!-- #greenwrapper -->
 
