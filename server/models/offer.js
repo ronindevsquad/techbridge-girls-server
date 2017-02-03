@@ -12,28 +12,22 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else if (payload.type != 1)
-					callback({status: 400, message: "Permission denied."});
 				else {
 					Promise.join(using(getConnection(), connection => {
 						var query = "SELECT sga, tooling, profit, overhead, total, HEX(user_id) AS user_id FROM " +
-						"offers WHERE proposal_id = UNHEX(?) AND status = 1 ORDER BY user_id";
+						"offers WHERE proposal_id = UNHEX(?) AND status > 0 ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id]);
 					}), using(getConnection(), connection => {
 						var query = "SELECT material, weight, cost, HEX(user_id) AS user_id FROM materials WHERE " +
 						"proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers WHERE " +
-						"proposal_id = UNHEX(?) AND status = 1) ORDER BY user_id";
+						"proposal_id = UNHEX(?) AND status > 0) ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), using(getConnection(), connection => {
 						var query = "SELECT type, labor, yield, rate, count, HEX(user_id) AS user_id FROM labors " +
 						"WHERE proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers " +
-						"WHERE proposal_id = UNHEX(?) AND status = 1) ORDER BY user_id";
+						"WHERE proposal_id = UNHEX(?) AND status > 0) ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), function(offers, materials, labors) {
-						console.log(offers)
-						console.log(offers[0])
-						console.log(materials[0])
-						console.log(labors[0])
 						// Group related materials together:
 						var materials_obj = {};
 						for (var i = 0; i < materials[0].length; i++) {
@@ -81,7 +75,7 @@ module.exports = function(jwt_key) {
 							offer.materials = materials_obj[`${offer.user_id}`];
 							offer.machines = machines_obj[`${offer.user_id}`];
 							offer.manuals = manuals_obj[`${offer.user_id}`];
-							if (offer.user_id != payload.id)
+							if (offer.user_id != payload.id && payload.type != 0)
 								delete offer.user_id;
 						}
 
