@@ -5,6 +5,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			//Get proposals that you've created
 			proposalsFactory.getMyProposals(function(data) {
 				$scope.proposals = data;
+				console.log(data);
 			});
 		} else if ($scope.type == 1) {
 			proposalsFactory.getMyApplications(function(data) {

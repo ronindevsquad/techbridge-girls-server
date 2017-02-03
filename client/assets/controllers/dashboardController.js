@@ -1,10 +1,12 @@
 app.controller('dashboardController', function ($scope, $location, proposalsFactory, offersFactory) {
-	chartObject.dataset = null
+	chartObject.dataset = null;
+	chartObject.clearChartData();
 	if (payload) {
 		$scope.tab = "dashboard";
 		if($scope.type == 0){
 			proposalsFactory.getMyProposals(function(data){
 				$scope.proposals = data
+				console.log(data);
 			})
 			console.log("type 0");
 		}else{
