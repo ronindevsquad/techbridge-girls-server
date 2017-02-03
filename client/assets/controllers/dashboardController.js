@@ -1,14 +1,15 @@
 app.controller('dashboardController', function ($scope, $location, proposalsFactory, offersFactory) {
-	chartObject.dataset = null
+	chartObject.dataset = null;
+	chartObject.clearChartData();
 	if (payload) {
 		$scope.tab = "dashboard";
 		if($scope.type == 0){
 			proposalsFactory.getMyProposals(function(data){
 				$scope.proposals = data
+				console.log(data);
 			})
 			console.log("type 0");
 		}else{
-
 			proposalsFactory.getMyApplications(function(data){
 				console.log(data);
 				$scope.proposals = data;
@@ -31,7 +32,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		console.log(proposal);
 		offersFactory.index(proposal.id, function(data){
 			console.log(data);
-			$scope.offers = data;
+			$scope.offers = data.applications;
 			chartObject.dataset = $scope.offers
 			chartObject.drawChart()
 			$scope.$apply();

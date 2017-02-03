@@ -6,7 +6,6 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 			else if (data.status >= 300)
 				$location.url("/");
 			else {
-				console.log(data)
 				if (data[0].offer_status === null && $scope.type != 0)
 					$scope.signed = false;
 				else
@@ -16,7 +15,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 				for (var i = 0; i < data.length; i++) {
 					if (data[i].type == 1)
 						$scope.ndasource = $sce.trustAsResourceUrl(data[i].filename)
-					else 
+					else
 						$scope.files.push(data[i].filename)
 				}
 

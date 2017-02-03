@@ -178,14 +178,20 @@ function ChartGenerator(){
 	var self = this;
 	var defaultChartWidth = 1000
 	var defaultChartHeight = 400
-	this.template = {};
-	this.template.bartitle = 'Company';
-	this.template.metric = 'Total';
+
+	this.template = {}; //only instantiated to keep the
+	this.template.bartitle = 'company';
+	this.template.metric = 'total';
 	this.template.width = defaultChartWidth
 	this.template.height = defaultChartHeight
+
 	this.defaultColor = 'gray'
 	this.customColorsForFirstNBars = []; //determines the color for the first N bars in the chart. Use hexcodes or CSS color names. This is implemented in pushDataSet
 	this.firstNBars = [];//contains the first few bars to be displayed in the data set. They will be pushed first, then ignored when the pushDataSet function loops through the rest of the data.
+	this.clearChartData = function(){
+		this.customColorsForFirstNBars = [];
+		this.firstNBars = [];
+	}
 	this.dataset = [{company:"blanderschmidt", total:50}, {company:"goopenheimer", total:20}];
 	this.drawChart = function() {
 		if(!googlefinishedloading){

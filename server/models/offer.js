@@ -152,7 +152,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id), HEX(o.proposal_id), o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 " +
 						"UNION " +
