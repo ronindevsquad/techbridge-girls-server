@@ -157,9 +157,6 @@
 										<div class="sixteen wide tablet four wide computer column">
 											<div class="ui vertical fluid tabular menu">
 												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
-												<div ng-show="proposalView==proposal && !leads" class="detail-panel">
-													<h1 class="ui center aligned segment">No leads for this proposal yet.</h1>
-												</div>
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a class="active item" data-tab="lead1">
 														<div class="ui tiny image">
@@ -189,6 +186,9 @@
 														<a ng-click="removeLead(leadView);" class="ui big fluid red uppercase basic button" href="">Remove lead</a>
 													</div>
 
+												</div>
+												<div ng-show="proposalView==proposal && !leads" class="detail-panel">
+													<h1 class="ui center aligned segment">No leads for this proposal yet.</h1>
 												</div>
 
 												<div class="ui tab" data-tab="lead2">

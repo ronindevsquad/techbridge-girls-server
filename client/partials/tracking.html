@@ -79,18 +79,24 @@
 										</div>
 										<div class="twelve wide column">
 											<ul class="detailed items">
+												<li>Started Production</li>
 												<li ng-repeat="report in reports track by $index">
 													<div class="actions">
 														<a href="" title="View Daily Report" class="show-report" ng-click="showReport(report)">View Daily Report</a>
 													</div>
 													<small>{{report.created_at | date}} - </small>Built {{report.output}} units
 												</li>
-												<li ng-if="type==1 && !reported_today && !finished">
+												<!-- <li ng-if="type==1 && !reported_today && !finished">
 													<div class="actions">
-														<a ng-click="reportForm();" class="open-modal" href="">Add Report</a>
+														<a ng-click="reportForm();" class="open-modal" href="">View Report</a>
 													</div>
 													Report not submitted for {{today | date}}
-
+												</li> -->
+												<li>
+													<div ng-if="type == 1 && !finished" class="actions">
+														<a ng-click="reportForm();" class="open-modal" href="">Add Report</a>
+													</div>
+													In Progress for {{today | date}}
 												</li>
 											</ul>
 										</div>
@@ -132,7 +138,7 @@
 				<label>What did you ship today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="number" min="0" name="output" ng-model="new_report.shipped">
+				<input type="number" min="0" name="output" ng-model="new_report.shipping">
 			</div>
 			<div class="field one wide column">
 				<label>Notes</label>

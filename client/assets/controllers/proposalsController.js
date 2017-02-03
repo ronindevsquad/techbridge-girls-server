@@ -5,7 +5,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			//Get proposals that you've created
 			proposalsFactory.getMyProposals(function(data) {
 				$scope.proposals = data;
-				console.log(data);
 			});
 		} else if ($scope.type == 1) {
 			proposalsFactory.getMyApplications(function(data) {
@@ -24,7 +23,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		else {
 			offersFactory.index(proposal.id, function(data){
 				$scope.proposalView = proposal;
-				console.log(data.applications);
 				if(data.applications.length>1){
 					$scope.EGcost = data.applications.pop();
 					$scope.offers = data.applications;
