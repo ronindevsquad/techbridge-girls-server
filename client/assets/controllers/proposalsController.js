@@ -30,7 +30,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 					if(data.leads.length >= 1){
 						$scope.leads = data.leads;
-						console.log($scope.leads);
+						$scope.leadView = data.leads[0]
 					}
 					refreshChart()
 				} else {
@@ -66,6 +66,18 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			}
 		});
 	}
+
+	$scope.removeLead = function(lead) {
+		offersFactory.removeLead(lead, function(data){
+			if (data.length > 0){
+				$scope.leads = data;
+				$scope.leadView = data[0];
+			} else {
+				$scope.leads = null;
+				$scope.leadView = null;
+			}
+		});
+	};
 
 	function refreshChart(){
 		try{
