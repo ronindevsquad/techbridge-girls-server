@@ -168,6 +168,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		show: function(req, callback) {
+			console.log("SHOWING ONE PROPOSAL");
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
