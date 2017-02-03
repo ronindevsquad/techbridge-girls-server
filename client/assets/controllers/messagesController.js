@@ -1,4 +1,4 @@
-app.controller('messagesController', function ($scope, $rootScope, $location, $timeout,
+app.controller('messagesController', function ($scope, $rootScope, $location, $timeout, $routeParams,
 offersFactory, messagesFactory) {
 	if (payload) {
 		$scope.tab = "messages";
@@ -10,8 +10,17 @@ offersFactory, messagesFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data)
 				$scope.offers = data;
+
+				// Check if certain conversation requested in URL:
+				if ($routeParams.proposal_id) {
+					for (var i = 0; i < data.length; i++) {
+						if ($routeParams.proposal_id == data[i].proposal_id) {
+							$scope.showMessages(data[i]);
+							break;
+						}
+					}
+				}
 
 			}
 		});
@@ -22,34 +31,6 @@ offersFactory, messagesFactory) {
 	//////////////////////////////////////////////////////
 	//										HELPER FUNCTIONS
 	//////////////////////////////////////////////////////
-	$scope.filterByStatus = function(value) {
-		if ($scope.status == 0 && value[0].proposal_status == 0)
-			return true;
-		else if ($scope.status == 1 && value[0].proposal_status > 0)
-			return true;
-		else
-			return false;
-	}
-
-	//////////////////////////////////////////////////////
-	//										OFFER
-	//////////////////////////////////////////////////////
-	$scope.accept = function() {
-		var offer = {
-			proposal_id: $scope.cur_offer.proposal_id,
-			user_id: $scope.cur_offer.user_id
-		};
-		offersFactory.accept(offer, function(data) {
-			if (data.status == 401)
-				$scope.logout();
-			else if (data.status >= 300)
-				console.log("error:", data.data.message)
-			else {
-				socket.emit("accept", offer);
-				$location.url(`/messages#${Date.now()}`)
-			}
-		});
-	}
 
 	//////////////////////////////////////////////////////
 	//										MESSAGE
@@ -57,21 +38,20 @@ offersFactory, messagesFactory) {
 	$scope.showMessages = function(offer) {
 		$rootScope.messages = [];
 		$rootScope.cur_offer = offer;
-		if (offer.offer_status > 1) {
-			messagesFactory.show(offer.proposal_id, function(data) {
-				if (data.status == 401)
-					$scope.logout();
-				else if (data.status >= 300)
-					console.log("error:", data.data.message)
-				else {
-					$rootScope.messages = data;
-					$timeout(function() {
-						var _ = document.getElementById("chat");
-						_.scrollTop = _.scrollHeight;
-					}, 0, false);
-				}
-			});
-		}
+		messagesFactory.show(offer.proposal_id, function(data) {
+			console.log(data)
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				$rootScope.messages = data;
+				$timeout(function() {
+					var _ = document.getElementById("chat");
+					_.scrollTop = _.scrollHeight;
+				}, 0, false);
+			}
+		});
 	}
 
 	$scope.createMessage = function() {

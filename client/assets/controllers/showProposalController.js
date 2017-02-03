@@ -1,6 +1,7 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
+			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
@@ -18,7 +19,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 					else
 						$scope.files.push(data[i].filename)
 				}
-
+				console.log(data);
 				$scope.proposal = data;
 			}
 		});
