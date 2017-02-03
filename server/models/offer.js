@@ -204,6 +204,7 @@ module.exports = function(jwt_key) {
 							for (var i =0; i < data.files.length; i++){
 									data.files[i].filename = bucket1.getUrl('GET', `/testfolder/${data.files[i].filename}`, 'ronintestbucket', 2);
 								}
+							console.log(materials);
 							data.materials = materials[0];
 							data.labors = labors[0];
 							callback(false, data);
@@ -290,7 +291,6 @@ module.exports = function(jwt_key) {
 					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 1)
 					return callback({status: 401, message: "Only Suppliers are allowed to send offers."});
-
 				// Validate materials:
 				for (var i = 0; i < req.body.materials.length; i++) {
 					var material = req.body.materials[i];
@@ -345,10 +345,11 @@ module.exports = function(jwt_key) {
 									var material = req.body.materials[i];
 									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", material.material, material.weight,
 										material.cost, "NOW()", "NOW()", `UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
+									console.log("pushed a material" + i);
 								}
 								var query = "INSERT INTO materials (id, material, weight, cost, created_at, " +
-								"updated_at, proposal_id, user_id) VALUES (?)";
-								return connection.query(query, data);
+								"updated_at, proposal_id, user_id) VALUES ?";
+								return connection.query(query, [data]);
 							// Insert machines:
 							}), using(getConnection(), connection => {
 								var data = [];
@@ -359,8 +360,8 @@ module.exports = function(jwt_key) {
 										`UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
 								var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
-								"count, created_at, updated_at, proposal_id, user_id) VALUES (?)"
-								return connection.query(query, data);
+								"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+								return connection.query(query, [data]);
 							// Insert manuals:
 							}), using(getConnection(), connection => {
 								var data = [];
@@ -371,8 +372,8 @@ module.exports = function(jwt_key) {
 										`UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
 								}
 								var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
-								"count, created_at, updated_at, proposal_id, user_id) VALUES (?)"
-								return connection.query(query, data);
+								"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
+								return connection.query(query, [data]);
 						}), () => {
 							callback(false);
 						});
