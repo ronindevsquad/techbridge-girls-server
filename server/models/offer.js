@@ -8,6 +8,85 @@ var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLs
 });
 module.exports = function(jwt_key) {
 	return {
+		getOffersForProposal: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else {
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT sga, tooling, profit, overhead, total, HEX(user_id) AS user_id FROM " +
+						"offers WHERE proposal_id = UNHEX(?) AND status > 0 ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT material, weight, cost, HEX(user_id) AS user_id FROM materials WHERE " +
+						"proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers WHERE " +
+						"proposal_id = UNHEX(?) AND status > 0) ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT type, labor, yield, rate, count, HEX(user_id) AS user_id FROM labors " +
+						"WHERE proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers " +
+						"WHERE proposal_id = UNHEX(?) AND status > 0) ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
+					}), function(offers, materials, labors) {
+						// Group related materials together:
+						var materials_obj = {};
+						for (var i = 0; i < materials[0].length; i++) {
+							var material = materials[0][i];
+							if (!materials_obj[`${material.user_id}`])
+								materials_obj[`${material.user_id}`] = [];
+							materials_obj[`${material.user_id}`].push({
+								material: material.material,
+								weight: material.weight,
+								cost: material.cost
+							});
+						}
+
+						// Group related labors together:
+						var machines_obj = {};
+						var manuals_obj = {};
+						for (var i = 0; i < labors[0].length; i++) {
+							var labor = labors[0][i];
+
+							if (labor.type == 0) {
+								if (!machines_obj[`${labor.user_id}`])
+									machines_obj[`${labor.user_id}`] = [];
+								machines_obj[`${labor.user_id}`].push({
+									labor: labor.labor,
+									yield: labor.yield,
+									rate: labor.rate,
+									count: labor.count
+								});
+							}
+							else if (labor.type == 1) {
+								if (!manuals_obj[`${labor.user_id}`])
+									manuals_obj[`${labor.user_id}`] = [];
+								manuals_obj[`${labor.user_id}`].push({
+									labor: labor.labor,
+									yield: labor.yield,
+									rate: labor.rate,
+									count: labor.count
+								});
+							}
+						}
+
+						// Map materials and labors to offer:
+						for (var i = 0; i < offers[0].length; i++) {
+							var offer = offers[0][i];
+							offer.materials = materials_obj[`${offer.user_id}`];
+							offer.machines = machines_obj[`${offer.user_id}`];
+							offer.manuals = manuals_obj[`${offer.user_id}`];
+							if (offer.user_id != payload.id && payload.type != 0)
+								delete offer.user_id;
+						}
+
+						callback(false, offers[0]);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+				}
+			});
+		},
 		getAcceptedOffers: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
@@ -67,7 +146,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id), HEX(o.proposal_id), o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 " +
 						"UNION " +
@@ -91,7 +170,6 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."})
 					});
 				}
@@ -202,7 +280,6 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -301,7 +378,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

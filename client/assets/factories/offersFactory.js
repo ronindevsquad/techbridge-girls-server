@@ -1,5 +1,14 @@
 app.factory('offersFactory', function($http, $cookies) {
 	return {
+		getOffersForProposal: function(proposal_id, callback) {
+			$http.get(`/api/getOffersForProposal/${proposal_id}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		getAcceptedOffers: function(callback) {
 			$http.get('/api/getAcceptedOffers', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
@@ -20,15 +29,6 @@ app.factory('offersFactory', function($http, $cookies) {
 		},
 		index: function(proposal_id, callback) {
 			$http.get(`/api/offers/${proposal_id}`, {
-				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
-				callback(res.data);
-			}, function(res) {
-				callback(res);
-			});
-		},
-		getOffersForProposal: function(proposal_id, callback) {
-			$http.get(`/api/getOffersForProposal/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
 				callback(res.data);

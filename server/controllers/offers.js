@@ -1,6 +1,14 @@
 module.exports = function(jwt_key) {
 	var offer = require('../models/offer')(jwt_key);
 	return {
+		getOffersForProposal: function(req, res) {
+			offer.getOffersForProposal(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		getAcceptedOffers: function(req, res) {
 			offer.getAcceptedOffers(req, function(err, data) {
 				if (err)
