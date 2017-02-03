@@ -8,6 +8,91 @@ var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLs
 });
 module.exports = function(jwt_key) {
 	return {
+		getOffersForProposal: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 1)
+					callback({status: 400, message: "Permission denied."});
+				else {
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT sga, tooling, profit, overhead, total, HEX(user_id) AS user_id FROM " +
+						"offers WHERE proposal_id = UNHEX(?) AND status = 1 ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT material, weight, cost, HEX(user_id) AS user_id FROM materials WHERE " +
+						"proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers WHERE " +
+						"proposal_id = UNHEX(?) AND status = 1) ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
+					}), using(getConnection(), connection => {
+						var query = "SELECT type, labor, yield, rate, count, HEX(user_id) AS user_id FROM labors " +
+						"WHERE proposal_id = UNHEX(?) AND proposal_id IN (SELECT DISTINCT proposal_id FROM offers " +
+						"WHERE proposal_id = UNHEX(?) AND status = 1) ORDER BY user_id";
+						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
+					}), function(offers, materials, labors) {
+						// Group related materials together:
+						var materials_obj = {};
+						for (var i = 0; i < materials[0].length; i++) {
+							var material = materials[0][i];
+							if (!materials_obj[`${material.user_id}`])
+								materials_obj[`${material.user_id}`] = [];
+							materials_obj[`${material.user_id}`].push({
+								material: material.material,
+								weight: material.weight,
+								cost: material.cost
+							});
+						}
+
+						// Group related labors together:
+						var machines_obj = {};
+						var manuals_obj = {};
+						for (var i = 0; i < labors[0].length; i++) {
+							var labor = labors[0][i];
+
+							if (labor.type == 0) {
+								if (!machines_obj[`${labor.user_id}`])
+									machines_obj[`${labor.user_id}`] = [];
+								machines_obj[`${labor.user_id}`].push({
+									labor: labor.labor,
+									yield: labor.yield,
+									rate: labor.rate,
+									count: labor.count
+								});
+							}
+							else if (labor.type == 1) {
+								if (!manuals_obj[`${labor.user_id}`])
+									manuals_obj[`${labor.user_id}`] = [];
+								manuals_obj[`${labor.user_id}`].push({
+									labor: labor.labor,
+									yield: labor.yield,
+									rate: labor.rate,
+									count: labor.count
+								});
+							}
+						}
+
+						// Map materials and labors to offer:
+						for (var i = 0; i < offers[0].length; i++) {
+							var offer = offers[0][i];
+							offer.materials = materials_obj[`${offer.user_id}`];
+							offer.machines = machines_obj[`${offer.user_id}`];
+							offer.manuals = manuals_obj[`${offer.user_id}`];
+							if (offer.user_id != payload.id)
+								delete offer.user_id;
+						}
+
+						console.log(offer)
+						callback(false, offer);
+					}) 
+					.spread(data => {
+						callback(false, data);
+					})
+					.catch(err => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+				}
+			});
+		},
 		getAcceptedOffers: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)

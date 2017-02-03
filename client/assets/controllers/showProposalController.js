@@ -1,5 +1,9 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
+		proposalsFactory.getOffersForProposal($routeParams, function(data) {
+			console.log("getOffersForProposal", data)
+		})
+
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
