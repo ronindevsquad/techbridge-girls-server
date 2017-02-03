@@ -35,7 +35,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			$scope.offers = data.applications;
 			chartObject.dataset = $scope.offers
 			chartObject.drawChart()
-			$scope.$apply();
+			// $scope.$apply();
 		});
 
 	}
