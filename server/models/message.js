@@ -11,24 +11,29 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else
-					using(getConnection(), connection => {
-						var query = "SELECT message, status, messages.created_at AS created_at, contact, " + 
+				else {
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT message, status, messages.created_at AS created_at, contact, " +
 						"company, picture, HEX(user_id) AS user_id, HEX(messages.id) AS id FROM messages " +
 						"LEFT JOIN users ON messages.user_id = users.id WHERE proposal_id = " +
 						"(SELECT proposal_id FROM offers LEFT JOIN proposals ON proposal_id = id WHERE " +
 						"proposal_id = UNHEX(?) AND (proposals.user_id = UNHEX(?) OR offers.user_id = UNHEX(?)) " +
 						"AND offers.status > 1 AND proposals.status > 1 LIMIT 1) ORDER BY created_at";
 						return connection.execute(query, [req.params.id, payload.id, payload.id]);
-					})
-					.spread(data => {
-						if (data.length < 1)
-							throw {status: 400, message: "No conversation found."};
-						callback(false, data);
+					}), using(getConnection(), connection => {
+						var query = "UPDATE messages SET status = 1 WHERE proposal_id = UNHEX(?) AND " +
+						"user_id != UNHEX(?)";
+						return connection.execute(query, [req.params.id, payload.id]);
+					}), (messages, read) => {
+						if (messages.length < 1)
+						throw {status: 400, message: "No conversation found."};
+						console.log(read[0]);
+						callback(false, messages[0]);
 					})
 					.catch(err => {
 						callback({status: 400, message: "Please contact an admin."});
 					});
+				}
 			});
 		},
 		create: function(req, callback) {
