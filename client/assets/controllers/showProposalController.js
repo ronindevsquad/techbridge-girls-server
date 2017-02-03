@@ -1,17 +1,13 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
-		proposalsFactory.getOffersForProposal($routeParams, function(data) {
-			console.log("getOffersForProposal", data)
-		})
-
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				$location.url("/");
 			else {
-				console.log(data[0].offer_status)
-				if (data[0].offer_status === undefined && $scope.type != 0)
+				console.log(data)
+				if (data[0].offer_status === null && $scope.type != 0)
 					$scope.signed = false;
 				else
 					$scope.signed = true;

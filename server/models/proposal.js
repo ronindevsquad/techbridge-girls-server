@@ -189,19 +189,12 @@ module.exports = function(jwt_key) {
 					.spread(data => {
 						if (data.length == 0)
 							throw {status: 400, message: "Could not find valid proposal."};
-						else if (!data[0].offer_status && payload.type != 0) {
-							var _data = [];
-							for (var i = 0; i < data.length; i++) {
-								if (data[i].type == 1) {
-									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
-									_data.push(data);
-								}
-							}
-							callback(false, _data);
-						}
 						else {
-							for (var i = 0; i < data.length; i++){
-								data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+							for (var i = data.length - 1; i >= 0; i--) {
+								if (!data[i].offer_status && payload.type != 0 && data[i].type == 0)
+									data.splice(i, 1);
+								else
+									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
 							}
 							callback(false, data);
 						}

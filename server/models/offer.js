@@ -30,6 +30,10 @@ module.exports = function(jwt_key) {
 						"WHERE proposal_id = UNHEX(?) AND status = 1) ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), function(offers, materials, labors) {
+						console.log(offers)
+						console.log(offers[0])
+						console.log(materials[0])
+						console.log(labors[0])
 						// Group related materials together:
 						var materials_obj = {};
 						for (var i = 0; i < materials[0].length; i++) {
@@ -81,11 +85,7 @@ module.exports = function(jwt_key) {
 								delete offer.user_id;
 						}
 
-						console.log(offer)
-						callback(false, offer);
-					}) 
-					.spread(data => {
-						callback(false, data);
+						callback(false, offers[0]);
 					})
 					.catch(err => {
 						callback({status: 400, message: "Please contact an admin."});
@@ -176,7 +176,6 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."})
 					});
 				}
@@ -287,7 +286,6 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
@@ -386,7 +384,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
