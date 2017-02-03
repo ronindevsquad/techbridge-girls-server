@@ -29,6 +29,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 					$scope.EGcost = data.applications.pop();
 					$scope.offers = data.applications;
 					$scope.offerView = $scope.offers[0];
+					console.log(data.applications[0]);
 					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 					if(data.leads.length >= 1){
 						$scope.leads = data.leads;

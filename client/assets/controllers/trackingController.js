@@ -4,7 +4,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.show_report = false;
 		$scope.today = new Date().setHours(0,0,0,0);
 		$scope.reported_today = false;
-		console.log($scope.today)
 		$scope.report;
 		proposalsFactory.getPercentCompleted(function(data) {
 			if (data.status == 401)
@@ -14,7 +13,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			else {
 				$scope.days_left = daysBetween($scope.today, data[0].completion)
 				$scope.proposals = data;
-				console.log(data)
 			}
 		});
 	}
@@ -33,7 +31,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	function daysBetween(startDate, endDate) {
 		var millisecondsPerDay = 24 * 60 * 60 * 1000;
-		console.log((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay)
 		return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
 	}
 
