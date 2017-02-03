@@ -80,7 +80,7 @@ module.exports = function(jwt_key) {
 						"WHERE o.proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id), HEX(o.proposal_id), o.status, u.company, o.created_at " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, o.created_at " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 0";
 						return connection.execute(query, [req.params.proposal_id]);
@@ -162,6 +162,47 @@ module.exports = function(jwt_key) {
 						callback(false);
 					})
 					.catch((err) => {
+						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
+		nullify: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					return callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 0)
+					return callback({status: 401, message: "Only the Maker is allowed to remove offers."});
+				else
+					using(getConnection(), connection => {
+						var query = "SELECT HEX(user_id) AS user_id FROM proposals where id = UNHEX(?)";
+						return connection.execute(query, [req.body.proposal_id]);
+					})
+					.spread((data) => {
+						if (data[0].user_id != payload.id)
+							return callback({status: 400, message: "Please contact an admin."});
+						else {
+							return using(getConnection(), connection => {
+								var query = "UPDATE offers SET status = -1 WHERE user_id = UNHEX(?) AND proposal_id = UNHEX(?)";
+								return connection.execute(query, [req.body.user_id, req.body.proposal_id]);
+							})
+						}
+					})
+					.spread((data) => {
+						if (data.changedRows == 0)
+							throw {status: 400, message: "Unable to remove lead. Please contact an admin."}
+						else
+							return using(getConnection(), connection => {
+								var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, o.created_at " +
+								"FROM offers o JOIN users u ON o.user_id = u.id " +
+								"WHERE proposal_id = UNHEX(?) AND o.status = 0";
+								return connection.execute(query, [req.body.proposal_id]);
+							})
+					})
+					.spread((data) => {
+						callback(false, data);
+					})
+					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

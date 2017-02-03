@@ -54,6 +54,15 @@ app.factory('offersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		removeLead: function(data, callback) {
+			$http.put('/api/offers/nullify', data, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			}).then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		send: function(data, callback) {
 			$http.put('/api/offers/send', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
