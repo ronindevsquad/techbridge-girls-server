@@ -7,11 +7,16 @@
 		<div class="ui container">
 
 			<div class="ui centered relaxed grid">
-				<h2><a href="#!/show-proposal/{{offer.proposal_id}}">{{offer.quantity}} {{offer.product}} to be produced by {{offer.completion | date:"mediumDate"}}</a></h2>
+				<h2 class="green text" style="margin-bottom: 0px;">Viewing <span ng-if="offer.offer_user_id==id">Your</span><span ng-if="offer.offer_user_id!=id">{{offer.company}}'s</span> Offer For:</h2>
+				<h3 style="margin-top: 0px;">{{offer.quantity}} <strong>{{offer.product}} </strong>to be produced by <strong>{{offer.completion | date:"mediumDate"}}</strong></h3>
+
 
 				<div class="sixteen wide tablet twelve wide computer column container">
+					<div class="ui centered relaxed grid">
+						<a class="ui evergreen uppercase button orange" href="#!/show-proposal/{{offer.proposal_id}}">View the Proposal Details</a>
+					</div>
+					<h2>Offer Details:</h2>
 					<div class="ui centered grid">
-						<h3 class="row">{{offer.company}}'s offer</h3>
 						<div class="row">
 							<table class="ui celled table">
 								<thead>

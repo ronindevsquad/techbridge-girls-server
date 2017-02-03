@@ -5,8 +5,8 @@
 		<div ng-include="'partials/header.html'"></div>
 
 		<div class="ui container">
-
-			<h2>Customer in USA looking to produce {{proposal[0].quantity | number}} units by {{proposal[0].completion | date:"mediumDate"}}</h2>
+			<h2 style="margin: 0px; padding: 0px;">Viewing Proposal For:</h2>
+			<h2 style="margin-top: 0px;"><strong>Customer in USA looking to produce {{proposal[0].quantity | number}} units by {{proposal[0].completion | date:"mediumDate"}}</strong></h2>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet four wide computer column">
@@ -28,7 +28,7 @@
 					</div> <!-- .single slide -->
 
 						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
-					<div class="box">
+					<!-- <div class="box">
 						<h3>Image Gallery</h3>
 
 						<div class="ui three doubling cards">
@@ -64,7 +64,8 @@
 							</div>
 						</div>
 
-					</div> <!-- .box -->
+					</div> -->
+					 <!-- .box -->
 
 				</div> <!-- .column -->
 				<div class="sixteen wide tablet eight wide computer column container divided">
@@ -94,7 +95,7 @@
 						<div class="content box">
 							<h4>And they need them by:</h4>
 							<p ng-bind="proposal[0].completion | date:'fullDate'"></p>
-							<img src="static/img/test-image.png" width="260" class="ui image" />
+							<!-- <img src="static/img/test-image.png" width="260" class="ui image" /> -->
 
 						</div> <!-- .content box -->
 					</div>
@@ -102,7 +103,7 @@
 				</div> <!-- .column -->
 				<div class="sixteen wide tablet four wide computer column">
 
-					<div class="ui segment buybox">
+					<div ng-if="type==1" class="ui segment buybox">
 						<h3>{{company}}</h3>
 						<p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
 
@@ -112,7 +113,7 @@
 
 					</div> <!-- .segment -->
 
-					<div class="ui basic segment center aligned">
+					<div ng-if="type==1" class="ui basic segment center aligned">
 						<small class="footnote">Evergeen charges 2% of the total cost as a service fee. <a href="" title="More about this">Find out more</a>.</small>
 					</div>
 				</div> <!-- .column -->
