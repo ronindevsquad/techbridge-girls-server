@@ -41,6 +41,14 @@ module.exports = function(jwt_key) {
 					res.json(data);
 			});
 		},
+		nullify: function(req, res) {
+			offer.nullify(req, function(err, data) {
+				if (err)
+					res.status(err.status).json({message: err.message});
+				else
+					res.json(data);
+			});
+		},
 		send: function(req, res) {
 			offer.send(req, function(err, data) {
 				if (err)

@@ -157,12 +157,15 @@
 										<div class="sixteen wide tablet four wide computer column">
 											<div class="ui vertical fluid tabular menu">
 												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
-												<div class="ui items message-contacts">
+												<div ng-show="proposalView==proposal && !leads" class="detail-panel">
+													<h1 class="ui center aligned segment">No leads for this proposal yet.</h1>
+												</div>
+												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a class="active item" data-tab="lead1">
 														<div class="ui tiny image">
 															<img src="static/img/husky-logo.png" class="ui centered image" />
 														</div>
-														<div ng-repeat="lead in leads" class="middle aligned content">
+														<div class="middle aligned content">
 															<h4> {{lead.company}}</h4>
 															<p class="footnote">Received {{lead.created_at | date: "dd.MM.y"}}</p>
 														</div>
@@ -174,16 +177,16 @@
 
 										<div class="sixteen wide tablet twelve wide computer column stretched">
 											<div class="ui very padded basic segment">
-												<div class="ui tab active" data-tab="lead1">
+												<div ng-show="leadView" class="ui tab active" data-tab="lead1">
 
 													<div class="ui segment buybox">
-														<h3>{{lead.company}}</h3>
+														<h3>{{leadView.company}}</h3>
 														<!-- <p>610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p> -->
 
 														<div class="ui horizontal slider"></div>
 
 														<div class="ui horizontal divider"></div>
-														<a class="ui big fluid red uppercase basic button" href="">Remove lead</a>
+														<a ng-click="removeLead(leadView);" class="ui big fluid red uppercase basic button" href="">Remove lead</a>
 													</div>
 
 												</div>
