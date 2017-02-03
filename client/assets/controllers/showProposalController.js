@@ -19,7 +19,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 					else
 						$scope.files.push(data[i].filename)
 				}
-
+				console.log(data);
 				$scope.proposal = data;
 			}
 		});

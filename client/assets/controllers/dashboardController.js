@@ -30,13 +30,22 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 	$scope.print = function(proposal){
 		console.log(proposal.product);
 		console.log(proposal);
-		offersFactory.index(proposal.id, function(data){
-			console.log(data);
-			$scope.offers = data.applications;
-			chartObject.dataset = $scope.offers
-			chartObject.drawChart()
-			// $scope.$apply();
-		});
+		if($scope.type == 0){
+			offersFactory.index(proposal.id, function(data){
+				console.log(data);
+				$scope.offers = data.applications;
+				chartObject.dataset = $scope.offers
+				chartObject.drawChart()
+				// $scope.$apply();
+			});
+		} else {
+			offersFactory.getOffersForProposal(proposal.id, function(data){
+				console.log(data);
+				$scope.offers = data.applications;
+				chartObject.dataset = $scope.offers
+				chartObject.drawChart()
+			});
+		}
 
 	}
 	chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);

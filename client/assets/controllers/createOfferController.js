@@ -45,11 +45,13 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 
 	$scope.send = function() {
 		$scope.error = "";
+		console.log($scope.offer);
 		offersFactory.send($scope.offer, function(data) {
 			if (data.status == 401)
 				$scope.logout();
-			else if (data.status >= 300)
+			else if (data.status >= 300){
 				$scope.error = data.data.message;
+				console.log($scope.error);}
 			else {
 				$scope.sent = true;
 				$("#offerSent").modal("show");
