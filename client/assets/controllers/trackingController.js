@@ -36,7 +36,10 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	function assignReports(data) {
 		$scope.reports = data;
-		var builtUnits = 0;
+		$scope.new_report.input = "";
+		$scope.new_report.output = "";
+		$scope.new_report.shipping = "";
+		$scope.new_report.note = "";		var builtUnits = 0;
 		for (var i = 0; i < $scope.reports.length; i++){
 			builtUnits += parseInt($scope.reports[i].output);
 		}
@@ -74,7 +77,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	};
 
 	$scope.showReport = function(report) {
-		console.log("here")
 		$scope.cur_report = report;
 		$("#show-modal").modal("show");
 	}
@@ -108,10 +110,8 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data)
 					if (new Date(data[data.length - 1]).setHours(0,0,0,0) == $scope.today)
 						$scope.reported_today = true;
-					console.log($scope.reported_today)
 					assignReports(data);
 				}
 			});

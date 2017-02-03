@@ -51,10 +51,10 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						data = [uuid().replace(/\-/g, ""), req.body.input, req.body.output, req.body.shipped,	
+						data = [uuid().replace(/\-/g, ""), req.body.input, req.body.output, req.body.shipping,
 						req.body.note, payload.id, req.body.proposal_id];
 						var query = "INSERT INTO reports SET id = UNHEX(?), status = 1, input = ?, output = ?, " +
-						"shipped = ?, note = ?, created_at = NOW(), updated_at = NOW(), user_id = UNHEX(?), " +
+						"shipping = ?, note = ?, created_at = NOW(), updated_at = NOW(), user_id = UNHEX(?), " +
 						"proposal_id = UNHEX(?)";
 						return connection.execute(query, data);
 					})
