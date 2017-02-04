@@ -8,6 +8,21 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	else
 		$location.url("/");
 
+	//AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
+	$scope.proposal.processes = ["Automation"];
+	$scope.proposal.product = payload.company + "s product";
+	$scope.proposal.quantity = 200;
+	$scope.proposal.completion = new Date("2017-09-19T19:49:21+04:00");
+	$scope.proposal.zip = 95129;
+	$scope.proposal.audience = 0;
+	$scope.proposal.info = "test info";
+
+	$scope.logVariables = function(){
+		console.log($scope.proposal);
+	}
+
+	//END OF AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
+
 	$scope.close = function(_) {
 		$("#proposalSuccess").modal("hide");
 		if (_ == 0)
