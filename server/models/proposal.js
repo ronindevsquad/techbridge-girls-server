@@ -193,7 +193,6 @@ module.exports = function(jwt_key) {
 							for (var i = data.length - 1; i >= 0; i--) {
 								if (data[i].offer_status==null && payload.type != 0 && data[i].type == 0){
 									data.splice(i, 1);
-									console.log("spliced!");
 								}
 								else
 									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
