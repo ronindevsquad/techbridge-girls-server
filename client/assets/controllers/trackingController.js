@@ -5,6 +5,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.today = new Date().setHours(0,0,0,0);
 		$scope.reported_today = false;
 		$scope.report;
+		$scope.new_report = {};
 		proposalsFactory.getPercentCompleted(function(data) {
 			if (data.status == 401)
 				$scope.logout();
@@ -38,7 +39,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.reports = data;
 		$scope.new_report.input = "";
 		$scope.new_report.output = "";
-		$scope.new_report.shipping = "";
+		$scope.new_report.shipped = "";
 		$scope.new_report.note = "";		var builtUnits = 0;
 		for (var i = 0; i < $scope.reports.length; i++){
 			builtUnits += parseInt($scope.reports[i].output);
@@ -51,19 +52,9 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	};
 
-	$scope.percentCompleted = function(proposal){
-		// console.log(proposal);
-		// var cumulativeUnits = 0
-		// for(i=0;i<$scope.reports.length;i++){
-		// 	cumulativeUnits+=parseInt($scope.reports[i].output)
-		// }
-		// var numberToReturn = Math.floor(cumulativeUnits/key.quantity*100)
-		// // console.log("cumulative units: " + cumulativeUnits);
-		// // console.log("quantity proposal requested: " + key.quantity);
-		// // console.log(parseInt(numberToReturn));
-		// return numberToReturn
+	$scope.percentCompleted = function(){
 
-		return 50;
+		return ($scope.proposal.completed/$scope.proposal.quantity);
 	}
 
 	$scope.reportForm = function(id){

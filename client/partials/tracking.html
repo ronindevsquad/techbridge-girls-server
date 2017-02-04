@@ -54,7 +54,7 @@
 													<div class="progress"><span ng-if="reports">{{proposal.completed/proposal.quantity}}%</span></div>
 												</div>
 											</div>
-											<small>{{days_left}} days left</small>
+											<small>{{days_left}} days left </small>
 										</div>
 									</div>
 								</div>
@@ -72,7 +72,7 @@
 												<ul class="timeline items">
 													<li>Start Date</li>
 													<li ng-repeat="report in reports" ng-bind="report.created_at | date:'MMM d y'"></li>
-													<li ng-if="!finished" ng-class="{working: !finished}"></li>
+													<li ng-if="!finished" ng-class="{working: !finished}">Report not yet submitted</li>
 													<li class="working">{{proposal.completion | date:"MMMM d y"}}</li>
 												</ul>
 											</div>
@@ -138,7 +138,7 @@
 				<label>What did you ship today?</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="number" min="0" name="output" ng-model="new_report.shipping">
+				<input type="number" min="0" name="output" ng-model="new_report.shipped">
 			</div>
 			<div class="field one wide column">
 				<label>Notes</label>
@@ -177,9 +177,11 @@
 			</tbody>
 		</table>
 		<p style="opacity: 1;">Notes:</p>
-		<p style="opacity: 1;" ng-bind="cur_report.notes"></p>
+		<p style="opacity: 1;" ng-bind="cur_report.note"></p>
 	</div>
 	<div class="actions">
 		<div class="ui cancel black button">Close</div>
 	</div>
 </div>
+
+<script src="static/js/green.js"></script>
