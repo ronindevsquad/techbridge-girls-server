@@ -83,7 +83,6 @@ app.run(function($rootScope, $timeout) {
 			setNotifications(function(notifications){
 				$rootScope.myProposals = notifications.proposals;
 				$rootScope.myMessages = notifications.messages;
-				$rootScope.myInbox = notifications.messages;
 			});
 		}
 
@@ -92,8 +91,7 @@ app.run(function($rootScope, $timeout) {
 			// Define socket event handlers:
 			socket.on('sent', function(data) {
 				console.log(data)
-				if (data.proposal_id == $rootScope.cur_offer.proposal_id &&
-					window.location.hash.includes("messages")) {
+				if ($rootScope.cur_offer && data.proposal_id == $rootScope.cur_offer.proposal_id && window.location.hash.includes("messages")) {
 					$rootScope.messages.push(data);
 					$rootScope.$apply();
 					$timeout(function() {

@@ -40,7 +40,7 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/profile.html',
 		controller: 'profileController'
 	})
-	.when('/messages',{
+	.when('/messages/:proposal_id?',{
 		templateUrl: 'partials/messages.html',
 		controller: 'messagesController'
 	})

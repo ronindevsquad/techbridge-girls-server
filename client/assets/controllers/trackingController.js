@@ -4,7 +4,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.show_report = false;
 		$scope.today = new Date().setHours(0,0,0,0);
 		$scope.reported_today = false;
-		console.log($scope.today)
 		$scope.report;
 		proposalsFactory.getPercentCompleted(function(data) {
 			if (data.status == 401)
@@ -14,7 +13,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			else {
 				$scope.days_left = daysBetween($scope.today, data[0].completion)
 				$scope.proposals = data;
-				console.log(data)
 			}
 		});
 	}
@@ -33,13 +31,15 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	function daysBetween(startDate, endDate) {
 		var millisecondsPerDay = 24 * 60 * 60 * 1000;
-		console.log((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay)
 		return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
 	}
 
 	function assignReports(data) {
 		$scope.reports = data;
-		var builtUnits = 0;
+		$scope.new_report.input = "";
+		$scope.new_report.output = "";
+		$scope.new_report.shipping = "";
+		$scope.new_report.note = "";		var builtUnits = 0;
 		for (var i = 0; i < $scope.reports.length; i++){
 			builtUnits += parseInt($scope.reports[i].output);
 		}
@@ -77,7 +77,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 	};
 
 	$scope.showReport = function(report) {
-		console.log("here")
 		$scope.cur_report = report;
 		$("#show-modal").modal("show");
 	}
@@ -111,10 +110,8 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data)
 					if (new Date(data[data.length - 1]).setHours(0,0,0,0) == $scope.today)
 						$scope.reported_today = true;
-					console.log($scope.reported_today)
 					assignReports(data);
 				}
 			});

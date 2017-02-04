@@ -46,6 +46,7 @@ app.factory('reportsFactory', function($http, $cookies) {
 		// 	});
 		// },
 		create: function(data, callback) {
+			console.log(data);
 			$http.post('/api/reports', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			}).then(function(res) {
