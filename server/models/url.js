@@ -24,7 +24,7 @@ module.exports = function(jwt_key) {
 							var _data = [req.body.homepage, req.body.facebook, req.body.instagram,
 							req.body.linkedin, req.body.twitter, payload.id];
 							if (data.length == 0) {
-								query = "INSERT INTO urls SET homepage = ?, face`book = ?, instagram = ?, " +
+								query = "INSERT INTO urls SET homepage = ?, facebook = ?, instagram = ?, " +
 								"linkedin = ?, twitter = ?, created_at = NOW(), updated_at = NOW(), user_id = UNHEX(?)"
 								return connection.execute(query, _data);
 							}
@@ -42,6 +42,7 @@ module.exports = function(jwt_key) {
 							callback(false);
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
