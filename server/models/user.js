@@ -61,7 +61,6 @@ module.exports = function(jwt_key) {
 							data.proposals = proposals[0][0].proposals;
 							data.messages = messages[0][0].unread;
 
-							console.log(data);
 							callback(false, data);
 						}
 					})
