@@ -10,10 +10,14 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
-				console.log("error:", data.data.message)
+				console.log("error:", data.data.message);
 			else {
-				$scope.days_left = daysBetween($scope.today, data[0].completion)
+				$scope.days_left = daysBetween($scope.today, data[0].completion);
+				for (var i = 0; i<data.length; i++) {
+					data[i].completed = parseFloat(data[i].completed*100/data[i].quantity).toFixed(1);
+				}
 				$scope.proposals = data;
+				console.log(data);
 			}
 		});
 	}
@@ -40,7 +44,8 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.new_report.input = "";
 		$scope.new_report.output = "";
 		$scope.new_report.shipped = "";
-		$scope.new_report.note = "";		var builtUnits = 0;
+		$scope.new_report.note = "";
+		var builtUnits = 0;
 		for (var i = 0; i < $scope.reports.length; i++){
 			builtUnits += parseInt($scope.reports[i].output);
 		}
@@ -52,10 +57,9 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	};
 
-	$scope.percentCompleted = function(){
-
-		return ($scope.proposal.completed/$scope.proposal.quantity);
-	}
+	// $scope.percentCompleted = function(){
+	// 	return ($scope.proposal.completed/$scope.proposal.quantity);
+	// }
 
 	$scope.reportForm = function(id){
 		$scope.form = {
