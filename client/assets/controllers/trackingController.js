@@ -17,7 +17,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 					data[i].completed = parseFloat(data[i].completed*100/data[i].quantity).toFixed(1);
 				}
 				$scope.proposals = data;
-				console.log(data);
 			}
 		});
 	}
