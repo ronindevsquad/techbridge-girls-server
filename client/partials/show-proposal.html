@@ -11,7 +11,10 @@
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet four wide computer column">
 					<div class="box">
-						<h3>Attached Documents</h3>
+						<h2>Attached Documents</h2>
+						<span style="color: red; font-size: 14px;" data-tooltip="Refreshing the page will give you new links to the protected documents" data-position="right center">
+										file links not working? <i class="help circle outline icon"></i>
+									</span>
 						<span ng-if="!signed">Attached documents are not viewable until the NDA is signed.</span>
 						<div ng-repeat="file in files" class="slided-item">
 							<div class="ui cards">
@@ -104,12 +107,13 @@
 				<div class="sixteen wide tablet four wide computer column">
 
 					<div ng-if="type==1" class="ui segment buybox">
-						<h3>{{company}}</h3>
-						<p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p>
+						<!-- <h3>{{company}}</h3> -->
+						<!-- <p style="text-decoration: line-through;">610 Overlook Circle Suite 323 Kalamazoo, MI 49009</p> -->
 
 						<div class="ui horizontal slider"></div>
 
 						<button class="ui fluid evergreen orange button" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || proposal[0].offer_status>0">{{proposal[0].offer_status > 0?'OFFER SENT':'MAKE AN OFFER'}}</button>
+						<a ng-if="proposal[0].offer_status > 0" class="ui fluid evergreen orange button" href="#!/offer/{{proposal[0].id}}/{{id}}" >View your offer</a>
 
 					</div> <!-- .segment -->
 

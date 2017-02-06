@@ -32,29 +32,43 @@ module.exports = function(jwt_key) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
-				else
-					using(getConnection(), connection => {
-						if (payload.type == 0)
-							var query = "select COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
-								"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
-								"LEFT OUTER JOIN messages m on u.id = m.user_id " +
-								"WHERE u.id = UNHEX(?) GROUP BY u.id";
-						else
-							var query = "select COUNT(o.user_id) as proposals, COUNT(m.id) as messages from users u " +
+				else {
+					Promise.join(using(getConnection(), connection => {
+						if (payload.type == 0) // maker query
+							var query = "select u.id , COUNT(p.id) as proposals from users u " +
+							"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+							"WHERE u.id = UNHEX(?) GROUP BY u.id";
+						else //supplier query
+							var query = "select u.id , COUNT(o.user_id) as proposals from users u " +
 							"LEFT OUTER JOIN offers o on o.user_id = u.id " +
-							"LEFT OUTER JOIN messages m on u.id = m.user_id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id"
 						return connection.execute(query, [req.params.id]);
-					})
-					.spread(data => {
-						if (data.length != 1)
+					}), using(getConnection(), connection => {
+						if (payload.type == 0) //maker query
+							var query = "SELECT COUNT(*) as unread FROM messages WHERE proposal_id in " +
+							"(SELECT id FROM proposals WHERE user_id = UNHEX(?)) " +
+							"AND status = 0 AND user_id != UNHEX(?)";
+						else // supplier query
+							var query = "SELECT COUNT(*) AS unread FROM messages WHERE proposal_id in " +
+							"(SELECT proposal_id FROM offers WHERE user_id = UNHEX(?)) " +
+							"AND status = 0 AND user_id != UNHEX(?)";
+						return connection.execute(query, [req.params.id, req.params.id]);
+					}), (proposals, messages) => {
+						var data = {};
+						if (proposals[0].length != 1) {
 							callback({status: 400, message: "Could not find user."});
-						else
-							callback(false, data[0]);
+						} else {
+							data.proposals = proposals[0][0].proposals;
+							data.messages = messages[0][0].unread;
+
+							console.log(data);
+							callback(false, data);
+						}
 					})
 					.catch(err => {
 						callback({status: 400, message: "Please contact an admin."});
 					});
+				}
 			});
 		},
 		update: function(req, callback) {
@@ -193,7 +207,7 @@ module.exports = function(jwt_key) {
 								callback({status: 400, message: "Hash error."});
 							} else {
 								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, 
+									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
 									req.body.contact, req.body.email, hash];
 									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
 									"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
@@ -251,7 +265,7 @@ module.exports = function(jwt_key) {
 								callback({status: 400, message: "Hash error."});
 							} else {
 								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact, 
+									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
 									req.body.email, hash];
 									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
 									"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";

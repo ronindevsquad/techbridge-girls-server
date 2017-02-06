@@ -84,7 +84,6 @@ app.run(function($rootScope, $timeout) {
 			setNotifications(function(notifications){
 				$rootScope.myProposals = notifications.proposals;
 				$rootScope.myMessages = notifications.messages;
-				$rootScope.myInbox = notifications.messages;
 			});
 		}
 

@@ -48,7 +48,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(id) AS id FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?))"
+						var query = "SELECT *, HEX(id) AS id FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?) AND status > 0)"
 						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {
@@ -191,8 +191,9 @@ module.exports = function(jwt_key) {
 							throw {status: 400, message: "Could not find valid proposal."};
 						else {
 							for (var i = data.length - 1; i >= 0; i--) {
-								if (!data[i].offer_status && payload.type != 0 && data[i].type == 0)
+								if (data[i].offer_status==null && payload.type != 0 && data[i].type == 0){
 									data.splice(i, 1);
+								}
 								else
 									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
 							}
