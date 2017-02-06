@@ -26,6 +26,7 @@ function setNotifications(callback) {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
+				console.log(data)
 				callback(data);
 			},
 			error: function(error) {

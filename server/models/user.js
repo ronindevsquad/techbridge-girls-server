@@ -35,12 +35,12 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						if (payload.type == 0)
-							var query = "select u.id , COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
+							var query = "select COUNT(p.id) as proposals, COUNT(m.id) as messages from users u " +
 								"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
 								"LEFT OUTER JOIN messages m on u.id = m.user_id " +
 								"WHERE u.id = UNHEX(?) GROUP BY u.id";
 						else
-							var query = "select u.id , COUNT(o.user_id) as proposals, COUNT(m.id) as messages from users u " +
+							var query = "select COUNT(o.user_id) as proposals, COUNT(m.id) as messages from users u " +
 							"LEFT OUTER JOIN offers o on o.user_id = u.id " +
 							"LEFT OUTER JOIN messages m on u.id = m.user_id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id"
