@@ -169,7 +169,6 @@ module.exports = function(jwt_key) {
 		},
 		show: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				console.log(payload.type)
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
@@ -186,8 +185,6 @@ module.exports = function(jwt_key) {
 						else
 							return [[]];
 					}), (files, offer) => {
-						console.log("Files:", files[0])
-						console.log("Offer:", offer[0])
 						if (files[0].length == 0 || (payload.type == 0 && payload.id != files[0][0].user_id) ||
 							(payload.type == 1 && offer[0].length > 0 && offer[0][0].offer_status < 0))
 							throw {status: 400, message: "Could not find valid proposal."};
@@ -205,7 +202,7 @@ module.exports = function(jwt_key) {
 
 						callback(false, {files: files[0], offer: offer[0][0]});
 					})
-					.catch(err => {console.log(err)
+					.catch(err => {
 						if (err.status)
 							callback(err);
 						else
@@ -259,7 +256,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 				}
