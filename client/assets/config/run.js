@@ -26,7 +26,6 @@ function setNotifications(callback) {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(data)
 				callback(data);
 			},
 			error: function(error) {
@@ -84,6 +83,7 @@ app.run(function($rootScope, $timeout) {
 			setNotifications(function(notifications){
 				$rootScope.myProposals = notifications.proposals;
 				$rootScope.myMessages = notifications.messages;
+				$rootScope.myJobs = notifications.jobs;
 			});
 		}
 

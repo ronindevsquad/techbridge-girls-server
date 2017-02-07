@@ -23,24 +23,32 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		else {
 			offersFactory.index(proposal.id, function(data){
 				$scope.proposalView = proposal;
+
+				if(data.leads.length >= 1){
+					$scope.leads = data.leads;
+					$scope.leadView = data.leads[0]
+				} else {
+					$scope.leads = undefined;
+					$scope.leadView = undefined;
+				}
+
 				if(data.applications.length>1){
 					$scope.EGcost = data.applications.pop();
 					$scope.offers = data.applications;
 					$scope.offerView = $scope.offers[0];
 					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-					if(data.leads.length >= 1){
-						$scope.leads = data.leads;
-						$scope.leadView = data.leads[0]
-					}
 					refreshChart()
 				} else {
 					$scope.offers = undefined;
 					$scope.offerView = undefined;
-					$scope.offerView.PPU = undefined;
-					refreshChart();
+					// refreshChart();
 				}
 			});
 		}
+	};
+
+	$scope.leadViewAssign = function(lead){
+		$scope.leadView = lead;
 	};
 
 	$scope.getOffer = function(offer){
