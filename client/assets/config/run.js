@@ -81,8 +81,10 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.menu = false;
 			// $rootScope.messages = [];
 			setNotifications(function(notifications){
+				console.log(notifications);
 				$rootScope.myProposals = notifications.proposals;
 				$rootScope.myMessages = notifications.messages;
+				$rootScope.myJobs = notifications.jobs;
 			});
 		}
 
