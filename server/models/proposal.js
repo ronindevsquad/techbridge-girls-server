@@ -29,9 +29,11 @@ module.exports = function(jwt_key) {
 						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads, " +
 						"COUNT(p.id) AS offers_count FROM proposals p " +
 						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id " +
-						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS applications FROM offers WHERE status = 1) a ON a.proposal_id = p.id " +
-						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS leads FROM offers WHERE status = 0) l ON l.proposal_id = p.id " +
-						"WHERE p.user_id = UNHEX(?) GROUP BY p.id"
+						"LEFT OUTER JOIN (SELECT proposal_id, COUNT(*) AS applications FROM offers WHERE status = 1 GROUP BY proposal_id) a " +
+						"ON a.proposal_id = p.id " +
+						"LEFT OUTER JOIN (SELECT proposal_id, COUNT(*) AS leads FROM offers WHERE status = 0 GROUP BY proposal_id) l " +
+						"ON l.proposal_id = p.id " +
+						"WHERE p.user_id = UNHEX(?) AND p.status != 2 GROUP BY p.id"
 						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {

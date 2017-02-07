@@ -47,7 +47,7 @@
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
-									<a href="#!/show-proposal/{{proposal.id}}">Customer in USA looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"MMM y"}}</a>
+									<a href="#!/show-proposal/{{proposal.id}}">{{proposal.quantity}} {{proposal.product}}</a> <!-- {{proposal.completion | date:"MMM y"}} -->
 								</div>
 								<div class="description">
 									<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
@@ -63,10 +63,10 @@
 						</div>
 						<div ng-show="proposalView == proposal && offers.length>=1" class="detail-panel">
 							<div class="ui top attached tabular menu">
-								<a ng-class="proposalTab == 0 ? 'active':''" class="item" ng-click="proposalTab = 0" data-tab="applicants">Applicants</a>
+								<a ng-class="proposalTab == 0 ? 'active':''" class="item" ng-click="proposalTab = 0" data-tab="offers">Offers</a>
 								<a ng-class="proposalTab == 1 ? 'active':''" class="item" ng-click="proposalTab = 1" data-tab="leads">Leads</a>
 							</div>
-							<div ng-class="proposalTab == 0 ? 'active':''" class="ui bottom attached tab" data-tab="applicants">
+							<div ng-class="proposalTab == 0 ? 'active':''" class="ui bottom attached tab" data-tab="offers">
 								<div class="messaging-container insidetabs">
 
 									<!-- here we have the left vertical menu as tabs -->
