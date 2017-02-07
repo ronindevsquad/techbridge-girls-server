@@ -573,6 +573,12 @@
 												</div> <!-- label -->
 											</div>
 										</div> <!-- .field -->
+										<div class="field">
+											<label><span data-tooltip="This is the date you'll complete production." data-position="right center">Completion Date <i class="help circle outline icon"></i></span></label>
+											<div class="ui input">
+												<input placeholder="Total Cost" type="date" min="{{today|date:'yyyy-MM-dd'}}" ng-model="offer.completion" required>
+											</div>
+										</div> <!-- .field -->
 									</fieldset>
 
 									<div class="ui horizontal divider"></div>

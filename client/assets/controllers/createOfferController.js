@@ -1,6 +1,7 @@
 app.controller('createOfferController', function ($scope, $location, $routeParams, $anchorScroll,
 	proposalsFactory, offersFactory) {
 	if (payload && $scope.type == 1) {
+		$scope.today = new Date();
 		offersFactory.show($routeParams.id, $scope.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
