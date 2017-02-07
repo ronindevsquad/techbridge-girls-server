@@ -26,8 +26,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads " +
-						"FROM proposals p " +
+						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads, " +
+						"COUNT(p.id) AS offers_count FROM proposals p " +
 						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id " +
 						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS applications FROM offers WHERE status = 1) a ON a.proposal_id = p.id " +
 						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS leads FROM offers WHERE status = 0) l ON l.proposal_id = p.id " +
