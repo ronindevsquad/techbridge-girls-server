@@ -6,7 +6,7 @@
 
 		<div class="ui container">
 			<h2 style="margin: 0px; padding: 0px;">Viewing Proposal For:</h2>
-			<h2 style="margin-top: 0px;"><strong>Customer in USA looking to produce {{proposal[0].quantity | number}} units by {{proposal[0].completion | date:"mediumDate"}}</strong></h2>
+			<h2 style="margin-top: 0px;"><strong>Customer in USA looking to produce {{files[0].quantity | number}} units by {{files[0].completion | date:"mediumDate"}}</strong></h2>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet four wide computer column">
@@ -77,12 +77,12 @@
 
 					<div class="content box">
 						<h4>Where are they located?</h4>
-						<p ng-bind="proposal[0].zip"></p>
+						<p ng-bind="files[0].zip"></p>
 					</div> <!-- .content box -->
 
 					<div class="content box">
 						<h4>How many units are they trying to produce?</h4>
-						<p ng-bind="proposal[0].quantity | number"></p>
+						<p ng-bind="files[0].quantity | number"></p>
 					</div> <!-- .content box -->
 
 
@@ -97,7 +97,7 @@
 					<div ng-show="signed">
 						<div class="content box">
 							<h4>And they need them by:</h4>
-							<p ng-bind="proposal[0].completion | date:'fullDate'"></p>
+							<p ng-bind="files[0].completion | date:'fullDate'"></p>
 							<!-- <img src="static/img/test-image.png" width="260" class="ui image" /> -->
 
 						</div> <!-- .content box -->
@@ -112,8 +112,8 @@
 
 						<div class="ui horizontal slider"></div>
 
-						<button class="ui fluid evergreen orange button" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || proposal[0].offer_status>0">{{proposal[0].offer_status > 0?'OFFER SENT':'MAKE AN OFFER'}}</button>
-						<a ng-if="proposal[0].offer_status > 0" class="ui fluid evergreen orange button" href="#!/offer/{{proposal[0].id}}/{{id}}" >View your offer</a>
+						<button class="ui fluid evergreen orange button" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || (offer && offer.offer_status>0)">{{offer && offer.offer_status>0?'OFFER SENT':'MAKE AN OFFER'}}</button>
+						<a ng-if="offer && offer.offer_status >0" class="ui fluid evergreen orange button" href="#!/offer/{{files[0].id}}/{{id}}" >View your offer</a>
 
 					</div> <!-- .segment -->
 

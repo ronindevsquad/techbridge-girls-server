@@ -169,38 +169,43 @@ module.exports = function(jwt_key) {
 		},
 		show: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				console.log(payload.type)
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
-					using(getConnection(), connection => {
-						if (payload.type == 0) {
-							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
-							"WHERE id = UNHEX(?) AND user_id = UNHEX(?)";
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT *, HEX(id) AS id, HEX(user_id) AS user_id FROM proposals LEFT JOIN files " +
+						"ON id = proposal_id WHERE id = UNHEX(?)";
+						return connection.execute(query, [req.params.id]);
+					}), using(getConnection(), connection => {
+						if (payload.type == 1) {
+							var query = "SELECT *, offers.status AS offer_status FROM offers WHERE proposal_id = UNHEX(?) " +
+							"AND user_id = UNHEX(?) LIMIT 1";
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
-						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id, offers.status AS offer_status FROM proposals LEFT JOIN " +
-							"offers ON id = offers.proposal_id LEFT JOIN files ON id = files.proposal_id " +
-							"WHERE id = UNHEX(?) AND (offers.user_id is null OR offers.user_id = UNHEX(?)) AND " +
-							"(proposals.status = 0 OR offers.status > 1)";
-							return connection.execute(query, [req.params.id, payload.id]);
-						}
-					})
-					.spread(data => {
-						if (data.length == 0)
+						else
+							return [[]];
+					}), (files, offer) => {
+						console.log("Files:", files[0])
+						console.log("Offer:", offer[0])
+						if (files[0].length == 0 || (payload.type == 0 && payload.id != files[0][0].user_id) ||
+							(payload.type == 1 && offer[0].length > 0 && offer[0][0].offer_status < 0))
 							throw {status: 400, message: "Could not find valid proposal."};
-						else {
-							for (var i = data.length - 1; i >= 0; i--) {
-								if (data[i].offer_status==null && payload.type != 0 && data[i].type == 0){
-									data.splice(i, 1);
-								}
-								else
-									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+						else if (payload.type == 1 && offer[0].length == 0) {
+							// Remove private files:
+							for (var i = files[0].length - 1; i >= 0; i--) {
+								if (files[0][i].type == 0)
+									files[0].splice(i, 1);
 							}
-							callback(false, data);
 						}
+
+						// Rename files:
+						for (var i = 0; i < files[0].length; i++)
+							files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 2);
+
+						callback(false, {files: files[0], offer: offer[0][0]});
 					})
-					.catch(err => {
+					.catch(err => {console.log(err)
 						if (err.status)
 							callback(err);
 						else

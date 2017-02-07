@@ -317,9 +317,9 @@ module.exports = function(jwt_key) {
 						// Check valid password:
 						bcrypt.compare(req.body.password, data[0].password, function(err, isMatch) {
 							if (err)
-								throw {status: 400, message: "Invalid email/password."};
+								callback({status: 400, message: "Invalid email/password."});
 							else if (!isMatch)
-								throw {status: 400, message: "Email/password does not match."};
+								callback({status: 400, message: "Email/password does not match."});
 							else {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
