@@ -201,6 +201,7 @@ module.exports = function(jwt_key) {
 						}
 					})
 					.catch(err => {
+						console.log(err);
 						if (err.status)
 							callback(err);
 						else

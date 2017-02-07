@@ -313,7 +313,6 @@ module.exports = function(jwt_key) {
 									var material = req.body.materials[i];
 									data.push(["UNHEX(REPLACE(UUID(), '-', ''))", material.material, material.weight,
 										material.cost, "NOW()", "NOW()", `UNHEX('${req.body.proposal_id}')`, `UNHEX('${payload.id}')`]);
-									console.log("pushed a material" + i);
 								}
 								var query = "INSERT INTO materials (id, material, weight, cost, created_at, " +
 								"updated_at, proposal_id, user_id) VALUES ?";
