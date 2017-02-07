@@ -205,6 +205,7 @@ module.exports = function(jwt_key) {
 						callback(false, {files: files[0], offer: offer[0][0]});
 					})
 					.catch(err => {
+						console.log(err);
 						if (err.status)
 							callback(err);
 						else
