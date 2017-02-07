@@ -27,6 +27,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		})
 	}else
 		$location.url('/');
+
 	$scope.print = function(proposal){
 		console.log(proposal.product);
 		console.log(proposal);
@@ -35,6 +36,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 				console.log(data);
 				$scope.offers = data.applications;
 				chartObject.dataset = $scope.offers
+				// $scope.offers.pop();
 				chartObject.drawChart()
 				// $scope.$apply();
 			});
@@ -43,9 +45,14 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 				console.log(data);
 				$scope.offers = data;
 				chartObject.dataset = $scope.offers
-				chartObject.drawChart()
+				chartObject.drawChart();
 			});
-		}
+		} //end of print
+
+	$scope.changeChartMetricTo = function(newMetric){
+		chartObject.template.metric = newMetric;
+		chartObject.drawChart();
+	}
 
 	}
 	chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
