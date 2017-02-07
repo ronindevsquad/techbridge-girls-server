@@ -49,8 +49,8 @@ module.exports = function(jwt_key) {
 					res.json(data);
 			});
 		},
-		uploadfiles: function(req, res) {
-			proposal.uploadfiles(req, function(err, data) {
+		uploadFiles: function(req, res) {
+			proposal.uploadFiles(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else

@@ -185,7 +185,7 @@
 </div> <!-- second -->
 
 <div class="ui basic segment" ng-class="{active: step==3}" ng-show="step==3 || step==4">
-	<form class="ui big form" ng-submit="test()">
+	<form class="ui big form" ng-submit="uploadFiles()">
 
 		<!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
 		<h4 class="label-title">
@@ -210,7 +210,7 @@
 					<small class="footnote">(Ex. file types: CAD, Drawings, Renders)</small>
 				</div>
 			</div> <!-- .item -->
-			<label for="documentsInput">Upload all Documents related to Proposal</label><input id="documentsInput" type="file" name="" value="" multiple>
+			<label for="documentsInput">Upload all Documents related to Proposal</label><input id="documentsInput" type="file" multiple>
 		</div> <!-- .items -->
 
 		<div class="ui horizontal divider"></div>
@@ -239,7 +239,7 @@
 								<small class="footnote">(Ex. file types: PDF, .doc, .docx)</small>
 							</div>
 						</div> <!-- .item -->
-						<label for="ndaInput">Please upload one NDA file</label><input id="ndaInput" type="file" name="" value="">
+						<label for="ndaInput">Please upload one NDA file</label><input id="ndaInput" type="file" accept=".pdf">
 					</div> <!-- .items -->
 
 				</div>

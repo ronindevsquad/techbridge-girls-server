@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var fs = require("fs");
+var fs = Promise.promisifyAll(require("fs"));
 var using = Promise.using;
 var getConnection = require("../config/mysql");
 var jwt = require("jsonwebtoken");
@@ -83,55 +83,54 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
-		uploadfiles: function(req, callback) {
+		uploadFiles: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				if (err){
+				if (err) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				} else if (req.files.length < 1) {
+					callback({status: 400, message: "No files were selected to upload."});
+				}	else if (req.files[req.files.length - 1].mimetype != "application/pdf") {
+					callback({status:400, message: "NDA must must be in .pdf format."});
 				} else {
-					if(req.files.length<1){
-						callback({status: 401, message: "No files were selected to upload."});
-						return
-					}
-					function uploadFilesArray(index){ //upload all files using recursion because loops don't work for uploading to s3 buckets asynchronously
-						if(index==undefined){
-							index = 0;
-						}
-						if (index==req.files.length){
-							return;
-						}
-						fs.readFile(req.files[index].path, (err, data) => {
-							if(err)
-								return callback({status: 401, message: "Internal error, please contact an admin."});
-							var filename = req.files[index].filename
-							var mimetype = req.files[index].mimetype
-							s3.putObject({
-								Bucket: "ronintestbucket/testfolder",
-								Key: req.files[index].filename,
-								Body: data,
-								ContentType: req.files[index].mimetype
-							}, function(err, success){
-								if (err){
-									return callback({status: 401, message: "Internal error, please contact an admin."});
-								} else {
-									fs.unlink(req.files[index].path, function(err){
-										if(err){
-											return callback({status: 401, message: "Internal error, please contact an admin."});
-										}
-									});
-									uploadFilesArray(index+1)
-								}
-							}); //end s3 uploading file
-						}); //end of fs.readfile
-					}
-					uploadFilesArray()
-					var uploadedFileNames = []
-					for(var i = 0;i<req.files.length-1;i++){ //this for loop should be temporary. A filename should only be appended to the array IF it was uploaded successfully. (elliot) could not figure out how to append items to an array within recursion
-						uploadedFileNames.push({type:0, filename:req.files[i].filename})
-					}
-					uploadedFileNames.push({type:1, filename:req.files[req.files.length-1].filename})
-					callback(false, {uploadedfiles:uploadedFileNames})
-				} //end of else statement
-			}); //end of jwt verify
+					var files = [];
+					Promise.map(req.files, function(file) {
+						return fs.readFileAsync(file.path)
+						.then(data => {
+							return new Promise((resolve, reject) => {
+								s3.putObject({
+									Bucket: "ronintestbucket/testfolder",
+									Key: file.filename,
+									Body: data,
+									ContentType: file.mimetype
+								}, function(err, success) {
+									if (err) 
+										reject(err);
+									else 
+										resolve();
+								}) 
+							});
+						})
+						.then(() => {
+							return fs.unlinkAsync(file.path);
+						})
+						.then(() => {
+							if (file.filename == req.files[req.files.length - 1].filename)
+								files.push({type: 1, filename: file.filename});
+							else
+								files.push({type: 0, filename: file.filename});
+						})
+						.catch(err => {
+							throw err;
+						})
+					})
+					.then(() => {
+						callback(false, files)
+					})
+					.catch(err => {
+						callback({status: 400, message: "Internal error, please contact an admin."});
+					});
+				}
+			});
 		},
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
@@ -247,8 +246,8 @@ module.exports = function(jwt_key) {
 							return connection.query(query, [data]);
 						}), using(getConnection(), connection => {
 							var data = [];
-							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
-								var file = req.body.filesarray.uploadedfiles[i];
+							for (var i = 0; i < req.body.files.length; i++) {
+								var file = req.body.files[i];
 								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
