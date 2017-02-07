@@ -1,26 +1,24 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if (payload) {
 		proposalsFactory.show($routeParams.id, function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				$location.url("/");
 			else {
-				if (data[0].offer_status === null && $scope.type != 0)
+				if ($scope.type == 1 && !data.offer)
 					$scope.signed = false;
 				else
 					$scope.signed = true;
 
 				$scope.files = [];
-				for (var i = 0; i < data.length; i++) {
-					if (data[i].type == 1)
-						$scope.ndasource = $sce.trustAsResourceUrl(data[i].filename)
+				for (var i = 0; i < data.files.length; i++) {
+					if (data.files[i].type == 1)
+						$scope.ndasource = $sce.trustAsResourceUrl(data.files[i].filename)
 					else
-						$scope.files.push(data[i].filename)
+						$scope.files.push(data.files[i])
 				}
-				console.log(data);
-				$scope.proposal = data;
+				$scope.offer = data.offer;
 			}
 		});
 	}

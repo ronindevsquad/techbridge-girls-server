@@ -26,6 +26,7 @@ function setNotifications(callback) {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
+				console.log(data)
 				callback(data);
 			},
 			error: function(error) {
@@ -229,7 +230,7 @@ function ChartGenerator(){
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;
 				}
-				arr.push([self.firstNBars[i].company, parseInt(self.firstNBars[i].total), "color: "+customColor])
+				arr.push([self.firstNBars[i][self.template.bartitle], parseInt(self.firstNBars[i][self.template.metric]), "color: "+customColor])
 			}
 		}
 		for(var i=0;i<self.dataset.length;i++){
@@ -245,7 +246,7 @@ function ChartGenerator(){
 					customColor=self.customColorsForFirstNBars[customColorIndex]
 					customColorIndex++;
 				}
-				arr.push([self.dataset[i].company, parseInt(self.dataset[i].total), "color: "+customColor])
+				arr.push([self.dataset[i][self.template.bartitle], parseInt(self.dataset[i][self.template.metric]), "color: "+customColor])
 			}
 		}
 		return arr

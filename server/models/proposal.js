@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var fs = require("fs");
+var fs = Promise.promisifyAll(require("fs"));
 var using = Promise.using;
 var getConnection = require("../config/mysql");
 var jwt = require("jsonwebtoken");
@@ -26,8 +26,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads " +
-						"FROM proposals p " +
+						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads, " +
+						"COUNT(p.id) AS offers_count FROM proposals p " +
 						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id " +
 						"LEFT OUTER JOIN (SELECT proposal_id, COUNT(*) AS applications FROM offers WHERE status = 1 GROUP BY proposal_id) a " +
 						"ON a.proposal_id = p.id " +
@@ -83,55 +83,54 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
-		uploadfiles: function(req, callback) {
+		uploadFiles: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				if (err){
+				if (err) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				} else if (req.files.length < 1) {
+					callback({status: 400, message: "No files were selected to upload."});
+				}	else if (req.files[req.files.length - 1].mimetype != "application/pdf") {
+					callback({status:400, message: "NDA must must be in .pdf format."});
 				} else {
-					if(req.files.length<1){
-						callback({status: 401, message: "No files were selected to upload."});
-						return
-					}
-					function uploadFilesArray(index){ //upload all files using recursion because loops don't work for uploading to s3 buckets asynchronously
-						if(index==undefined){
-							index = 0;
-						}
-						if (index==req.files.length){
-							return;
-						}
-						fs.readFile(req.files[index].path, (err, data) => {
-							if(err)
-								return callback({status: 401, message: "Internal error, please contact an admin."});
-							var filename = req.files[index].filename
-							var mimetype = req.files[index].mimetype
-							s3.putObject({
-								Bucket: "ronintestbucket/testfolder",
-								Key: req.files[index].filename,
-								Body: data,
-								ContentType: req.files[index].mimetype
-							}, function(err, success){
-								if (err){
-									return callback({status: 401, message: "Internal error, please contact an admin."});
-								} else {
-									fs.unlink(req.files[index].path, function(err){
-										if(err){
-											return callback({status: 401, message: "Internal error, please contact an admin."});
-										}
-									});
-									uploadFilesArray(index+1)
-								}
-							}); //end s3 uploading file
-						}); //end of fs.readfile
-					}
-					uploadFilesArray()
-					var uploadedFileNames = []
-					for(var i = 0;i<req.files.length-1;i++){ //this for loop should be temporary. A filename should only be appended to the array IF it was uploaded successfully. (elliot) could not figure out how to append items to an array within recursion
-						uploadedFileNames.push({type:0, filename:req.files[i].filename})
-					}
-					uploadedFileNames.push({type:1, filename:req.files[req.files.length-1].filename})
-					callback(false, {uploadedfiles:uploadedFileNames})
-				} //end of else statement
-			}); //end of jwt verify
+					var files = [];
+					Promise.map(req.files, function(file) {
+						return fs.readFileAsync(file.path)
+						.then(data => {
+							return new Promise((resolve, reject) => {
+								s3.putObject({
+									Bucket: "ronintestbucket/testfolder",
+									Key: file.filename,
+									Body: data,
+									ContentType: file.mimetype
+								}, function(err, success) {
+									if (err) 
+										reject(err);
+									else 
+										resolve();
+								}) 
+							});
+						})
+						.then(() => {
+							return fs.unlinkAsync(file.path);
+						})
+						.then(() => {
+							if (file.filename == req.files[req.files.length - 1].filename)
+								files.push({type: 1, filename: file.filename});
+							else
+								files.push({type: 0, filename: file.filename});
+						})
+						.catch(err => {
+							throw err;
+						})
+					})
+					.then(() => {
+						callback(false, files)
+					})
+					.catch(err => {
+						callback({status: 400, message: "Internal error, please contact an admin."});
+					});
+				}
+			});
 		},
 		index: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
@@ -174,35 +173,38 @@ module.exports = function(jwt_key) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
-					using(getConnection(), connection => {
-						if (payload.type == 0) {
-							var query = "SELECT *, HEX(id) AS id FROM proposals LEFT JOIN files ON id = proposal_id " +
-							"WHERE id = UNHEX(?) AND user_id = UNHEX(?)";
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT *, HEX(id) AS id, HEX(user_id) AS user_id FROM proposals LEFT JOIN files " +
+						"ON id = proposal_id WHERE id = UNHEX(?)";
+						return connection.execute(query, [req.params.id]);
+					}), using(getConnection(), connection => {
+						if (payload.type == 1) {
+							var query = "SELECT * FROM offers WHERE proposal_id = UNHEX(?) " +
+							"AND user_id = UNHEX(?) LIMIT 1";
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
-						else if (payload.type == 1) {
-							var query = "SELECT *, HEX(id) AS id, offers.status AS offer_status FROM proposals LEFT JOIN " +
-							"offers ON id = offers.proposal_id LEFT JOIN files ON id = files.proposal_id " +
-							"WHERE id = UNHEX(?) AND (offers.user_id is null OR offers.user_id = UNHEX(?)) AND " +
-							"(proposals.status = 0 OR offers.status > 1)";
-							return connection.execute(query, [req.params.id, payload.id]);
-						}
-					})
-					.spread(data => {
-						if (data.length == 0)
+						else
+							return [[]];
+					}), (files, offer) => {
+						if (files[0].length == 0 || (payload.type == 0 && payload.id != files[0][0].user_id) ||
+							(payload.type == 1 && offer[0].length > 0 && offer[0][0].status < 0))
 							throw {status: 400, message: "Could not find valid proposal."};
-						else {
-							for (var i = data.length - 1; i >= 0; i--) {
-								if (data[i].offer_status==null && payload.type != 0 && data[i].type == 0){
-									data.splice(i, 1);
-								}
-								else
-									data[i].filename = bucket1.getUrl('GET', `/testfolder/${data[i].filename}`, 'ronintestbucket', 2);
+						else if (payload.type == 1 && offer[0].length == 0) {
+							// Remove private files:
+							for (var i = files[0].length - 1; i >= 0; i--) {
+								if (files[0][i].type == 0)
+									files[0].splice(i, 1);
 							}
-							callback(false, data);
 						}
+
+						// Rename files:
+						for (var i = 0; i < files[0].length; i++)
+							files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 2);
+
+						callback(false, {files: files[0], offer: offer[0][0]});
 					})
 					.catch(err => {
+						console.log(err);
 						if (err.status)
 							callback(err);
 						else
@@ -244,8 +246,8 @@ module.exports = function(jwt_key) {
 							return connection.query(query, [data]);
 						}), using(getConnection(), connection => {
 							var data = [];
-							for (var i = 0; i < req.body.filesarray.uploadedfiles.length; i++) {
-								var file = req.body.filesarray.uploadedfiles[i];
+							for (var i = 0; i < req.body.files.length; i++) {
+								var file = req.body.files[i];
 								data.push([file.filename, file.type, "NOW()", "NOW()", `UNHEX('${proposal_id}')`]);
 							}
 							var query = "INSERT INTO files (filename, type, created_at, updated_at, " +
@@ -256,7 +258,6 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 				}

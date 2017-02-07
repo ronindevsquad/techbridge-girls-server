@@ -40,13 +40,13 @@
 									</span>
 								</label>
 								<div class="ui selection dropdown">
-									<input type="hidden" name="rawmaterial">
+									<input type="hidden" name="rawmaterial" value="Total cost">
 									<i class="dropdown icon"></i>
 									<div class="default text">Select metric</div>
 									<div class="menu">
-										<div class="item" data-value="1">Metric #1</div>
-										<div class="item" data-value="0">Metric #2</div>
-										<div class="item" data-value="2">Metric #3</div>
+										<div ng-click="changeChartMetricTo('total')" class="item" data-value="Total cost">Total cost</div>
+										<div ng-click="changeChartMetricTo('sga')" class="item" data-value="Quality">Quality</div>
+										<div ng-click="changeChartMetricTo('overhead')" class="item" data-value="Delivery">Delivery</div>
 									</div> <!-- .menu -->
 								</div> <!-- .dropdown -->
 							</div> <!-- .field -->
