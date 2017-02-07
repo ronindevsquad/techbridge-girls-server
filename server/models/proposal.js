@@ -29,8 +29,8 @@ module.exports = function(jwt_key) {
 						var query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads " +
 						"FROM proposals p " +
 						"LEFT OUTER JOIN offers o ON o.proposal_id = p.id " +
-						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS applications from offers where status = 1) a ON a.proposal_id = p.id " +
-						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS leads from offers where status = 0) l ON l.proposal_id = p.id " +
+						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS applications FROM offers WHERE status = 1) a ON a.proposal_id = p.id " +
+						"LEFT OUTER JOIN (select proposal_id, COUNT(*) AS leads FROM offers WHERE status = 0) l ON l.proposal_id = p.id " +
 						"WHERE p.user_id = UNHEX(?) GROUP BY p.id"
 						return connection.execute(query, [payload.id]);
 					})
@@ -178,7 +178,7 @@ module.exports = function(jwt_key) {
 						return connection.execute(query, [req.params.id]);
 					}), using(getConnection(), connection => {
 						if (payload.type == 1) {
-							var query = "SELECT *, offers.status AS offer_status FROM offers WHERE proposal_id = UNHEX(?) " +
+							var query = "SELECT * FROM offers WHERE proposal_id = UNHEX(?) " +
 							"AND user_id = UNHEX(?) LIMIT 1";
 							return connection.execute(query, [req.params.id, payload.id]);
 						}
@@ -186,7 +186,7 @@ module.exports = function(jwt_key) {
 							return [[]];
 					}), (files, offer) => {
 						if (files[0].length == 0 || (payload.type == 0 && payload.id != files[0][0].user_id) ||
-							(payload.type == 1 && offer[0].length > 0 && offer[0][0].offer_status < 0))
+							(payload.type == 1 && offer[0].length > 0 && offer[0][0].status < 0))
 							throw {status: 400, message: "Could not find valid proposal."};
 						else if (payload.type == 1 && offer[0].length == 0) {
 							// Remove private files:

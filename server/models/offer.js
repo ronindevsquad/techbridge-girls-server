@@ -14,7 +14,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT sga, tooling, profit, overhead, total, HEX(user_id) AS user_id FROM " +
+						var query = "SELECT sga, tooling, profit, overhead, total, completion, HEX(user_id) AS user_id FROM " +
 						"offers WHERE proposal_id = UNHEX(?) AND status > 0 ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id]);
 					}), using(getConnection(), connection => {
@@ -286,8 +286,8 @@ module.exports = function(jwt_key) {
 				}
 
 				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined ||
-					req.body.profit === undefined || req.body.overhead === undefined ||
-					req.body.total === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
+					req.body.profit === undefined || req.body.overhead === undefined || req.body.total === undefined || 
+					req.body.completion === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
 					req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 					return callback({status: 400, message: "All form fields are required."});
 
@@ -295,9 +295,9 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var data = [req.body.tooling, req.body.sga, req.body.profit, req.body.overhead,
-						req.body.total, req.body.proposal_id, payload.id, req.body.proposal_id];
+						req.body.total, req.body.completion, req.body.proposal_id, payload.id, req.body.proposal_id];
 						var query = "UPDATE offers SET status = 1, tooling = ?, sga = ?, profit = ?, overhead = ?, " +
-						"total = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
+						"total = ?, completion = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
 						"AND status = 0 AND EXISTS (SELECT * FROM proposals WHERE id = UNHEX(?) AND status = 0 " +
 						"LIMIT 1) LIMIT 1";
 						return connection.execute(query, data);

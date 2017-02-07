@@ -112,8 +112,8 @@
 
 						<div class="ui horizontal slider"></div>
 
-						<button class="ui fluid evergreen orange button" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || (offer && offer.offer_status>0)">{{offer && offer.offer_status>0?'OFFER SENT':'MAKE AN OFFER'}}</button>
-						<a ng-if="offer && offer.offer_status >0" class="ui fluid evergreen orange button" href="#!/offer/{{files[0].id}}/{{id}}" >View your offer</a>
+						<button class="ui fluid evergreen orange button" data-tooltip="Click here to proceed to making your offer" data-position="bottom center" ng-click="send()" ng-disabled="type==0 || (offer && offer.status>0)">{{offer && offer.status>0?'OFFER SENT':'MAKE AN OFFER'}}</button>
+						<a ng-if="offer && offer.status >0" class="ui fluid evergreen orange button" href="#!/offer/{{files[0].id}}/{{id}}" >View your offer</a>
 
 					</div> <!-- .segment -->
 
