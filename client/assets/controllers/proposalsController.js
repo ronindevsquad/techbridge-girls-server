@@ -22,6 +22,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else {
 			offersFactory.index(proposal.id, function(data){
+				console.log(data);
 				$scope.proposalView = proposal;
 
 				if(data.leads.length >= 1){
@@ -89,6 +90,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 
 	function refreshChart(){
 		try{
+			chartObject.template.charttitle = "Comparing Offers By Total Cost"
 			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers
 			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]

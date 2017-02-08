@@ -127,10 +127,18 @@
 
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
 													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
+													<div class="green-square"></div>
+													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
+														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
+													</span>
+													<div class="orange-square"></div>
+													<span data-tooltip="The offer selected on the left will show up in orange" data-position="right center">
+														Selected offer <i class="help circle outline icon"></i>
+													</span>
 
 													<div class="ui horizontal divider"></div>
 
-													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept Offer</a>
+													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept {{offerView.company}}'s Offer</a>
 
 												</div>
 
