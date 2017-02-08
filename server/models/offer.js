@@ -286,7 +286,7 @@ module.exports = function(jwt_key) {
 				}
 
 				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined ||
-					req.body.profit === undefined || req.body.overhead === undefined || req.body.total === undefined || 
+					req.body.profit === undefined || req.body.overhead === undefined || req.body.total === undefined ||
 					req.body.completion === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
 					req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
 					return callback({status: 400, message: "All form fields are required."});
@@ -346,6 +346,7 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

@@ -12,9 +12,9 @@
 				<div class="sixteen wide tablet four wide computer column">
 					<div class="box">
 						<h2>Attached Documents</h2>
-						<span style="color: red; font-size: 14px;" data-tooltip="Refreshing the page will give you new links to the protected documents" data-position="right center">
+						<span ng-if="signed" style="color: red; font-size: 14px;" data-tooltip="Refreshing the page will give you new links to the protected documents" data-position="right center">
 										file links not working? <i class="help circle outline icon"></i>
-									</span>
+									</span> <br>
 						<span ng-if="!signed">Attached documents are not viewable until the NDA is signed.</span>
 						<div ng-repeat="file in files" class="slided-item">
 							<div class="ui cards">
