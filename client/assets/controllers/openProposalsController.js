@@ -10,6 +10,10 @@ app.controller('openProposalsController', function ($scope, $location, proposals
 				$scope.proposals = data;
 			}
 		});
+
+		$scope.sortExpression = 'created_at';
+		$scope.sortOrder = 'reverse';
+
 	}
 	else
 		$location.url('/');
