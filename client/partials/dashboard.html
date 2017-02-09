@@ -20,7 +20,7 @@
 							<div class="ui horizontal divider"></div>
 							<div class="field">
 								<label>
-									<span data-tooltip="Add a tooltip text here" data-position="right center">
+									<span data-tooltip="You can only view proposals that have not accepted an offer yet." data-position="right center">
 										Select Proposal <i class="help circle outline icon"></i>
 									</span>
 								</label>
@@ -29,13 +29,13 @@
 									<i class="dropdown icon"></i>
 									<div class="default text">Select Proposal</div>
 									<div class="menu">
-										<div ng-click="updateToNewMetric(proposal)" ng-repeat="proposal in proposals" class="item" data-value="1">{{proposal.product}}</div>
+										<div ng-click="getOffersForProposal(proposal)" ng-repeat="proposal in proposals" class="item" data-value="1">{{proposal.product}}</div>
 									</div> <!-- .menu -->
 								</div> <!-- .dropdown -->
 							</div> <!-- .field -->
 							<div class="field">
 								<label>
-									<span data-tooltip="Add a tooltip text here" data-position="right center">
+									<span data-tooltip="Evergreen allows you to compare offers by various metrics" data-position="right center">
 										Select Metric <i class="help circle outline icon"></i>
 									</span>
 								</label>
@@ -59,10 +59,10 @@
 						<div class="ui horizontal divider"></div>
 						<div class="ui horizontal divider"></div>
 						<div class="ui horizontal divider"></div>
-
 						<div id="chartholder" class="ui very padded segment">
-							<h2>Comparing Offers By: {{chartMetric}}</h2>
-							<div id="chart_div"></div> <!--google uses this div to draw the chart-->
+							<h2 ng-show="offers.length<1">No Offers For this proposal</h2>
+							<h2 ng-show="offers.length>0">Comparing Offers By: {{chartMetric}}</h2>
+							<div ng-if88="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
 
 							<div class="green-square"></div>
 							<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
