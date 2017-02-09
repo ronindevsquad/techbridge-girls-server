@@ -228,6 +228,8 @@ module.exports = function(jwt_key) {
 					callback({status: 400, message: "Invalid target suppliers provided."});
 				else {
 					var proposal_id = uuid().replace(/\-/g, "");
+					req.body.product = req.body.product.replace(/\'/g, "''");
+					req.body.info = req.body.info.replace(/\'/g, "''");
 					using(getConnection(), connection => {
 						var data = [proposal_id, 0, req.body.product, req.body.quantity, req.body.completion,
 						req.body.zip, req.body.audience, req.body.info, payload.id];
@@ -258,7 +260,7 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.catch(err => {
-						console.log(err);
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 				}
