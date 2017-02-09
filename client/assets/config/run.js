@@ -26,7 +26,6 @@ function setNotifications(callback) {
 			dataType: "json",
 			headers: {'authorization': `Bearer ${evergreen_token}`},
 			success: function(data) {
-				console.log(data)
 				callback(data);
 			},
 			error: function(error) {
@@ -84,6 +83,7 @@ app.run(function($rootScope, $timeout) {
 			setNotifications(function(notifications){
 				$rootScope.myProposals = notifications.proposals;
 				$rootScope.myMessages = notifications.messages;
+				$rootScope.myJobs = notifications.jobs;
 			});
 		}
 
@@ -181,6 +181,7 @@ function ChartGenerator(){
 	this.template = {}; //only instantiated to keep the
 	this.template.bartitle = 'company';
 	this.template.metric = 'total';
+	this.template.charttitle = ""
 	this.template.width = defaultChartWidth
 	this.template.height = defaultChartHeight
 
@@ -190,6 +191,7 @@ function ChartGenerator(){
 	this.clearChartData = function(){
 		this.customColorsForFirstNBars = [];
 		this.firstNBars = [];
+		this.template.charttitle = "";
 	}
 	this.dataset = [{company:"blanderschmidt", total:50}, {company:"goopenheimer", total:20}];
 	this.drawChart = function() {
@@ -204,7 +206,7 @@ function ChartGenerator(){
 			data = pushDataSet(data)
 			data = google.visualization.arrayToDataTable(data);
 			// Set chart options
-			var options = {'title':'',
+			var options = {'title': self.template.charttitle,
 			'chartArea': {'width': '80%', 'height': '80%'},
 			'legend':{position:'none'},
 			'width':self.template.width,

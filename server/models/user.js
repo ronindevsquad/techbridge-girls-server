@@ -35,12 +35,24 @@ module.exports = function(jwt_key) {
 				else {
 					Promise.join(using(getConnection(), connection => {
 						if (payload.type == 0) // maker query
-							var query = "select u.id , COUNT(p.id) as proposals from users u " +
-							"LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+							// var query = "select u.id , COUNT(p.id) as proposals from users u " +
+							// "LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+							// "WHERE u.id = UNHEX(?) GROUP BY u.id";
+							var query = "SELECT u.id , p.proposals AS proposals, j.jobs AS jobs FROM users u " +
+							"LEFT OUTER JOIN (SELECT user_id, COUNT(id) AS proposals FROM proposals WHERE status != 2 GROUP BY user_id) p " +
+							"ON u.id = p.user_id " +
+							"LEFT OUTER JOIN (SELECT user_id, COUNT(id) AS jobs FROM proposals WHERE status = 2 GROUP BY user_id) j " +
+							"ON j.user_id = u.id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id";
 						else //supplier query
-							var query = "select u.id , COUNT(o.user_id) as proposals from users u " +
-							"LEFT OUTER JOIN offers o on o.user_id = u.id " +
+							// var query = "select u.id , COUNT(o.user_id) as proposals from users u " +
+							// "LEFT OUTER JOIN offers o on o.user_id = u.id " +
+							// "WHERE u.id = UNHEX(?) GROUP BY u.id"
+							var query = "SELECT u.id , o.proposals AS proposals, j.jobs AS jobs FROM users u " +
+							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS proposals FROM offers WHERE status IN (0,1) GROUP BY user_id) o " +
+							"ON o.user_id = u.id " +
+							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS jobs FROM offers WHERE status = 2 GROUP BY user_id) j " +
+							"ON j.user_id = u.id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id"
 						return connection.execute(query, [req.params.id]);
 					}), using(getConnection(), connection => {
@@ -59,6 +71,7 @@ module.exports = function(jwt_key) {
 							callback({status: 400, message: "Could not find user."});
 						} else {
 							data.proposals = proposals[0][0].proposals;
+							data.jobs = proposals[0][0].jobs;
 							data.messages = messages[0][0].unread;
 
 							callback(false, data);

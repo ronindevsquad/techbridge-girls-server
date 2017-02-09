@@ -20,7 +20,7 @@
 							<div class="ui horizontal divider"></div>
 							<div class="field">
 								<label>
-									<span data-tooltip="Add a tooltip text here" data-position="right center">
+									<span data-tooltip="You can only view proposals that have not accepted an offer yet." data-position="right center">
 										Select Proposal <i class="help circle outline icon"></i>
 									</span>
 								</label>
@@ -29,13 +29,13 @@
 									<i class="dropdown icon"></i>
 									<div class="default text">Select Proposal</div>
 									<div class="menu">
-										<div ng-click="print(proposal)" ng-repeat="proposal in proposals" class="item" data-value="1">{{proposal.product}}</div>
+										<div ng-click="getOffersForProposal(proposal)" ng-repeat="proposal in proposals" class="item" data-value="1">{{proposal.product}}</div>
 									</div> <!-- .menu -->
 								</div> <!-- .dropdown -->
 							</div> <!-- .field -->
 							<div class="field">
 								<label>
-									<span data-tooltip="Add a tooltip text here" data-position="right center">
+									<span data-tooltip="Evergreen allows you to compare offers by various metrics" data-position="right center">
 										Select Metric <i class="help circle outline icon"></i>
 									</span>
 								</label>
@@ -60,47 +60,63 @@
 						<div class="ui horizontal divider"></div>
 						<div class="ui horizontal divider"></div>
 						<div id="chartholder" class="ui very padded segment">
-							<div id="chart_div">
+							<h2 ng-show="offers.length<1">No Offers For this proposal</h2>
+							<h2 ng-show="offers.length>0">Comparing Offers By: {{chartMetric}}</h2>
+							<div ng-if88="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
 
-							</div>
+							<div class="green-square"></div>
+							<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
+								Lowest Offer for Selected Metric <i class="help circle outline icon"></i>
+							</span>
+							<div ng-if="type==1">
+							<div class="orange-square"></div>
+							<span data-tooltip="Your offer, if it does not have the lowest value for the metric selected">
+								Your Offer <i class="help circle outline icon"></i>
+							</span>
+
+							<div class="gray-square"></div>
+							<span data-tooltip="Information about the offers from others suppliers is kept confidential by Evergreen">
+								Anonymous offers from other suppliers <i class="help circle outline icon"></i>
+							</span>
 						</div>
-						<!-- this is where the graph will go -->
 					</div>
+					<!-- this is where the graph will go -->
 				</div>
 			</div>
-
-		</section> <!-- .very padded segment -->
-
-		<div ng-include="'partials/footer.html'"></div>
-
-	</div> <!-- #greenwrapper -->
-
-	<!-- the Add Note modal -->
-	<div class="ui tiny basic modal centered aligned" id="inviteSupplier">
-		<i class="close icon"></i>
-		<div class="header">
-			Invite supplier
-
-
-
 		</div>
 
-		<p>Bring your supplier onto this platform to facilitate your communication. (?)</p>
-		<div class="ui horizontal divider"></div>
-		<!-- modal content -->
-		<div class="ui padded basic segment">
-			<div class="ui big offer form" style="margin-bottom: 0;">
+	</section> <!-- .very padded segment -->
 
-				<div class="field">
-					<input placeholder="Supplier Email Address" type="text">
-				</div> <!-- .field -->
+	<div ng-include="'partials/footer.html'"></div>
 
-			</div>
-			<div class="actions">
-				<a ng-class="color" href="" class="ui fluid evegreen uppercase big button">Invite Supplier</a>
-			</div> <!-- .grid -->
+</div> <!-- #greenwrapper -->
 
-		</div> <!-- .actions -->
-	</div> <!-- modal -->
-	<script src="static/js/green.js"></script>
+<!-- the Add Note modal -->
+<div class="ui tiny basic modal centered aligned" id="inviteSupplier">
+	<i class="close icon"></i>
+	<div class="header">
+		Invite supplier
+
+
+
+	</div>
+
+	<p>Bring your supplier onto this platform to facilitate your communication. (?)</p>
+	<div class="ui horizontal divider"></div>
+	<!-- modal content -->
+	<div class="ui padded basic segment">
+		<div class="ui big offer form" style="margin-bottom: 0;">
+
+			<div class="field">
+				<input placeholder="Supplier Email Address" type="text">
+			</div> <!-- .field -->
+
+		</div>
+		<div class="actions">
+			<a ng-class="color" href="" class="ui fluid evegreen uppercase big button">Invite Supplier</a>
+		</div> <!-- .grid -->
+
+	</div> <!-- .actions -->
+</div> <!-- modal -->
+<script src="static/js/green.js"></script>
 </div>

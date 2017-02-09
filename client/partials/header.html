@@ -67,14 +67,14 @@
 		<div ng-show="!viewingOtherProfile" class="ui pointing secondary menu">
 			<a class="item" ng-if="type==1" ng-class="{active: tab=='open'}" href="#!/open-proposals">Open Proposals</a>
 			<a class="item" ng-class="{active: tab=='dashboard'}" href="#!/dashboard">Dashboard</a>
-			<a class="item" ng-class="{active: tab=='proposals'}" href="#!/proposals">Proposals
+			<a class="item" ng-class="{active: tab=='proposals'}" href="#!/proposals">Your {{type==0?'Proposals':'Offers'}}
 				<span class="ui circular label">{{myProposals}}</span>
 			</a>
 			<a class="item" ng-class="{active: tab=='messages'}" href="#!/messages">Messages
 				<span ng-show="myMessages > 0" class="ui circular red label">.</span>
 			</a>
-			<a class="item" ng-class="{active: tab=='tracking'}" href="#!/tracking">Track Progress
-				<span class="ui circular label">{{myProposals}}</span>
+			<a class="item" ng-class="{active: tab=='tracking'}" href="#!/tracking">{{type==0?'Track':'Update'}} Progress
+				<span class="ui circular label">{{myJobs}}</span>
 			</a>
 			<a class="item" ng-class="{active: tab=='profile'}" href="#!/profile">Profile</a>
 		</div> <!-- .menu -->

@@ -58,10 +58,7 @@
 								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications == 1 ? 'Applicant': 'Applicants'}}   |   {{proposal.leads}} {{proposal.leads == 1 ? 'Lead': 'Leads'}}</small>
 							</div>
 						</div>
-						<div ng-show="proposalView==proposal && !offers" class="detail-panel">
-							<h1 class="ui center aligned segment">No offers for this proposal yet.</h1>
-						</div>
-						<div ng-show="proposalView == proposal && offers.length>=1" class="detail-panel">
+						<div ng-show="proposalView == proposal" class="detail-panel">
 							<div class="ui top attached tabular menu">
 								<a ng-class="proposalTab == 0 ? 'active':''" class="item" ng-click="proposalTab = 0" data-tab="offers">Offers</a>
 								<a ng-class="proposalTab == 1 ? 'active':''" class="item" ng-click="proposalTab = 1" data-tab="leads">Leads</a>
@@ -92,7 +89,10 @@
 
 										<div class="sixteen wide tablet twelve wide computer column stretched">
 											<div class="ui very padded basic segment">
-												<div class="ui tab active" data-tab="applicant1">
+												<div ng-show="proposalView==proposal && !offers" class="detail-panel">
+													<h1 class="ui center aligned segment">No offers for this proposal yet.</h1>
+												</div>
+												<div ng-show="offers.length > 0" class="ui tab active" data-tab="applicant1">
 
 													<div class="offer-details">
 														<h2 style="margin-top: 0px; padding-top: 0px;">{{offerView.company}}'s Offer:</h2>
@@ -115,23 +115,30 @@
 															<p class="footnote">Offer Details</p>
 															<div class="details-value"><a href="#!/offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
 															<script type="text/javascript">
-															$('.open-modal').click(function(){
-																$('.modal').modal('show');
-															});
-															$('.form').submit(function(){
-																$('.modal').modal('hide');
-															});
-
+																$('.open-modal').click(function(){
+																	$('.modal').modal('show');
+																});
+																$('.form').submit(function(){
+																	$('.modal').modal('hide');
+																});
 															</script>
 														</div>
 													</div>
 
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
 													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
+													<div class="green-square"></div>
+													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
+														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
+													</span>
+													<div class="orange-square"></div>
+													<span data-tooltip="The offer selected on the left will show up in orange" data-position="right center">
+														Selected offer <i class="help circle outline icon"></i>
+													</span>
 
 													<div class="ui horizontal divider"></div>
 
-													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept Offer</a>
+													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept {{offerView.company}}'s Offer</a>
 
 												</div>
 
@@ -159,7 +166,7 @@
 											<div class="ui vertical fluid tabular menu">
 												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
-													<a class="active item" data-tab="lead1">
+													<a ng-class="lead == leadView ? 'active':''" class="item" ng-click="leadViewAssign(lead)">
 														<div class="ui tiny image">
 															<img src="static/img/husky-logo.png" class="ui centered image" />
 														</div>
@@ -192,12 +199,6 @@
 													<h1 class="ui center aligned segment">No leads for this proposal yet.</h1>
 												</div>
 
-												<div class="ui tab" data-tab="lead2">
-													area 2
-												</div>
-												<div class="ui tab" data-tab="lead3">
-													area 3
-												</div>
 											</div>
 										</div>
 									</div>
@@ -314,8 +315,8 @@
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="ui checkbox">
-				<input type="checkbox" name="example">
-				<label>I have read and accept the Terms & Conditions</label>
+				<input type="checkbox" name="accept-terms" id="accept-terms">
+				<label for="accept-terms">I have read and accept the Terms & Conditions</label>
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="field sixteen wide column">

@@ -22,25 +22,34 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else {
 			offersFactory.index(proposal.id, function(data){
+				console.log(data);
 				$scope.proposalView = proposal;
+
+				if(data.leads.length >= 1){
+					$scope.leads = data.leads;
+					$scope.leadView = data.leads[0]
+				} else {
+					$scope.leads = undefined;
+					$scope.leadView = undefined;
+				}
+
 				if(data.applications.length>1){
 					$scope.EGcost = data.applications.pop();
 					$scope.offers = data.applications;
 					$scope.offerView = $scope.offers[0];
 					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-					if(data.leads.length >= 1){
-						$scope.leads = data.leads;
-						$scope.leadView = data.leads[0]
-					}
 					refreshChart()
 				} else {
 					$scope.offers = undefined;
 					$scope.offerView = undefined;
-					$scope.offerView.PPU = undefined;
-					refreshChart();
+					// refreshChart();
 				}
 			});
 		}
+	};
+
+	$scope.leadViewAssign = function(lead){
+		$scope.leadView = lead;
 	};
 
 	$scope.getOffer = function(offer){
@@ -81,6 +90,8 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 
 	function refreshChart(){
 		try{
+			chartObject.template.metric = "total"
+			chartObject.template.charttitle = "Comparing Offers By Total Cost"
 			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers
 			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]

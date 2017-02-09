@@ -1,5 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700');
 
+/*SHAPES*/
+.green-square{
+  width: 15px;
+  height: 15px;
+  background: #7AC200;
+}
+.orange-square{
+  width: 15px;
+  height: 15px;
+  background: #FFA500;
+}
+.gray-square{
+  width: 15px;
+  height: 15px;
+  background: gray;
+}
+
+.green-square, .orange-square, .gray-square{
+  display: inline-block;
+}
+/*END OF SHAPES*/
+
+
 body {
   font-size: 14px;
   font-family: 'Work Sans', sans-serif;
@@ -55,7 +78,7 @@ small.footnote a {
 }
 .hero h1 {
   text-shadow: 0 2px 9px rgba(0,0,0,0.30);
-    padding-top: 100px;
+  padding-top: 100px;
 }
 .hero p {
   margin-top: -10px;
@@ -660,16 +683,16 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
   border: 0;
 }
 .custom-adbox {     /* Custom Duh */
-    float: right;
-    max-width: 250px;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    background-color: white;
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    padding: 9px;
-    z-index: 5;
+  float: right;
+  max-width: 250px;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 9px;
+  z-index: 5;
 }
 .buybox {
   max-width: 320px;
