@@ -88,8 +88,8 @@
 										<i class="dropdown icon"></i>
 										<div class="default text">Lowest to Highest</div>
 										<div class="menu">
-											<div class="item" data-value="1">Highest to Lowest</div>
-											<div class="item" data-value="1">Lowest to Highest</div>
+											<div ng-click="sortExpression = 'quantity'; sortOrder = ''" class="item" data-value="1">Highest to Lowest</div>
+											<div ng-click="sortExpression = 'quantity'; sortOrder = 'reverse'" class="item" data-value="1">Lowest to Highest</div>
 										</div> <!-- .menu -->
 									</div> <!-- .dropdown -->
 								</div> <!-- .content -->
@@ -107,8 +107,8 @@
 										<i class="dropdown icon"></i>
 										<div class="default text">Most Recent</div>
 										<div class="menu">
-											<div class="item" data-value="1">Oldest</div>
-											<div class="item" data-value="1">Most Recent</div>
+											<div ng-click="sortExpression = 'created_at'; sortOrder = 'reverse'" class="item" data-value="1">Oldest</div>
+											<div ng-click="sortExpression = 'created_at'; sortOrder = ''" class="item" data-value="1">Most Recent</div>
 										</div> <!-- .menu -->
 									</div> <!-- .dropdown -->
 								</div> <!-- .content -->
@@ -127,7 +127,7 @@
 					<div class="ui resulted items">
 
 						<!-- this is one item -->
-						<div class="item" ng-repeat="proposal in proposals | processFilter:process">
+						<div class="item" ng-repeat="proposal in proposals | processFilter:process | orderBy:sortExpression:sortOrder">
 							<div class="ui small calendar">
 								{{proposal.created_at | date:"MMM"}}<br />
 								<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
