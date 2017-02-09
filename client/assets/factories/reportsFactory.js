@@ -3,7 +3,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 		index: function(callback) {
 			$http.get('/api/reports', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -12,7 +13,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 		getReportsForProposal: function(proposal_id, callback) {
 			$http.get(`/api/reports/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -21,7 +23,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 		// show: function(id, callback) {
 		// 	$http.get(`/api/proposals/${id}`, {
 		// 		headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-		// 	}).then(function(res) {
+		// 	})
+		// .then(function(res) {
 		// 		callback(res.data);
 		// 	}, function(res) {
 		// 		callback(res);
@@ -30,7 +33,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 		// update: function(data, callback) {
 		// 	$http.put(`/api/proposals`, data, {
 		// 		headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-		// 	}).then(function(res) {
+		// 	})
+		// .then(function(res) {
 		// 		callback(res.data);
 		// 	}, function(res) {
 		// 		callback(res);
@@ -39,7 +43,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 		// delete: function(id, callback) {
 		// 	$http.delete(`/api/proposals/${id}`, {
 		// 		headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-		// 	}).then(function(res) {
+		// 	})
+		// .then(function(res) {
 		// 		callback(res.data);
 		// 	}, function(res) {
 		// 		callback(res);
@@ -49,7 +54,8 @@ app.factory('reportsFactory', function($http, $cookies) {
 			console.log(data);
 			$http.post('/api/reports', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res.data);

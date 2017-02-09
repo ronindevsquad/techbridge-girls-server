@@ -3,7 +3,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		getOffersForProposal: function(proposal_id, callback) {
 			$http.get(`/api/getOffersForProposal/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -12,7 +13,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		getAcceptedOffers: function(callback) {
 			$http.get('/api/getAcceptedOffers', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -21,7 +23,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		getOffers: function(callback) {
 			$http.get('/api/getOffers', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -30,7 +33,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		index: function(proposal_id, callback) {
 			$http.get(`/api/offers/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -39,7 +43,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		show: function(proposal_id, user_id, callback) {
 			$http.get(`/api/offer/${proposal_id}/${user_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -48,7 +53,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		create: function(data, callback) {
 			$http.post('/api/offers', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -57,7 +63,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		removeLead: function(data, callback) {
 			$http.put('/api/offers/nullify', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -66,7 +73,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		send: function(data, callback) {
 			$http.put('/api/offers/send', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -75,7 +83,8 @@ app.factory('offersFactory', function($http, $cookies) {
 		accept: function(data, callback) {
 			$http.put('/api/offers/accept', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);

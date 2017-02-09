@@ -132,11 +132,11 @@ module.exports = function(jwt_key) {
 				else {
 					bcrypt.genSalt(10, function(err, salt) {
 						if (err)
-							callback({status: 400, message: "Salt error."});
+							callback({status: 400, message: "Please contact an admin."});
 						else {
 							bcrypt.hash(req.body.new, salt, function(err, hash) {
 								if (err)
-									callback({status: 400, message: "Hash error."});
+									callback({status: 400, message: "Please contact an admin."});
 								else {
 									using(getConnection(), connection => {
 										var query = "UPDATE users SET password = ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
@@ -146,21 +146,7 @@ module.exports = function(jwt_key) {
 										if (data.changedRows == 0)
 											throw {status: 400, message: "Unable to change password."};
 										else
-											return using(getConnection(), connection => {
-												// Retrieve updated user:
-												var query = "SELECT *, HEX(id) AS id FROM users WHERE id = UNHEX(?) LIMIT 1";
-												return connection.execute(query, [payload.id]);
-											});
-									})
-									.spread(data => {
-										var evergreen_token = jwt.sign({
-											id: data[0].id,
-											type: data[0].type,
-											company: data[0].company,
-											contact: data[0].contact,
-											created_at: data[0].created_at
-										}, jwt_key, {expiresIn: "5d"});
-										callback(false, evergreen_token);
+											callback(false);
 									})
 									.catch(err => {
 										if (err.status)
@@ -199,11 +185,11 @@ module.exports = function(jwt_key) {
 				// Encrypt password and save:
 				bcrypt.genSalt(10, function(err, salt) {
 					if (err) {
-						callback({status: 400, message: "Salt error."});
+						callback({status: 400, message: "Please contact an admin."});
 					} else {
 						bcrypt.hash(req.body.password, salt, function(err, hash) {
 							if (err) {
-								callback({status: 400, message: "Hash error."});
+								callback({status: 400, message: "Please contact an admin."});
 							} else {
 								using(getConnection(), connection => {
 									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,

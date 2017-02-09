@@ -12,7 +12,8 @@ app.factory('messagesFactory', function($http, $cookies) {
 		show: function(id, callback) {
 			$http.get(`/api/messages/${id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -21,7 +22,8 @@ app.factory('messagesFactory', function($http, $cookies) {
 		create: function(data, callback) {
 			$http.post('/api/messages', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
