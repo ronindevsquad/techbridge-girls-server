@@ -23,6 +23,9 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 
 	//END OF AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
 
+
+	$scope.uploadingFiles = false;
+
 	$scope.close = function(_) {
 		$("#proposalSuccess").modal("hide");
 		if (_ == 0)
@@ -32,6 +35,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	};
 
 	$scope.uploadFiles = function(){
+		$scope.uploadingFiles = true;
 		var formData = new FormData();
 		for (var i = 0; i < document.getElementById('documentsInput').files.length; i++) {
 			formData.append("file", document.getElementById('documentsInput').files[i])
@@ -46,8 +50,8 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		request.onload = function() {
 			var responseText = JSON.parse(this.responseText);
 			var response = JSON.parse(this.response);
-			console.log("responseText:", responseText)			
-			console.log("response:", response)			
+			console.log("responseText:", responseText)
+			console.log("response:", response)
 
 			if (!response.message) {
 				$scope.proposal.files = responseText;

@@ -90,6 +90,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 
 	function refreshChart(){
 		try{
+			chartObject.template.metric = "total"
 			chartObject.template.charttitle = "Comparing Offers By Total Cost"
 			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 			chartObject.dataset = $scope.offers

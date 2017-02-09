@@ -197,7 +197,7 @@
 
 		<div id="documents" class="ui relaxed items">
 			<div class="item">
-				<label>
+				<label for="documentsInput">
 					<div class="ui tiny image">
 						<div class="plus">
 							+
@@ -230,9 +230,11 @@
 					<div id="NDA" class="ui relaxed items">
 						<div class="item">
 							<div class="ui tiny image">
+								<label for="ndaInput">
 								<div class="plus">
 									+
 								</div> <!-- .plus -->
+							</label>
 							</div>
 							<div class="middle aligned content">
 								<div>Upload</div>
@@ -261,10 +263,10 @@
 				</div> <!-- .column -->
 			</div> <!-- .grid -->
 
-			<div ng-show="step==3">
+			<div ng-show="step==3" style="margin-top: 1em;">
 				<a class="ui big evergreen uppercase orange button" href="" ng-click="step=2">Back</a>
-				<input type="submit" class="ui big evergreen uppercase orange button">
-				<p style="color: red" ng-bind="error"></p>
+				<input ng-show="!uploadingFiles" type="submit" class="ui big evergreen uppercase orange button">
+				<input ng-show="uploadingFiles" type="submit" value="Uploading Files..." class="ui big evergreen uppercase orange button" disabled>
 			</div>
 			<b style="color: lightgreen" ng-show="step==4">Proposal submitted!</b>
 

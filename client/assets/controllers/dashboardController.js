@@ -27,39 +27,46 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 	}else
 		$location.url('/');
 
-	$scope.updateToNewMetric = function(proposal){
-		console.log(proposal.product);
-		console.log(proposal);
+	$scope.getOffersForProposal = function(proposal){
 		if($scope.type == 0){ //makers can request more protected information than suppliers
 			offersFactory.index(proposal.id, function(data){
 				data.applications.pop();
 				$scope.offers = data.applications;
 				chartObject.dataset = $scope.offers
-				organizeOffersForMaker($scope.offers)
+				if ($scope.offers.length>0) {
+					organizeOffersForMaker($scope.offers)
+					chartObject.drawChart();
+				}
 			});
 		} else { //suppliers will only be able to see numbers related to other offers.
 			offersFactory.getOffersForProposal(proposal.id, function(data){
 				$scope.offers = data; //the factory call is different for suppliers and returns data in a different format.
-				organizeOffersForSupplier()
 				chartObject.dataset = $scope.offers
+				if ($scope.offers.length>0) {
+					organizeOffersForSupplier()
+					chartObject.drawChart();
+				}
 			});
-
-			chartObject.drawChart();
-		} //end of print
-	}
+		}
+	} //end of getOffersForProposal
 	$scope.changeChartMetricTo = function(newMetric){
 		$scope.chartMetric = newMetric;
 		chartObject.template.metric = newMetric;
-		if(payload.type == 0){
-			organizeOffersForMaker()
-		}else{
-			organizeOffersForSupplier()
+		if($scope.offers.length>0){
+			console.log("tried to draw chart");
+			if(payload.type == 0){
+				organizeOffersForMaker()
+			}else{
+				organizeOffersForSupplier()
+			}
 		}
-		chartObject.drawChart();
+		if($scope.offers.length>0){
+			console.log('tried to draw chart');
+			chartObject.drawChart();
+		}
 	}
-	chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
-	chartObject.customColorsForFirstNBars = ['#7AC200']
-	chartObject.drawChart();
+
+
 
 	function organizeOffersForMaker(){
 		var indexOfSmallest = 0
@@ -78,16 +85,15 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		var smallest = $scope.offers[0][chartObject.template.metric]
 		var indexOfSupplierViewing
 		var firstNBars = [];
-		for(var i = 1; i < $scope.offers.length; i++){
+		for(var i = 0; i < $scope.offers.length; i++){
 			if(parseInt($scope.offers[i][chartObject.template.metric]) < parseInt(smallest)){
 				indexOfSmallest = i;
 			}
 			if($scope.offers[i].user_id != undefined){
-				$scope.offers[i].company = "your offer";
 				indexOfSupplierViewing = i;
 			}
-			console.log($scope.offers[i].user_id)
 		}
+		$scope.offers[indexOfSupplierViewing].company = "your offer";
 		if(indexOfSmallest != indexOfSupplierViewing){
 			$scope.offers[indexOfSmallest].company = "lowest offer"
 			firstNBars.push($scope.offers[indexOfSupplierViewing])
@@ -106,5 +112,17 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			$scope.offers[i].company = "";
 		}
 	}
+
+	///////////////////////////////////////////////////////
+	// RUN WHENEVER THE CONTROLLER IS LOADED
+	///////////////////////////////////////////////////////
+
+	chartObject.template.width = document.getElementById('chartholder').parentElement.offsetWidth - (2 * document.getElementById('chartholder').parentElement.padding);
+	chartObject.customColorsForFirstNBars = ['#7AC200']
+
+
+
+
+
 
 });
