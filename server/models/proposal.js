@@ -155,15 +155,17 @@ module.exports = function(jwt_key) {
 								var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
 								"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
 								"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
-								"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC";
-								return connection.query(query, [_data]);
+								"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC LIMIT ?, 11";
+								return connection.query(query, [_data, (req.params.page-1)*10]);
 							}
 						});
 					})
 					.spread(data => {
+						console.log("cnt", data)
 						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});

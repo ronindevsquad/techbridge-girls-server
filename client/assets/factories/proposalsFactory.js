@@ -30,8 +30,8 @@ app.factory('proposalsFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
-		index: function(callback) {
-			$http.get('/api/proposals', {
+		index: function(page, callback) {
+			$http.get(`/api/proposals/${page}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			})
 			.then(function(res) {
