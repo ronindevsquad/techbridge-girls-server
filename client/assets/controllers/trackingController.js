@@ -68,6 +68,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			shipped: "",
 			note: ""
 		}
+		$scope.error = undefined;
 	};
 
 	$scope.showReport = function(report) {
@@ -114,15 +115,22 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	$scope.reportSubmit = function(){
 		$scope.new_report.proposal_id = $scope.proposalView.proposal_id;
-		reportsFactory.create($scope.new_report, function(data) {
-			if (data.status == 401)
-				$scope.logout();
-			else if (data.status >= 300)
-				console.log("error:", data.data.message)
-			else {
-				assignReports(data);
-			}
-		});
+		if ($scope.proposalView.quantity < $scope.proposalView.completed + $scope.new_report.output) {
+			$('.ui.modal').modal('hide');
+			reportsFactory.create($scope.new_report, function(data) {
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300) {
+					console.log("error:", data.data.message)
+					$scope.error = data.data.message;
+				}
+				else {
+					assignReports(data);
+				}
+			});
+		} else {
+			$scope.error = "You cannot report more than is required"
+		}
 	};
 
 
