@@ -4,9 +4,9 @@
 
 		<div ng-include="'partials/header.html'"></div>
 
-		<section class="ui very padded basic segment offer form">
+		<section class="ui very padded basic segment">
 
-			<h2>Open proposals available to you</h2>
+			<h2 id="anchor_header">Open proposals available to you</h2>
 
 			<div class="ui stackable grid">
 				<div class="sixteen wide tablet five wide computer column catcol">
@@ -121,49 +121,37 @@
 				</div> <!-- .column -->
 				<div class="sixteen wide tablet eleven wide computer column">
 					<!-- this is where the list starts -->
-
-					<h3 class="list count">{{proposals.length}} results</h3>
-
 					<div class="ui resulted items">
 
 						<!-- this is one item -->
-						<div class="item" ng-repeat="proposal in proposals | processFilter:process | orderBy:sortExpression:sortOrder">
-							<div class="ui small calendar">
-								{{proposal.created_at | date:"MMM"}}<br />
-								<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
-							</div>
-							<div class="middle aligned content">
-								<div class="header">
-									Customer at {{proposal.zip}} looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"mediumDate"}}
-								</div> <!-- ad title -->
-								<div class="description">
-									<p ng-bind="proposal.info"></p>
-									<small ng-bind="proposal.processes"></small>
-								</div> <!-- .description -->
+						<div class="item" ng-repeat="proposal in proposals | processFilter:process | orderBy:sortExpression:sortOrder track by $index" ng-if="!$last">
+								<div class="ui small calendar">
+									{{proposal.created_at | date:"MMM"}}<br />
+									<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
+								</div>
+								<div class="middle aligned content">
+									<div class="header">
+										{{$index+1+(page-1)*10}}. Customer at {{proposal.zip}} looking to produce {{proposal.quantity}} units by {{proposal.completion | date:"mediumDate"}}
+									</div> <!-- ad title -->
+									<div class="description">
+										<p ng-bind="proposal.info"></p>
+										<small ng-bind="proposal.processes"></small>
+									</div> <!-- .description -->
 
-							</div>
-							<div class="extra flex">
-								<a href="#!/show-proposal/{{proposal.id}}" class="ui evergreen green button">View</a>
-							</div>
+								</div>
+								<div class="extra flex">
+									<a href="#!/show-proposal/{{proposal.id}}" class="ui evergreen green button">View</a>
+								</div>
 						</div> <!-- .item -->
 
 					</div> <!-- .items -->
 
-					<div class="ui pagination seconh nb ary menu">
-						<a class="active item">
-							1
+					<div class="ui pagination secondary menu">
+						<a class="active item" href="#!/open-proposals/{{page-1}}" ng-click="previous()" ng-show="page!=1">
+							Previous
 						</a>
-						<div class="disabled item">
-							...
-						</div>
-						<a class="item">
-							10
-						</a>
-						<a class="item">
-							11
-						</a>
-						<a class="item">
-							12
+						<a class="active item" href="#!/open-proposals/{{page+1}}" ng-show="proposals.length>10">
+							Next
 						</a>
 					</div>
 

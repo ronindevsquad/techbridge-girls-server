@@ -1,19 +1,25 @@
-app.controller('openProposalsController', function ($scope, $location, proposalsFactory) {
+app.controller('openProposalsController', function ($scope, $location, $routeParams, $anchorScroll, proposalsFactory) {
 	if (payload && $scope.type == 1) {
 		$scope.tab = "open";
-		proposalsFactory.index(function(data) {
+		$scope.sortExpression = 'created_at';
+		$scope.sortOrder = 'reverse';
+		
+		if ($routeParams.page > 0)
+			$scope.page = parseInt($routeParams.page);
+		else
+			$scope.page = 1;
+
+		proposalsFactory.index($scope.page, function(data) {
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
 				$scope.proposals = data;
+				if ($routeParams.page)
+					$anchorScroll("anchor_header");
 			}
 		});
-
-		$scope.sortExpression = 'created_at';
-		$scope.sortOrder = 'reverse';
-
 	}
 	else
 		$location.url('/');

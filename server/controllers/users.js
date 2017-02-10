@@ -38,7 +38,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
+					res.end();
 			});
 		},
 		register: function(req, res) {

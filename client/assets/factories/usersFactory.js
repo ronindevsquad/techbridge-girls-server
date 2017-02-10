@@ -8,7 +8,8 @@ app.factory('usersFactory', function($http, $cookies) {
 		show: function(id, callback) {
 			$http.get(`/api/users/${id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -17,7 +18,8 @@ app.factory('usersFactory', function($http, $cookies) {
 		update: function(data, callback) {
 			$http.put(`/api/users`, data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -26,7 +28,8 @@ app.factory('usersFactory', function($http, $cookies) {
 		changePassword: function(data, callback) {
 			$http.put(`/users/changePassword`, data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res){
+			})
+			.then(function(res){
 				callback(res.data);
 			}, function(res) {
 				callback(res);
@@ -35,7 +38,8 @@ app.factory('usersFactory', function($http, $cookies) {
 		delete: function(callback) {
 			$http.delete('/api/users', {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				callback(res.data);
 			}, function(res) {
 				callback(res);
