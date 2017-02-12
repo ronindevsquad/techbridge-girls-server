@@ -9,12 +9,59 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		} else if ($scope.type == 1) {
 			proposalsFactory.getMyApplications(function(data) {
 				$scope.proposals = data;
+				$scope.id_to_delete;
 			});
 		}
 	}
 	else
 		$location.url('/');
 
+	//////////////////////////////////////////////////////
+	//										HELPER FUNCTIONS
+	//////////////////////////////////////////////////////
+	$scope.leadViewAssign = function(lead) {
+		$scope.leadView = lead;
+	};
+
+	function refreshChart() {
+		try{
+			chartObject.template.metric = "total"
+			chartObject.template.charttitle = "Comparing Offers By Total Cost"
+			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
+			chartObject.dataset = $scope.offers
+			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]
+			chartObject.customColorsForFirstNBars = ['#7AC200','orange']
+			chartObject.drawChart();
+			$scope.$apply()
+		}
+		catch(err) {
+			setTimeout(refreshChart,500);
+		}
+	};
+
+	//////////////////////////////////////////////////////
+	//										PROPOSAL
+	//////////////////////////////////////////////////////
+	$scope.set = function(proposal) {
+		$scope.id_to_delete = proposal.id;
+	}
+
+	$scope.delete = function() {
+		if ($scope.id_to_delete) {
+			proposalsFactory.delete($scope.id_to_delete, function(data) {
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else
+					$location.url(`/proposals#${Date.now()}`);
+			});
+		}
+	};
+
+	//////////////////////////////////////////////////////
+	//										OFFER
+	//////////////////////////////////////////////////////
 	$scope.getOffers = function(proposal) {
 		$scope.proposalTab = 0;
 		if ($scope.proposalView == proposal) {
@@ -48,10 +95,6 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 	};
 
-	$scope.leadViewAssign = function(lead) {
-		$scope.leadView = lead;
-	};
-
 	$scope.getOffer = function(offer) {
 		$scope.offerView = offer;
 		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
@@ -74,7 +117,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 				$location.url(`/messages#${Date.now()}`)
 			}
 		});
-	}
+	};
 
 	$scope.removeLead = function(lead) {
 		offersFactory.removeLead(lead, function(data) {
@@ -88,19 +131,4 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		});
 	};
 
-	function refreshChart() {
-		try{
-			chartObject.template.metric = "total"
-			chartObject.template.charttitle = "Comparing Offers By Total Cost"
-			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
-			chartObject.dataset = $scope.offers
-			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]
-			chartObject.customColorsForFirstNBars = ['#7AC200','orange']
-			chartObject.drawChart();
-			$scope.$apply()
-		}
-		catch(err) {
-			setTimeout(refreshChart,500);
-		}
-	}
-})
+});

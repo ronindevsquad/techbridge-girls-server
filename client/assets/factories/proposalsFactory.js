@@ -59,6 +59,16 @@ app.factory('proposalsFactory', function($http, $cookies) {
 			}, function(res) {
 				callback(res);
 			});
+		},
+		delete: function(id, callback) {
+			$http.delete(`/api/proposals/${id}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			})
+			.then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
 		}
 	}
 })
