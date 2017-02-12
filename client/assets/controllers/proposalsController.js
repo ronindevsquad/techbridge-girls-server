@@ -15,17 +15,17 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	else
 		$location.url('/');
 
-	$scope.getOffers = function(proposal){
+	$scope.getOffers = function(proposal) {
 		$scope.proposalTab = 0;
-		if ($scope.proposalView == proposal){
+		if ($scope.proposalView == proposal) {
 			$scope.proposalView = undefined;
 		}
 		else {
-			offersFactory.index(proposal.id, function(data){
+			offersFactory.index(proposal.id, function(data) {
 				console.log(data);
 				$scope.proposalView = proposal;
 
-				if(data.leads.length >= 1){
+				if(data.leads.length >= 1) {
 					$scope.leads = data.leads;
 					$scope.leadView = data.leads[0]
 				} else {
@@ -33,7 +33,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 					$scope.leadView = undefined;
 				}
 
-				if(data.applications.length>1){
+				if(data.applications.length>1) {
 					$scope.EGcost = data.applications.pop();
 					$scope.offers = data.applications;
 					$scope.offerView = $scope.offers[0];
@@ -48,11 +48,11 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 	};
 
-	$scope.leadViewAssign = function(lead){
+	$scope.leadViewAssign = function(lead) {
 		$scope.leadView = lead;
 	};
 
-	$scope.getOffer = function(offer){
+	$scope.getOffer = function(offer) {
 		$scope.offerView = offer;
 		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
 		refreshChart();
@@ -77,8 +77,8 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	}
 
 	$scope.removeLead = function(lead) {
-		offersFactory.removeLead(lead, function(data){
-			if (data.length > 0){
+		offersFactory.removeLead(lead, function(data) {
+			if (data.length > 0) {
 				$scope.leads = data;
 				$scope.leadView = data[0];
 			} else {
@@ -88,7 +88,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		});
 	};
 
-	function refreshChart(){
+	function refreshChart() {
 		try{
 			chartObject.template.metric = "total"
 			chartObject.template.charttitle = "Comparing Offers By Total Cost"
@@ -99,7 +99,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 			chartObject.drawChart();
 			$scope.$apply()
 		}
-		catch(err){
+		catch(err) {
 			setTimeout(refreshChart,500);
 		}
 	}
