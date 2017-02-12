@@ -6,9 +6,4 @@ $(document).ready(function(){
 		$('.show-report').click(function(){
 			$('#show-modal').modal('show');
 		});
-
-		$('.form').submit(function(){
-			$('.ui.modal').modal('hide');
-		});
-
 });

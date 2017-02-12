@@ -52,7 +52,7 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/create-proposal.html',
 		controller: 'createProposalController'
 	})
-	.when('/open-proposals',{
+	.when('/open-proposals/:page?',{
 		templateUrl: 'partials/open-proposals.html',
 		controller: 'openProposalsController'
 	})

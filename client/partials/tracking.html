@@ -1,4 +1,4 @@
-<script src="static/js/modal.js"></script>
+
 
 <div ng-class="user" class="userarea">
 
@@ -149,6 +149,7 @@
 			<div class="field sixteen wide column">
 				<button class="fluid ui green button" type="submit">Save Note</button>
 			</div>
+			<p style="color: red" ng-bind="error"></p>
 			<div class="field sixteen wide column">&nbsp;</div>
 		</form>
 	</div>
@@ -156,7 +157,7 @@
 
 <div class="ui small modal" id="show-modal">
 	<div class="header">
-		Viewing Report For {{cur_report.created_at}}
+		Viewing Report For {{cur_report.created_at | date:"MMMM d y"}}
 	</div>
 	<div class="content">
 		<p style="opacity: 1;">Report submitted at 10:00pm.</p>
@@ -184,4 +185,5 @@
 	</div>
 </div>
 
+<script src="static/js/modal.js"></script>
 <script src="static/js/green.js"></script>

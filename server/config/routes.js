@@ -42,7 +42,7 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
 	app.get('/api/proposals/getMyApplications', proposals.getMyApplications);
 	app.get('/api/proposals/getPercentCompleted', proposals.getPercentCompleted);
-	app.get('/api/proposals', proposals.index);
+	app.get('/api/proposals/:page', proposals.index);
 	app.get('/api/proposals/:id', proposals.show);
 	app.post('/api/proposals', proposals.create);
   app.post('/uploadFiles', upload.array('file'), proposals.uploadFiles)
