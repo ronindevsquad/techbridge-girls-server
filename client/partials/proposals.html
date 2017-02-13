@@ -6,9 +6,9 @@
 
 		<section class="ui very padded basic segment offer form">
 
-			<h2>Your <span ng-show="type == 0">Proposals</span><span ng-show="type == 1">Offers</span></h2>
-			<p><span ng-show="type==0">Your proposals</span><span ng-show="type==1">Proposals you've made offers for</span>.</p>
-			<a ng-show="type==0" ng-class="color"  href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
+			<h2>Your Proposals</h2>
+			<p>Your proposals.</p>
+			<a ng-class="color" href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
 
 			<div class="ui horizontal divider"></div>
@@ -31,7 +31,7 @@
 				</div>
 
 				<!-- Maker Zone -->
-				<div ng-show="type == 0" class="item-cards list-cards">
+				<div class="item-cards list-cards">
 
 					<div class="ui horizontal divider"></div>
 					<!-- this item has a details panel that opens when you click View -->
@@ -114,7 +114,7 @@
 
 														<div class="details-item">
 															<p class="footnote">Offer Details</p>
-															<div class="details-value"><a href="#!/offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
+															<div class="details-value"><a href="#!/show-offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
 															<script type="text/javascript">
 																$('.accept-button').click(function(){
 																	$('#accept-modal').modal('show');
@@ -235,40 +235,6 @@
 
 				</div>
 			</div>
-			<!-- End Maker Zone -->
-
-			<!-- ##################################################################################################### -->
-
-			<!-- Supplier Zone -->
-			<div ng-show="type == 1" class="ui stackable four column grid middle item-cards">
-
-				<div ng-repeat="proposal in proposals" class="column">
-					<div class="ui padded segment center aligned">
-						<h4 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{proposal.product}}</h4>
-						<br>
-						<div class="ui tiny image">
-							<img src="static/img/husky-logo.png" class="ui centered image" />
-						</div>
-						<a style="width: 100%;" ng-class="color" class="ui evergreen uppercase button" href="#!/offer/{{proposal.id}}/{{id}}">View Your Offer</a>
-						<br>
-						<br>
-						<a style="width: 100%;" class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View the Proposal</a>
-					</div> <!-- segment -->
-
-					<div class="ui right aligned grid">
-
-						<div class="sixteen wide column">
-							<p class="toplabels">You Responded On:</p>
-							<p>{{proposal.completion | date:"MMM dd y"}}</p>
-						</div> <!-- .right column -->
-					</div>
-
-				</div>
-				<!-- End Supplier Zone -->
-
-
-			</div> <!-- .ui left continer -->
-
 		</section> <!-- .very padded segment -->
 
 		<div ng-include="'partials/footer.html'"></div>

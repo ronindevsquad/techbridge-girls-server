@@ -1,7 +1,6 @@
-app.controller('offerController', function ($scope, $location, $routeParams,
+app.controller('showOfferController', function ($scope, $location, $routeParams,
 	proposalsFactory, offersFactory) {
 	if (payload) {
-		$scope.id = payload.id
 		offersFactory.show($routeParams.proposal_id, $routeParams.user_id, function(data) {
 			if (data.status == 401)
 				$scope.logout();

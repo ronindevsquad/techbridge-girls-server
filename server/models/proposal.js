@@ -276,7 +276,7 @@ module.exports = function(jwt_key) {
 					callback({status: 400, message: "Only Makers may delete their proposals."});
 				else {
 					using(getConnection(), connection => {
-						var query = "DELETE FROM proposals WHERE id = UNHEX(?) AND user_id = UNHEX(?) LIMIT 1";
+						var query = "DELETE FROM proposals WHERE id = UNHEX(?) AND user_id = UNHEX(?) AND STATUS = 0 LIMIT 1";
 						return connection.execute(query, [req.params.id, payload.id]);
 					})
 					.spread(data => {

@@ -1,17 +1,9 @@
 app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
-	if (payload) {
+	if (payload && $scope.type == 0) {
 		$scope.tab = "proposals";
-		if ($scope.type == 0) {
-			//Get proposals that you've created
-			proposalsFactory.getMyProposals(function(data) {
-				$scope.proposals = data;
-			});
-		} else if ($scope.type == 1) {
-			proposalsFactory.getMyApplications(function(data) {
-				$scope.proposals = data;
-				$scope.id_to_delete;
-			});
-		}
+		proposalsFactory.getMyProposals(function(data) {
+			$scope.proposals = data;
+		});
 	}
 	else
 		$location.url('/');
@@ -39,13 +31,13 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 	};
 
-	//////////////////////////////////////////////////////
-	//										PROPOSAL
-	//////////////////////////////////////////////////////
 	$scope.set = function(proposal) {
 		$scope.id_to_delete = proposal.id;
 	}
 
+	//////////////////////////////////////////////////////
+	//										PROPOSAL
+	//////////////////////////////////////////////////////
 	$scope.delete = function() {
 		if ($scope.id_to_delete) {
 			proposalsFactory.delete($scope.id_to_delete, function(data) {
