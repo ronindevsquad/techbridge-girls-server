@@ -28,6 +28,10 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/proposals.html',
 		controller: 'proposalsController'
 	})
+	.when('/offers',{
+		templateUrl: 'partials/offers.html',
+		controller: 'offersController'
+	})
 	.when('/tracking',{
 		templateUrl: 'partials/tracking.html',
 		controller: 'trackingController'
@@ -60,9 +64,9 @@ app.config(function ($routeProvider) {
 		templateUrl: 'partials/create-offer.html',
 		controller: 'createOfferController'
 	})
-	.when('/offer/:proposal_id/:user_id',{
-		templateUrl: 'partials/offer.html',
-		controller: 'offerController'
+	.when('/show-offer/:proposal_id/:user_id',{
+		templateUrl: 'partials/show-offer.html',
+		controller: 'showOfferController'
 	})
 	.when('/processes',{
 		templateUrl: 'partials/processes.html',

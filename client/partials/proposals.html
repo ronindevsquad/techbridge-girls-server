@@ -6,9 +6,9 @@
 
 		<section class="ui very padded basic segment offer form">
 
-			<h2>Your <span ng-if="type == 0">Proposals</span><span ng-if="type == 1">Offers</span></h2>
-			<p><span ng-if="type==0">Your proposals</span><span ng-if="type==1">Proposals you've made offers for</span>.</p>
-			<a ng-if="type==0" ng-class="color"  href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
+			<h2>Your Proposals</h2>
+			<p>Your proposals.</p>
+			<a ng-class="color" href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
 
 			<div class="ui horizontal divider"></div>
@@ -31,7 +31,7 @@
 				</div>
 
 				<!-- Maker Zone -->
-				<div ng-if="type == 0" class="item-cards list-cards">
+				<div class="item-cards list-cards">
 
 					<div class="ui horizontal divider"></div>
 					<!-- this item has a details panel that opens when you click View -->
@@ -55,6 +55,7 @@
 							</div>
 							<div class="extra">
 								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View Offers'}}</a>
+								<a ng-click="set(proposal)" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button delete-button">Remove</a>
 								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications == 1 ? 'Applicant': 'Applicants'}}   |   {{proposal.leads}} {{proposal.leads == 1 ? 'Lead': 'Leads'}}</small>
 							</div>
 						</div>
@@ -113,20 +114,23 @@
 
 														<div class="details-item">
 															<p class="footnote">Offer Details</p>
-															<div class="details-value"><a href="#!/offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
+															<div class="details-value"><a href="#!/show-offer/{{offerView.proposal_id}}/{{offerView.user_id}}" title="View full offer">View full offer </a></div>
 															<script type="text/javascript">
-																$('.open-modal').click(function(){
-																	$('.modal').modal('show');
+																$('.accept-button').click(function(){
+																	$('#accept-modal').modal('show');
 																});
 																$('.form').submit(function(){
-																	$('.modal').modal('hide');
+																	$('#accept-modal').modal('hide');
+																});
+																$('.delete-button').click(function(){
+																	$('#delete-modal').modal('show');
 																});
 															</script>
 														</div>
 													</div>
 
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
-													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
+													<div ng-show="proposalView == proposal" style="" id="chart_div"></div>
 													<div class="green-square"></div>
 													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
 														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
@@ -138,7 +142,7 @@
 
 													<div class="ui horizontal divider"></div>
 
-													<a ng-class="color" href="" class="ui big evergreen uppercase button open-modal">Accept {{offerView.company}}'s Offer</a>
+													<a ng-class="color" href="" class="ui big evergreen uppercase button accept-button">Accept {{offerView.company}}'s Offer</a>
 
 												</div>
 
@@ -231,40 +235,6 @@
 
 				</div>
 			</div>
-			<!-- End Maker Zone -->
-
-			<!-- ##################################################################################################### -->
-
-			<!-- Supplier Zone -->
-			<div ng-if="type == 1" class="ui stackable four column grid middle item-cards">
-
-				<div ng-repeat="proposal in proposals" class="column">
-					<div class="ui padded segment center aligned">
-						<h4 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{proposal.product}}</h4>
-						<br>
-						<div class="ui tiny image">
-							<img src="static/img/husky-logo.png" class="ui centered image" />
-						</div>
-						<a style="width: 100%;" ng-class="color" class="ui evergreen uppercase button" href="#!/offer/{{proposal.id}}/{{id}}">View Your Offer</a>
-						<br>
-						<br>
-						<a style="width: 100%;" class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View the Proposal</a>
-					</div> <!-- segment -->
-
-					<div class="ui right aligned grid">
-
-						<div class="sixteen wide column">
-							<p class="toplabels">You Responded On:</p>
-							<p>{{proposal.completion | date:"MMM dd y"}}</p>
-						</div> <!-- .right column -->
-					</div>
-
-				</div>
-				<!-- End Supplier Zone -->
-
-
-			</div> <!-- .ui left continer -->
-
 		</section> <!-- .very padded segment -->
 
 		<div ng-include="'partials/footer.html'"></div>
@@ -274,7 +244,7 @@
 </div>
 
 <!-- Modal -->
-<div class="ui small coupled modal sixteen centered grid">
+<div class="ui small coupled modal sixteen centered grid" id="accept-modal">
 	<div class="five wide column" style="background-color: #47535F">
 		<div class="ui sixteen centered grid">
 			<div class="ui image sixteen wide column">
@@ -306,7 +276,7 @@
 			</div>
 		</div>
 		<div class="field sixteen wide column">&nbsp;</div>
-		<form ng-submit="accept();" class="ui form open-modal2">
+		<form ng-submit="accept();" class="ui form">
 			<div class="field sixteen wide column">
 				<label>You will receive an invoice for the total amount of:</label>
 			</div>
@@ -316,14 +286,24 @@
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="ui checkbox">
 				<input type="checkbox" name="accept-terms" id="accept-terms">
-				<label for="accept-terms">I have read and accept the Terms & Conditions</label>
+				<label for="accept-terms">I have read and accept the Terms &amp; Conditions</label>
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="field sixteen wide column">
-				<button ng-click="acceptOffer()" class="fluid ui orange button open-modal2" type="submit">Accept and Continue</button>
+				<button ng-click="acceptOffer()" class="fluid ui orange button" type="submit">Accept and Continue</button>
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 		</form>
+	</div>
+</div>
+
+<div class="ui small coupled modal sixteen centered grid" id="delete-modal">
+	<div class="header">Are you sure you want to delete this proposal?</div>
+	<div class="content">
+		<p>All of the offers for this proposal will be dropped as well. Click 'Confirm' to continue removing the proposal.</p>		
+	</div>
+	<div class="actions">
+		<button class="ui approve button" ng-click="delete()">Confirm</button><button class="ui cancel button">Cancel</button>
 	</div>
 </div>
 

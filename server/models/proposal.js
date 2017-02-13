@@ -267,6 +267,32 @@ module.exports = function(jwt_key) {
 					});
 				}
 			});
+		},
+		delete: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 0)
+					callback({status: 400, message: "Only Makers may delete their proposals."});
+				else {
+					using(getConnection(), connection => {
+						var query = "DELETE FROM proposals WHERE id = UNHEX(?) AND user_id = UNHEX(?) AND STATUS = 0 LIMIT 1";
+						return connection.execute(query, [req.params.id, payload.id]);
+					})
+					.spread(data => {
+						if (data.affectedRows == 0)
+							throw {status: 400, message: "Could not delete proposal, please contact an admin."};
+						else
+							callback(false);
+					})
+					.catch(err => {
+						if (err.status)
+							callback(err);
+						else
+							callback({status: 400, message: "Please contact an admin."});
+					});
+				}
+			});
 		}
 	}
 };
