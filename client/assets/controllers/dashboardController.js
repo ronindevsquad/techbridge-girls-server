@@ -30,6 +30,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 	$scope.getOffersForProposal = function(proposal){
 		if($scope.type == 0){ //makers can request more protected information than suppliers
 			offersFactory.index(proposal.id, function(data){
+				console.log(data);
 				data.applications.pop();
 				$scope.offers = data.applications;
 				chartObject.dataset = $scope.offers
@@ -40,6 +41,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			});
 		} else { //suppliers will only be able to see numbers related to other offers.
 			offersFactory.getOffersForProposal(proposal.id, function(data){
+				console.log(data);
 				$scope.offers = data; //the factory call is different for suppliers and returns data in a different format.
 				chartObject.dataset = $scope.offers
 				if ($scope.offers.length>0) {
@@ -86,6 +88,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		var indexOfSupplierViewing
 		var firstNBars = [];
 		for(var i = 0; i < $scope.offers.length; i++){
+			appendQualityEstimate($scope.offers[i])
 			if(parseInt($scope.offers[i][chartObject.template.metric]) < parseInt(smallest)){
 				indexOfSmallest = i;
 			}
@@ -111,6 +114,17 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		for(var i=0; i<$scope.offers.length;i++){
 			$scope.offers[i].company = "";
 		}
+	}
+
+	function appendQualityEstimate(application){
+		var quality = 1;
+		for(var i=0;i<application.machines.length;i++){
+			quality*=(parseInt(application.machines[i].yield)/100)
+		}
+		for(var i=0;i<application.manuals.length;i++){
+			quality*=parseInt(application.manuals[i].yield)
+		}
+		application.quality = Math.floor(quality*100)
 	}
 
 	///////////////////////////////////////////////////////

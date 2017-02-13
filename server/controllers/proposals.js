@@ -26,7 +26,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getProposalsForPage: function(req, res) {
-			proposal.index(req, function(err, data) {
+			proposal.getProposalsForPage(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
