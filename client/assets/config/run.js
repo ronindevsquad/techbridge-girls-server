@@ -75,8 +75,8 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.type = payload.type;
 			$rootScope.company = payload.company;
 			$rootScope.contact = payload.contact;
-			$rootScope.created_at = payload.created_at;
 			$rootScope.picture = payload.picture;
+			$rootScope.created_at = payload.created_at;
 			$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
 			$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
 			$rootScope.menu = false;
@@ -132,10 +132,15 @@ app.run(function($rootScope, $timeout) {
 		$rootScope.id = undefined;
 		$rootScope.type = undefined;
 		$rootScope.company = undefined;
+		$rootScope.contact = undefined;
+		$rootScope.picture = undefined;
 		$rootScope.created_at = undefined;
 		$rootScope.color = undefined;
 		$rootScope.user = undefined;
 		$rootScope.menu = undefined;
+		$rootScope.myProposals = undefined;
+		$rootScope.myMessages = undefined;
+		$rootScope.myJobs = undefined;
 
 		if(IN.User.isAuthorized())
 			IN.User.logout(function(){

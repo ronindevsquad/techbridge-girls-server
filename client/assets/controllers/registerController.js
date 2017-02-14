@@ -2,7 +2,6 @@ app.controller("registerController", function ($scope, $location, $routeParams, 
 	if (payload || $scope.type === undefined)
 		$location.url("/");
 
-
 	$scope.new_user = {};
 	$scope.register = function() {
 		$scope.new_user.type = $scope.type;
