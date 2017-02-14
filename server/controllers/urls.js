@@ -10,11 +10,11 @@ module.exports = function(jwt_key) {
 			});
 		},
 		uploadPicture: function(req, res) {
-			url.uploadPicture(req, function(err, data) {
+			url.uploadPicture(req, function(err, data, picture) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
+					res.clearCookie('evergreen_token').cookie('evergreen_token', data).json(picture);
 			});
 		},
 	}
