@@ -19,11 +19,11 @@ module.exports = function(jwt_key) {
 						"(SELECT proposal_id FROM offers LEFT JOIN proposals ON proposal_id = id WHERE " +
 						"proposal_id = UNHEX(?) AND (proposals.user_id = UNHEX(?) OR offers.user_id = UNHEX(?)) " +
 						"AND offers.status > 1 AND proposals.status > 1 LIMIT 1) ORDER BY created_at";
-						return connection.execute(query, [req.params.id, payload.id, payload.id]);
+						return connection.execute(query, [req.params.proposal_id, payload.id, payload.id]);
 					}), using(getConnection(), connection => {
 						var query = "UPDATE messages SET status = 1 WHERE proposal_id = UNHEX(?) AND " +
 						"user_id != UNHEX(?)";
-						return connection.execute(query, [req.params.id, payload.id]);
+						return connection.execute(query, [req.params.proposal_id, payload.id]);
 					}), (messages, read) => {
 						if (messages.length < 1)
 						throw {status: 400, message: "No conversation found."};

@@ -5,12 +5,12 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 	if (payload) {
 		$scope.tab = "dashboard";
 		if($scope.type == 0){ //Makers should get all proposals they have created
-			proposalsFactory.getMyProposals(function(data){
+			proposalsFactory.getMyProposals(function(data) {
 				$scope.proposals = data
 				console.log(data);
-			})
-		}else{ //Suppliers should get all proposals that they have applied to. The information about the owners of other offers will not be available to suppliers.
-			proposalsFactory.getMyApplications(function(data){
+			});
+		} else { //Suppliers should get all proposals that they have applied to. The information about the owners of other offers will not be available to suppliers.
+			proposalsFactory.getMyApplications(function(data) {
 				console.log(data);
 				$scope.proposals = data;
 			});
@@ -24,7 +24,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		// 	else {
 		// 	}
 		// })
-	}else
+	} else
 		$location.url('/');
 
 	$scope.getOffersForProposal = function(proposal){

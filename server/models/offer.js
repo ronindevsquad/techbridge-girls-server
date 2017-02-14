@@ -216,6 +216,31 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
+		delete: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 1)
+					callback({status: 401, message: "Only Suppliers are allowed to delete their offers."});
+				else
+					using(getConnection(), connection => {
+						var query = "DELETE FROM offers WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) AND status = 0 LIMIT 1";
+						return connection.execute(query, [req.params.proposal_id, payload.id]);
+					})
+					.spread(data => {
+						if (data.affectedRows == 0)
+							throw {status: 400, message: "Could not delete offer, please contact an admin."};
+						else
+							callback(false);
+					})
+					.catch(err => {
+						if (err.status)
+							callback(err);
+						else
+							callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
 		nullify: function(req, callback) {
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)

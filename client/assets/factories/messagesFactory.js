@@ -9,8 +9,8 @@ app.factory('messagesFactory', function($http, $cookies) {
 		// 		callback(res);
 		// 	});
 		// },
-		show: function(id, callback) {
-			$http.get(`/api/messages/${id}`, {
+		show: function(proposal_id, callback) {
+			$http.get(`/api/messages/${proposal_id}`, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			})
 			.then(function(res) {

@@ -56,13 +56,14 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/offers/:proposal_id', offers.index);
 	app.get('/api/offer/:proposal_id/:user_id', offers.show);
 	app.post('/api/offers', offers.create);
+	app.delete('/api/offers/:proposal_id', offers.delete);
 	app.put('/api/offers/nullify', offers.nullify);
 	app.put('/api/offers/send', offers.send);
 	app.put('/api/offers/accept', offers.accept);
 
 	// REPORTS
 	app.get('/api/reports', reports.index)
-	app.get('/api/reports/:id', reports.getReportsForProposal)
+	app.get('/api/reports/getReportsForProposal/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
 
 	// PROCESSES
@@ -70,6 +71,6 @@ module.exports = function(app, jwt_key) {
 
 	// MESSAGES
 	// app.get('/api/messages', messages.index);
-	app.get('/api/messages/:id', messages.show);
+	app.get('/api/messages/:proposal_id', messages.show);
 	app.post('/api/messages', messages.create);
 }
