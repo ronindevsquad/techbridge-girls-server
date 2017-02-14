@@ -29,7 +29,7 @@ app.config(function ($routeProvider) {
 		controller: 'proposalsController'
 	})
 	.when('/offers',{
-		templateUrl: 'partials/proposals.html',
+		templateUrl: 'partials/offers.html',
 		controller: 'offersController'
 	})
 	.when('/tracking',{
