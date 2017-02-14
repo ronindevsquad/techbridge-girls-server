@@ -74,6 +74,16 @@ module.exports = function(jwt_key) {
 					res.cookie('evergreen_token', data).end();
 				}
 			});
+		},
+		sendTicket: function(req, res) {
+			user.sendTicket(req, function(err, data) {
+				if (err) {
+					res.status(err.status).json({message: err.message});
+				}
+				else {
+					res.cookie('evergreen_token', data).end();
+				}
+			});
 		}
 	}
 }

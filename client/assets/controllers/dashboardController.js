@@ -1,4 +1,4 @@
-app.controller('dashboardController', function ($scope, $location, proposalsFactory, offersFactory) {
+app.controller('dashboardController', function ($scope, $location, proposalsFactory, offersFactory, usersFactory) {
 	chartObject.dataset = null;
 	chartObject.clearChartData();
 	$scope.chartMetric = "total"
@@ -58,6 +58,13 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			chartObject.drawChart();
 		}
 	}
+	//  Available function for emailing admin
+	$scope.sendTicket = function(){
+		usersFactory.sendTicket(function(data){
+			console.log(data);
+		});
+	};
+
 
 
 
