@@ -35,16 +35,23 @@
 					<div class="ui padded segment center aligned">
 						<h4 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{proposal.product}}</h4>
 						<br>
-						<div class="ui tiny image">
+						<!-- <div class="ui tiny image">
 							<img src="static/img/husky-logo.png" class="ui centered image" />
-						</div>
+						</div> -->
 						<a style="width: 100%;" ng-class="color" class="ui evergreen uppercase button" href="#!/show-offer/{{proposal.id}}/{{id}}">View Your Offer</a>
 						<br>
 						<br>
 						<a style="width: 100%;" class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View Proposal</a>
-						<small><a href="" class="delete-anchor">Withdraw offer</a></small>
+						<small ng-show="proposal.status<2"><a href="" class="delete-anchor" ng-click="set(proposal)">Remove offer</a></small>
+						<small ng-show="proposal.status>=2">In progress</small>
 					</div> <!-- segment -->
 
+					<script type="text/javascript">
+						$(".delete-anchor").click(function() {
+							$("#delete-modal").modal("show");
+						});
+					</script>
+					
 					<div class="ui right aligned grid">
 
 						<div class="sixteen wide column">
@@ -63,17 +70,10 @@
 
 <!-- Modal -->
 <div class="ui small coupled modal sixteen centered grid" id="delete-modal">
-	<div class="header">Are you sure you want to withdraw your offer?</div>
+	<div class="header">Are you sure you want to remove your offer?</div>
 	<div class="content">
-		<p>You can withdraw this offer while it hasn't been accepted yet. Click 'Confirm' to continue withdrawing your offer.</p>		
-	</div>
+		<p>You can remove this offer while it hasn't been accepted yet. Click 'Confirm' to continue removing your offer.</p>	</div>
 	<div class="actions">
 		<button class="ui approve button" ng-click="delete()">Confirm</button><button class="ui cancel button">Cancel</button>
 	</div>
 </div>
-
-<!-- <script type="text/javascript">
-	$(".delete-anchor").click(function() {
-		$("#delete-modal").modal("show");
-	});
-</script> -->

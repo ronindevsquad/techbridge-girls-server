@@ -60,6 +60,16 @@ app.factory('offersFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
+		delete: function(proposal_id, callback) {
+			$http.delete(`/api/offers/${proposal_id}`, {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			})
+			.then(function(res) {
+				callback(res.data);
+			}, function(res) {
+				callback(res);
+			});
+		},
 		removeLead: function(data, callback) {
 			$http.put('/api/offers/nullify', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}

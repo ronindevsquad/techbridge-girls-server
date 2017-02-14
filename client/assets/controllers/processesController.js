@@ -15,4 +15,4 @@ app.controller('processesController', function ($scope, $location, processesFact
 				$location.url('/open-proposals');
 		});
 	}
-})
+});

@@ -28,7 +28,7 @@
 <div ng-show="menu" class="ui medium rectangle test custom-adbox">
 	<div class="ui grid">
 		<div class="six wide column">
-			<img class="ui circular image" src="static/img/user-avatar.png">
+			<img class="ui circular image" src="{{picture}}">
 		</div>
 		<div class="ten wide column">
 			<h4 class="title">{{company}}</h4>
@@ -54,8 +54,9 @@
 
 		<div ng-show="!viewingOtherProfile" class="ui relaxed items">
 			<div class="item">
-				<div class="ui tiny image">
-					<img src="static/img/husky-logo.png" class="ui centered image" />
+				<div class="ui tiny image" style=" background-image: url('{{picture}}');
+    background-size: cover;">
+					<!-- <img style="max-height:100%; max-width:100%;" src="{{picture}}" class="ui centered image" /> -->
 				</div>
 				<div class="middle aligned content">
 					<h2>{{company}}</h2>

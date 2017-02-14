@@ -118,11 +118,11 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 " +
 						"UNION " +
-						"SELECT HEX(o.user_id), HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"SELECT HEX(o.user_id), null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
 						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
 						"MIN(tooling), 'EG Estimate' " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
@@ -131,7 +131,7 @@ module.exports = function(jwt_key) {
 						"WHERE o.proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, o.created_at " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, u.picture AS picture, o.created_at " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 0";
 						return connection.execute(query, [req.params.proposal_id]);
@@ -213,6 +213,31 @@ module.exports = function(jwt_key) {
 					})
 					.catch((err) => {
 						callback({status: 400, message: "Please contact an admin."});
+					});
+			});
+		},
+		delete: function(req, callback) {
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else if (payload.type != 1)
+					callback({status: 401, message: "Only Suppliers are allowed to delete their offers."});
+				else
+					using(getConnection(), connection => {
+						var query = "DELETE FROM offers WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) AND status = 0 LIMIT 1";
+						return connection.execute(query, [req.params.proposal_id, payload.id]);
+					})
+					.spread(data => {
+						if (data.affectedRows == 0)
+							throw {status: 400, message: "Could not delete offer, please contact an admin."};
+						else
+							callback(false);
+					})
+					.catch(err => {
+						if (err.status)
+							callback(err);
+						else
+							callback({status: 400, message: "Please contact an admin."});
 					});
 			});
 		},

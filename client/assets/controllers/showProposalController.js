@@ -41,7 +41,7 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else
-				$location.url(`/show-proposal/${$routeParams.id}#${Date.now()}`);
+				$location.url(`/show-proposal/${$routeParams.id}`);
 		});
 	}
 })

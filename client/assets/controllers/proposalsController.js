@@ -2,6 +2,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	if (payload && $scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
+			console.log(data);
 			$scope.proposals = data;
 		});
 	}
@@ -45,8 +46,12 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
-				else
-					$location.url(`/proposals#${Date.now()}`);
+				else {
+					$scope.proposals.splice($scope.proposals.findIndex(function(proposal) {
+						if (proposal.id == $scope.id_to_delete)
+							return true;
+					}), 1);
+				}
 			});
 		}
 	};
@@ -106,7 +111,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 				console.log("error:", data.data.message)
 			else {
 				socket.emit("accept", offer);
-				$location.url(`/messages#${Date.now()}`)
+				$location.url("/messages");
 			}
 		});
 	};
