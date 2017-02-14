@@ -95,8 +95,15 @@ module.exports = function(jwt_key) {
 					})
 				})
 				.then(() => {
-					console.log("uploadedURL" + unescape(uploadedURL));
-					callback(false, {picture: unescape(uploadedURL)})
+					var evergreen_token = jwt.sign({
+						id: payload.id,
+						type: payload.type,
+						company: payload.company,
+						contact: payload.contact,
+						picture: unescape(uploadedURL),
+						created_at: payload.created_at
+					}, jwt_key, {expiresIn: "5d"});
+					callback(false, evergreen_token);
 				})
 				.catch(err => {
 					console.log(err);

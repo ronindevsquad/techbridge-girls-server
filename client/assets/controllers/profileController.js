@@ -47,25 +47,22 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 		}
 	}
 
-$scope.uploadPicture = function(){
+$scope.uploadPicture = function() {
 	var request = new XMLHttpRequest();
 	request.open("POST", "/uploadPicture");
 	request.onload = function() {
-		console.log("response:", this.response)
-		console.log("responseText:", this.responseText)
-		var response = JSON.parse(this.response);
-		$rootScope.picture = response
-		$scope.$apply();
-		// if (!response.message) {
-		// 	$scope.proposal.files = responseText;
-		// 	$scope.$apply();
-		// 	$scope.create();
-		// } else {
-		// 	console.log(response.message);
-		// }
+		// console.log("response:", this.response)
+		// console.log("responseText:", this.responseText)
+		// var response = JSON.parse(this.response);
+		// console.log(Date.now())
+		// $location.url(`/profile#${Date.now()}`)
 	}
 	var formData = new FormData(); //use FormData object to post picture with AJAX
-	formData.append("picture", unescape(document.getElementById('picture').files[0]));
+	var _ = document.getElementById('picture').files[0];
+	console.log(_)
+	formData.append("picture", document.getElementById('picture').files[0]);
 	request.send(formData);
+	$location.url(`/profile#${Date.now()}`)
+
 }
 });

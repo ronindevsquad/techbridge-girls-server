@@ -10,12 +10,11 @@ module.exports = function(jwt_key) {
 			});
 		},
 		uploadPicture: function(req, res) {
-			console.log(req.file);
 			url.uploadPicture(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.json(data.picture);
+					res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
 			});
 		},
 	}

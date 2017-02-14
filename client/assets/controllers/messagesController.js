@@ -10,6 +10,7 @@ offersFactory, messagesFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				console.log(data);
 				$scope.offers = data;
 
 				// Check if certain conversation requested in URL:
@@ -24,7 +25,7 @@ offersFactory, messagesFactory) {
 
 			}
 		});
-	}	
+	}
 	else
 		$location.url('/');
 
@@ -60,6 +61,7 @@ offersFactory, messagesFactory) {
 				message: $scope.new_message,
 				company: $rootScope.company,
 				contact: $rootScope.contact,
+				picture: $rootScope.picture,
 				proposal_id: $scope.cur_offer.proposal_id,
 				user_id: $rootScope.id,
 				created_at: new Date()
@@ -72,8 +74,8 @@ offersFactory, messagesFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else
-				$scope.new_message = "";				
-			});	
+				$scope.new_message = "";
+			});
 		}
 	}
 });
