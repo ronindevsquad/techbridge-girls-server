@@ -4,6 +4,9 @@ var getConnection = require("../config/mysql");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var uuid = require("uuid/v1");
+var mailgunKey = require('../../keys/APIkeys.js').mailgunKey
+var domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
+var mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: domain});
 
 module.exports = function(jwt_key) {
 	return {
@@ -221,6 +224,7 @@ module.exports = function(jwt_key) {
 									var evergreen_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
+										email: data[0].email,
 										company: data[0].company,
 										contact: data[0].contact,
 										created_at: data[0].created_at
@@ -279,6 +283,7 @@ module.exports = function(jwt_key) {
 									var evergreen_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
+										email: data[0].email,
 										company: data[0].company,
 										contact: data[0].contact,
 										created_at: data[0].created_at
@@ -323,6 +328,7 @@ module.exports = function(jwt_key) {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
 									type: data[0].type,
+									email: data[0].email,
 									company: data[0].company,
 									contact: data[0].contact,
 									created_at: data[0].created_at
@@ -356,6 +362,7 @@ module.exports = function(jwt_key) {
 						var evergreen_token = jwt.sign({
 							id: data[0].id,
 							type: data[0].type,
+							email: data[0].email,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at
@@ -368,6 +375,27 @@ module.exports = function(jwt_key) {
 					else
 						callback({status: 400, message: "Please contact an admin."});
 				});
+		},
+		sendTicket: function(req, callback){
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err)
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				else {
+					var data = {
+					  from: 'Evergreen Admin <from_address>', // replace <from_address>
+					  to: 'email@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
+					  subject: `Ticket issued from user ${payload.contact} at ${payload.company}`,
+					  text: `I encountered an issue.  Please contact me at ${payload.email}`
+					};
+
+					mailgun.messages().send(data, function (error, body) {
+						if (error)
+							console.log(error);
+						else
+					  	console.log(body);
+					});
+				}
+			});
 		}
 	}
 };
