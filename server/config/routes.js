@@ -25,6 +25,7 @@ module.exports = function(app, jwt_key) {
 	var messages = require('../controllers/messages')(jwt_key);
 
 	// USERS
+	app.get('/api/users/sendTicket', users.sendTicket);
 	app.get('/api/users/:id', users.show);
 	app.get('/api/users/notifications/:id', users.notifications);
 	app.put('/api/users', users.update);
