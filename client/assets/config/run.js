@@ -76,6 +76,7 @@ app.run(function($rootScope, $timeout) {
 			$rootScope.company = payload.company;
 			$rootScope.contact = payload.contact;
 			$rootScope.created_at = payload.created_at;
+			$rootScope.picture = payload.picture;
 			$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
 			$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
 			$rootScope.menu = false;

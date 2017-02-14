@@ -1,4 +1,4 @@
-app.controller('profileController', function ($scope, $location, $routeParams, usersFactory, urlsFactory) {
+app.controller('profileController', function ($scope, $location, $routeParams, $rootScope, usersFactory, urlsFactory) {
 	$scope.editingURLS = false;
 	if (payload) {
 		$scope.tab = "profile";
@@ -44,4 +44,27 @@ app.controller('profileController', function ($scope, $location, $routeParams, u
 			$scope.switchEditingURLS()
 		}
 	}
+}
+
+$scope.uploadPicture = function(){
+	var request = new XMLHttpRequest();
+	request.open("POST", "/uploadPicture");
+	request.onload = function() {
+		console.log("response:", this.response)
+		console.log("responseText:", this.responseText)
+		var response = JSON.parse(this.response);
+		$rootScope.picture = response
+		$scope.$apply();
+		// if (!response.message) {
+		// 	$scope.proposal.files = responseText;
+		// 	$scope.$apply();
+		// 	$scope.create();
+		// } else {
+		// 	console.log(response.message);
+		// }
+	}
+	var formData = new FormData(); //use FormData object to post picture with AJAX
+	formData.append("picture", document.getElementById('picture').files[0])
+	request.send(formData);
+}
 });

@@ -2,6 +2,7 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	if (payload && $scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
+			console.log(data);
 			$scope.proposals = data;
 		});
 	}

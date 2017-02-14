@@ -42,15 +42,16 @@
 					<!-- this is where we end the details panel -->
 					<div ng-repeat="proposal in proposals" class="ui resulted items">
 						<div class="item" ng-class="proposalView == proposal ? 'ui segment opened':''">
-							<div class="ui tiny image">
-								<img src="static/img/husky-logo.png" class="ui centered image" />
+							<div class="ui small calendar">
+								{{proposal.created_at | date:"MMM"}}<br />
+								<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
 									<a href="#!/show-proposal/{{proposal.id}}">{{proposal.quantity}} {{proposal.product}}</a> <!-- {{proposal.completion | date:"MMM y"}} -->
 								</div>
 								<div class="description">
-									<p>This maker needs you to make {{proposal.quantity}} {{proposal.product}}</p>
+									<p>{{proposal.info}}</p>
 								</div>
 							</div>
 							<div class="extra">
@@ -75,8 +76,9 @@
 
 												<div class="ui items message-contacts">
 													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="item" ng-class="{active: offer == offerView, orange: offer == offerView}" data-tab="applicant1">
-														<div class="ui tiny image">
-															<img src="static/img/husky-logo.png" class="ui centered image" />
+														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/husky-logo.png'}});
+										    background-size: cover;">
+															<!-- <img src="{{offer.picture? offer.picture:'static/img/husky-logo.png'}}" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
 															<h4>{{offer.company}}</h4>
@@ -130,7 +132,7 @@
 													</div>
 
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
-													<div ng-show="proposalView == proposal" style="" id="chart_div"></div>
+													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
 													<div class="green-square"></div>
 													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
 														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
@@ -171,8 +173,9 @@
 												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they dropped out</p>
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a ng-class="lead == leadView ? 'active':''" class="item" ng-click="leadViewAssign(lead)">
-														<div class="ui tiny image">
-															<img src="static/img/husky-logo.png" class="ui centered image" />
+														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/husky-logo.png'}});
+										    background-size: cover;">
+															<!-- <img src="static/img/husky-logo.png" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
 															<h4> {{lead.company}}</h4>
@@ -300,7 +303,7 @@
 <div class="ui small coupled modal sixteen centered grid" id="delete-modal">
 	<div class="header">Are you sure you want to delete this proposal?</div>
 	<div class="content">
-		<p>All of the offers for this proposal will be dropped as well. Click 'Confirm' to continue removing the proposal.</p>		
+		<p>All of the offers for this proposal will be dropped as well. Click 'Confirm' to continue removing the proposal.</p>
 	</div>
 	<div class="actions">
 		<button class="ui approve button" ng-click="delete()">Confirm</button><button class="ui cancel button">Cancel</button>

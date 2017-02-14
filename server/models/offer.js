@@ -118,11 +118,11 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 " +
 						"UNION " +
-						"SELECT HEX(o.user_id), HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"SELECT HEX(o.user_id), null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
 						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
 						"MIN(tooling), 'EG Estimate' " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
@@ -131,7 +131,7 @@ module.exports = function(jwt_key) {
 						"WHERE o.proposal_id = UNHEX(?)"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, o.created_at " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, u.picture AS picture, o.created_at " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 0";
 						return connection.execute(query, [req.params.proposal_id]);
