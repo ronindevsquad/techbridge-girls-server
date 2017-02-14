@@ -103,11 +103,11 @@ module.exports = function(jwt_key) {
 									Body: data,
 									ContentType: file.mimetype
 								}, function(err, success) {
-									if (err) 
+									if (err)
 										reject(err);
-									else 
+									else
 										resolve();
-								}) 
+								})
 							});
 						})
 						.then(() => {

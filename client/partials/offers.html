@@ -41,7 +41,8 @@
 						<a style="width: 100%;" ng-class="color" class="ui evergreen uppercase button" href="#!/show-offer/{{proposal.id}}/{{id}}">View Your Offer</a>
 						<br>
 						<br>
-						<a style="width: 100%;" class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View the Proposal</a>
+						<a style="width: 100%;" class="ui evergreen uppercase button orange" href="#!/show-proposal/{{proposal.id}}">View Proposal</a>
+						<small><a href="" class="delete-anchor">Withdraw offer</a></small>
 					</div> <!-- segment -->
 
 					<div class="ui right aligned grid">
@@ -54,78 +55,25 @@
 
 				</div>
 				<!-- End Supplier Zone -->
-
-
 			</div> <!-- .ui left continer -->
-
 		</section> <!-- .very padded segment -->
-
 		<div ng-include="'partials/footer.html'"></div>
-
 	</div> <!-- #greenwrapper -->
-
 </div>
 
 <!-- Modal -->
-<div class="ui small coupled modal sixteen centered grid" id="accept-modal">
-	<div class="five wide column" style="background-color: #47535F">
-		<div class="ui sixteen centered grid">
-			<div class="ui image sixteen wide column">
-				<img src="static/img/shield.png" class="ui centered image" />
-			</div>
-			<div class="sixteen wide column" style="color: white; text-align: center">
-				<p>Evergreen is 100%</p>
-			</div>
-			<div class="sixteen wide column" style="color: white; text-align: center">
-				<p>Safe &amp; Secure</p>
-			</div>
-		</div>
-	</div>
-	<div class="ten wide column">
-		<div class="actions" style="float: right">
-			<div class="ui cancel button"><i class="remove icon"></i></div>
-		</div>
-		<div class="header six wide column">
-			<h2>Accept offer</h2>
-		</div>
-		<div class="ui ten centered grid">
-			<div class="five wide column">
-				<h5>Deliver Date</h5>
-				<p>{{proposalView.completion | date:"dd.MM.y"}}</p>
-			</div>
-			<div class="five wide column">
-				<h5>Sub-total</h5>
-				<p>$ {{offerView.total}}</p>
-			</div>
-		</div>
-		<div class="field sixteen wide column">&nbsp;</div>
-		<form ng-submit="accept();" class="ui form">
-			<div class="field sixteen wide column">
-				<label>You will receive an invoice for the total amount of:</label>
-			</div>
-			<div class="field sixteen wide column">
-				<input type="text" name="input" ng-model="offerView.total" disabled>
-			</div>
-			<div class="field sixteen wide column">&nbsp;</div>
-			<div class="ui checkbox">
-				<input type="checkbox" name="accept-terms" id="accept-terms">
-				<label for="accept-terms">I have read and accept the Terms &amp; Conditions</label>
-			</div>
-			<div class="field sixteen wide column">&nbsp;</div>
-			<div class="field sixteen wide column">
-				<button ng-click="acceptOffer()" class="fluid ui orange button" type="submit">Accept and Continue</button>
-			</div>
-			<div class="field sixteen wide column">&nbsp;</div>
-		</form>
-	</div>
-</div>
-
 <div class="ui small coupled modal sixteen centered grid" id="delete-modal">
-	<div class="header">Are you sure you want to delete this proposal?</div>
+	<div class="header">Are you sure you want to withdraw your offer?</div>
 	<div class="content">
-		<p>All of the offers for this proposal will be dropped as well. Click 'Confirm' to continue removing the proposal.</p>		
+		<p>You can withdraw this offer while it hasn't been accepted yet. Click 'Confirm' to continue withdrawing your offer.</p>		
 	</div>
 	<div class="actions">
 		<button class="ui approve button" ng-click="delete()">Confirm</button><button class="ui cancel button">Cancel</button>
 	</div>
 </div>
+
+<!-- <script type="text/javascript">
+	$(".delete-anchor").click(function() {
+		$("#delete-modal").modal("show");
+	});
+</script> -->

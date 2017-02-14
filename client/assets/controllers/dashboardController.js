@@ -28,26 +28,19 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		$location.url('/');
 
 	$scope.getOffersForProposal = function(proposal){
-		if($scope.type == 0){ //makers can request more protected information than suppliers
-			offersFactory.index(proposal.id, function(data){
-				data.applications.pop();
-				$scope.offers = data.applications;
-				chartObject.dataset = $scope.offers
-				if ($scope.offers.length>0) {
-					organizeOffersForMaker($scope.offers)
-					chartObject.drawChart();
-				}
-			});
-		} else { //suppliers will only be able to see numbers related to other offers.
 			offersFactory.getOffersForProposal(proposal.id, function(data){
+				console.log(data);
 				$scope.offers = data; //the factory call is different for suppliers and returns data in a different format.
 				chartObject.dataset = $scope.offers
 				if ($scope.offers.length>0) {
-					organizeOffersForSupplier()
+					if($scope.type == 0){
+						organizeOffersForMaker()
+					}else{
+						organizeOffersForSupplier()
+					}
 					chartObject.drawChart();
 				}
 			});
-		}
 	} //end of getOffersForProposal
 	$scope.changeChartMetricTo = function(newMetric){
 		$scope.chartMetric = newMetric;
@@ -78,7 +71,8 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 	function organizeOffersForMaker(){
 		var indexOfSmallest = 0
 		var smallest = $scope.offers[0][chartObject.template.metric];
-		for(var i = 1; i < $scope.offers.length; i++){
+		for(var i = 0; i < $scope.offers.length; i++){
+			appendQualityEstimate($scope.offers[i])
 			if(parseInt($scope.offers[i][chartObject.template.metric]) < parseInt(smallest)){
 				indexOfSmallest = i
 			}
@@ -93,6 +87,7 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 		var indexOfSupplierViewing
 		var firstNBars = [];
 		for(var i = 0; i < $scope.offers.length; i++){
+			appendQualityEstimate($scope.offers[i])
 			if(parseInt($scope.offers[i][chartObject.template.metric]) < parseInt(smallest)){
 				indexOfSmallest = i;
 			}
@@ -119,6 +114,19 @@ app.controller('dashboardController', function ($scope, $location, proposalsFact
 			$scope.offers[i].company = "";
 		}
 	}
+
+	function appendQualityEstimate(application){
+		var quality = 1;
+		for(var i=0;i<application.machines.length;i++){
+			quality*=parseInt(application.machines[i].yield)/100
+			console.log("quality:"+quality);
+		}
+		for(var i=0;i<application.manuals.length;i++){
+			quality*=parseInt(application.manuals[i].yield)/100
+		}
+		application.quality = Math.floor(quality*100)
+	}
+
 
 	///////////////////////////////////////////////////////
 	// RUN WHENEVER THE CONTROLLER IS LOADED
