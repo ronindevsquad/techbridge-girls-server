@@ -5,6 +5,7 @@ app.factory('processesFactory', function($http, $cookies) {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			})
 			.then(function(res) {
+				console.log(res.data);
 				callback(res.data);
 			});
 		}

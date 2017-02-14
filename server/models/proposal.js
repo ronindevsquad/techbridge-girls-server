@@ -146,7 +146,7 @@ module.exports = function(jwt_key) {
 					.spread(data => {
 						return using(getConnection(), connection => {
 							if (data.length == 0)
-								callback(false);
+								return [];
 							else {
 								var _data = []
 								for (var i = 0; i < data.length; i++)
@@ -161,11 +161,9 @@ module.exports = function(jwt_key) {
 						});
 					})
 					.spread(data => {
-						console.log("cnt", data)
 						callback(false, data);
 					})
 					.catch(err => {
-						console.log(err)
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
