@@ -37,6 +37,7 @@ module.exports = function(app, jwt_key) {
 
 	// URLS
 	app.post('/api/urls', urls.create);
+	app.post('/uploadPicture', upload.single('picture'), urls.uploadPicture)
 
 	// PROPOSALS
 	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);

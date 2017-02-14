@@ -3,7 +3,14 @@ var using = Promise.using;
 var getConnection = require("../config/mysql");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-
+var fs = Promise.promisifyAll(require("fs"));
+var aws = require("aws-sdk");
+aws.config.update({
+accessKeyId: "AKIAIFF4LTNLXH75IA2A",
+secretAccessKey: "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",
+region: "us-west-1"
+});
+var s3 = new aws.S3();
 module.exports = function(jwt_key) {
 	return {
 		create: function(req, callback) {
@@ -46,6 +53,57 @@ module.exports = function(jwt_key) {
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
-		}
-	}
+		},
+		uploadPicture: function(req, callback) {
+			var uploadedURL;
+			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+				if (err) {
+					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+				} else if (!req.file) {
+					callback({status: 400, message: "No files were selected to upload."});
+				} else {
+					fs.readFileAsync(req.file.path)
+					.then( data => {
+						return new Promise((resolve, reject) => {
+							s3.upload({
+								Bucket: "ronintestbucket/picturefolder",
+								Key: req.file.filename,
+								Body: data,
+								ContentType: req.file.mimetype,
+								ACL: "public-read"
+							}, function(err, data) {
+								if (err)
+									reject(err);
+								else{
+									uploadedURL = data.Location
+									resolve(data.Location);
+								}
+							})
+						})
+						.then((pictureURL) => {
+							return using(getConnection(), connection => {
+								query = "UPDATE users SET picture = ?, updated_at = NOW() WHERE id = UNHEX(?)"
+								return connection.execute(query, [unescape(pictureURL), payload.id]);
+							}
+						);
+					})
+					.then(() => {
+						return fs.unlinkAsync(req.file.path);
+					})
+					.catch(err => {
+						throw err;
+					})
+				})
+				.then(() => {
+					console.log("uploadedURL" + unescape(uploadedURL));
+					callback(false, {picture: unescape(uploadedURL)})
+				})
+				.catch(err => {
+					console.log(err);
+					callback({status: 400, message: "Internal error, please contact an admin."});
+				});
+			}
+		});
+	},
+}
 };

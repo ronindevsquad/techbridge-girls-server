@@ -325,7 +325,8 @@ module.exports = function(jwt_key) {
 									type: data[0].type,
 									company: data[0].company,
 									contact: data[0].contact,
-									created_at: data[0].created_at
+									created_at: data[0].created_at,
+									picture: data[0].picture,
 								}, jwt_key, {expiresIn: "5d"});
 								callback(false, evergreen_token);
 							}
