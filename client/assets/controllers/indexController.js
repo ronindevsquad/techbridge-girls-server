@@ -1,9 +1,10 @@
 app.controller('indexController', function ($scope, $rootScope, $location, usersFactory) {
 	if (payload) {
-		if ($scope.type == 0)
-			$location.url('/dashboard');
-		else if ($scope.type == 1)
-			$location.url('/open-proposals');
+		// if ($scope.type == 0)
+		// 	$location.url('/dashboard');
+		// else if ($scope.type == 1)
+		// 	$location.url('/open-proposals');
+		$location.url('/dashboard');
 	}
 	// else if (IN.User.isAuthorized()){
 	// 	IN.User.logout(function(){});
