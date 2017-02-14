@@ -96,9 +96,11 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					using(getConnection(), connection => {
+						var user_id = (payload.type==0?"offers.user_id":"proposals.user_id")
 						var query = "SELECT offers.*, users.picture, HEX(proposal_id) AS proposal_id FROM offers " +
-						"JOIN users ON users.id = offers.user_id " +
-						"LEFT JOIN proposals ON offers.proposal_id = proposals.id WHERE (offers.user_id = UNHEX(?) OR " +
+						"LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
+						"JOIN users ON users.id = " + user_id +
+						" WHERE (offers.user_id = UNHEX(?) OR " +
 						"proposals.user_id = UNHEX(?)) AND offers.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
 					})
@@ -225,7 +227,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Suppliers are allowed to delete their offers."});
 				else
 					using(getConnection(), connection => {
-						var query = "DELETE FROM offers WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) AND status = 0 LIMIT 1";
+						var query = "DELETE FROM offers WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) AND status < 2 LIMIT 1";
 						return connection.execute(query, [req.params.proposal_id, payload.id]);
 					})
 					.spread(data => {
@@ -235,6 +237,7 @@ module.exports = function(jwt_key) {
 							callback(false);
 					})
 					.catch(err => {
+						console.log(err);
 						if (err.status)
 							callback(err);
 						else
