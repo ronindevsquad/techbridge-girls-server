@@ -61,6 +61,7 @@ offersFactory, messagesFactory) {
 				message: $scope.new_message,
 				company: $rootScope.company,
 				contact: $rootScope.contact,
+				picture: $rootScope.picture,
 				proposal_id: $scope.cur_offer.proposal_id,
 				user_id: $rootScope.id,
 				created_at: new Date()
