@@ -224,7 +224,7 @@ module.exports = function(jwt_key) {
 									var evergreen_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
-										email: data[0].email,
+
 										company: data[0].company,
 										contact: data[0].contact,
 										created_at: data[0].created_at
@@ -283,7 +283,7 @@ module.exports = function(jwt_key) {
 									var evergreen_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
-										email: data[0].email,
+
 										company: data[0].company,
 										contact: data[0].contact,
 										created_at: data[0].created_at
@@ -328,7 +328,7 @@ module.exports = function(jwt_key) {
 								var evergreen_token = jwt.sign({
 									id: data[0].id,
 									type: data[0].type,
-									email: data[0].email,
+
 									company: data[0].company,
 									contact: data[0].contact,
 									created_at: data[0].created_at,
@@ -363,7 +363,6 @@ module.exports = function(jwt_key) {
 						var evergreen_token = jwt.sign({
 							id: data[0].id,
 							type: data[0].type,
-							email: data[0].email,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at
@@ -382,19 +381,32 @@ module.exports = function(jwt_key) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
-					var data = {
-					  from: 'Evergreen Admin <from_address>', // replace <from_address>
-					  to: 'email@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
-					  subject: `Ticket issued from user ${payload.contact} at ${payload.company}`,
-					  text: `I encountered an issue.  Please contact me at ${payload.email}`
-					};
+					using(getConnection(), connection => {
+						var query = "SELECT * FROM users WHERE id = UNHEX(?) LIMIT 1";
+						return connection.execute(query, [payload.id]);
+					})
+					.spread(data => {
+						var mail = {
+							from: 'Evergreen Admin <from_address>', // replace <from_address>
+							to: 'email@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
+							subject: `Ticket issued from user ${data.contact} at ${data.company}`,
+							text: `I encountered an issue.  Please contact me at ${data.email}`
+						};
 
-					mailgun.messages().send(data, function (error, body) {
-						if (error)
-							console.log(error);
+						mailgun.messages().send(mail, function (error, body) {
+							if (error)
+								console.log(error);
+							else
+								callback(false, "Ticket has been sent.");
+						});
+					})
+					.catch(err => {
+						if (err.status)
+							callback(err);
 						else
-					  	console.log(body);
+							callback({status: 400, message: "Please contact an admin."});
 					});
+
 				}
 			});
 		}
