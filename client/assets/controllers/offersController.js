@@ -1,5 +1,6 @@
 app.controller('offersController', function ($scope, $location, proposalsFactory, offersFactory) {
 	if (payload && $scope.type == 1) {
+		$scope.tab = "offers";
 		proposalsFactory.getMyApplications(function(data) {
 			$scope.proposals = data;
 			$scope.id_to_delete;
