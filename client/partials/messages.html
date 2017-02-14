@@ -39,7 +39,7 @@
 										</div>
 										<a ng-style="{'background-color': offer.proposal_id==cur_offer.proposal_id&&type?'#7AC200':offer.proposal_id==cur_offer.proposal_id&&!type?'#F6A623':''}" class="item" data-tab="message1" ng-class="{active: offer.proposal_id==cur_offer.proposal_id}" ng-click="showMessages(offer)">
 											<div class="ui tiny image">
-												<img src="static/img/husky-logo.png" class="ui centered image" />
+												<img src="{{offer.picture}}" class="ui centered image" />
 											</div>
 											<div class="middle aligned content">
 												<h4>{{offer.company}}</h4>
@@ -62,7 +62,7 @@
 										<div class="ui grid" ng-repeat="message in messages">
 											<div class="row">
 												<div class="two wide column">
-													<img src="static/img/husky-logo.png" class="ui tiny centered image">
+													<img ng-src="{{message.picture}}" class="ui tiny centered image">
 												</div>
 												<div class="fourteen wide column">
 													<b>{{message.contact}} ({{message.company}})</b> - <small class="muted" ng-bind="message.created_at | date:'short'"></small>
