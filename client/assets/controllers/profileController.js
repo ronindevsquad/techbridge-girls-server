@@ -1,19 +1,5 @@
 app.controller('profileController', function ($scope, $location, $routeParams, $rootScope, usersFactory, urlsFactory) {
 	$scope.editingURLS = false;
-	if (payload) {
-		$scope.tab = "profile";
-		$scope.company = payload.company; //used to determine whether some elements should be hidden or displayed.
-		if ($routeParams.id) { //if there are parameters in the url then use them to query for the backend.
-			$scope.viewingOtherProfile = true;
-			$scope.profilerequest = $routeParams.id
-		} else {
-			$scope.profilerequest = payload.id
-			$scope.requestProfile();
-		}
-	}
-	else {
-		$location.url('/');
-	}
 
 	$scope.requestProfile = function() {
 		usersFactory.show($scope.profilerequest, function(data) { //we could be viewing our own profile or another company's
@@ -30,21 +16,36 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 		});
 	} //this function is invoked when the controller loads.
 
+	if (payload) {
+		$scope.tab = "profile";
+		$scope.company = payload.company; //used to determine whether some elements should be hidden or displayed.
+		if ($routeParams.id) { //if there are parameters in the url then use them to query for the backend.
+			$scope.viewingOtherProfile = true;
+			$scope.profilerequest = $routeParams.id;
+		} else {
+			$scope.profilerequest = payload.id;
+			$scope.requestProfile();
+		}
+	}
+	else {
+		$location.url('/');
+	}
+
+
 	$scope.switchEditingURLS = function() {
 		$scope.editingURLS? $scope.editingURLS=false:$scope.editingURLS=true
 	}
 
 	$scope.updateURLS = function(){
-		if(true){
+		if (true) {
 			urlsFactory.create($scope.user, function(data){
 				$scope.switchEditingURLS()
 				$scope.requestProfile()
 			});
-		}else {
+		} else {
 			$scope.switchEditingURLS()
 		}
 	}
-}
 
 $scope.uploadPicture = function(){
 	var request = new XMLHttpRequest();
@@ -64,7 +65,7 @@ $scope.uploadPicture = function(){
 		// }
 	}
 	var formData = new FormData(); //use FormData object to post picture with AJAX
-	formData.append("picture", document.getElementById('picture').files[0])
+	formData.append("picture", unescape(document.getElementById('picture').files[0]));
 	request.send(formData);
 }
 });
