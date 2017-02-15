@@ -72,6 +72,9 @@ app.config(function ($routeProvider) {
 		templateUrl: "partials/processes.html",
 		controller: "processesController"
 	})
+	.when("/error", {
+		templateUrl: "partials/error.html"
+	})
 	.otherwise({
 		redirectTo: "/"
 	});
