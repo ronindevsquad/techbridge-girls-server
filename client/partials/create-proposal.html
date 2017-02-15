@@ -68,7 +68,7 @@
 				<strong>What do you need produced?</strong> <i class="help circle outline icon"></i>
 			</span>
 		</label>
-		<input placeholder="Product" type="text" ng-model="proposal.product" required>
+		<input placeholder="{{company}}'s product" type="text" ng-model="proposal.product" required>
 	</div> <!-- .field -->
 
 	<div class="field">
@@ -77,7 +77,7 @@
 				<strong>How many units do you need?</strong> <i class="help circle outline icon"></i>
 			</span>
 		</label>
-		<input type="number" min="1" step="1" ng-model="proposal.quantity" required>
+		<input type="number" min="1" step="1" placeholder="10000" ng-model="proposal.quantity" required>
 	</div> <!-- .field -->
 
 	<div class="field">
@@ -163,7 +163,7 @@
 					</span>
 				</label>
 
-				<textarea cols="6" ng-model="proposal.info"></textarea>
+				<textarea cols="6" ng-model="proposal.info" placeholder="Let our network of suppliers know what else you need like 'I need the shirts to be dye sublimated'"></textarea>
 
 			</div> <!-- field -->
 		</div> <!-- .big form -->

@@ -1,7 +1,7 @@
 app.factory('chartsFactory', function($q) {
 	var chart;
 
-	// Class definition:
+	// ChartGenerator class definition:
 	function ChartGenerator() {
 		var self = this;
 		var defaultChartWidth = 1000
