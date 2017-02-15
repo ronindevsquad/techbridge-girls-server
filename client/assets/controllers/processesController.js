@@ -9,7 +9,7 @@ app.controller('processesController', function ($scope, $location, processesFact
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else
-				$location.url('/open-proposals');
+				$location.url('/dashboard');
 		});
 	}
 });

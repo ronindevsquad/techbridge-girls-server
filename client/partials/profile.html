@@ -45,14 +45,20 @@
 										<div class="item">
 											<i class="world icon"></i>
 											<div class="content">
-												<a ng-show="!editingURLS" href="http://{{user.homepage}}">{{user.company}}'s Homepage</a><span ng-if="!user.homepage">No home page yet!</span>
+												<a ng-show="!editingURLS" href="{{user.homepage == null ? '#!/profile':user.homepage}}">{{user.company}}'s Homepage</a>
+												<span ng-if="!user.homepage">
+													&nbsp; {{editingURLS == false ? 'No home page yet!  Add your company link by clicking edit': 'Copy and Paste your home page below'}}
+												</span>
 												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.homepage" placeholder="{{user.homepage}}">
 											</div>
 										</div>
 										<div class="item">
 											<i class="linkedin icon"></i>
 											<div class="content">
-												<a ng-show="!editingURLS" href="http://{{user.linkedin}}">{{user.company}}'s Linkedin</a><span ng-if="!user.linkedin">No LinkedIn page yet!</span>
+												<a ng-show="!editingURLS" href="{{user.linkedin == null ? '#!/profile':user.linkedin}}">{{user.company}}'s Linkedin</a>
+												<span ng-if="!user.linkedin">
+													&nbsp; {{editingURLS == false ? 'No LinkedIn page yet!  Add your company link by clicking edit': 'Copy and Paste your LinkedIn page below'}}
+												</span>
 												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.linkedin" placeholder="{{user.linkedin}}">
 
 											</div>
@@ -60,7 +66,10 @@
 										<div class="item">
 											<i class="facebook f icon"></i>
 											<div class="content">
-												<a ng-show="!editingURLS" href="http://{{user.facebook}}">{{user.company}}'s Facebook</a><span ng-if="!user.facebook">No Facebook page yet!</span>
+												<a ng-show="!editingURLS" href="{{user.facebook == null ? '#!/profile':user.facebook}}">{{user.company}}'s Facebook</a>
+												<span ng-if="!user.facebook">
+													&nbsp; {{editingURLS == false ? 'No Facebook page yet!  Add your company link by clicking edit': 'Copy and Paste your Facebook page below'}}
+												</span>
 												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.facebook" placeholder="{{user.facebook}}">
 
 											</div>
@@ -68,7 +77,10 @@
 										<div class="item">
 											<i class="twitter icon"></i>
 											<div class="content">
-												<a ng-show="!editingURLS" href="http://{{user.twitter}}">{{user.company}}'s Twitter</a><span ng-if="!user.twitter">No Twitter page yet!</span>
+												<a ng-show="!editingURLS" href="{{user.twitter == null ? '#!/profile':user.twitter}}">{{user.company}}'s Twitter</a>
+												<span ng-if="!user.twitter">
+													&nbsp; {{editingURLS == false ? 'No Twitter page yet!  Add your company link by clicking edit': 'Copy and Paste your Twitter page below'}}
+												</span>
 												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.twitter" placeholder="{{user.twitter}}">
 
 											</div>
@@ -76,7 +88,10 @@
 										<div class="item">
 											<i class="instagram icon"></i>
 											<div class="content">
-												<a ng-show="!editingURLS" href="http://{{user.instagram}}">{{user.company}}'s Instagram</a><span ng-if="!user.instagram">No instagram page yet!</span>
+												<a ng-show="!editingURLS" href="{{user.instagram == null ? '#!/profile':user.instagram}}">{{user.company}}'s Instagram</a>
+												<span ng-if="!user.instagram">
+													&nbsp; {{editingURLS == false ? 'No Instagram page yet!  Add your company link by clicking edit': 'Copy and Paste your Instagram page below'}}
+												</span>
 												<input ng-show="editingURLS" type="text" name="homepage" ng-model="user.instagram" placeholder="{{user.instagram}}">
 
 											</div>

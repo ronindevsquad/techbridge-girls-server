@@ -10,12 +10,12 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 
 	//AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
 	$scope.proposal.processes = ["Automation"];
-	$scope.proposal.product = $scope.company + "s product";
-	$scope.proposal.quantity = 200;
+	$scope.proposal.product = payload.company + "s product";
+	$scope.proposal.quantity = 10000;
 	$scope.proposal.completion = new Date("2017-09-19T19:49:21+04:00");
-	$scope.proposal.zip = 95129;
+	// $scope.proposal.zip = 95129;
 	$scope.proposal.audience = 0;
-	$scope.proposal.info = "test info";
+	$scope.proposal.info = "Let our network of suppliers know what else you need";
 
 	$scope.logVariables = function(){
 		console.log($scope.proposal);
