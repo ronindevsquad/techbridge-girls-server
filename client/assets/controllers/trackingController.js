@@ -1,5 +1,5 @@
 app.controller('trackingController', function ($scope, $location, reportsFactory, proposalsFactory) {
-	if (payload) {
+	if ($scope.id) {
 		$scope.tab = "tracking";
 		$scope.show_report = false;
 		$scope.today = new Date().setHours(0,0,0,0);

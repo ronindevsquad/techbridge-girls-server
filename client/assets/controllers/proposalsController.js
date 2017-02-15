@@ -1,5 +1,6 @@
-app.controller('proposalsController', function ($scope, $location, proposalsFactory, offersFactory) {
-	if (payload && $scope.type == 0) {
+app.controller('proposalsController', function ($scope, $location, $interval,
+proposalsFactory, offersFactory, chartsFactory) {
+	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
 			console.log(data);
@@ -9,22 +10,46 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 	else
 		$location.url('/');
 
+	var chart = chartsFactory.chart;
+
 	//////////////////////////////////////////////////////
 	//										HELPER FUNCTIONS
 	//////////////////////////////////////////////////////
+	var chart;
+
+	function initializeChart() {
+		if (angular.isDefined(chart))
+			$interval.cancel(chart);
+
+		chart = chartsFactory.getChart();
+		$scope.is_loaded = true;
+	};
+
+	// Make sure chart is loaded:
+	if (!chartsFactory.getChart()) {
+		chart = $interval(function() {
+			console.log(chartsFactory.getChart());
+			if (chartsFactory.getChart())
+				initializeChart();
+		}, 100);
+	}
+	else 
+		initializeChart();
+
 	$scope.leadViewAssign = function(lead) {
 		$scope.leadView = lead;
 	};
 
 	function refreshChart() {
-		try{
-			chartObject.template.metric = "total"
-			chartObject.template.charttitle = "Comparing Offers By Total Cost"
-			chartObject.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
-			chartObject.dataset = $scope.offers
-			chartObject.firstNBars = [$scope.EGcost, $scope.offerView]
-			chartObject.customColorsForFirstNBars = ['#7AC200','orange']
-			chartObject.drawChart();
+		try {
+			chart.template.metric = "total"
+			chart.template.charttitle = "Comparing Offers By Total Cost"
+			chart.template.width = document.getElementById('chart_div').parentElement.offsetWidth - 
+			(2 * document.getElementById('chart_div').parentElement.padding);
+			chart.dataset = $scope.offers
+			chart.firstNBars = [$scope.EGcost, $scope.offerView]
+			chart.customColorsForFirstNBars = ['#7AC200','orange']
+			chart.drawChart();
 			$scope.$apply()
 		}
 		catch(err) {
@@ -66,28 +91,34 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 		}
 		else {
 			offersFactory.index(proposal.id, function(data) {
-				console.log(data);
-				$scope.proposalView = proposal;
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else {
+					console.log(data);
+					$scope.proposalView = proposal;
 
-				if(data.leads.length >= 1) {
-					$scope.leads = data.leads;
-					$scope.leadView = data.leads[0]
-				} else {
-					$scope.leads = undefined;
-					$scope.leadView = undefined;
-				}
+					if(data.leads.length >= 1) {
+						$scope.leads = data.leads;
+						$scope.leadView = data.leads[0]
+					} else {
+						$scope.leads = undefined;
+						$scope.leadView = undefined;
+					}
 
-				if(data.applications.length>1) {
-					$scope.EGcost = data.applications.pop();
-					$scope.offers = data.applications;
-					$scope.offerView = $scope.offers[0];
-					$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
-					refreshChart()
-				} else {
-					$scope.offers = undefined;
-					$scope.offerView = undefined;
+					if(data.applications.length>1) {
+						$scope.EGcost = data.applications.pop();
+						$scope.offers = data.applications;
+						$scope.offerView = $scope.offers[0];
+						$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
+						refreshChart()
+					} else {
+						$scope.offers = undefined;
+						$scope.offerView = undefined;
 					// refreshChart();
 				}
+			}
 			});
 		}
 	};
@@ -118,7 +149,11 @@ app.controller('proposalsController', function ($scope, $location, proposalsFact
 
 	$scope.removeLead = function(lead) {
 		offersFactory.removeLead(lead, function(data) {
-			if (data.length > 0) {
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else if (data.length > 0) {
 				$scope.leads = data;
 				$scope.leadView = data[0];
 			} else {

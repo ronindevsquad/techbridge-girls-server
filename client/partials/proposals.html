@@ -14,7 +14,18 @@
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
 
-			<div class="ui left details"  style="margin-bottom: 50px;">
+			<div id="floatingCirclesG" ng-show="!is_loaded">
+				<div class="f_circleG" id="frotateG_01"></div>
+				<div class="f_circleG" id="frotateG_02"></div>
+				<div class="f_circleG" id="frotateG_03"></div>
+				<div class="f_circleG" id="frotateG_04"></div>
+				<div class="f_circleG" id="frotateG_05"></div>
+				<div class="f_circleG" id="frotateG_06"></div>
+				<div class="f_circleG" id="frotateG_07"></div>
+				<div class="f_circleG" id="frotateG_08"></div>
+			</div>
+
+			<div class="ui left details" style="margin-bottom: 50px;" ng-show="is_loaded">
 
 				<div class="ui segment">
 					<div class="ui right aligned grid filters-top">
@@ -215,8 +226,6 @@
 							</div>
 						</div>
 					</div>
-
-
 
 					<div class="ui pagination secondary menu">
 						<a class="active item">

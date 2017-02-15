@@ -81,9 +81,9 @@
 
 											</div>
 										</div>
-										<button ng-class="color" class="ui big uppercase button" ng-show="!editingURLS && !viewingOtherProfile" ng-click="switchEditingURLS()" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
+										<button ng-class="color" class="ui big uppercase button" ng-show="!editingURLS && !viewingOtherProfile" ng-click="editingURLS=!editingURLS" type="button" name="button">Edit</button> <!--HIDE IF USER IS CURRENTLY EDITING -->
 										<button class="ui big uppercase button green" ng-show="editingURLS" ng-click="updateURLS()" type="button" name="button">Save</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
-										<button class="ui big uppercase button red" ng-show="editingURLS" ng-click="switchEditingURLS()" type="button" name="button">Cancel</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
+										<button class="ui big uppercase button red" ng-show="editingURLS" ng-click="editingURLS=!editingURLS" type="button" name="button">Cancel</button> <!--HIDE IF USER IS NOT CURRENTLY EDITING -->
 									</div> <!-- .ui list -->
 								</div> <!-- .column -->
 								<!-- <div class="sixteen wide tablet eight wide computer column middle aligned">

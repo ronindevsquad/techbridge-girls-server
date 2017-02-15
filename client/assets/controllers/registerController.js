@@ -1,10 +1,15 @@
-app.controller("registerController", function ($scope, $location, $routeParams, usersFactory) {
-	if (payload || $scope.type === undefined)
+app.controller("registerController", function ($scope, $scope, $location, $routeParams, usersFactory) {
+	if ($scope.id)
 		$location.url("/");
+	else {
+		$scope.new_user = {};
+		if ($routeParams.type == "maker")
+			$scope.new_user.type = 0;
+		else if ($routeParams.type == "supplier")
+			$scope.new_user.type = 1;
+	}
 
-	$scope.new_user = {};
 	$scope.register = function() {
-		$scope.new_user.type = $scope.type;
 		$scope.error = null;
 		if (IN.User.isAuthorized())
 			return registerLinkedIn($scope.new_user);
@@ -26,11 +31,11 @@ app.controller("registerController", function ($scope, $location, $routeParams, 
 			if ($scope.new_user.email == data.emailAddress){
 				usersFactory.registerLinkedIn($scope.new_user, function(data){
 					if (data.status == 401)
-					$scope.logout();
+						$scope.logout();
 					else if (data.status >= 300)
-					$scope.error = data.data.message;
+						$scope.error = data.data.message;
 					else
-					$location.url('/success');
+						$location.url('/success');
 				});
 			} else {
 				$scope.error = "Email is not LinkedIn Email"

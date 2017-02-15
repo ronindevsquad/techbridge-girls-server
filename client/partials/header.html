@@ -38,13 +38,13 @@
 			<a href="#!/messages" class="menu-tab">Messages</a>
 		</div>
 		<div class="three wide column">
-		<a href="#!/messages" ng-class="color" class="ui circular label">{{myMessages}}</a>
+			<a href="#!/messages" ng-class="color" class="ui circular label">{{myMessages}}</a>
 		</div>
 		<div class="thirteen wide column">
 			<a href="#!/proposals" class="menu-tab">Responded Proposals</a>
 		</div>
 		<div class="three wide column">
-		<a href="#!/proposals" ng-class="color" class="ui circular label">{{myProposals}}</a>
+			<a href="#!/proposals" ng-class="color" class="ui circular label">{{myProposals > 0 ? myProposals : '0'}}</a>
 		</div>
 	</div>
 </div>
@@ -54,8 +54,7 @@
 
 		<div ng-show="!viewingOtherProfile" class="ui relaxed items">
 			<div class="item">
-				<div class="ui tiny image" style=" background-image: url('{{picture}}');
-    background-size: cover;">
+				<div class="ui tiny image" style=" background-image: url('{{picture}}'); background-size: cover;">
 					<!-- <img style="max-height:100%; max-width:100%;" src="{{picture}}" class="ui centered image" /> -->
 				</div>
 				<div class="middle aligned content">
@@ -67,18 +66,18 @@
 
 		<div ng-show="!viewingOtherProfile" class="ui pointing secondary menu">
 			<a class="item" ng-if="type==1" ng-class="{active: tab=='open'}" href="#!/open-proposals">Open Proposals</a>
-			<a class="item" ng-class="{active: tab=='dashboard'}" href="#!/dashboard">Dashboard</a>
+			<a class="item" ng-class="{active: tab =='dashboard'}" href="#!/dashboard">Dashboard</a>
 			<a class="item" ng-class="{active: tab=='proposals'}" href="#!/proposals" ng-if="type==0">Proposals
-				<span class="ui circular label">{{myProposals}}</span>
+				<span ng-show="myProposals" class="ui circular label" ng-show="myProposals>0">{{myProposals}}</span>
 			</a>
-			<a class="item" ng-class="{active: tab=='offers'}" href="#!/offers" ng-if="type==1">Offers
-				<span class="ui circular label">{{myProposals}}</span>
+			<a class="item" ng-class="{active: tab =='offers'}" href="#!/offers" ng-if="type==1">Offers
+				<span ng-show="myProposals" class="ui circular label" ng-show="myProposals>0">{{myProposals}}</span>
 			</a>
-			<a class="item" ng-class="{active: tab=='messages'}" href="#!/messages">Messages
+			<a class="item" ng-class="{active: tab =='messages'}" href="#!/messages">Messages
 				<span ng-show="myMessages > 0" class="ui circular red label">.</span>
 			</a>
-			<a class="item" ng-class="{active: tab=='tracking'}" href="#!/tracking">{{type==0?'Track':'Update'}} Progress
-				<span class="ui circular label">{{myJobs}}</span>
+			<a class="item" ng-class="{active: tab =='tracking'}" href="#!/tracking">{{type==0?'Track':'Update'}} Progress
+				<span ng-show="myJobs" class="ui circular label" ng-show="{{myJobs}}">{{myJobs}}</span>
 			</a>
 			<a class="item" ng-class="{active: tab=='profile'}" href="#!/profile">Profile</a>
 		</div> <!-- .menu -->

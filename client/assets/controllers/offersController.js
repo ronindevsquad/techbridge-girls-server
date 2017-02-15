@@ -1,5 +1,5 @@
 app.controller("offersController", function ($scope, $location, proposalsFactory, offersFactory) {
-	if (payload && $scope.type == 1) {
+	if ($scope.type == 1) {
 		$scope.tab = "offers";
 		proposalsFactory.getMyApplications(function(data) {
 			if (data.status == 401)

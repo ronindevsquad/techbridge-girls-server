@@ -1,8 +1,5 @@
 app.controller('processesController', function ($scope, $location, processesFactory) {
-	if (payload && $scope.type == 1) {
-
-	}
-	else
+	if ($scope.type != 1)
 		$location.url('/');
 
 	$scope.setProcesses = function() {

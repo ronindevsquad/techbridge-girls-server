@@ -1,5 +1,5 @@
 app.controller('openProposalsController', function ($scope, $location, $routeParams, $anchorScroll, proposalsFactory) {
-	if (payload && $scope.type == 1) {
+	if ($scope.type == 1) {
 		$scope.tab = "open";
 		$scope.sortExpression = 'created_at';
 		$scope.sortOrder = 'reverse';

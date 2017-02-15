@@ -1,7 +1,6 @@
 app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
-	if (payload) {
+	if ($scope.id) {
 		proposalsFactory.show($routeParams.id, function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)

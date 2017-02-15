@@ -1,6 +1,6 @@
 app.controller('messagesController', function ($scope, $rootScope, $location, $timeout, $routeParams,
-offersFactory, messagesFactory) {
-	if (payload) {
+offersFactory, messagesFactory, socketsFactory) {
+	if ($scope.id) {
 		$scope.tab = "messages";
 		$scope.status = 0;
 
@@ -66,7 +66,7 @@ offersFactory, messagesFactory) {
 				user_id: $rootScope.id,
 				created_at: new Date()
 			}
-			socket.emit('send', data);
+			socketsFactory.emit('send', data);
 
 			messagesFactory.create(data, function(data) {
 			if (data.status == 401)

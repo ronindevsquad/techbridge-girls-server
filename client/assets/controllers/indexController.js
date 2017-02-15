@@ -1,13 +1,7 @@
-app.controller('indexController', function ($scope, $rootScope, $location, usersFactory) {
-	if (payload) {
-		if ($scope.type == 0)
-			$location.url('/dashboard');
-		else if ($scope.type == 1)
-			$location.url('/open-proposals');
+app.controller('indexController', function ($scope, $rootScope, $location, sessionFactory, usersFactory) {
+	if ($scope.id) {
+		$location.url('/dashboard');
 	}
-	// else if (IN.User.isAuthorized()){
-	// 	IN.User.logout(function(){});
-	// }
 
 	$scope.login = function() {
 		$scope.error = null;
@@ -17,7 +11,7 @@ app.controller('indexController', function ($scope, $rootScope, $location, users
 			else if (data.status >= 300)
 				$scope.error = data.data.message;
 			else {
-				$scope.setUser();
+				sessionFactory.setUser();
 				if ($scope.type == 0)
 					$location.url('/dashboard');
 				else if ($scope.type == 1)
@@ -35,7 +29,7 @@ app.controller('indexController', function ($scope, $rootScope, $location, users
 					else if (data.status >= 300)
 						$scope.error = data.data.message;
 					else {
-						$scope.setUser();
+						sessionFactory.setUser();
 						if ($scope.type == 0)
 							$location.url('/dashboard');
 						else if ($scope.type == 1)
@@ -45,10 +39,4 @@ app.controller('indexController', function ($scope, $rootScope, $location, users
 			});
 		});
 	};
-
-	$scope.register = function(type) {
-		$rootScope.type = type;
-		$rootScope.color = type == 0 ? "orange" : "green";
-		$location.url("/register");
-	}
 });

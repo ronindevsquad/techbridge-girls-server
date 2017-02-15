@@ -1,5 +1,5 @@
 app.controller("createProposalController", function ($scope, $route, $location, proposalsFactory) {
-	if (payload && $scope.type == 0) {
+	if ($scope.type == 0) {
 		$scope.today = new Date();
 		$scope.documentsCount = 0;
 		$scope.proposal = {info: ""};
@@ -10,7 +10,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 
 	//AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
 	$scope.proposal.processes = ["Automation"];
-	$scope.proposal.product = payload.company + "s product";
+	$scope.proposal.product = $scope.company + "s product";
 	$scope.proposal.quantity = 200;
 	$scope.proposal.completion = new Date("2017-09-19T19:49:21+04:00");
 	$scope.proposal.zip = 95129;

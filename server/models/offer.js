@@ -97,8 +97,8 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var user_id = (payload.type==0?"offers.user_id":"proposals.user_id")
-						var query = "SELECT offers.*, users.picture, HEX(proposal_id) AS proposal_id FROM offers " +
-						"LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
+						var query = "SELECT offers.*, picture, contact, company, offers.updated_at AS updated_at, " +
+						"HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
 						"JOIN users ON users.id = " + user_id +
 						" WHERE (offers.user_id = UNHEX(?) OR " +
 						"proposals.user_id = UNHEX(?)) AND offers.status > 1";
@@ -145,6 +145,7 @@ module.exports = function(jwt_key) {
 						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err)
 						callback({status: 400, message: "Please contact an admin."})
 					});
 				}

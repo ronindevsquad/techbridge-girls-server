@@ -1,6 +1,6 @@
 app.controller('createOfferController', function ($scope, $location, $routeParams, $anchorScroll,
 	proposalsFactory, offersFactory) {
-	if (payload && $scope.type == 1) {
+	if ($scope.type == 1) {
 		$scope.today = new Date();
 		offersFactory.show($routeParams.id, $scope.id, function(data) {
 			if (data.status == 401)
@@ -10,7 +10,7 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 			else if (data.status < 0)
 				$location.url("/open-proposals");
 			else if (data.status > 0)
-				$location.url(`/offer/${$routeParams.id}/${payload.id}`);
+				$location.url(`/offer/${$routeParams.id}/${$scope.id}`);
 			else if (data.status === 0) {
 				$scope.offer = {
 					proposal_id: $routeParams.id,
@@ -52,8 +52,8 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 				$scope.logout();
 			else if (data.status >= 300){
 				$scope.error = data.data.message;
-				console.log($scope.error);}
-			else {
+				console.log($scope.error);
+			} else {
 				$scope.sent = true;
 				$("#offerSent").modal("show");
 			}
