@@ -1,5 +1,5 @@
 app.controller('dashboardController', function ($scope, $location, $interval,
-proposalsFactory, offersFactory, usersFactory, chartsFactory) {
+ $timeout, proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 	if ($scope.id) {
 		$scope.tab = "dashboard";
 		$scope.chartMetric = "total";
@@ -46,7 +46,7 @@ proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 			$interval.cancel(chart);
 
 		chart = chartsFactory.getChart();
-		chart.template.width = document.getElementById('chartholder').parentElement.offsetWidth - (2 * document.getElementById('chartholder').parentElement.padding);
+		chart.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 		chart.customColorsForFirstNBars = ['#7AC200']
 		chart.dataset = null;
 		chart.clearChartData();
@@ -61,7 +61,7 @@ proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 				initializeChart();
 		}, 100);
 	}
-	else 
+	else
 		initializeChart();
 
 	$scope.changeChartMetricTo = function(newMetric) {
@@ -98,16 +98,17 @@ proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 				indexOfBest = i;
 			}
 		}
+		chart.customColorsForFirstNBars = ['#7AC200'];
 		chart.firstNBars = [$scope.offers[indexOfBest]];
 	};
 
 	function organizeOffersForSupplier() {
-		// For suppliers, the "company" of each offer doesn't exist. 
-		// It is replaced with "lowest offer" or "your offer" based on the logic below. 
+		// For suppliers, the "company" of each offer doesn't exist.
+		// It is replaced with "lowest offer" or "your offer" based on the logic below.
 		// This needs to be cleared when a new metric is selected.
 		clearCompaniesFromOffers();
 
-		// Depending on the metric, the best offer may be the maximum or minimum among all offers. 
+		// Depending on the metric, the best offer may be the maximum or minimum among all offers.
 		// The best quality is the highest yield while the best total cost is the lowest number.
 		var indexOfBest = 0;
 		var smallest = $scope.offers[0][chart.template.metric]
@@ -162,7 +163,7 @@ proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 
 	//////////////////////////////////////////////////////
 	//										OFFER
-	//////////////////////////////////////////////////////	
+	//////////////////////////////////////////////////////
 	$scope.getOffersForProposal = function(proposal) {
 		offersFactory.getOffersForProposal(proposal.id, function(data) {
 			if (data.status == 401)
@@ -180,6 +181,10 @@ proposalsFactory, offersFactory, usersFactory, chartsFactory) {
 						organizeOffersForSupplier()
 					}
 					chart.drawChart();
+					$timeout(function(){ //HOT FIX FOR CHART WIDTH RESIZING
+						console.log("test");
+						chart.drawChart();
+					}, 250);
 				}
 			}
 		});

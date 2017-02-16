@@ -9,7 +9,7 @@
 			<h2>Your Dashboard</h2>
 			<p>Check your progress graphs.</p>
 
-			<div id="floatingCirclesG" ng-show="!is_loaded">
+			<div id="floatingCirclesG" ng-hide="is_loaded">
 				<div class="f_circleG" id="frotateG_01"></div>
 				<div class="f_circleG" id="frotateG_02"></div>
 				<div class="f_circleG" id="frotateG_03"></div>
@@ -20,7 +20,7 @@
 				<div class="f_circleG" id="frotateG_08"></div>
 			</div>
 
-			<div class="ui container left" ng-hide="!is_loaded">
+			<div class="ui container left" ng-show="is_loaded">
 				<div class="ui centered grid">
 					<div class="sixteen wide tablet five wide computer column">
 
@@ -73,7 +73,7 @@
 						<div id="chartholder" class="ui very padded segment">
 							<h2 ng-show="offers.length<1">No Offers For this proposal</h2>
 							<h2 ng-show="offers.length>0">Comparing Offers By: {{chartMetric}}</h2>
-							<div ng-if="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
+							<div ng-show="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
 
 							<div ng-if="offers.length>0" class="green-square"></div>
 							<span ng-if="offers.length>0" data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">

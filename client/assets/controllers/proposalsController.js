@@ -33,7 +33,7 @@ proposalsFactory, offersFactory, chartsFactory) {
 				initializeChart();
 		}, 100);
 	}
-	else 
+	else
 		initializeChart();
 
 	$scope.leadViewAssign = function(lead) {
@@ -44,7 +44,7 @@ proposalsFactory, offersFactory, chartsFactory) {
 		try {
 			chart.template.metric = "total"
 			chart.template.charttitle = "Comparing Offers By Total Cost"
-			chart.template.width = document.getElementById('chart_div').parentElement.offsetWidth - 
+			chart.template.width = document.getElementById('chart_div').parentElement.offsetWidth -
 			(2 * document.getElementById('chart_div').parentElement.padding);
 			chart.dataset = $scope.offers
 			chart.firstNBars = [$scope.EGcost, $scope.offerView]
