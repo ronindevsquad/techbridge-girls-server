@@ -1,4 +1,4 @@
-app.factory('messagesFactory', function($scope, $http, $cookies) {
+app.factory('messagesFactory', function($http, $cookies) {
 	return {
 		// index: function(callback) {
 		// 	$http.get('/messages', {

@@ -15,8 +15,8 @@ var app = express();
 app.use(express.static(path.join(root, 'client')));
 app.use(express.static(path.join(root, 'bower_components')));
 app.use(bp.json());
-app.use(bp.json({limit: "10mb"}));
-app.use(bp.urlencoded({ limit: "10mb", extended: true }));
+app.use(bp.json({limit: "100mb"}));
+app.use(bp.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use('/api', expressJwt({secret: jwt_key}));
 
