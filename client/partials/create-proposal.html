@@ -269,6 +269,8 @@
 				<input ng-show="uploadingFiles" type="submit" value="Uploading Files..." class="ui big evergreen uppercase orange button" disabled>
 			</div>
 			<b style="color: lightgreen" ng-show="step==4">Proposal submitted!</b>
+			<br>
+			<b style="color: red; margin-top: 1em;" ng-show="error">{{error}}</b>
 
 		</div> <!-- .big form -->
 
