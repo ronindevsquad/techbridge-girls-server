@@ -8,46 +8,47 @@ app.factory('sessionFactory', function($http, $cookies, $rootScope, $window, $lo
 				try {
 					payload = JSON.parse($window.atob($cookies.get("evergreen_token").split('.')[1]
 					.replace('-', '+').replace('_', '/')));
+
+					// Set user information:
+					$rootScope.id = payload.id;
+					$rootScope.type = payload.type;
+					$rootScope.company = payload.company;
+					$rootScope.contact = payload.contact;
+					$rootScope.picture = payload.picture;
+					$rootScope.created_at = payload.created_at;
+					$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
+					$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
+					$rootScope.menu = false;
+
+					// Set notifications:
+					$http.get(`/api/users/notifications/${payload.id}`, {
+						headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+					})
+					.then(function(res) {
+						$rootScope.myProposals = res.data.proposals;
+						$rootScope.myMessages = res.data.messages;
+						$rootScope.myJobs = res.data.jobs;
+					}, function(res) {
+						if (res.status == 401) {
+							this.logout();
+						}
+						else if (res.status >= 300)
+							console.log("error:", res.data.message);
+					});
+
+					// Set sockets:
+					socketsFactory.connect();
+					// If not new user, look for conversations to connect to:
+					if (!is_new_user)
+						socketsFactory.subscribeToOffers();
+
+					// Load google charts:
+					chartsFactory.load();
+					
 				} catch (err) {
-					console.log(`Error: ${err}. Your session is now ending.`)
+					console.log(`Error: ${err}. Your session is now ending.`);
 					return this.logout();
 				}
-
-				// Set user information:
-				$rootScope.id = payload.id;
-				$rootScope.type = payload.type;
-				$rootScope.company = payload.company;
-				$rootScope.contact = payload.contact;
-				$rootScope.picture = payload.picture;
-				$rootScope.created_at = payload.created_at;
-				$rootScope.color = $rootScope.type == 0 ? "orange" : "green";
-				$rootScope.user = $rootScope.type == 0 ? "maker" : "supplier";
-				$rootScope.menu = false;
-
-				// Set notifications:
-				$http.get(`/api/users/notifications/${payload.id}`, {
-					headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
-				})
-				.then(function(res) {
-					$rootScope.myProposals = res.data.proposals;
-					$rootScope.myMessages = res.data.messages;
-					$rootScope.myJobs = res.data.jobs;
-				}, function(res) {
-					if (res.status == 401) {
-						this.logout();
-					}
-					else if (res.status >= 300)
-						console.log("error:", res.data.message)
-				});
-
-				// Set sockets:
-				socketsFactory.connect();
-				// If not new user, look for conversations to connect to:
-				if (!is_new_user)
-					socketsFactory.subscribeToOffers();
-
-				// Load google charts:
-				chartsFactory.load();
 			}
 		},
 		logout: function() {
@@ -75,7 +76,7 @@ app.factory('sessionFactory', function($http, $cookies, $rootScope, $window, $lo
 			// Clear cookie:
 			$cookies.remove("evergreen_token");
 
-			// Relocate"
+			// Relocate:
 			$location.url("/");
 		}
 	}
