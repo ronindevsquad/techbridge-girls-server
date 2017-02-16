@@ -97,11 +97,12 @@ module.exports = function(jwt_key) {
 						return fs.readFileAsync(file.path)
 						.then(data => {
 							return new Promise((resolve, reject) => {
-								s3.putObject({
+								s3.upload({
 									Bucket: "ronintestbucket/testfolder",
 									Key: file.filename,
 									Body: data,
-									ContentType: file.mimetype
+									ContentType: file.mimetype,
+									ACL: "private"
 								}, function(err, success) {
 									if (err)
 										reject(err);
@@ -111,7 +112,7 @@ module.exports = function(jwt_key) {
 							});
 						})
 						.then(() => {
-							return fs.unlinkAsync(file.path);
+							return fs.unlinkAsync(file.path); //removes the file from the uploads folder in the root directory
 						})
 						.then(() => {
 							if (file.filename == req.files[req.files.length - 1].filename)
@@ -127,6 +128,7 @@ module.exports = function(jwt_key) {
 						callback(false, files)
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Internal error, please contact an admin."});
 					});
 				}
