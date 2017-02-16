@@ -1,3 +1,8 @@
+<!-- Bootstrap Carousel -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
 <div class="useraccess">
 	<div id="greenwrapper">
 		<div class="ui grid tall">
@@ -53,11 +58,27 @@
 				<!-- <img ng-show="new_user.type == 0" src="../static/img/carousel_logins/maker-find.png" alt="" height="100%" width="auto">
 				<img ng-show="new_user.type == 1" src="../static/img/carousel_logins/supplier-quote.png" alt="" height="100%" width="auto"> -->
 
-				<!-- Trying Shapes -->
-				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+				<div ng-show="new_user.type == 0" class="carousel slide" data-ride="carousel">
 				  <div class="carousel-inner" role="listbox">
 				    <div class="carousel-item active">
+				      <img src="../static/img/carousel_logins/maker-approve.png" alt="" height="100%" width="auto">
+				    </div>
+				    <div class="carousel-item">
 				      <img src="../static/img/carousel_logins/maker-find.png" alt="" height="100%" width="auto">
+				    </div>
+				    <div class="carousel-item">
+				      <img src="../static/img/carousel_logins/maker-produce.png" alt="" height="100%" width="auto">
+				    </div>
+				    <div class="carousel-item">
+				      <img src="../static/img/carousel_logins/maker-upload.png" alt="" height="100%" width="auto">
+				    </div>
+				  </div>
+				</div>
+
+				<div ng-show="new_user.type == 1" class="carousel slide" data-ride="carousel">
+				  <div class="carousel-inner" role="listbox">
+				    <div class="carousel-item active">
+				      <img src="../static/img/carousel_logins/supplier-connect.png" alt="" height="100%" width="auto">
 				    </div>
 				    <div class="carousel-item">
 				      <img src="../static/img/carousel_logins/supplier-quote.png" alt="" height="100%" width="auto">
@@ -68,10 +89,14 @@
 				  </div>
 				</div>
 
+
+
 				<script type="text/javascript">
-					$('.carousel').carousel({
-						interval: 5000
-					})
+					setTimeout(function(){
+						$('.carousel').carousel({
+							interval: 4000
+						})
+					}, 2000);
 				</script>
 
 			</div>
