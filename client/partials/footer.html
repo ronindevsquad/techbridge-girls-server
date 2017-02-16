@@ -46,10 +46,45 @@
           <h4 class="ui inverted header">Newsletter</h4>
           <p>Subscribe to our newsletter and get all the cool news</p>
 
-          <div class="ui fluid icon input">
-            <input type="text" placeholder="Enter Email">
+          <!-- <form id="newsletter_form">
+            <div class="ui fluid icon input">
+              <input type="email" name="EMAIL" id="mce-EMAIL" placeholder="Enter Email" required>
+              <i class="send outline icon"></i>
+            </div>
+            <div id="mce-responses" class="clear">
+              <div class="response" id="mce-error-response" style="display:none"></div>
+              <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b921785d53ee088791cfd1db9_6ee50ebd0a" tabindex="-1" value=""></div>
+          </form> -->
+
+
+          <div id="mc_embed_signup">
+          <form action="//world.us14.list-manage.com/subscribe/post?u=b921785d53ee088791cfd1db9&amp;id=6ee50ebd0a" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+              <div id="mc_embed_signup_scroll">
+
+          <div class="ui fluid icon input mc-field-group">
+            <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Enter Email" required>
             <i class="send outline icon"></i>
-          </div> <!-- .input -->
+          </div>
+          	<div id="mce-responses" class="clear">
+          		<div class="response" id="mce-error-response" style="display:none"></div>
+          		<div class="response" id="mce-success-response" style="display:none"></div>
+          	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b921785d53ee088791cfd1db9_6ee50ebd0a" tabindex="-1" value=""></div>
+              <!-- <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div> -->
+              </div>
+          </form>
+          </div>
+
+          <script>
+            $('#mce-EMAIL').keypress(function(event){
+              if(event.keyCode == 13){
+                $('#mc-embedded-subscribe-form').trigger('submit');
+              }
+            });
+          </script>
+
 
         </div> <!-- .column -->
       </div> <!-- .grid -->
