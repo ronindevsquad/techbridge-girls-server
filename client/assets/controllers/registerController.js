@@ -1,4 +1,4 @@
-app.controller("registerController", function ($scope, $scope, $location, $routeParams, usersFactory) {
+app.controller("registerController", function ($scope, $interval, $location, $routeParams, usersFactory) {
 	if ($scope.id)
 		$location.url("/");
 	else {
@@ -67,5 +67,5 @@ app.controller("registerController", function ($scope, $scope, $location, $route
 	  } else {
 	    fillForm();
 	  }
-	}
+	};	
 });

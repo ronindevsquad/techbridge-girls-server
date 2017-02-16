@@ -52,12 +52,28 @@
 				</div> <!-- segment -->
 			</div> <!-- .column -->
 			<div style="height: 100vh; padding:0px; overflow:hidden" class="eleven wide computer only black column">
-				<img ng-show="new_user.type == 0" src="../static/img/carousel_logins/maker-find.png" alt="" height="100%" width="auto">
-				<img ng-show="new_user.type == 1" src="../static/img/carousel_logins/supplier-quote.png" alt="" height="100%" width="auto">
+				<!-- <img ng-show="new_user.type == 0" src="../static/img/carousel_logins/maker-find.png" alt="" height="100%" width="auto">
+				<img ng-show="new_user.type == 1" src="../static/img/carousel_logins/supplier-quote.png" alt="" height="100%" width="auto"> -->
+
+				<div ng-if="new_user.type == 0" id="slider">
+				  <ul>
+				    <li><img src="../static/img/carousel_logins/maker-approve.png" alt="" height="100%" width="auto"></li>
+				    <li><img src="../static/img/carousel_logins/maker-find.png" alt="" height="100%" width="auto"></li>
+				    <li><img src="../static/img/carousel_logins/maker-produce.png" alt="" height="100%" width="auto"></li>
+				    <li><img src="../static/img/carousel_logins/maker-upload.png" alt="" height="100%" width="auto"></li>
+				  </ul>
+				</div>
+
+				<div ng-if="new_user.type == 1" id="slider">
+				  <ul>
+				    <li><img src="../static/img/carousel_logins/supplier-connect.png" alt="" height="100%" width="auto"></li>
+				    <li><img src="../static/img/carousel_logins/supplier-produce.png" alt="" height="100%" width="auto"></li>
+				    <li><img src="../static/img/carousel_logins/supplier-quote.png" alt="" height="100%" width="auto"></li>
+				  </ul>
+				</div>
 
 
-
-
+				<!-- Slider Logic in parent index.html -->
 			</div>
 		</div> <!-- .grid -->
 	</div> <!-- #greenwrapper -->
