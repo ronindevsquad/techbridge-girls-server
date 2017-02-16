@@ -70,8 +70,11 @@ app.factory('sessionFactory', function($http, $cookies, $rootScope, $window, $lo
 			$rootScope.myJobs = undefined;
 
 			// Logout from linkedin:
-			// if (IN.User.isAuthorized())
-			// 	IN.User.logout();
+			if (IN.User.isAuthorized())
+				IN.User.logout(function(){
+					$cookies.remove("evergreen_token");
+					$location.url("/");
+				});
 
 			// Clear cookie:
 			$cookies.remove("evergreen_token");
