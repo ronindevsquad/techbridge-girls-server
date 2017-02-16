@@ -46,10 +46,30 @@
           <h4 class="ui inverted header">Newsletter</h4>
           <p>Subscribe to our newsletter and get all the cool news</p>
 
-          <div class="ui fluid icon input">
-            <input type="text" placeholder="Enter Email">
-            <i class="send outline icon"></i>
-          </div> <!-- .input -->
+          <form id="newsletter_form">
+            <div class="ui fluid icon input">
+              <input type="email" name="EMAIL" id="mce-EMAIL" placeholder="Enter Email" required>
+              <i class="send outline icon"></i>
+            </div>
+            <div id="mce-responses" class="clear">
+              <div class="response" id="mce-error-response" style="display:none"></div>
+              <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_b921785d53ee088791cfd1db9_6ee50ebd0a" tabindex="-1" value=""></div>
+          </form>
+
+
+          <!-- <script>
+            $('#newsletter_form').click(function(){
+              console.log("shit");
+              $.ajax({
+          			type: "POST",
+          			url: '//world.us14.list-manage.com/subscribe/post?u=b921785d53ee088791cfd1db9&amp;id=6ee50ebd0a',
+          			dataType: "json",
+          		});
+            });
+          </script> -->
+
 
         </div> <!-- .column -->
       </div> <!-- .grid -->
