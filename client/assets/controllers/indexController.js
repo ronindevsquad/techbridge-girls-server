@@ -3,6 +3,7 @@ app.controller('indexController', function ($scope, $rootScope, $location, sessi
 		$location.url('/dashboard');
 	}
 
+
 	$scope.login = function() {
 		$scope.error = null;
 		usersFactory.login($scope.user, function(data) {
