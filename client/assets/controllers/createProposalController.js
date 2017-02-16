@@ -59,6 +59,9 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 				$scope.create();
 			} else {
 				console.log(response.message);
+				$scope.error = response.message;
+				$scope.uploadingFiles = false;
+				$scope.$apply();
 			}
 		}
 		request.send(formData);
@@ -69,8 +72,11 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		proposalsFactory.create($scope.proposal, function(data) {
 			if (data.status == 401)
 				$scope.logout();
-			else if (data.status >= 300)
+			else if (data.status >= 300){
 				$scope.error = data.data.message;
+				console.log($scope.error);
+				$scope.uploadingFiles = false;
+			}
 			else {
 				$scope.step = 4
 				$("#proposalSuccess").modal("show");
