@@ -7,7 +7,6 @@ app.controller('showOfferController', function ($scope, $location, $routeParams,
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data);
 				$scope.offer = data;
 			}
 		});

@@ -10,7 +10,6 @@ app.controller('openProposalsController', function ($scope, $location, $routePar
 			$scope.page = 1;
 
 		proposalsFactory.getProposalsForPage($scope.page, function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
