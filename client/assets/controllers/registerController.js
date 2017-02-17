@@ -11,7 +11,7 @@ app.controller("registerController", function ($scope, $interval, $location, $ro
 
 	$scope.register = function() {
 		$scope.error = null;
-		if (IN.User.isAuthorized())
+		if (IN.User && IN.User.isAuthorized())
 			return registerLinkedIn($scope.new_user);
 		if ($scope.new_user.password != $scope.new_user.confirm_password)
 			$scope.error = "Passwords do not match."
@@ -55,7 +55,7 @@ app.controller("registerController", function ($scope, $interval, $location, $ro
 	};
 
 	$scope.isAuthorized = function(){
-		if(IN.User.isAuthorized())
+		if(IN.User && IN.User.isAuthorized())
 			return true;
 		else
 			return false;
@@ -67,5 +67,5 @@ app.controller("registerController", function ($scope, $interval, $location, $ro
 	  } else {
 	    fillForm();
 	  }
-	};	
+	};
 });
