@@ -3,7 +3,7 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 
 	if ($scope.id) {
 		$scope.tab = "profile";
-		
+
 		// If id in URL, query backend for user:
 		if ($routeParams.id) {
 			$scope.viewingOtherProfile = true;
@@ -27,7 +27,7 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 			else if (data.status >= 300)
 				$scope.error = data.data.message;
 			else {
-				$scope.user = data
+				$scope.this_user = data
 				if ($scope.viewingOtherProfile) {
 					$scope.companyprofile = data.company;
 				}
@@ -54,7 +54,7 @@ app.controller('profileController', function ($scope, $location, $routeParams, $
 	//////////////////////////////////////////////////////
 	$scope.updateURLS = function(){
 		if (true) {
-			urlsFactory.create($scope.user, function(data) {
+			urlsFactory.create($scope.this_user, function(data) {
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300) {
