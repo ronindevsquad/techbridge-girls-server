@@ -16,15 +16,18 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				// Parse reports for faster processing:
 				var completed = {};
 				for (var i = 0; i < data.reports.length; i++) {
+
 					completed[data.reports[i].proposal_id] = data.reports[i].completed;
 				}
 
 				// Set completed for each proposal:
 				for (var i = 0; i < data.proposals.length; i++) {
 					if (completed[data.proposals[i].proposal_id])
-						data.proposals[i].completed = completed[data.proposals[i].proposal_id];
+						data.proposals[i].completed = parseFloat(completed[data.proposals[i].proposal_id]*100/data.proposals[i].quantity).toFixed(1);
+					else
+						data.proposals[i].completed = 0;
 					// Set days left for each proposal:
-					data.proposals[i].days_left = daysBetween($scope.today, data.proposals[i].completion);
+					data.proposals[i].days_left = daysBetween($scope.today, data.proposals[i].completion_date);
 				}
 
 				$scope.proposals = data.proposals;
@@ -126,7 +129,8 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	$scope.reportSubmit = function(){
 		$scope.new_report.proposal_id = $scope.proposalView.proposal_id;
-		if ($scope.proposalView.quantity < $scope.proposalView.completed + $scope.new_report.output) {
+		console.log($scope.proposalView.quantity, $scope.proposalView.completed + $scope.new_report.output);
+		if ($scope.proposalView.quantity >= $scope.proposalView.completed + $scope.new_report.output) {
 			$('.ui.modal').modal('hide');
 			reportsFactory.create($scope.new_report, function(data) {
 				if (data.status == 401)
