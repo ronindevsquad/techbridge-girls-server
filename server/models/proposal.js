@@ -89,7 +89,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				} else if (req.files.length < 1) {
 					callback({status: 400, message: "No files were selected to upload."});
-				}	else if (req.files[req.files.length - 1].mimetype != "application/pdf") {
+				}	else if (req.files[req.files.length - 1].mimetype != "application/pdf" && !req.body.defaultNDA) {
 					callback({status:400, message: "NDA must must be in .pdf format."});
 				} else {
 					var files = [];
@@ -115,7 +115,7 @@ module.exports = function(jwt_key) {
 							return fs.unlinkAsync(file.path); //removes the file from the uploads folder in the root directory
 						})
 						.then(() => {
-							if (file.filename == req.files[req.files.length - 1].filename)
+							if (file.filename == req.files[req.files.length - 1].filename && !req.body.defaultNDA)
 								files.push({type: 1, filename: file.filename});
 							else
 								files.push({type: 0, filename: file.filename});
@@ -198,11 +198,11 @@ module.exports = function(jwt_key) {
 									files[0].splice(i, 1);
 							}
 						}
-
 						// Rename files:
 						for (var i = 0; i < files[0].length; i++)
-							files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 2);
-
+							files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 10);
+						if(files[0].length==0) //if the NDA is not in the files array (it should be the last item in the array)
+							files[0].push({filename: bucket1.getUrl('GET', `/public_assets/170128_Mutual_NDA.pdf`, 'ronintestbucket', 10), type:1})
 						callback(false, {files: files[0], offer: offer[0][0]});
 					})
 					.catch(err => {

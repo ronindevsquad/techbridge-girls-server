@@ -120,7 +120,8 @@
 					<div class="ui resulted items">
 
 						<!-- this is one item -->
-						<div class="item" ng-repeat="proposal in proposals | processFilter:process | orderBy:sortExpression:sortOrder track by $index" ng-if="!$last">
+						<div class="item" ng-repeat="proposal in proposals | processFilter:process | orderBy:sortExpression:sortOrder track by $index" ng-if="$index!=10">
+							<!-- used to be ng-if="!$last" so that next button disappears if on last page -->
 								<div class="ui small calendar">
 									{{proposal.created_at | date:"MMM"}}<br />
 									<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>

@@ -3,13 +3,14 @@ app.controller('openProposalsController', function ($scope, $location, $routePar
 		$scope.tab = "open";
 		$scope.sortExpression = 'created_at';
 		$scope.sortOrder = 'reverse';
-		
+
 		if ($routeParams.page > 0)
 			$scope.page = parseInt($routeParams.page);
 		else
 			$scope.page = 1;
 
 		proposalsFactory.getProposalsForPage($scope.page, function(data) {
+			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
