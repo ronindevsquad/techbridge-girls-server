@@ -13,32 +13,20 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 			else if (data.status >= 300)
 				console.log("error:", data.data.message);
 			else {
-				$scope.proposals = {};
-
-				for (var i =0; i < data.proposals.length; i++) {
-					$scope.proposals[data.proposals[i].proposal_id] = data.proposals[i];
-				}
-
+				// Parse reports for faster processing:
+				var completed = {};
 				for (var i = 0; i < data.reports.length; i++) {
-					if (!$scope.proposals[data.reports[i].user_id])
-						$scope.proposals[data.reports.user_id] = {data}
-
-						[data.reports[i]];
-					else
-						$scope.proposals[data.reports[i].proposal_id].push(data.reports[i]);
+					completed[data.reports[i].proposal_id] = data.reports[i].completed;
 				}
 
-
-
-
-
-				$scope.days_left = daysBetween($scope.today, data.proposals[0].completion);
-				for (var i = 0; i<data.proposals.length; i++) {
-					for(var j = 0; j<data.reports.length; j++){
-						if(data.proposals[i].proposal_id==)
-					}
-					data.reports[i].completed = parseFloat(data.reports[i].completed*100/data.reports[i].quantity).toFixed(1);
+				// Set completed for each proposal:
+				for (var i = 0; i < data.proposals.length; i++) {
+					if (completed[data.proposals[i].proposal_id])
+						data.proposals[i].completed = completed[data.proposals[i].proposal_id];
+					// Set days left for each proposal:
+					data.proposals[i].days_left = daysBetween($scope.today, data.proposals[i].completion);
 				}
+
 				$scope.proposals = data.proposals;
 			}
 		});
