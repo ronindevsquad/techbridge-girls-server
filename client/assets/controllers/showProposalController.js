@@ -1,6 +1,7 @@
-app.controller('showProposalController', function ($scope, $location, $routeParams, $sce, proposalsFactory, offersFactory) {
+app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if ($scope.id) {
 		proposalsFactory.show($routeParams.id, function(data) {
+			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
@@ -39,8 +40,10 @@ app.controller('showProposalController', function ($scope, $location, $routePara
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
-			else
-				$location.url(`/show-proposal/${$routeParams.id}`);
+			else{
+				$route.reload();
+				// $location.url(`/show-proposal/${$routeParams.id}`);
+			}
 		});
 	}
 })

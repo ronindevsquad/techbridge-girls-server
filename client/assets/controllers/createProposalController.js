@@ -34,6 +34,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 			$location.url("/dashboard");
 	};
 
+
 	$scope.uploadFiles = function(){
 		$scope.uploadingFiles = true;
 		var formData = new FormData();
@@ -41,8 +42,12 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 			formData.append("file", document.getElementById('documentsInput').files[i])
 		}
 
-		for (var i = 0; i < document.getElementById('ndaInput').files.length; i++) {
-			formData.append("file", document.getElementById('ndaInput').files[i])
+		if(document.getElementById('ndaInput').files[0] == undefined || $scope.defaultNDA){
+			formData.append("defaultNDA", true)
+		}else{
+			for (var i = 0; i < document.getElementById('ndaInput').files.length; i++) {
+				formData.append("file", document.getElementById('ndaInput').files[i])
+			}
 		}
 
 		var request = new XMLHttpRequest();
