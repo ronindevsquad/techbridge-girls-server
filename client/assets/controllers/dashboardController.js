@@ -45,6 +45,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 		chart.template.width = document.getElementById('chart_div').parentElement.offsetWidth - (2 * document.getElementById('chart_div').parentElement.padding);
 		chart.customColorsForFirstNBars = ['#7AC200']
 		chart.dataset = null;
+    chart.template.metric = $scope.chartMetric
 		chart.clearChartData();
 		$scope.is_loaded = true;
 	};
@@ -77,20 +78,28 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 
 	function organizeOffersForMaker() {
 		var indexOfBest = 0
-		var smallest = $scope.offers[0][chart.template.metric];
-		for (var i = 0; i < $scope.offers.length; i++) {
+    //using the yields from machines and labors, calculate a "quality" metric (total yield)
+    for (var i = 0; i < $scope.offers.length; i++) {
 			appendQualityEstimate($scope.offers[i]);
-
-			// If the selected metric is quality (total yield), we want the highest number
-			// among all the offers to show up as the 'best offer':
-			if (chart.template.metric == 'quality') {
-				if (parseInt($scope.offers[i][chart.template.metric]) > parseInt(smallest)) {
-					indexOfBest = i;
-				}
-			} else if (parseInt($scope.offers[i][chart.template.metric]) < parseInt(smallest)) {
-				indexOfBest = i;
-			}
 		}
+    //Find the maximum or minimum to represent in green, depending on the metric selected
+    if(chart.template.metric == 'quality'){
+      for (var i = 0; i < $scope.offers.length; i++) {
+        // If the selected metric is quality (total yield), we want the highest number
+        // among all the offers to show up as the 'best offer':
+        if (parseInt($scope.offers[i][chart.template.metric]) > parseInt($scope.offers[indexOfBest][chart.template.metric])) {
+          indexOfBest = i;
+        }
+      }
+    }else{
+      for (var i = 0; i < $scope.offers.length; i++) {
+        // If the selected metric is quality (total yield), we want the highest number
+        // among all the offers to show up as the 'best offer':
+        if (parseInt($scope.offers[i][chart.template.metric]) < parseInt($scope.offers[indexOfBest][chart.template.metric])) {
+          indexOfBest = i;
+        }
+      }
+    }
 		chart.customColorsForFirstNBars = ['#7AC200'];
 		chart.firstNBars = [$scope.offers[indexOfBest]];
 	};
@@ -110,22 +119,32 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 
 		for (var i = 0; i < $scope.offers.length; i++) {
 			appendQualityEstimate($scope.offers[i]);
-			if (chart.template.metric == 'quality') {
-				if (parseInt($scope.offers[i][chart.template.metric]) > parseInt(smallest)) {
-					indexOfBest = i;
-				}
-			} else if (parseInt($scope.offers[i][chart.template.metric]) < parseInt(smallest)) {
-				indexOfBest = i;
-			}
-
 			if ($scope.offers[i].user_id != undefined) {
 				indexOfSupplierViewing = i;
 			}
 		}
 
+    if(chart.template.metric == 'quality'){
+      for (var i = 0; i < $scope.offers.length; i++) {
+        // If the selected metric is quality (total yield), we want the highest number
+        // among all the offers to show up as the 'best offer':
+        if (parseInt($scope.offers[i][chart.template.metric]) > parseInt($scope.offers[indexOfBest][chart.template.metric])) {
+          indexOfBest = i;
+        }
+      }
+    }else {
+      for (var i = 0; i < $scope.offers.length; i++) {
+        // If the selected metric is quality (total yield), we want the highest number
+        // among all the offers to show up as the 'best offer':
+        if (parseInt($scope.offers[i][chart.template.metric]) < parseInt($scope.offers[indexOfBest][chart.template.metric])) {
+          indexOfBest = i;
+        }
+      }
+    }
+
 		$scope.offers[indexOfSupplierViewing].company = "your offer";
 		if (indexOfBest != indexOfSupplierViewing) {
-			$scope.offers[indexOfSmallest].company = "best offer";
+			$scope.offers[indexOfBest].company = "best offer";
 			firstNBars.push($scope.offers[indexOfSupplierViewing]);
 			firstNBars.push($scope.offers[indexOfBest]);
 			chart.customColorsForFirstNBars = ['#FFA500', '#7AC200'];
@@ -173,7 +192,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 					chart.drawChart();
 					$timeout(function(){ //HOT FIX FOR CHART WIDTH RESIZING
 						chart.drawChart();
-					}, 250);
+					}, 100);
 				}
 			}
 		});

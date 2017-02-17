@@ -66,19 +66,26 @@ module.exports = function(jwt_key) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
-					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(proposals.id) AS proposal_id, HEX(offers.user_id) AS user_id, " +
-						"SUM(reports.output) " +
-						"AS completed FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN " +
-						"reports ON offers.proposal_id = reports.proposal_id AND offers.user_id = " +
-						"reports.user_id WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
-						"AND offers.status > 1 AND proposals.status > 1 GROUP BY reports.proposal_id";
+					Promise.join(using(getConnection(), connection => {
+						var query = "SELECT *, HEX(proposals.id) AS proposal_id, HEX(offers.user_id) AS user_id " +
+						"FROM proposals LEFT JOIN offers ON id = proposal_id " +
+						"WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = " +	"UNHEX(?)) " +
+						"AND offers.status > 1 AND proposals.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
-					})
-					.spread(data => {
-						callback(false, data);
+					}), using(getConnection(), connection => {
+						var query = "SELECT *, SUM(output) AS completed FROM reports " +
+						"WHERE (user_id = UNHEX(?) OR proposal_id IN (" +
+						"SELECT id FROM proposals WHERE user_id = UNHEX(?)))";
+						return connection.execute(query, [payload.id, payload.id]);
+					}), (proposals, reports) => {
+						var response = {};
+						response.proposals = proposals[0];
+						response.reports = reports[0];
+						console.log(response);
+						callback(false, response);
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
