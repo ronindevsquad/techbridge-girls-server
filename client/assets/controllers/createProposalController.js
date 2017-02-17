@@ -9,7 +9,6 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		$location.url("/");
 
 	//AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
-	$scope.proposal.processes = ["Automation"];
 	$scope.proposal.product = $scope.company + "'s product";
 	$scope.proposal.quantity = 10000;
 	$scope.proposal.completion = new Date("2017-09-19T19:49:21+04:00");

@@ -142,30 +142,27 @@ module.exports = function(jwt_key) {
 					callback({status: 400, message: "Only Suppliers may view all proposals."});
 				else
 					using(getConnection(), connection => {
-						var query = "SELECT *, HEX(id) AS id FROM proposals"
-						return connection.execute(query);
+						var query = "SELECT process FROM user_processes WHERE user_id = UNHEX(?)";
+						return connection.execute(query, [payload.id]);
 					})
 					.spread(data => {
 						return using(getConnection(), connection => {
-							if (data.length == 0)
-								return [];
-							else {
-								var _data = []
-								for (var i = 0; i < data.length; i++)
-									_data.push(data[i].process);
+							var _data = []
+							for (var i = 0; i < data.length; i++)
+								_data.push(data[i].process);
 
-								var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
-								"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
-								"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
-								"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC LIMIT ?, 11";
-								return connection.query(query, [_data, (req.params.page-1)*10]);
-							}
+							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
+							"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
+							"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
+							"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC LIMIT ?, 11";
+							return connection.query(query, [_data, (req.params.page-1)*10]);
 						});
 					})
 					.spread(data => {
 						callback(false, data);
 					})
 					.catch(err => {
+						console.log(err);
 						callback({status: 400, message: "Please contact an admin."});
 					});
 			});
