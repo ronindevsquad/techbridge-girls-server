@@ -7,16 +7,39 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.report;
 		$scope.new_report = {};
 		proposalsFactory.getPercentCompleted(function(data) {
+			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				console.log("error:", data.data.message);
 			else {
-				$scope.days_left = daysBetween($scope.today, data[0].completion);
-				for (var i = 0; i<data.length; i++) {
-					data[i].completed = parseFloat(data[i].completed*100/data[i].quantity).toFixed(1);
+				$scope.proposals = {};
+
+				for (var i =0; i < data.proposals.length; i++) {
+					$scope.proposals[data.proposals[i].proposal_id] = data.proposals[i];
 				}
-				$scope.proposals = data;
+
+				for (var i = 0; i < data.reports.length; i++) {
+					if (!$scope.proposals[data.reports[i].user_id])
+						$scope.proposals[data.reports.user_id] = {data}
+
+						[data.reports[i]];
+					else
+						$scope.proposals[data.reports[i].proposal_id].push(data.reports[i]);
+				}
+
+
+
+
+
+				$scope.days_left = daysBetween($scope.today, data.proposals[0].completion);
+				for (var i = 0; i<data.proposals.length; i++) {
+					for(var j = 0; j<data.reports.length; j++){
+						if(data.proposals[i].proposal_id==)
+					}
+					data.reports[i].completed = parseFloat(data.reports[i].completed*100/data.reports[i].quantity).toFixed(1);
+				}
+				$scope.proposals = data.proposals;
 			}
 		});
 	}
