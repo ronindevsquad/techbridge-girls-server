@@ -44,7 +44,7 @@ app.factory('sessionFactory', function($http, $cookies, $rootScope, $window, $lo
 
 					// Load google charts:
 					chartsFactory.load();
-					
+
 				} catch (err) {
 					console.log(`Error: ${err}. Your session is now ending.`);
 					return this.logout();
@@ -70,7 +70,7 @@ app.factory('sessionFactory', function($http, $cookies, $rootScope, $window, $lo
 			$rootScope.myJobs = undefined;
 
 			// Logout from linkedin:
-			if (IN.User.isAuthorized())
+			if (IN.User && IN.User.isAuthorized())
 				IN.User.logout(function(){
 					$cookies.remove("evergreen_token");
 					$location.url("/");

@@ -10,10 +10,8 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300){
-					console.log($scope.error);
 				} else {
 					$scope.proposals = data
-					console.log(data);
 				}
 			});
 		}
@@ -24,9 +22,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300) {
-					console.log($scope.error);
 				} else {
-					console.log(data);
 					$scope.proposals = data;
 				}
 			});
@@ -56,7 +52,6 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 	// Make sure chart is loaded:
 	if (!chartsFactory.getChart()) {
 		chart = $interval(function() {
-			console.log(chartsFactory.getChart());
 			if (chartsFactory.getChart())
 				initializeChart();
 		}, 100);
@@ -68,7 +63,6 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 		$scope.chartMetric = newMetric;
 		chart.template.metric = newMetric;
 		if ($scope.offers.length>0) {
-			console.log("tried to draw chart");
 			if ($scope.type == 0) {
 				organizeOffersForMaker()
 			} else {
@@ -77,7 +71,6 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 		}
 
 		if ($scope.offers.length>0) {
-			console.log('tried to draw chart');
 			chart.drawChart();
 		}
 	};
@@ -153,7 +146,6 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 		var quality = 1;
 		for (var i = 0; i < application.machines.length; i++) {
 			quality *= parseInt(application.machines[i].yield) / 100
-			console.log("quality:"+quality);
 		}
 		for (var i = 0; i < application.manuals.length; i++) {
 			quality *= parseInt(application.manuals[i].yield) / 100;
@@ -169,9 +161,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300) {
-				console.log($scope.error);
 			} else {
-				console.log(data);
 				$scope.offers = data;
 				chart.dataset = $scope.offers
 				if ($scope.offers.length > 0) {
@@ -182,7 +172,6 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 					}
 					chart.drawChart();
 					$timeout(function(){ //HOT FIX FOR CHART WIDTH RESIZING
-						console.log("test");
 						chart.drawChart();
 					}, 250);
 				}
@@ -199,9 +188,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300) {
-				console.log($scope.error);
 			} else {
-				console.log(data);
 			}
 		});
 	};
