@@ -73,7 +73,7 @@ module.exports = function(jwt_key) {
 						"AND offers.status > 1 AND proposals.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
 					}), using(getConnection(), connection => {
-						var query = "SELECT *, SUM(output) AS completed FROM reports " +
+						var query = "SELECT HEX(proposal_id) AS proposal_id, SUM(output) AS completed FROM reports " +
 						"WHERE (user_id = UNHEX(?) OR proposal_id IN (" +
 						"SELECT id FROM proposals WHERE user_id = UNHEX(?)))";
 						return connection.execute(query, [payload.id, payload.id]);
