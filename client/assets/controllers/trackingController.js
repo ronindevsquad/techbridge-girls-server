@@ -7,7 +7,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.report;
 		$scope.new_report = {};
 		proposalsFactory.getPercentCompleted(function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
@@ -31,6 +30,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				}
 
 				$scope.proposals = data.proposals;
+				console.log($scope.proposals);
 			}
 		});
 	}
@@ -129,7 +129,6 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 
 	$scope.reportSubmit = function(){
 		$scope.new_report.proposal_id = $scope.proposalView.proposal_id;
-		console.log($scope.proposalView.quantity, $scope.proposalView.completed + $scope.new_report.output);
 		if ($scope.proposalView.quantity >= $scope.proposalView.completed + $scope.new_report.output) {
 			$('.ui.modal').modal('hide');
 			reportsFactory.create($scope.new_report, function(data) {
