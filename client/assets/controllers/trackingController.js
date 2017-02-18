@@ -30,6 +30,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 				}
 
 				$scope.proposals = data.proposals;
+				console.log($scope.proposals);
 			}
 		});
 	}

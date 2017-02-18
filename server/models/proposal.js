@@ -82,7 +82,6 @@ module.exports = function(jwt_key) {
 						var response = {};
 						response.proposals = proposals[0];
 						response.reports = reports[0];
-						console.log(response);
 						callback(false, response);
 					})
 					.catch(err => {
