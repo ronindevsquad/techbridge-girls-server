@@ -76,7 +76,7 @@ module.exports = function(jwt_key) {
 					}), using(getConnection(), connection => {
 						var query = "SELECT HEX(proposal_id) AS proposal_id, SUM(output) AS completed FROM reports " +
 						"WHERE (user_id = UNHEX(?) OR proposal_id IN (" +
-						"SELECT id FROM proposals WHERE user_id = UNHEX(?)))";
+						"SELECT id FROM proposals WHERE user_id = UNHEX(?))) GROUP BY proposal_id";
 						return connection.execute(query, [payload.id, payload.id]);
 					}), (proposals, reports) => {
 						var response = {};
@@ -161,7 +161,7 @@ module.exports = function(jwt_key) {
 							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
 							"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
 							"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
-							"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC LIMIT ?, 11";
+							"(?)) GROUP BY proposals.id, proposal_processes.process ORDER BY proposals.created_at DESC LIMIT ?, 11";
 							return connection.query(query, [_data, (req.params.page-1)*10]);
 						});
 					})
