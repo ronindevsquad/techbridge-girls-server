@@ -6,9 +6,9 @@ $('.ui.sticky').sticky({
   context: '#offerWrapper'
 });
 
-$('.nda-trigger').click(function() {
-  $('#ndaWindow').modal('toggle');  
-});
+// $('.nda-trigger').click(function() {
+//   $('#ndaWindow').modal('show');
+// });
 
 $('.nda-view').click(function() {
   $('#ndaView').modal('show');

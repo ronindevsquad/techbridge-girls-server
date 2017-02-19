@@ -301,53 +301,21 @@
 	<!-- modal content -->
 	<div class="ui padded basic segment">
 		<div class="ui grid">
-			<div class="sixteen wide tablet three wide computer column">
-				<!-- thumbnail will go here -->
-				<!-- here I'm calling the tabs triggers for the left part. For each thumbnail item we will add a tab menu as listed below -->
-
-				<div class="thumbnails">
-					<a class="active item" data-tab="firstPage">
-						<img src="http://placehold.it/105x140/eeeeee/333333">
-					</a>
-					<a class="item" data-tab="secondPage">
-						<img src="http://placehold.it/105x140/eeeeee/333333">
-					</a>
-					<a class="item" data-tab="thirdPage">
-						<img src="http://placehold.it/105x140/eeeeee/333333">
-					</a>
-				</div>
-
-			</div>
-			<div class="sixteen wide tablet thirteen wide computer column">
+			<div class="sixteen wide tablet sixteen wide computer column">
 				<!-- preview will go here -->
-
-				<div class="ui tab active" data-tab="firstPage">
-					<div class="paper">
-						<img src="static/img/paper.jpg" width="495" class="ui centered image" />
-					</div> <!-- .paper -->
-				</div>
-				<div class="ui tab" data-tab="secondPage">
-					<div class="paper">
-						<img src="static/img/paper.jpg" width="495" class="ui centered image" />
-					</div> <!-- .paper -->
-				</div>
-				<div class="ui tab" data-tab="thirdPage">
-					<div class="paper">
-						<img src="static/img/paper.jpg" width="495" class="ui centered image" />
-					</div> <!-- .paper -->
-				</div>
+				<iframe src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf" width="100%" height="600"></iframe>
 
 			</div>
 		</div> <!-- .grid -->
 	</div>
 	<div class="actions">
-		<a href="" class="ui fluid grey big uppercase basic button nda-confirmation">Close</a>
+		<a onclick="$('#ndaView').modal('hide');console.log('test');" href="" class="ui fluid grey big uppercase basic button nda-confirmation">Close</a>
 	</div> <!-- .actions -->
 </div> <!-- modal -->
 
 
 <!-- .success modal -->
-<div class="ui tiny basic modal centered aligned" id="proposalSuccess">
+<div class="ui tiny basic modal centered aligned proposalSuccess" id="proposalSuccess">
 	<div class="header">
 
 		<img src="static/img/green-check.png" width="100" class="ui centered image" />

@@ -28,7 +28,8 @@
 <div ng-show="menu" class="ui medium rectangle test custom-adbox">
 	<div class="ui grid">
 		<div class="six wide column">
-			<img class="ui circular image" src="{{picture}}">
+			<img ng-show="type==0" class="ui circular image" src="{{picture?picture:'static/img/makerdefaultprofilepic.png'}}">
+			<img ng-show="type==1" class="ui circular image" src="{{picture?picture:'static/img/supplierdefaultprofilepic.png'}}">
 		</div>
 		<div class="ten wide column">
 			<h4 class="title">{{company}}</h4>
@@ -54,9 +55,13 @@
 
 		<div ng-show="!viewingOtherProfile" class="ui relaxed items">
 			<div class="item">
-				<div class="ui tiny image" style=" background-image: url({{picture?picture:'static/img/husky-logo.png'}}); background-size: cover;">
-					<!-- <img style="max-height:100%; max-width:100%;" src="{{picture}}" class="ui centered image" /> -->
+
+				<div ng-show="type==0" class="ui tiny image" style=" background-image: url({{picture?picture:'static/img/makerdefaultprofilepic.png'}}); background-size: contain; background-repeat: no-repeat; background-position: center;">
 				</div>
+
+				<div ng-show="type==1" class="ui tiny image" style="background-image: url({{picture?picture:'static/img/supplierdefaultprofilepic.png'}}); background-size: contain; background-repeat: no-repeat; background-position: center;">
+				</div>
+
 				<div class="middle aligned content">
 					<h2>{{company}}</h2>
 					<p class="footnote">Member since {{created_at | date:"MMM y"}}</p>
