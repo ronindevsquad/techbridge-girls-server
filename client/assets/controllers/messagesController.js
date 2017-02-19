@@ -10,7 +10,6 @@ offersFactory, messagesFactory, socketsFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				console.log(data);
 				$scope.offers = data;
 
 				// Check if certain conversation requested in URL:
@@ -40,7 +39,6 @@ offersFactory, messagesFactory, socketsFactory) {
 		$rootScope.messages = [];
 		$rootScope.cur_offer = offer;
 		messagesFactory.show(offer.proposal_id, function(data) {
-			console.log(data)
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
