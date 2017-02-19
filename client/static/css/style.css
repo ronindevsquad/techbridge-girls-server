@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700');
 
+
+/*CUSTOM CSS BY ELLIOT*/
+.contactlink{
+  display: inline-block;
+  width: 170px;
+}
+/*END OF CUSTOM CSS BY ELLIOT*/
 /*SHAPES*/
 .green-square{
   width: 15px;

@@ -25,7 +25,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	$scope.uploadingFiles = false;
 
 	$scope.close = function(_) {
-		$("#proposalSuccess").modal("hide");
+		$(".proposalSuccess").modal('hide');
 		if (_ == 0)
 			$route.reload();
 		else
@@ -79,8 +79,13 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 			}
 			else {
 				$scope.step = 4
-				$("#proposalSuccess").modal("show");
+				$("#proposalSuccess").modal('show');
 			}
 		});
 	};
+	function closeAllModals(modal){
+		for(var i=0;i<modal.length;i++){
+			modal[i].modal('hide');
+		}
+	}
 })
