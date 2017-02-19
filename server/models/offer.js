@@ -125,7 +125,7 @@ module.exports = function(jwt_key) {
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 GROUP BY o.user_id " +
 						"UNION " +
-						"SELECT HEX(o.user_id) AS eg, null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
+						"SELECT null, null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
 						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
 						"MIN(tooling), 'EG Estimate' " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
