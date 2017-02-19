@@ -39,7 +39,7 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 	}
 
 	$scope.continue = function() {
-		$("#offerSent").modal("hide");
+		$(".offerSent").modal("hide");
 		$location.url("/open-proposals");
 	}
 

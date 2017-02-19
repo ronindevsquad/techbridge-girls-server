@@ -6,10 +6,13 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 			else if (data.status >= 300)
 				$location.url("/");
 			else {
-				if ($scope.type == 1 && !data.offer)
+				if ($scope.type == 1 && !data.offer) {
 					$scope.signed = false;
-				else
+				}
+				else {
 					$scope.signed = true;
+				}
+				$scope.offer = data.files[0];
 
 				$scope.files = [];
 				for (var i = 0; i < data.files.length; i++) {
@@ -18,7 +21,6 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 					else
 						$scope.files.push(data.files[i])
 				}
-				$scope.offer = data.offer;
 			}
 		});
 	}
