@@ -13,7 +13,7 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 					$scope.signed = true;
 				}
 				$scope.offer = data.files[0];
-
+				console.log(data);
 				$scope.files = [];
 				for (var i = 0; i < data.files.length; i++) {
 					if (data.files[i].type == 1)
@@ -50,6 +50,10 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 		});
 	}
 
+	$scope.returnTrustedURL = function(file){
+		console.log(file.filename);
+		return $sce.trustAsResourceUrl(file.filename)
+	}
 	// Removing elements from DOM in angular causes errors
 	// removeDuplicateModals()
 }) //end of showProposalController
