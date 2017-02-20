@@ -67,9 +67,16 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT *, HEX(proposals.id) AS proposal_id, HEX(offers.user_id) AS user_id " +
-						"FROM proposals LEFT JOIN offers ON id = proposal_id " +
-						"WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = " +	"UNHEX(?)) " +
+						var user_id;
+						if (payload.type == 0)
+							user_id = "offers.user_id";
+						else if (payload.type == 1)
+							user_id = "proposals.user_id";
+
+						var query = "SELECT proposals.*, offers.*, picture, HEX(proposals.id) AS proposal_id, "
+						"HEX(offers.user_id) AS user_id " +
+						"FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN users ON users.id = " + user_id +
+						"WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
 						"AND offers.status > 1 AND proposals.status > 1";
 						return connection.execute(query, [payload.id, payload.id]);
 					}), using(getConnection(), connection => {
