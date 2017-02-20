@@ -690,7 +690,6 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
   border: 0;
 }
 .custom-adbox {     /* Custom Duh */
-  float: right;
   max-width: 250px;
   position: absolute;
   top: 60px;
@@ -699,7 +698,7 @@ header.darker.ui.basic.segment .ui.horizontal.list.company.trigger .content .hea
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 9px;
-  z-index: 5;
+  z-index: 981;
 }
 .buybox {
   max-width: 320px;
