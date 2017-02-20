@@ -205,7 +205,7 @@ module.exports = function(jwt_key) {
 							// Remove private files:
 							for (var i = files[0].length - 1; i >= 0; i--) {
 								if (files[0][i].type == 0){
-									if (files[0].length == 1){
+									if (files[0].length == 1){ //if there is only one file, we can assume that they did not upload an NDA. We will replace the filename of this to the NDA and change it's type to 1. We do this because the row has important information about the proposal paired to it.
 										files[0][0].filename = 'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'
 										files[0][0].type = 1;
 									}
@@ -213,11 +213,19 @@ module.exports = function(jwt_key) {
 										files[0].splice(i, 1);
 								}
 							}
+							//Clear out confidential information
+							files[0][0].user_id="";
+							files[0][0].proposal_id="";
+							files[0][0].zip="";
+							files[0][0].info="";
+							files[0][0].id="";
+
 						}
 						// Rename files:
-						if (files[0].length > 1) {
-							for (var i = 0; i < files[0].length; i++)
+						for (var i = 0; i < files[0].length; i++){
+							if(files[0][i].filename != 'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'){ //sign all files inside of the files array if they are not the default nda
 								files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 10);
+							}
 						}
 
 						callback(false, {files: files[0], offer: offer[0][0]});

@@ -681,16 +681,16 @@
 												Sub-total:
 											</div> <!-- .column -->
 											<div class="column">
-												$100
+												${{offer.total}}
 											</div> <!-- .column -->
 
 											<div class="ui horizontal divider"></div>
 
 											<div class="left aligned column">
-												2% Service fee:
+												2% EG Service fee:
 											</div> <!-- .column -->
 											<div class="column">
-												$2
+												${{offer.total*0.02}}
 											</div> <!-- .column -->
 
 											<div class="ui horizontal divider"></div>
@@ -699,7 +699,7 @@
 												Total Cost:
 											</div> <!-- .column -->
 											<div class="column larger">
-												$102
+												${{offer.total*1.02}}
 											</div> <!-- .column -->
 										</div> <!-- .row -->
 
@@ -741,7 +741,7 @@
 
 				<img src="static/img/green-check.png" width="100" class="ui centered image" />
 				<div class="ui horizontal divider"></div>
-				Your offer has been sent to {{proposal[0].company}}!
+				Your offer has been sent!
 			</div>
 			<div class="ui padded basic segment">
 				<p>While they review, reach out to more companies and win more proposals.</p>
