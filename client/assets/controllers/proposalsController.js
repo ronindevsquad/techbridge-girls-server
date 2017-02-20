@@ -1,4 +1,4 @@
-app.controller('proposalsController', function ($scope, $location, $interval, 
+app.controller('proposalsController', function ($scope, $location, $interval, $anchorScroll,
 proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
@@ -9,7 +9,9 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 				console.log("error:", data.data.message)
 			else {
 				$scope.proposals = data;
-				$scope.selected_proposal = selectedProposalFactory.getSelectedProposal();
+				// $scope.selected_proposal = selectedProposalFactory.get();
+				if(selectedProposalFactory.get())
+					$scope.getOffers(selectedProposalFactory.get());
 			}
 		});
 	}
@@ -90,9 +92,15 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 	//										OFFER
 	//////////////////////////////////////////////////////
 	$scope.getOffers = function(proposal) {
+		var clickedSameProposal = false
+		if($scope.selected_proposal){
+			if($scope.selected_proposal.id == proposal.id) //we cannot access id if selected proposal does not exist.
+				clickedSameProposal = true
+		}
 		$scope.proposalTab = 0;
-		if ($scope.selected_proposal == proposal) {
-			$scope.selected_proposal = undefined;
+		if (clickedSameProposal) {
+				$scope.selected_proposal = undefined;
+				selectedProposalFactory.set(undefined)
 		}
 		else {
 			offersFactory.index(proposal.id, function(data) {
@@ -101,6 +109,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
+					console.log("test");
 					$scope.selected_proposal = proposal;
 					selectedProposalFactory.set(proposal);
 
@@ -123,6 +132,8 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 						$scope.offerView = undefined;
 					// refreshChart();
 				}
+				$location.hash(proposal.id)
+				$anchorScroll(proposal.id);
 			}
 			});
 		}

@@ -1,5 +1,5 @@
 app.factory('selectedProposalFactory', function() {
-	let selected_proposal;
+	var selected_proposal;
 
 	return {
 		set: function(proposal) {
