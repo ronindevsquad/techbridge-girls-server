@@ -60,7 +60,8 @@
 							</div>
 							<div class="middle aligned content">
 								<div class="header">
-									<a href="#!/show-proposal/{{proposal.id}}">{{proposal.quantity}} {{proposal.product}}</a> <!-- {{proposal.completion | date:"MMM y"}} -->
+									<!-- <a href="#!/show-proposal/{{proposal.id}}">{{proposal.quantity}} {{proposal.product}}</a> {{proposal.completion | date:"MMM y"}} -->
+									<a ng-click="showProposalPage(proposal.id)" href="">{{proposal.quantity}} {{proposal.product}}</a>
 								</div>
 								<div class="description">
 									<p>{{proposal.info}}</p>
