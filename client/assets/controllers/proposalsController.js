@@ -102,6 +102,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 					console.log("error:", data.data.message)
 				else {
 					$scope.selected_proposal = proposal;
+					selectedProposalFactory.set(proposal);
 
 					if(data.leads.length >= 1) {
 						$scope.leads = data.leads;
@@ -145,7 +146,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
-				socket.emit("accept", offer);
+				socketsFactory.emit("accept", offer);
 				$location.url("/messages");
 			}
 		});

@@ -7,6 +7,7 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 		$scope.report;
 		$scope.new_report = {};
 		proposalsFactory.getPercentCompleted(function(data) {
+			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)

@@ -22,13 +22,14 @@
 									<div class="content">
 										<p style="word-wrap: break-word;">{{file.filename.substring(file.filename.lastIndexOf('testfolder/')+11,file.filename.lastIndexOf('?'))}}</p>
 									</div>
-									<a href="{{file.filename}}" target="_blank"><div class="ui bottom attached evergreen green button">
+									<a href="{{returnTrustedURL(file)}}" target="_blank"><div class="ui bottom attached evergreen green button">
 										View Document
 									</div></a>
 								</div> <!-- .card -->
 							</div> <!-- .cards -->
 						</div>
 					</div> <!-- .single slide -->
+					<a ng-if="signed" target="_blank" href="{{ndasource?ndasource:'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'}}">Non Disclosure Agreement For this Proposal</a>
 
 						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
 					<!-- <div class="box">
@@ -73,15 +74,15 @@
 				</div> <!-- .column -->
 				<div class="sixteen wide tablet eight wide computer column container divided">
 
-					<h3>Here’s what we’re trying to produce</h3>
+					<!-- <h3>Here’s what we’re trying to produce</h3> -->
 
-					<div class="content box">
-						<h4>Where are they located?</h4>
-						<p ng-bind="files[0].zip"></p>
+					<div class="content box" ng-show="signed">
+						<h4>{{files[0].product}}</h4>
+						<p ng-bind="files[0].info"></p>
 					</div> <!-- .content box -->
 
-					<div class="content box">
-						<h4>How many units are they trying to produce?</h4>
+					<div class="content box" ng-show="signed">
+						<h4>Quantity Needed</h4>
 						<p ng-bind="files[0].quantity | number"></p>
 					</div> <!-- .content box -->
 
@@ -98,6 +99,15 @@
 						<div class="content box">
 							<h4>And they need them by:</h4>
 							<p ng-bind="files[0].completion | date:'fullDate'"></p>
+							<!-- <img src="static/img/test-image.png" width="260" class="ui image" /> -->
+
+						</div> <!-- .content box -->
+					</div>
+
+					<div ng-show="signed">
+						<div class="content box">
+							<h4>Additional Information:</h4>
+							<p ng-bind="files[0].info"></p>
 							<!-- <img src="static/img/test-image.png" width="260" class="ui image" /> -->
 
 						</div> <!-- .content box -->
