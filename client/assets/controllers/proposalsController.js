@@ -1,9 +1,16 @@
-app.controller('proposalsController', function ($scope, $location, $interval,
-proposalsFactory, offersFactory, chartsFactory, socketsFactory) {
+app.controller('proposalsController', function ($scope, $location, $interval, 
+proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
-			$scope.proposals = data;
+			if (data.status == 401)
+				$scope.logout();
+			else if (data.status >= 300)
+				console.log("error:", data.data.message)
+			else {
+				$scope.proposals = data;
+				$scope.selected_proposal = selectedProposalFactory.getSelectedProposal();
+			}
 		});
 	}
 	else
@@ -84,8 +91,8 @@ proposalsFactory, offersFactory, chartsFactory, socketsFactory) {
 	//////////////////////////////////////////////////////
 	$scope.getOffers = function(proposal) {
 		$scope.proposalTab = 0;
-		if ($scope.proposalView == proposal) {
-			$scope.proposalView = undefined;
+		if ($scope.selected_proposal == proposal) {
+			$scope.selected_proposal = undefined;
 		}
 		else {
 			offersFactory.index(proposal.id, function(data) {
@@ -94,7 +101,8 @@ proposalsFactory, offersFactory, chartsFactory, socketsFactory) {
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					$scope.proposalView = proposal;
+					$scope.selected_proposal = proposal;
+					selectedProposalFactory.set(proposal);
 
 					if(data.leads.length >= 1) {
 						$scope.leads = data.leads;
@@ -108,7 +116,7 @@ proposalsFactory, offersFactory, chartsFactory, socketsFactory) {
 						$scope.EGcost = data.applications.pop();
 						$scope.offers = data.applications;
 						$scope.offerView = $scope.offers[0];
-						$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
+						$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
 						refreshChart()
 					} else {
 						$scope.offers = undefined;
@@ -122,7 +130,7 @@ proposalsFactory, offersFactory, chartsFactory, socketsFactory) {
 
 	$scope.getOffer = function(offer) {
 		$scope.offerView = offer;
-		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.proposalView.quantity)).toFixed(2);
+		$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
 		refreshChart();
 		$scope.$apply();
 	};

@@ -52,7 +52,7 @@
 
 					<!-- this is where we end the details panel -->
 					<div ng-repeat="proposal in proposals" class="ui resulted items">
-						<div class="item" ng-class="proposalView == proposal ? 'ui segment opened':''">
+						<div class="item" ng-class="selected_proposal == proposal ? 'ui segment opened':''">
 							<div class="ui small calendar">
 								{{proposal.created_at | date:"MMM"}}<br />
 								<strong ng-bind="{{proposal.created_at | date:'dd'}}"></strong>
@@ -66,12 +66,12 @@
 								</div>
 							</div>
 							<div class="extra">
-								<a ng-click="getOffers(proposal);" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button">{{proposalView == proposal ? 'Close':'View Offers'}}</a>
-								<a ng-click="set(proposal)" ng-class="proposalView==proposal ? '' : color" href="" class="ui evergreen button delete-button">Remove</a>
+								<a ng-click="getOffers(proposal);" ng-class="selected_proposal==proposal ? '' : color" href="" class="ui evergreen button">{{selected_proposal == proposal ? 'Close':'View Offers'}}</a>
+								<a ng-click="set(proposal)" ng-class="selected_proposal==proposal ? '' : color" href="" class="ui evergreen button delete-button">Remove</a>
 								<small>{{proposal.applications*3}} Views   |   {{proposal.applications}} {{proposal.applications == 1 ? 'Applicant': 'Applicants'}}   |   {{proposal.leads}} {{proposal.leads == 1 ? 'Lead': 'Leads'}}</small>
 							</div>
 						</div>
-						<div ng-show="proposalView == proposal" class="detail-panel">
+						<div ng-show="selected_proposal == proposal" class="detail-panel">
 							<div class="ui top attached tabular menu">
 								<a ng-class="proposalTab == 0 ? 'active':''" class="item" ng-click="proposalTab = 0" data-tab="offers">Offers</a>
 								<a ng-class="proposalTab == 1 ? 'active':''" class="item" ng-click="proposalTab = 1" data-tab="leads">Leads</a>
@@ -103,7 +103,7 @@
 
 										<div class="sixteen wide tablet twelve wide computer column stretched">
 											<div class="ui very padded basic segment">
-												<div ng-show="proposalView==proposal && !offers" class="detail-panel">
+												<div ng-show="selected_proposal==proposal && !offers" class="detail-panel">
 													<h1 class="ui center aligned segment">No offers for this proposal yet.</h1>
 												</div>
 												<div ng-show="offers.length > 0" class="ui tab active" data-tab="applicant1">
@@ -122,7 +122,7 @@
 
 														<div class="details-item">
 															<p class="footnote">Delivery date</p>
-															<div class="details-value"><i class="calendar outline icon op50"></i> {{proposalView.completion | date:"dd.MM.y"}}</div>
+															<div class="details-value"><i class="calendar outline icon op50"></i> {{selected_proposal.completion | date:"dd.MM.y"}}</div>
 														</div>
 
 														<div class="details-item">
@@ -143,7 +143,7 @@
 													</div>
 
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
-													<div ng-if="proposalView == proposal" style="" id="chart_div"></div>
+													<div ng-if="selected_proposal == proposal" style="" id="chart_div"></div>
 													<div class="green-square"></div>
 													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
 														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
@@ -213,7 +213,7 @@
 													</div>
 
 												</div>
-												<div ng-show="proposalView==proposal && !leads" class="detail-panel">
+												<div ng-show="selected_proposal==proposal && !leads" class="detail-panel">
 													<h1 class="ui center aligned segment">No leads for this proposal yet.</h1>
 												</div>
 
@@ -280,7 +280,7 @@
 		<div class="ui ten centered grid">
 			<div class="five wide column">
 				<h5>Deliver Date</h5>
-				<p>{{proposalView.completion | date:"dd.MM.y"}}</p>
+				<p>{{selected_proposal.completion | date:"dd.MM.y"}}</p>
 			</div>
 			<div class="five wide column">
 				<h5>Sub-total</h5>
