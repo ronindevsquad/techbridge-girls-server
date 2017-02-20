@@ -72,7 +72,6 @@ module.exports = function(jwt_key) {
 							user_id = "offers.user_id ";
 						else if (payload.type == 1)
 							user_id = "proposals.user_id ";
-							console.log(user_id);
 						var query = "SELECT proposals.*, offers.*, proposals.completion AS completion, picture, HEX(proposals.id) AS proposal_id, " +
 						"HEX(offers.user_id) AS user_id " +
 						"FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN users ON users.id = " + user_id +

@@ -1,5 +1,7 @@
-app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce,
+app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce, $anchorScroll,
 	proposalsFactory, offersFactory) {
+	$location.hash('greenwrapper')
+	$anchorScroll();
 	if ($scope.id) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
