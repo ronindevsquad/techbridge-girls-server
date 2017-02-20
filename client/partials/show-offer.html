@@ -9,7 +9,6 @@
 			<div class="ui centered relaxed grid">
 				<h2 class="green text" style="margin-bottom: 0px; padding-bottom: 0px;">Viewing <span ng-if="offer.offer_user_id==id">Your</span><span ng-if="offer.offer_user_id!=id">{{offer.company}}'s</span> Offer For:</h2>
 
-
 				<div class="sixteen wide tablet twelve wide computer column container">
 					<h3 style="margin-top: 0px; display: block; text-align: center;">{{offer.quantity}} <strong>{{offer.product}} </strong>to be produced by <strong>{{offer.completion | date:"mediumDate"}}</strong></h3>
 					<div class="ui centered relaxed grid">
@@ -108,18 +107,6 @@
 										<td class="center aligned" ng-bind="offer.total | number:2"></td>
 									</tr>
 								</tbody>
-								<tfoot class="full-width" ng-if="type==0">
-									<!-- <tr class="center aligned">
-										<th colspan="4">
-											<button class="ui small green button">
-												Accept Application
-											</button>
-											<button class="ui small orange button">
-												Decline Application
-											</button>
-										</th>
-									</tr> -->
-								</tfoot>
 							</table>
 						</div>
 

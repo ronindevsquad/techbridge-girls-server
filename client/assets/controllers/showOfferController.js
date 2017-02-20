@@ -1,5 +1,5 @@
 app.controller('showOfferController', function ($scope, $location, $routeParams,
-	proposalsFactory, offersFactory) {
+	proposalsFactory, offersFactory, selectedProposalFactory) {
 	if ($scope.id) {
 		offersFactory.show($routeParams.proposal_id, $routeParams.user_id, function(data) {
 			if (data.status == 401)
