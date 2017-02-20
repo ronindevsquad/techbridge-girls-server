@@ -61,7 +61,7 @@ module.exports = function(jwt_key) {
 					});
 			});
 		},
-		getPercentCompleted: function(req, callback) {
+		getPercentCompleted: function(req, callback) { //called in the tracking page to get all proposals and their percentage completed. Makers should be able to track
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
@@ -69,11 +69,11 @@ module.exports = function(jwt_key) {
 					Promise.join(using(getConnection(), connection => {
 						var user_id;
 						if (payload.type == 0)
-							user_id = "offers.user_id";
+							user_id = "offers.user_id ";
 						else if (payload.type == 1)
-							user_id = "proposals.user_id";
-
-						var query = "SELECT proposals.*, offers.*, picture, HEX(proposals.id) AS proposal_id, "
+							user_id = "proposals.user_id ";
+							console.log(user_id);
+						var query = "SELECT proposals.*, offers.*, proposals.completion AS completion, picture, HEX(proposals.id) AS proposal_id, " +
 						"HEX(offers.user_id) AS user_id " +
 						"FROM proposals LEFT JOIN offers ON id = proposal_id LEFT JOIN users ON users.id = " + user_id +
 						"WHERE (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) " +
