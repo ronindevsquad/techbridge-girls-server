@@ -17,7 +17,6 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	$scope.proposal.info = "Let our network of suppliers know what else you need";
 
 	$scope.logVariables = function(){
-		console.log($scope.proposal);
 	}
 
 	//END OF AUTOCOMPLETE FIELDS FOR TESTING PURPOSES
@@ -26,7 +25,7 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 	$scope.uploadingFiles = false;
 
 	$scope.close = function(_) {
-		$("#proposalSuccess").modal("hide");
+		$(".proposalSuccess").modal('hide');
 		if (_ == 0)
 			$route.reload();
 		else
@@ -54,15 +53,12 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 		request.onload = function() {
 			var responseText = JSON.parse(this.responseText);
 			var response = JSON.parse(this.response);
-			console.log("responseText:", responseText)
-			console.log("response:", response)
 
 			if (!response.message) {
 				$scope.proposal.files = responseText;
 				$scope.$apply();
 				$scope.create();
 			} else {
-				console.log(response.message);
 				$scope.error = response.message;
 				$scope.uploadingFiles = false;
 				$scope.$apply();
@@ -83,8 +79,13 @@ app.controller("createProposalController", function ($scope, $route, $location, 
 			}
 			else {
 				$scope.step = 4
-				$("#proposalSuccess").modal("show");
+				$("#proposalSuccess").modal('show');
 			}
 		});
 	};
+	function closeAllModals(modal){
+		for(var i=0;i<modal.length;i++){
+			modal[i].modal('hide');
+		}
+	}
 })

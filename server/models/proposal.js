@@ -82,13 +82,12 @@ module.exports = function(jwt_key) {
 					}), using(getConnection(), connection => {
 						var query = "SELECT HEX(proposal_id) AS proposal_id, SUM(output) AS completed FROM reports " +
 						"WHERE (user_id = UNHEX(?) OR proposal_id IN (" +
-						"SELECT id FROM proposals WHERE user_id = UNHEX(?)))";
+						"SELECT id FROM proposals WHERE user_id = UNHEX(?))) GROUP BY proposal_id";
 						return connection.execute(query, [payload.id, payload.id]);
 					}), (proposals, reports) => {
 						var response = {};
 						response.proposals = proposals[0];
 						response.reports = reports[0];
-						console.log(response);
 						callback(false, response);
 					})
 					.catch(err => {
@@ -168,7 +167,7 @@ module.exports = function(jwt_key) {
 							var query = "SELECT *, GROUP_CONCAT(process SEPARATOR ', ') AS processes, HEX(proposals.id) " +
 							"AS id, proposals.created_at AS created_at FROM proposals LEFT JOIN proposal_processes " +
 							"ON proposals.id = proposal_id WHERE proposals.status = 0 AND (audience = 0 OR process IN " +
-							"(?)) GROUP BY proposals.id ORDER BY proposals.created_at DESC LIMIT ?, 11";
+							"(?)) GROUP BY proposals.id, proposal_processes.process ORDER BY proposals.created_at DESC LIMIT ?, 11";
 							return connection.query(query, [_data, (req.params.page-1)*10]);
 						});
 					})
@@ -205,15 +204,22 @@ module.exports = function(jwt_key) {
 						else if (payload.type == 1 && offer[0].length == 0) {
 							// Remove private files:
 							for (var i = files[0].length - 1; i >= 0; i--) {
-								if (files[0][i].type == 0)
-									files[0].splice(i, 1);
+								if (files[0][i].type == 0){
+									if (files[0].length == 1){
+										files[0][0].filename = 'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'
+										files[0][0].type = 1;
+									}
+									else
+										files[0].splice(i, 1);
+								}
 							}
 						}
 						// Rename files:
-						for (var i = 0; i < files[0].length; i++)
-							files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 10);
-						if(files[0].length==0) //if the NDA is not in the files array (it should be the last item in the array)
-							files[0].push({filename: bucket1.getUrl('GET', `/public_assets/170128_Mutual_NDA.pdf`, 'ronintestbucket', 10), type:1})
+						if (files[0].length > 1) {
+							for (var i = 0; i < files[0].length; i++)
+								files[0][i].filename = bucket1.getUrl('GET', `/testfolder/${files[0][i].filename}`, 'ronintestbucket', 10);
+						}
+
 						callback(false, {files: files[0], offer: offer[0][0]});
 					})
 					.catch(err => {

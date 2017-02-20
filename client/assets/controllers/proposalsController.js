@@ -3,7 +3,6 @@ proposalsFactory, offersFactory, chartsFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
-			console.log(data);
 			$scope.proposals = data;
 		});
 	}
@@ -28,7 +27,6 @@ proposalsFactory, offersFactory, chartsFactory) {
 	// Make sure chart is loaded:
 	if (!chartsFactory.getChart()) {
 		chart = $interval(function() {
-			console.log(chartsFactory.getChart());
 			if (chartsFactory.getChart())
 				initializeChart();
 		}, 100);
@@ -96,7 +94,6 @@ proposalsFactory, offersFactory, chartsFactory) {
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log(data);
 					$scope.proposalView = proposal;
 
 					if(data.leads.length >= 1) {

@@ -3,12 +3,10 @@ app.controller('indexController', function ($scope, $rootScope, $location, sessi
 		$location.url('/dashboard');
 	} else {
 		if (IN.User && IN.User.isAuthorized()) {
-			console.log('auth');
 			IN.User.logout(function(){
 				$cookies.remove("evergreen_token");
 			});
 		} else {
-			console.log('none');
 		}
 	}
 

@@ -6,7 +6,7 @@
 
 		<div class="ui container">
 			<h2 style="margin: 0px; padding: 0px;">Viewing Proposal For:</h2>
-			<h2 style="margin-top: 0px;"><strong>Customer in USA looking to produce {{files[0].quantity | number}} units by {{files[0].completion | date:"mediumDate"}}</strong></h2>
+			<h2 style="margin-top: 0px;"><strong>Customer in USA looking to produce {{offer.quantity | number}} units by {{offer.completion | date:"mediumDate"}}</strong></h2>
 
 			<div class="ui centered relaxed grid">
 				<div class="sixteen wide tablet four wide computer column">
@@ -90,7 +90,7 @@
 						<h6>View full details</h6>
 						<p>Please read and accept the Non-Disclosure Agreement before moving forward with this offer</p>
 
-						<a class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
+						<a onclick="$('#ndaWindow').modal('show');" class="ui fluid grey big uppercase basic button nda-trigger">Read the NDA</a>
 
 					</div>
 
@@ -131,7 +131,7 @@
 
 
 	<!-- the NDA modal -->
-	<div class="ui small modal" id="ndaWindow">
+	<div class="ui small modal ndaWindow" id="ndaWindow">
 		<i class="close icon"></i>
 		<div class="header">
 			Non-disclosure Agreement
@@ -187,7 +187,7 @@
 						<a href="" class="ui fluid grey big uppercase basic button nda-confirmation">I do not agree</a>
 					</div>
 					<div class="column">
-						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="create()">I agree</a>
+						<a class="ui fluid evegreen uppercase big green button nda-trigger" ng-click="create()" onclick="$('.ndaWindow').modal('hide');">I agree</a>
 					</div>
 				</div> <!-- .row -->
 			</div> <!-- .grid -->
@@ -214,7 +214,7 @@
 
 				<a href="" class="ui fluid evegreen uppercase big green button nda-trigger">Go back</a>
 
-				<a href="" class="ui fluid grey big uppercase basic button close">I am sure</a>
+				<a href="" class="ui fluid grey big uppercase basic button close" onclick="$('#areYouSure').modal('hide');">I am sure</a>
 
 			</div> <!-- .grid -->
 

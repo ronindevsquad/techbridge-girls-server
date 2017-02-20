@@ -18,7 +18,6 @@ app.controller("offersController", function ($scope, $location, proposalsFactory
 	//										HELPER FUNCTIONS
 	//////////////////////////////////////////////////////
 	$scope.set = function(proposal) {
-		console.log(proposal)
 		$scope.id_to_delete = proposal.id;
 	};
 

@@ -1,16 +1,18 @@
 app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce, proposalsFactory, offersFactory) {
 	if ($scope.id) {
 		proposalsFactory.show($routeParams.id, function(data) {
-			console.log(data);
 			if (data.status == 401)
 				$scope.logout();
 			else if (data.status >= 300)
 				$location.url("/");
 			else {
-				if ($scope.type == 1 && !data.offer)
+				if ($scope.type == 1 && !data.offer) {
 					$scope.signed = false;
-				else
+				}
+				else {
 					$scope.signed = true;
+				}
+				$scope.offer = data.files[0];
 
 				$scope.files = [];
 				for (var i = 0; i < data.files.length; i++) {
@@ -19,7 +21,6 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 					else
 						$scope.files.push(data.files[i])
 				}
-				$scope.offer = data.offer;
 			}
 		});
 	}
@@ -28,13 +29,14 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 
 	$scope.send = function() {
 		if (!$scope.signed) {
-			$("#ndaWindow").modal("show");
+			$(".ndaWindow").modal('show');
 		}
 		else
 			$location.url(`create-offer/${$routeParams.id}`)
 	}
 
 	$scope.create = function() {
+		$('#ndaWindow').modal('hide');
 		offersFactory.create({proposal_id: $routeParams.id}, function(data) {
 			if (data.status == 401)
 				$scope.logout();
@@ -42,8 +44,12 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 				console.log("error:", data.data.message)
 			else{
 				$route.reload();
+				// using $location does not update the page with the new files
 				// $location.url(`/show-proposal/${$routeParams.id}`);
 			}
 		});
 	}
-})
+
+	// Removing elements from DOM in angular causes errors
+	// removeDuplicateModals()
+}) //end of showProposalController

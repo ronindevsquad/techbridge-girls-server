@@ -19,7 +19,6 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 					manuals: [{}],
 				};
 				$scope.proposal = data;
-				console.log(data)
 			}
 			else
 				$location.url(`/show-proposal/${$routeParams.id}`)
@@ -40,13 +39,12 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 	}
 
 	$scope.continue = function() {
-		$("#offerSent").modal("hide");
+		$(".offerSent").modal("hide");
 		$location.url("/open-proposals");
 	}
 
 	$scope.send = function() {
 		$scope.error = "";
-		console.log($scope.offer);
 		offersFactory.send($scope.offer, function(data) {
 			if (data.status == 401)
 				$scope.logout();
