@@ -1,4 +1,4 @@
-app.controller('openProposalsController', function ($scope, $location, $routeParams, $anchorScroll, proposalsFactory) {
+app.controller('openProposalsController', function ($scope, $location, $routeParams, $anchorScroll, proposalsFactory, routesFactory) {
 	if ($scope.type == 1) {
 		$scope.tab = "open";
 		$scope.sortExpression = 'created_at';
@@ -23,4 +23,9 @@ app.controller('openProposalsController', function ($scope, $location, $routePar
 	}
 	else
 		$location.url('/');
+
+	$scope.showProposal = function(proposal_id){
+		routesFactory.setOrigin("/open-proposals");
+		$location.url(`/show-proposal/${proposal_id}`);
+	};
 })

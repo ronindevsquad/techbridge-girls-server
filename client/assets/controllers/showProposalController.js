@@ -57,6 +57,12 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 		console.log(file.filename);
 		return $sce.trustAsResourceUrl(file.filename)
 	}
+
+	$scope.goBack = function(){
+		routesFactory.goBack();
+	};
+
+
 	// Removing elements from DOM in angular causes errors
 	// removeDuplicateModals()
 }) //end of showProposalController
