@@ -1,4 +1,4 @@
-app.controller("offersController", function ($scope, $location, proposalsFactory, offersFactory) {
+app.controller("offersController", function ($scope, $location, proposalsFactory, offersFactory, routesFactory) {
 	if ($scope.type == 1) {
 		$scope.tab = "offers";
 		proposalsFactory.getMyApplications(function(data) {
@@ -37,5 +37,10 @@ app.controller("offersController", function ($scope, $location, proposalsFactory
 				}), 1);
 			}
 		});
+	};
+
+	$scope.getProposal = function(proposal_id){
+		routesFactory.setOrigin("/offers");
+		$location.url(`/show-proposal/${proposal_id}`);
 	};
 });
