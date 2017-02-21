@@ -35,6 +35,7 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 
 	$scope.edit = function() {
 		$scope.show_summary = false;
+		$scope.error = "";
 		$anchorScroll("anchor_form");
 	};
 
