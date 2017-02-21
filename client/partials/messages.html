@@ -7,7 +7,8 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2>Messages</h2>
-			<p>Your opened conversations.</p>
+			<p ng-if="type==0">Once you accept an offer for a proposal, you will begin communication with the supplier here.</p>
+			<p ng-if="type==1">Once your offer for a proposal has been accepted, you will begin communication with the company here.</p>
 
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
@@ -82,7 +83,7 @@
 												<span class="tooltip" data-tooltip="Try refreshing the page." data-position="right center" data-variation="basic">
 													Messages not appearing?
 													<i class="help circle outline icon"></i>
-												</span> 
+												</span>
 											</small>
 									</div> <!-- .send-area -->
 								</div>
