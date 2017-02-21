@@ -89,7 +89,7 @@
 
 												<div class="ui items message-contacts">
 													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="item" ng-class="{active: offer == offerView, orange: offer == offerView}" data-tab="applicant1">
-														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/husky-logo.png'}});
+														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/supplierdefaultprofilepic.png'}});
 										    background-size: cover;">
 															<!-- <img src="{{offer.picture? offer.picture:'static/img/husky-logo.png'}}" class="ui centered image" /> -->
 														</div>
@@ -123,8 +123,8 @@
 														</div>
 
 														<div class="details-item">
-															<p class="footnote">Delivery date</p>
-															<div class="details-value"><i class="calendar outline icon op50"></i> {{selected_proposal.completion | date:"dd.MM.y"}}</div>
+															<p class="footnote">Est. Days to Complete</p>
+															<div class="details-value"><i class="calendar outline icon op50"></i> {{offerView.completion}}</div>
 														</div>
 
 														<div class="details-item">
@@ -147,7 +147,7 @@
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
 													<div ng-if="selected_proposal.id==proposal.id" style="" id="chart_div"></div>
 													<div class="green-square"></div>
-													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
+													<span data-tooltip="Evergreen's calculated lowest cost among the offers.">
 														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
 													</span>
 													<div class="orange-square"></div>
@@ -186,7 +186,7 @@
 												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they haven't submitted an offer yet.</p>
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a ng-class="lead == leadView ? 'active':''" class="item" ng-click="leadViewAssign(lead)">
-														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/husky-logo.png'}});
+														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/supplierdefaultprofilepic.png'}});
 										    background-size: cover;">
 															<!-- <img src="static/img/husky-logo.png" class="ui centered image" /> -->
 														</div>

@@ -104,12 +104,12 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 		}
 		else {
 			offersFactory.index(proposal.id, function(data) {
+				console.log(data);
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log("test");
 					$scope.selected_proposal = proposal;
 					selectedProposalFactory.set(proposal);
 
