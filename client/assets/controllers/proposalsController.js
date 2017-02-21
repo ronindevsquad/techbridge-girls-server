@@ -125,7 +125,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 						$scope.EGcost = data.applications.pop();
 						$scope.offers = data.applications;
 						$scope.offerView = $scope.offers[0];
-						$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
+						// $scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
 						refreshChart()
 					} else {
 						$scope.offers = undefined;
