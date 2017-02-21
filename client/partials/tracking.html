@@ -9,7 +9,8 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2>Track Progress</h2>
-			<p>Your current tracked progress.</p>
+			<p ng-if="type==0">Progress will be viewable here once a supplier begins production for your product.</p>
+			<p ng-if="type==1">Update your clients on production status with daily reports.</p>
 
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
