@@ -14,7 +14,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT sga, tooling, profit, overhead, total, completion, company, HEX(user_id) AS " +
+						var query = "SELECT first, follow, cavitation, days, life, sga, profit, overhead, total, completion, company, HEX(user_id) AS " +
 						"user_id FROM offers LEFT JOIN users ON user_id = id WHERE proposal_id = UNHEX(?) AND status > 0 " +
 						"ORDER BY user_id";
 						return connection.execute(query, [req.params.proposal_id]);
@@ -121,20 +121,22 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, o.status, sga, profit, overhead, ROUND(total,2) AS total, tooling, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, " + 
+						"o.status, first, follow, cavitation, days, life, sga, profit, overhead, ROUND(total,2) AS total, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 GROUP BY o.user_id " +
 						"UNION " +
 						"SELECT null, null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
-						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(tooling) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
-						"MIN(tooling), 'EG Estimate' " +
+						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
+						"'EG Estimate' " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"JOIN proposals p on p.id = o.proposal_id " +
 						"JOIN labor_costs l on l.proposal_id = o.proposal_id " +
 						"WHERE o.proposal_id = UNHEX(?) GROUP BY o.proposal_id"
 						return connection.query(query, [req.params.proposal_id, req.params.proposal_id]);
 					}), using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, u.company, u.picture AS picture, o.created_at " +
+						var query = "SELECT HEX(o.user_id) AS user_id, HEX(o.proposal_id) AS proposal_id, o.status, " +
+						"u.company, u.picture AS picture, o.created_at " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 0";
 						return connection.execute(query, [req.params.proposal_id]);
@@ -157,7 +159,8 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT offers.*, HEX(offers.user_id) AS offer_user_id, HEX(offers.proposal_id) AS proposal_id, proposals.*, company, offers.status AS status FROM " +
+						var query = "SELECT offers.*, HEX(offers.user_id) AS offer_user_id, HEX(offers.proposal_id) " + 
+						"AS proposal_id, proposals.*, company, offers.status AS status FROM " +
 						"offers LEFT JOIN users ON user_id = id LEFT JOIN " +
 						"proposals ON proposal_id = proposals.id WHERE proposals.id = UNHEX(?) AND offers.user_id = " +
 						"UNHEX(?) AND (offers.user_id = UNHEX(?) OR proposals.user_id = UNHEX(?)) LIMIT 1";
@@ -318,18 +321,24 @@ module.exports = function(jwt_key) {
 						return callback({status: 400, message: "Invalid field(s) for manual labors provided."});
 				}
 
-				if (!req.body.proposal_id || req.body.tooling === undefined || req.body.sga === undefined ||
-					req.body.profit === undefined || req.body.overhead === undefined || req.body.total === undefined ||
-					req.body.completion === undefined || req.body.sga < 0 || req.body.tooling < 0 ||
-					req.body.profit < 0 || req.body.overhead < 0 || req.body.total < 0)
-					return callback({status: 400, message: "All form fields are required."});
+				// Validate offer:
+				if (!req.body.proposal_id ||  req.body.first === undefined || req.body.follow === undefined ||  
+					req.body.cavitation === undefined ||  req.body.days === undefined || req.body.life === undefined || 
+					req.body.sga === undefined || req.body.profit === undefined || req.body.overhead === undefined || 
+					req.body.tpp === undefined || req.body.total === undefined || req.body.completion === undefined || 
+					req.body.first < 0 || req.body.follow < 0 || req.body.cavitation < 0 || req.body.days < 0 || 
+					req.body.life < 0 || req.body.sga < 0  || req.body.profit < 0 || req.body.overhead < 0 || req.body.tpp < 0 ||
+					req.body.total < 0)
+					return callback({status: 400, message: "Invalid form fields."});
 
 				// Validation done, insert into offers:
 				else
 					using(getConnection(), connection => {
-						var data = [req.body.tooling, req.body.sga, req.body.profit, req.body.overhead,
+						var data = [req.body.first, req.body.follow, req.body.cavitation, req.body.days, req.body.life,
+						req.body.sga, req.body.profit, req.body.overhead, req.body.tpp,
 						req.body.total, req.body.completion, req.body.proposal_id, payload.id, req.body.proposal_id];
-						var query = "UPDATE offers SET status = 1, tooling = ?, sga = ?, profit = ?, overhead = ?, " +
+						var query = "UPDATE offers SET status = 1, first = ?, follow = ?, cavitation = ?, days = ?, life = ?, " +
+						"sga = ?, profit = ?, overhead = ?, tpp = ?, " +
 						"total = ?, completion = ?, updated_at = NOW() WHERE proposal_id = UNHEX(?) AND user_id = UNHEX(?) " +
 						"AND status = 0 AND EXISTS (SELECT * FROM proposals WHERE id = UNHEX(?) AND status = 0 " +
 						"LIMIT 1) LIMIT 1";

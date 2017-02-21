@@ -31,17 +31,17 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 		// Do whatever math here...
 		$scope.show_summary = true;
 		$anchorScroll("anchor_summary");
-	}
+	};
 
 	$scope.edit = function() {
 		$scope.show_summary = false;
 		$anchorScroll("anchor_form");
-	}
+	};
 
 	$scope.continue = function() {
 		$(".offerSent").modal("hide");
 		$location.url("/open-proposals");
-	}
+	};
 
 	$scope.send = function() {
 		$scope.error = "";
@@ -56,5 +56,5 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 				$("#offerSent").modal("show");
 			}
 		});
-	}
-})
+	};
+});

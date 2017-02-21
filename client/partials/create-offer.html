@@ -384,7 +384,7 @@
 													<div class="ui right labeled input">
 														<input type="number" placeholder="e.g. 11" min="1" step="1" ng-model="machine.time" required>
 														<div class="ui basic label">
-															sec
+															seconds
 														</div> <!-- label -->
 													</div>
 												</div> <!-- .field -->
@@ -447,7 +447,7 @@
 												<select ng-model="manual.labor" required>
 													<optgroup label="Assembly">
 														<option value="Fitting & Assembly">Fitting &amp; Assembly</option>
-														<option value="General Assembly">Manual Assembly</option>
+														<option value="Manual Assembly">Manual Assembly</option>
 														<option value="Glueing">Glueing</option>
 														<option value="Heat Staking">Heat Staking</option>
 														<option value="Inspection">Inspection</option>
@@ -476,7 +476,7 @@
 													<div class="ui right labeled input">
 														<input type="number" placeholder="e.g. 600" min="1" step="1" ng-model="manual.time" required>
 														<div class="ui basic label">
-															sec
+															seconds
 														</div> <!-- label -->
 													</div>
 												</div> <!-- .field -->
@@ -524,64 +524,151 @@
 
 								<div class="ui horizontal divider"></div>
 
-								<fieldset >
-									<legend>&nbsp;<strong>Production Costs</strong>&nbsp;</legend><br>
+								<!-- START tooling -->
+								<fieldset>
+									<legend>&nbsp;<strong>Tooling</strong>&nbsp;</legend><br>
 
-									<div class="field">
-										<label><span data-tooltip="This is the cost of your SG&A team." data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
-										<div class="ui right labeled input">
-											<input placeholder="SG&A" type="number" min="0" step="0.01" ng-model="offer.sga" required>
-											<div class="ui basic label">
-												$
-											</div> <!-- label -->
-										</div>
-									</div>
-									<div class="field">
-										<div class="field">
-											<label><span data-tooltip="This is the cost of of any tools you use." data-position="right center">Tooling <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input placeholder="Tooling" type="number" min="0" step="0.01" ng-model="offer.tooling" required>
-												<div class="ui basic label">
-													$
-												</div> <!-- label -->
+									<div class="ui grid second">
+										<div class="eight wide column">
+											<div class="field">
+												<label><span data-tooltip="This is the cost of ..." data-position="right center">First Cost <i class="help circle outline icon"></i></span></label>
+												<div class="ui left labeled input">
+													<div class="ui basic label">
+														$
+													</div> <!-- label -->
+													<input type="number" placeholder="e.g. 500.00" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.first" required>
+												</div>
+											</div> <!-- .field -->
+										</div> <!-- .column -->
+
+										<div class="eight wide column">
+											<div class="field">
+												<label><span data-tooltip="This is the cost of ..." data-position="right center">Follow-On Cost <i class="help circle outline icon"></i></span></label>
+												<div class="ui left labeled input">
+													<div class="ui basic label">
+														$
+													</div> <!-- label -->
+													<input type="number" placeholder="e.g. 15.00" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.follow" required>
+												</div>
+											</div> <!-- .field -->
+										</div> <!-- .column -->
+
+										<div class="eight wide column">
+											<div class="field">
+												<label><span data-tooltip="This is the number of ..." data-position="right center">Cavitation <i class="help circle outline icon"></i></span></label>
+												<div class="ui labeled input">
+													<input type="number" placeholder="e.g. 100" min="0" max="999" step="1" ng-model="offer.cavitation" required>
+												</div>
+											</div> <!-- .field -->
+										</div> <!-- .column -->
+
+										<div class="eight wide column">
+											<div class="field">
+												<label><span data-tooltip="This is the number of days ..." data-position="right center">Tooling Lead Time <i class="help circle outline icon"></i></span></label>
+												<div class="ui right labeled input">
+													<input type="number" placeholder="e.g. 120" min="0" max="999" step="1" ng-model="offer.days" required>
+													<div class="ui basic label">
+														days
+													</div> <!-- label -->
+												</div>
+											</div> <!-- .field -->
+										</div> <!-- .column -->
+
+										<div class="eight wide column">
+											<div class="field">
+												<label><span data-tooltip="This is the lifetime of the tool measured in millions of shots." data-position="right center">Tool Life <i class="help circle outline icon"></i></span></label>
+												<div class="ui right labeled input">
+													<input type="number" placeholder="e.g. 1.5" min="0" max="999.9999999" step="1" ng-model="offer.life" required>
+													<div class="ui basic label">
+														million shots
+													</div> <!-- label -->
+												</div>
+											</div> <!-- .field -->
+										</div> <!-- .column -->
+
+									</fieldset>
+									<!-- END tooling -->
+
+									<div class="ui horizontal divider"></div>
+
+									<!-- START production costs -->
+									<fieldset >
+										<legend>&nbsp;<strong>Production Costs Per Part</strong>&nbsp;</legend><br>
+										<div class="ui grid second">
+
+											<div class="eight wide column">
+												<div class="field">
+													<label><span data-tooltip="This is the cost of your SG&A team for producing one unit." data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
+													<div class="ui left labeled input">
+														<div class="ui basic label">
+															$
+														</div> <!-- label -->
+														<input placeholder="e.g. 500.00" type="number" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.sga" required>
+													</div>
+												</div>
+											</div>
+											<div class="eight wide column">
+												<div class="field">
+													<label><span data-tooltip="This is the overhead cost for producing each unit" data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
+													<div class="ui left labeled input">
+														<div class="ui basic label">
+															$
+														</div> <!-- label -->
+														<input placeholder="e.g. 500.00" type="number" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.overhead" required>
+													</div>
+												</div> <!-- .field -->
+											</div>
+											<div class="eight wide column">
+												<div class="field">
+													<label><span data-tooltip="This is how much you plan to profit per unit." data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
+													<div class="ui left labeled input">
+														<div class="ui basic label">
+															$
+														</div> <!-- label -->
+														<input placeholder="e.g. 250.00" type="number" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.profit" required>
+													</div>
+												</div> <!-- .field -->
+											</div>
+											<div class="eight wide column">
+												<div class="field">
+													<label><span data-tooltip="This is the total cost of producing each unit." data-position="right center">Total Per Part<i class="help circle outline icon"></i></span></label>
+													<div class="ui left labeled input">
+														<div class="ui basic label">
+															$
+														</div> <!-- label -->
+														<input placeholder="e.g. 1250.00" type="number" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.tpp" required>
+													</div>
+												</div> <!-- .field -->
 											</div>
 										</div>
+									</fieldset>
+									<!-- END production costs -->
+
+									<div class="ui horizontal divider"></div>
+
+									<!-- START total costs -->
+									<fieldset >
+										<legend>&nbsp;<strong>Total Cost</strong>&nbsp;</legend><br>
 										<div class="field">
-											<label><span data-tooltip="This is the overhead cost for..." data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input placeholder="Profit" type="number" min="0" step="0.01" ng-model="offer.overhead" required>
+											<label><span data-tooltip="This is the total cost to complete the proposal, including any costs we have not accounted for." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
+											<div class="ui left labeled input">
 												<div class="ui basic label">
 													$
 												</div> <!-- label -->
+												<input placeholder="e.g. 1000000.00" type="number" min="0" max="9999999.9999999" step="0.0000001" ng-model="offer.total" required>
 											</div>
-										</div> <!-- .field -->
+										</div>
 										<div class="field">
-											<label><span data-tooltip="This is how much you plan to profit per unit." data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="This is the number of days that you will need to complete production." data-position="right center">Days Until Completion <i class="help circle outline icon"></i></span></label>
 											<div class="ui right labeled input">
-												<input placeholder="Profit" type="number" min="0" step="0.01" ng-model="offer.profit" required>
+												<input placeholder="e.g. 120" type="number" min="0" step="1" ng-model="offer.completion" required>
 												<div class="ui basic label">
-													$
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-										<div class="field">
-											<label><span data-tooltip="This is the total cost we've calculated from the number you've provided." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
-											<div class="ui right labeled input">
-												<input placeholder="Total Cost" type="number" min="0" step="0.01" ng-model="offer.total" required>
-												<div class="ui basic label">
-													$
-												</div> <!-- label -->
-											</div>
-										</div> <!-- .field -->
-										<div class="field">
-											<label><span data-tooltip="This is the date you'll complete production." data-position="right center">Completion Date <i class="help circle outline icon"></i></span></label>
-											<div class="ui input">
-												<input placeholder="estimated days to complete from production start" type="number" ng-model="offer.completion" required>
+													days
+												</div>
 											</div>
 										</div> <!-- .field -->
 									</fieldset>
-
-									<div class="ui horizontal divider"></div>
+									<!-- END total costs -->
 
 									<div class="ui grid">
 										<small class="row centered">Click below once you're done to review your offer in the right panel.</small>
@@ -754,4 +841,4 @@
 		<script src="static/js/slick.min.js"></script>
 		<script src="static/js/green.js"></script>
 
-</div>
+	</div>
