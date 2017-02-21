@@ -120,14 +120,16 @@ module.exports = function(jwt_key) {
 				else if (payload.type != 0)
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
+					console.log('sup monicas');
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, " + 
-						"o.status, first, follow, cavitation, days, life, sga, profit, overhead, ROUND(total,2) AS total, u.company " +
+						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, " +
+						"o.status, first, follow, cavitation, days, life, sga, profit, overhead, ROUND(tpp,2) AS tpp, ROUND(total,2) AS total, u.company " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"WHERE proposal_id = UNHEX(?) AND o.status = 1 GROUP BY o.user_id " +
 						"UNION " +
-						"SELECT null, null, HEX(o.proposal_id), 1, MIN(sga), MIN(profit), MIN(overhead), " +
-						"ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
+						"SELECT null, null, HEX(o.proposal_id), 1, null, null, null, null, null, MIN(sga), MIN(profit), MIN(overhead), null, " +
+						// "ROUND((MIN(sga) + MIN(profit) + MIN(overhead) + MIN(l.UnitCost+l.YieldLoss) * p.quantity), 2), " +
+						"ROUND(MIN(sga) + MIN(profit) + MIN(overhead) + MIN(l.UnitCost+l.YieldLoss), 2), " +
 						"'EG Estimate' " +
 						"FROM offers o JOIN users u ON o.user_id = u.id " +
 						"JOIN proposals p on p.id = o.proposal_id " +
@@ -159,7 +161,7 @@ module.exports = function(jwt_key) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
 					Promise.join(using(getConnection(), connection => {
-						var query = "SELECT offers.*, HEX(offers.user_id) AS offer_user_id, HEX(offers.proposal_id) " + 
+						var query = "SELECT offers.*, HEX(offers.user_id) AS offer_user_id, HEX(offers.proposal_id) " +
 						"AS proposal_id, proposals.*, company, offers.status AS status FROM " +
 						"offers LEFT JOIN users ON user_id = id LEFT JOIN " +
 						"proposals ON proposal_id = proposals.id WHERE proposals.id = UNHEX(?) AND offers.user_id = " +
@@ -322,11 +324,11 @@ module.exports = function(jwt_key) {
 				}
 
 				// Validate offer:
-				if (!req.body.proposal_id ||  req.body.first === undefined || req.body.follow === undefined ||  
-					req.body.cavitation === undefined ||  req.body.days === undefined || req.body.life === undefined || 
-					req.body.sga === undefined || req.body.profit === undefined || req.body.overhead === undefined || 
-					req.body.tpp === undefined || req.body.total === undefined || req.body.completion === undefined || 
-					req.body.first < 0 || req.body.follow < 0 || req.body.cavitation < 0 || req.body.days < 0 || 
+				if (!req.body.proposal_id ||  req.body.first === undefined || req.body.follow === undefined ||
+					req.body.cavitation === undefined ||  req.body.days === undefined || req.body.life === undefined ||
+					req.body.sga === undefined || req.body.profit === undefined || req.body.overhead === undefined ||
+					req.body.tpp === undefined || req.body.total === undefined || req.body.completion === undefined ||
+					req.body.first < 0 || req.body.follow < 0 || req.body.cavitation < 0 || req.body.days < 0 ||
 					req.body.life < 0 || req.body.sga < 0  || req.body.profit < 0 || req.body.overhead < 0 || req.body.tpp < 0 ||
 					req.body.total < 0)
 					return callback({status: 400, message: "Invalid form fields."});
