@@ -12,7 +12,8 @@
 				<div class="sixteen wide tablet twelve wide computer column container">
 					<h3 style="margin-top: 0px; display: block; text-align: center;">{{offer.quantity}} <strong>{{offer.product}} </strong>to be produced by <strong>{{offer.completion | date:"mediumDate"}}</strong></h3>
 					<div class="ui centered relaxed grid">
-						<a class="ui evergreen uppercase button orange" href="#!/show-proposal/{{offer.proposal_id}}">View the Proposal Details</a>
+						<!-- <a class="ui evergreen uppercase button orange" href="#!/show-proposal/{{offer.proposal_id}}">View the Proposal Details</a> -->
+						<a ng-click="goToShowProposalPage(offer.proposal_id)" class="ui evergreen uppercase button orange" href="">View the Proposal Details</a>
 					</div>
 					<h2>Offer Details:</h2>
 					<div class="ui centered grid">
