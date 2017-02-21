@@ -10,7 +10,6 @@ app.controller('indexController', function ($scope, $rootScope, $location, sessi
 		}
 	}
 
-
 	$scope.login = function() {
 		$scope.error = null;
 		usersFactory.login($scope.user, function(data) {
@@ -26,9 +25,9 @@ app.controller('indexController', function ($scope, $rootScope, $location, sessi
 					$location.url('/open-proposals');
 			}
 		});
-	}
+	};
 
-	$scope.LoginLinkedIn = function(new_user){
+	$scope.LoginLinkedIn = function(new_user) {
 		IN.User.authorize(function(){
 			IN.API.Raw('/people/~:(email-address)?format=json').result(function(login){
 				usersFactory.loginLinkedIn({'email':login.emailAddress}, function(data) {
