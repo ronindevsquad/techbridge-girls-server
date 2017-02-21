@@ -120,7 +120,6 @@ module.exports = function(jwt_key) {
 				else if (payload.type != 0)
 					callback({status: 401, message: "Only Makers are allowed to view offers."});
 				else {
-					console.log('sup monicas');
 					Promise.join(using(getConnection(), connection => {
 						var query = "SELECT HEX(o.user_id) AS user_id, u.picture AS picture, HEX(o.proposal_id) AS proposal_id, o.completion AS completion, " +
 						"o.status, first, follow, cavitation, days, life, sga, profit, overhead, ROUND(tpp,2) AS tpp, ROUND(total,2) AS total, u.company " +
