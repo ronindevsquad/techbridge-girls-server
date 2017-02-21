@@ -1,5 +1,5 @@
 app.controller('proposalsController', function ($scope, $location, $interval, $anchorScroll,
-proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
+proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
@@ -177,6 +177,11 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory) {
 				$scope.leadView = null;
 			}
 		});
+	};
+
+	$scope.showProposalPage = function(proposal_id){
+		routesFactory.setOrigin('/proposals');
+		$location.url(`/show-proposal/${proposal_id}`);
 	};
 
 });

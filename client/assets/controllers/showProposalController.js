@@ -1,5 +1,5 @@
 app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce, $anchorScroll,
-	proposalsFactory, offersFactory) {
+	proposalsFactory, offersFactory, routesFactory) {
 	$location.hash('greenwrapper')
 	$anchorScroll();
 	if ($scope.id) {
