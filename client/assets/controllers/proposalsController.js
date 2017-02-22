@@ -1,5 +1,5 @@
 app.controller('proposalsController', function ($scope, $location, $interval, $anchorScroll,
-proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesFactory) {
+proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposalFactory, routesFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
@@ -157,6 +157,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				console.log('here');
 				socketsFactory.emit("accept", offer);
 				$location.url("/messages");
 			}
