@@ -90,7 +90,7 @@
 												<div class="ui items message-contacts">
 													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="item" ng-class="{active: offer == offerView, orange: offer == offerView}" data-tab="applicant1">
 														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/supplierdefaultprofilepic.png'}});
-										    background-size: cover;">
+										    background-size: contain; background-position: center; background-repeat: no-repeat;">
 															<!-- <img src="{{offer.picture? offer.picture:'static/img/husky-logo.png'}}" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
@@ -187,7 +187,7 @@
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a ng-class="lead == leadView ? 'active':''" class="item" ng-click="leadViewAssign(lead)">
 														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/supplierdefaultprofilepic.png'}});
-										    background-size: cover;">
+										    background-size: contain; background-position: center; background-repeat: no-repeat;">
 															<!-- <img src="static/img/husky-logo.png" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
