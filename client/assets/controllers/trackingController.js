@@ -20,10 +20,12 @@ app.controller('trackingController', function ($scope, $location, reportsFactory
 					completed[data.reports[i].proposal_id] = data.reports[i].completed;
 				}
 
-				// Set completed for each proposal:
+				// Set completed (percentage) for each proposal:
 				for (var i = 0; i < data.proposals.length; i++) {
-					if (completed[data.proposals[i].proposal_id])
+					if (completed[data.proposals[i].proposal_id]){
 						data.proposals[i].completed = parseFloat(completed[data.proposals[i].proposal_id]*100/data.proposals[i].quantity).toFixed(1);
+						data.proposals[i].quantity_completed = completed[data.proposals[i].proposal_id]
+					}
 					else
 						data.proposals[i].completed = 0;
 					// Set days left for each proposal:
