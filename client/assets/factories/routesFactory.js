@@ -9,5 +9,4 @@ app.factory('routesFactory',function($location){
       $location.url(origin)
     }
   }
-
 });

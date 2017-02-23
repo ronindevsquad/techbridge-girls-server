@@ -18,10 +18,10 @@
 						<h3 class="row">Enter Your Offer Below:</h3>
 					</div>
 
-					<form id="anchor_form" class="ui large offer form create-offer-fieldset" ng-submit="submit()">
+					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
 						<fieldset style="border: none;" ng-disabled="show_summary">
 							<!-- START the raw materials selection -->
-							<fieldset >
+							<fieldset class="create-offer-fieldset">
 								<legend>&nbsp;<strong>Production Materials</strong>&nbsp;</legend><br>
 
 								<div ng-repeat="material in offer.materials track by $index">
@@ -198,7 +198,7 @@
 								<div class="ui horizontal divider"></div>
 
 								<!-- START the raw machine labor -->
-								<fieldset >
+								<fieldset  class="create-offer-fieldset">
 									<legend>&nbsp;<strong>Production Machines</strong>&nbsp;</legend><br>
 
 									<div ng-repeat="machine in offer.machines track by $index">
@@ -434,7 +434,7 @@
 								<div class="ui horizontal divider"></div>
 
 								<!-- START the raw machine labor -->
-								<fieldset >
+								<fieldset  class="create-offer-fieldset">
 
 									<legend>&nbsp;<strong>Manual Labor</strong>&nbsp;</legend><br>
 
@@ -525,7 +525,7 @@
 								<div class="ui horizontal divider"></div>
 
 								<!-- START tooling -->
-								<fieldset>
+								<fieldset class="create-offer-fieldset">
 									<legend>&nbsp;<strong>Tooling</strong>&nbsp;</legend><br>
 
 									<div class="ui grid second">
@@ -592,7 +592,7 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START production costs -->
-									<fieldset >
+									<fieldset class="create-offer-fieldset">
 										<legend>&nbsp;<strong>Production Costs Per Part</strong>&nbsp;</legend><br>
 										<div class="ui grid second">
 
@@ -647,7 +647,7 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START total costs -->
-									<fieldset >
+									<fieldset class="create-offer-fieldset">
 										<legend>&nbsp;<strong>Total Cost</strong>&nbsp;</legend><br>
 										<div class="field">
 											<label><span data-tooltip="This is the total cost to complete the proposal, including any costs we have not accounted for." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
