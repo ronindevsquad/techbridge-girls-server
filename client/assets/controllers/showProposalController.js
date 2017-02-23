@@ -1,7 +1,5 @@
 app.controller('showProposalController', function ($scope, $location, $route, $routeParams, $sce, $anchorScroll,
 	proposalsFactory, offersFactory, routesFactory) {
-	$location.hash('greenwrapper')
-	$anchorScroll();
 	if ($scope.id) {
 		proposalsFactory.show($routeParams.id, function(data) {
 			if (data.status == 401)
@@ -15,7 +13,8 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 				else {
 					$scope.signed = true;
 				}
-				$scope.offer = data.files[0];
+				$scope.offer = data.offer;
+				$scope.proposal = data.files[0];
 				console.log(data);
 				$scope.files = [];
 				for (var i = 0; i < data.files.length; i++) {

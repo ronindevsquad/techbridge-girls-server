@@ -7,7 +7,8 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2>Your Dashboard</h2>
-			<p>Compare offers for your proposals with metrics</p>
+			<p ng-if="type==0">Compare offers for your proposals with metrics</p>
+			<p ng-if="type==1">See how your offers compare to others for the same proposal</p>
 
 			<div id="floatingCirclesG" ng-hide="is_loaded">
 				<div class="f_circleG" id="frotateG_01"></div>
@@ -27,7 +28,6 @@
 						<div class="ui big form">
 
 							<!-- these headers / labels include a tooltip, add the tooltip text in the data-tooltip tag -->
-
 							<div class="ui horizontal divider"></div>
 							<div class="field">
 								<label>
