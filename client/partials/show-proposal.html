@@ -22,14 +22,26 @@
 									<div class="content">
 										<p style="word-wrap: break-word;">{{file.filename.substring(file.filename.lastIndexOf('testfolder/')+11,file.filename.lastIndexOf('?'))}}</p>
 									</div>
-									<a href="{{returnTrustedURL(file)}}" target="_blank"><div class="ui bottom attached evergreen green button">
+									<a href="{{returnTrustedURL(file)}}" target="_blank"><div class="ui bottom attached evergreen green button" style="width:100%;">
 										View Document
 									</div></a>
 								</div>
 							</div>
 						</div>
-					</div>
-					<a ng-if="signed" target="_blank" href="{{ndasource?ndasource:'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'}}">Non Disclosure Agreement For this Proposal</a>
+
+						<div class="slided-item" ng-if="signed">
+							<div class="ui cards">
+								<div class="card">
+									<div class="content">
+										<p style="word-wrap: break-word;">Non-disclosure Agreement</p>
+									</div>
+									<a href="{{ndasource?ndasource:'https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/170128_Mutual_NDA.pdf'}}" target="_blank"><div class="ui bottom attached evergreen green button" style="width:100%;">
+										View NDA
+									</div></a>
+								</div>
+							</div>
+						</div>
+				</div>
 
 						<!-- .beacuse slick was breaking my css I had to put each .card in .cards -->
 					<!-- <div class="box">
