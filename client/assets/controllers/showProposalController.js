@@ -16,6 +16,7 @@ app.controller('showProposalController', function ($scope, $location, $route, $r
 					$scope.signed = true;
 				}
 				$scope.offer = data.offer;
+				$scope.proposal = data.files[0];
 				console.log(data);
 				$scope.files = [];
 				for (var i = 0; i < data.files.length; i++) {
