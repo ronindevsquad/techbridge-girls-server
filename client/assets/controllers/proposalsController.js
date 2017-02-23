@@ -12,6 +12,7 @@ proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposal
 				// $scope.selected_proposal = selectedProposalFactory.get();
 				if(selectedProposalFactory.get())
 					$scope.getOffers(selectedProposalFactory.get());
+					scrollToProposal(selectedProposalFactory.get().id)
 			}
 		});
 	}
@@ -132,12 +133,15 @@ proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposal
 						$scope.offerView = undefined;
 					// refreshChart();
 				}
-				$location.hash(proposal.id)
-				$anchorScroll(proposal.id);
 			}
 			});
 		}
 	};
+
+	function scrollToProposal(proposal_id){
+		$location.hash(proposal_id)
+		$anchorScroll(proposal_id);
+	}
 
 	$scope.getOffer = function(offer) {
 		$scope.offerView = offer;
