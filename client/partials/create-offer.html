@@ -19,9 +19,10 @@
 					</div>
 
 					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
+						<fieldset style="border: none;" ng-disabled="show_summary">
 
 						<!-- START tooling -->
-						<fieldset>
+						<fieldset class="create-offer-fieldset">
 							<legend>&nbsp;<strong>Tooling</strong>&nbsp;</legend><br>
 
 							<div class="ui grid second">
@@ -87,9 +88,8 @@
 
 							<div class="ui horizontal divider"></div>
 
-							<fieldset style="border: none;" ng-disabled="show_summary">
 								<!-- START the raw materials selection -->
-								<fieldset >
+								<fieldset class="create-offer-fieldset">
 									<legend>&nbsp;<strong>Production Materials</strong>&nbsp;</legend><br>
 
 									<div ng-repeat="material in offer.materials track by $index">
@@ -268,7 +268,7 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START the raw machine labor -->
-									<fieldset >
+									<fieldset class="create-offer-fieldset">
 										<legend>&nbsp;<strong>Production Machines</strong>&nbsp;</legend><br>
 
 										<div ng-repeat="machine in offer.machines track by $index">
@@ -503,7 +503,7 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START the raw machine labor -->
-									<fieldset >
+									<fieldset class="create-offer-fieldset">
 
 										<legend>&nbsp;<strong>Manual Labor</strong>&nbsp;</legend><br>
 
