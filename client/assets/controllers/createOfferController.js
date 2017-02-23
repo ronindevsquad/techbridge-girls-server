@@ -1,4 +1,4 @@
-app.controller('createOfferController', function ($scope, $location, $routeParams, $anchorScroll,
+app.controller('createOfferController', function ($rootScope, $scope, $location, $routeParams, $anchorScroll,
 	proposalsFactory, offersFactory) {
 	if ($scope.type == 1) {
 		$scope.today = new Date();
@@ -55,8 +55,11 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 				console.log($scope.error);
 			} else {
 				$scope.sent = true;
+				$rootScope.myProposals += 1;
 				$("#offerSent").modal("show");
 			}
 		});
 	};
+
+
 });

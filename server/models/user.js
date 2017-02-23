@@ -52,7 +52,7 @@ module.exports = function(jwt_key) {
 							// "LEFT OUTER JOIN offers o on o.user_id = u.id " +
 							// "WHERE u.id = UNHEX(?) GROUP BY u.id"
 							var query = "SELECT u.id , o.proposals AS proposals, j.jobs AS jobs FROM users u " +
-							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS proposals FROM offers WHERE status = 1 GROUP BY user_id) o " +
+							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS proposals FROM offers WHERE status > 0 GROUP BY user_id) o " +
 							"ON o.user_id = u.id " +
 							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS jobs FROM offers WHERE status = 2 GROUP BY user_id) j " +
 							"ON j.user_id = u.id " +

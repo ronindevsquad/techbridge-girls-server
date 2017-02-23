@@ -52,11 +52,12 @@
 												<img src="static/img/flag.png" width="13" />
 											</div>
 											<div class="ui indicating progress" data-percent="74">
-												<div class="bar" style="width: {{100*(proposal.completed/proposal.quantity)}}%;">
+												<div class="bar" style="width: {{proposal.completed}}%;">
 													<div class="progress"><span style="color:black; font-weight: 600; font-size: 9px;">{{proposal.completed}}%</span></div>
 												</div>
 											</div>
 											<!-- <small>{{proposal.days_left}} days left </small> -->
+											<small>{{proposal.quantity_completed}} units produced</small>
 										</div>
 									</div>
 								</div>
