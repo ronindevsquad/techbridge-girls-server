@@ -1,4 +1,4 @@
-app.controller("offersController", function ($scope, $location, proposalsFactory, offersFactory, routesFactory) {
+app.controller("offersController", function ($rootScope, $scope, $location, proposalsFactory, offersFactory, routesFactory) {
 	if ($scope.type == 1) {
 		$scope.tab = "offers";
 		proposalsFactory.getMyApplications(function(data) {
@@ -31,6 +31,7 @@ app.controller("offersController", function ($scope, $location, proposalsFactory
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				$rootScope.myProposals -= 1;
 				$scope.proposals.splice($scope.proposals.findIndex(function(proposal) {
 					if (proposal.id == $scope.id_to_delete)
 						return true;
