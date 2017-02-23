@@ -30,11 +30,13 @@ app.controller('createOfferController', function ($scope, $location, $routeParam
 	$scope.submit = function() {
 		// Do whatever math here...
 		$scope.show_summary = true;
+		$scope.offer.total = $scope.offer.tpp * $scope.proposal.quantity
 		$anchorScroll("anchor_summary");
 	};
 
 	$scope.edit = function() {
 		$scope.show_summary = false;
+		$scope.error = "";
 		$anchorScroll("anchor_form");
 	};
 

@@ -1,5 +1,5 @@
 app.controller('proposalsController', function ($scope, $location, $interval, $anchorScroll,
-proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesFactory) {
+proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposalFactory, routesFactory) {
 	if ($scope.type == 0) {
 		$scope.tab = "proposals";
 		proposalsFactory.getMyProposals(function(data) {
@@ -12,6 +12,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 				// $scope.selected_proposal = selectedProposalFactory.get();
 				if(selectedProposalFactory.get())
 					$scope.getOffers(selectedProposalFactory.get());
+					scrollToProposal(selectedProposalFactory.get().id)
 			}
 		});
 	}
@@ -104,12 +105,12 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 		}
 		else {
 			offersFactory.index(proposal.id, function(data) {
+				console.log(data);
 				if (data.status == 401)
 					$scope.logout();
 				else if (data.status >= 300)
 					console.log("error:", data.data.message)
 				else {
-					console.log("test");
 					$scope.selected_proposal = proposal;
 					selectedProposalFactory.set(proposal);
 
@@ -125,19 +126,22 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 						$scope.EGcost = data.applications.pop();
 						$scope.offers = data.applications;
 						$scope.offerView = $scope.offers[0];
-						$scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
+						// $scope.offerView.PPU = (parseFloat($scope.offerView.total)/parseFloat($scope.selected_proposal.quantity)).toFixed(2);
 						refreshChart()
 					} else {
 						$scope.offers = undefined;
 						$scope.offerView = undefined;
 					// refreshChart();
 				}
-				$location.hash(proposal.id)
-				$anchorScroll(proposal.id);
 			}
 			});
 		}
 	};
+
+	function scrollToProposal(proposal_id){
+		$location.hash(proposal_id)
+		$anchorScroll(proposal_id);
+	}
 
 	$scope.getOffer = function(offer) {
 		$scope.offerView = offer;
@@ -157,6 +161,7 @@ proposalsFactory, offersFactory, chartsFactory, selectedProposalFactory, routesF
 			else if (data.status >= 300)
 				console.log("error:", data.data.message)
 			else {
+				console.log('here');
 				socketsFactory.emit("accept", offer);
 				$location.url("/messages");
 			}

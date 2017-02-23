@@ -82,7 +82,8 @@
 							</table>
 						</div>
 
-						<div class="row">
+						<!-- type 3 is future premium? -->
+						<div ng-show="type==3" class="row">
 							<table class="ui celled table">
 								<thead>
 									<tr class="center aligned">
@@ -109,9 +110,9 @@
 									</tr>
 								</tbody>
 							</table>
-							<a class="ui evergreen uppercase button orange" onclick="window.history.back();">Back</a>
 
 						</div>
+						<a class="ui evergreen uppercase button orange" onclick="window.history.back();" style="margin-bottom: 3em;">Back</a>
 
 						<div class="ui horizontal divider"></div>
 					</div> <!-- .grid - the big grid, the grid from the top, the grid from above, amin! -->

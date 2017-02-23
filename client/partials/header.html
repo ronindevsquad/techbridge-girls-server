@@ -9,7 +9,7 @@
 		<a href="" class="right menu">
 		<div ng-show="!menu" class="ui horizontal list company trigger">
 				<div class="item">
-				<img ng-click="menu=true" class="ui mini circular image" src="static/img/user-avatar.png">
+				<img ng-click="menu=true" class="ui mini circular image" src="static/img/{{type==0?'contact':'user-avatar'}}.png">
 					<div class="content">
 						<div class="ui sub header">{{company}}</div>
 						{{myMessages}} new messages
@@ -30,8 +30,8 @@
 <div ng-show="menu" class="ui medium rectangle test custom-adbox">
 	<div class="ui grid">
 		<div class="six wide column">
-			<img ng-show="type==0" class="ui circular image" src="{{picture?picture:'static/img/makerdefaultprofilepic.png'}}">
-			<img ng-show="type==1" class="ui circular image" src="{{picture?picture:'static/img/supplierdefaultprofilepic.png'}}">
+			<img ng-show="type==0" class="ui image" src="{{picture?picture:'static/img/makerdefaultprofilepic.png'}}">
+			<img ng-show="type==1" class="ui image" src="{{picture?picture:'static/img/supplierdefaultprofilepic.png'}}">
 		</div>
 		<div class="ten wide column">
 			<h4 class="title">{{company}}</h4>

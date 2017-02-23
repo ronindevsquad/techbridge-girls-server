@@ -7,7 +7,7 @@
 		<section class="ui very padded basic segment offer form">
 
 			<h2>Your Proposals</h2>
-			<p>Your proposals.</p>
+			<p>Below are the proposals that you have created. Expand each proposal to see its offers. A proposal opened on this page will remain opened when you return.</p>
 			<a ng-class="color" href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
 
@@ -89,8 +89,8 @@
 
 												<div class="ui items message-contacts">
 													<a ng-repeat="offer in offers" ng-click="getOffer(offer);" class="item" ng-class="{active: offer == offerView, orange: offer == offerView}" data-tab="applicant1">
-														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/husky-logo.png'}});
-										    background-size: cover;">
+														<div class="ui tiny image" style=" background-image: url({{offer.picture? offer.picture:'static/img/supplierdefaultprofilepic.png'}});
+										    background-size: contain; background-position: center; background-repeat: no-repeat;">
 															<!-- <img src="{{offer.picture? offer.picture:'static/img/husky-logo.png'}}" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
@@ -114,7 +114,7 @@
 														<h2 style="margin-top: 0px; padding-top: 0px;">{{offerView.company}}'s Offer:</h2>
 														<div class="details-item">
 															<p class="footnote">Their offer per unit</p>
-															<div class="details-value"><span class="op50">$</span> {{offerView.PPU}}</div>
+															<div class="details-value"><span class="op50">$</span> {{offerView.tpp}}</div>
 														</div>
 
 														<div class="details-item">
@@ -123,8 +123,8 @@
 														</div>
 
 														<div class="details-item">
-															<p class="footnote">Delivery date</p>
-															<div class="details-value"><i class="calendar outline icon op50"></i> {{selected_proposal.completion | date:"dd.MM.y"}}</div>
+															<p class="footnote">Est. Days to Complete</p>
+															<div class="details-value"><i class="calendar outline icon op50"></i> {{offerView.completion}}</div>
 														</div>
 
 														<div class="details-item">
@@ -147,7 +147,7 @@
 													<!-- <img src="static/img/insidegraph.png" width="598" class="ui image" /> -->
 													<div ng-if="selected_proposal.id==proposal.id" style="" id="chart_div"></div>
 													<div class="green-square"></div>
-													<span data-tooltip="Evergreen uses the lowest prices from each offer to generate a benchmark for evaluating all offers." data-position="right center">
+													<span data-tooltip="Evergreen's calculated lowest cost among the offers.">
 														Evergreen's Estimated Cost <i class="help circle outline icon"></i>
 													</span>
 													<div class="orange-square"></div>
@@ -183,11 +183,11 @@
 									<div class="ui stackable grid">
 										<div class="sixteen wide tablet four wide computer column">
 											<div class="ui vertical fluid tabular menu">
-												<p class="infonote">Suppliers that accepted the NDA but didn’t make an offer. You can contact them to get more insights on why they haven't submitted an offer yet.</p>
+												<p class="infonote">Leads are suppliers that accepted your NDA but have not made an offer. </p>
 												<div ng-repeat="lead in leads" class="ui items message-contacts">
 													<a ng-class="lead == leadView ? 'active':''" class="item" ng-click="leadViewAssign(lead)">
-														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/husky-logo.png'}});
-										    background-size: cover;">
+														<div class="ui tiny image" style=" background-image: url({{lead.picture? lead.picture:'static/img/supplierdefaultprofilepic.png'}});
+										    background-size: contain; background-position: center; background-repeat: no-repeat;">
 															<!-- <img src="static/img/husky-logo.png" class="ui centered image" /> -->
 														</div>
 														<div class="middle aligned content">
@@ -229,7 +229,7 @@
 						</div>
 					</div>
 
-					<div class="ui pagination secondary menu">
+					<!-- <div class="ui pagination secondary menu">
 						<a class="active item">
 							1
 						</a>
@@ -245,7 +245,7 @@
 						<a class="item">
 							12
 						</a>
-					</div>
+					</div> -->
 
 				</div>
 			</div>

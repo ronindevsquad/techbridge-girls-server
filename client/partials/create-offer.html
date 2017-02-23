@@ -19,6 +19,7 @@
 					</div>
 
 					<form id="anchor_form" class="ui large offer form" ng-submit="submit()">
+
 						<!-- START tooling -->
 						<fieldset>
 							<legend>&nbsp;<strong>Tooling</strong>&nbsp;</legend><br>
@@ -135,6 +136,7 @@
 														<option value="Alloy 6063">Alloy 6063</option>
 														<option value="Alloy 7075">Alloy 7075</option>
 													</optgroup>
+
 													<optgroup label="Stainless Steel">
 														<option value="253MA">253MA</option>
 														<option value="301">301</option>
@@ -163,6 +165,7 @@
 														<option value="431">431</option>
 														<option value="630">630</option>
 													</optgroup>
+
 													<optgroup label="Packaging">
 														<option value="Adhesive">Adhesive</option>
 														<option value="Aluminum foil">Aluminum foil</option>
@@ -438,7 +441,6 @@
 															<option value="Heat Treatment">Heat Treatment</option>
 														</optgroup>
 													</select>
-
 												</div>
 
 												<div class="right aligned centered column">
@@ -592,7 +594,7 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START production costs -->
-									<fieldset >
+									<fieldset class="create-offer-fieldset">
 										<legend>&nbsp;<strong>Production Costs Per Part</strong>&nbsp;</legend><br>
 										<div class="ui grid second">
 
@@ -647,19 +649,10 @@
 									<div class="ui horizontal divider"></div>
 
 									<!-- START total costs -->
-									<fieldset >
-										<legend>&nbsp;<strong>Total Cost</strong>&nbsp;</legend><br>
+									<fieldset class="create-offer-fieldset">
+										<legend>&nbsp;<strong>Production Time</strong>&nbsp;</legend><br>
 										<div class="field">
-											<label><span data-tooltip="This is the total cost to complete the proposal, including any costs we have not accounted for." data-position="right center">Total <i class="help circle outline icon"></i></span></label>
-											<div class="ui left labeled input">
-												<div class="ui basic label">
-													$
-												</div> <!-- label -->
-												<input placeholder="e.g. 1000000.00" type="number" min="0" max="99999999.99999" step="0.00001" ng-model="offer.total" required>
-											</div>
-										</div>
-										<div class="field">
-											<label><span data-tooltip="This is the number of days that you will need to complete production." data-position="right center">Days Until Completion <i class="help circle outline icon"></i></span></label>
+											<label><span data-tooltip="This is the number of days that you will need to complete production." data-position="right center">Days Until Completion From Production Start<i class="help circle outline icon"></i></span></label>
 											<div class="ui right labeled input">
 												<input placeholder="e.g. 120" type="number" min="0" max="999" step="1" ng-model="offer.completion" required>
 												<div class="ui basic label">
@@ -671,7 +664,7 @@
 									<!-- END total costs -->
 
 									<div class="ui grid">
-										<small class="row centered">Click below once you're done to review your offer in the right panel.</small>
+										<small style="margin-top: 2em;" class="row centered">Click below once you're done to review your offer in the right panel.</small>
 										<div class="row centered">
 											<input type="submit" class="ui green button" value="{{sent? 'Offer Sent' : 'View Summary'}}" ng-disabled="sent">
 										</div>
