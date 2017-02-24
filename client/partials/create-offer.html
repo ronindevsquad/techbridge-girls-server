@@ -28,7 +28,7 @@
 							<div class="ui grid second">
 								<div class="eight wide column">
 									<div class="field">
-										<label><span data-tooltip="This is the cost of ..." data-position="right center">First Tool Cost <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="This is the cost of producing the first tool" data-position="right center">First Tool Cost <i class="help circle outline icon"></i></span></label>
 										<div class="ui left labeled input">
 											<div class="ui basic label">
 												$
@@ -40,7 +40,7 @@
 
 								<div class="eight wide column">
 									<div class="field">
-										<label><span data-tooltip="This is the cost of ..." data-position="right center">Follow-On Tool Cost <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="This is the cost for producing a follow-on tool cost" data-position="right center">Follow-On Tool Cost <i class="help circle outline icon"></i></span></label>
 										<div class="ui left labeled input">
 											<div class="ui basic label">
 												$
@@ -52,7 +52,7 @@
 
 								<div class="eight wide column">
 									<div class="field">
-										<label><span data-tooltip="This is the number of ..." data-position="right center">Cavitation <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="This is the number of cavities available in the tool" data-position="right center">Cavitation <i class="help circle outline icon"></i></span></label>
 										<div class="ui labeled input">
 											<input type="number" placeholder="e.g. 64" min="0" max="999" step="1" ng-model="offer.cavitation" required>
 										</div>
@@ -61,7 +61,7 @@
 
 								<div class="eight wide column">
 									<div class="field">
-										<label><span data-tooltip="This is the number of days ..." data-position="right center">Tooling Lead Time <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="This is the amount of days it will take to create the tool" data-position="right center">Tooling Lead Time <i class="help circle outline icon"></i></span></label>
 										<div class="ui right labeled input">
 											<input type="number" placeholder="e.g. 120" min="0" max="999" step="1" ng-model="offer.days" required>
 											<div class="ui basic label">
@@ -73,7 +73,7 @@
 
 								<div class="eight wide column">
 									<div class="field">
-										<label><span data-tooltip="This is the lifetime of the tool measured in millions of shots." data-position="right center">Tool Life <i class="help circle outline icon"></i></span></label>
+										<label><span data-tooltip="Each tool will last for this many cycles" data-position="right center">Tool Life <i class="help circle outline icon"></i></span></label>
 										<div class="ui right labeled input">
 											<input type="number" placeholder="e.g. 1.5" min="0" max="9.99" step="0.01" ng-model="offer.life" required>
 											<div class="ui basic label">
@@ -97,7 +97,7 @@
 
 											<div class="field sixteen wide column">
 												<label>
-													<span data-tooltip="This is one of the raw materials you plan to use to produce {{proposal[0].product}}." data-position="right center">Raw Material {{offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
+													<span data-tooltip="Select the raw materials that you’re planning to use" data-position="right center">Raw Material {{offer.materials.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span>
 												</label>
 												<select name="{{'material'+$index}}" ng-model="material.material" required>
 													<optgroup label="Injection Molding">
@@ -235,8 +235,7 @@
 
 											<div class="eight wide column">
 												<div class="field">
-													<label><span data-tooltip="This is the weight (in kilograms)
-														of how much {{material.material?material.material:'material'}} you'll use to produce each unit." data-position="right center">Weight <i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="Weight in kilograms for each unit" data-position="right center">Weight <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 0.0117375" min="0" max="99999.9999999" step="0.0000001" ng-model="material.weight" required>
 															<div class="ui basic label">
@@ -248,7 +247,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the cost of {{material.weight?material.weight:'(e.g.) 2.5'}} kg of {{material.material?material.material:'Aluminum (AL 6061/5052)'}}." data-position="right center">Cost <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This is the cost of the materials per weight for each item" data-position="right center">Cost <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 0.030" min="0" max="99999999.99999" step="0.00001" ng-model="material.cost" required>
 															<div class="ui basic label">
@@ -276,7 +275,7 @@
 											<div class="ui grid second">
 
 												<div class="field sixteen wide column">
-													<label><span data-tooltip="This is one type of machine you'll use in production." data-position="right center">Machine {{offer.machines.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="This is one type of machine you’ll use for production. There may be multiple" data-position="right center">Machine {{offer.machines.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
 													<select ng-model="machine.labor" required>
 														<optgroup label="Metal">
 															<option value="Annealing, In-Line Oven">Annealing, In-Line Oven</option>
@@ -461,7 +460,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the cost of running the machine at an hourly rate." data-position="right center">Operation Cost <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This is the machine cost to produce one part" data-position="right center">Operation Cost <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 0.04" min="0" max="99999999.99999" step="0.00001" ng-model="machine.rate" required>
 															<div class="ui basic label">
@@ -473,7 +472,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the yield as a percentage of output products / input raw materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This yield is a percentage of completed products from a given amount of material" data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 95.62" min="0" max="100.00" step="0.01" ng-model="machine.yield" required>
 															<div class="ui basic label">
@@ -485,7 +484,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label>Number of Machines <span data-tooltip="This is the quantity of this machine type that you'll have available for production." data-position="top right"><i class="help circle outline icon"></i></span></label>
+														<label>Number of Machines <span data-tooltip="This is the number of machines that you’ll use to produce this part" data-position="top right"><i class="help circle outline icon"></i></span></label>
 														<div class="ui input">
 															<input type="number" placeholder="e.g. 1" min="1" max="99" step="1" ng-model="machine.count" required>
 														</div>
@@ -512,7 +511,7 @@
 											<div class="ui grid second">
 
 												<div class="field sixteen wide column">
-													<label><span data-tooltip="This is one type of manual labor you'll need in production." data-position="right center">Labor {{offer.manuals.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="This is one labor process you’ll use in production" data-position="right center">Labor {{offer.manuals.length>1?$index+1+' ':''}}<i class="help circle outline icon"></i></span></label>
 													<select ng-model="manual.labor" required>
 														<optgroup label="Assembly">
 															<option value="Fitting & Assembly">Fitting &amp; Assembly</option>
@@ -541,7 +540,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the time it takes the laborer to complete {{manual.labor?manual.labor:'this labor'}} for one product." data-position="right center">Labor Time <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This is the time it takes one worker to complete this labor process" data-position="right center">Labor Time <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 1.6" min="0" max="99999999.99999" step="0.00001" ng-model="manual.time" required>
 															<div class="ui basic label">
@@ -553,7 +552,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the wage of the laborer as an hour rate." data-position="right center">Labor Rate <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This is the amount it costs for a worker to create this part" data-position="right center">Labor Rate <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 0.01" min="0" max="99999999.99999" step="0.00001" ng-model="manual.rate" required>
 															<div class="ui basic label">
@@ -565,7 +564,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label><span data-tooltip="This is the yield as a percentage of output products / input materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
+														<label><span data-tooltip="This yield is a percentage of completed products from a given amount of material" data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
 															<input type="number" placeholder="e.g. 100.00" min="0" max="100.00" step="0.01" ng-model="manual.yield" required>
 															<div class="ui basic label">
@@ -577,7 +576,7 @@
 
 												<div class="eight wide column">
 													<div class="field">
-														<label>Number of Laborers <span data-tooltip="This is the number of workers you'll have available for {{manual.labor?manual.labor:'this labor'}}." data-position="top right"><i class="help circle outline icon"></i></span></label>
+														<label>Number of Laborers <span data-tooltip="The number of workers that will be involved with this labor process" data-position="top right"><i class="help circle outline icon"></i></span></label>
 														<div class="ui input">
 															<input type="number" placeholder="e.g. 1" min="0" max="99.99" step="0.01" ng-model="manual.count" required>
 														</div>
@@ -600,7 +599,7 @@
 
 											<div class="eight wide column">
 												<div class="field">
-													<label><span data-tooltip="This is the cost of your SG&A team for producing one unit." data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="This is the cost of SG&A for one part" data-position="right center">SG&amp;A <small>(Sales, General, and Admin)</small> <i class="help circle outline icon"></i></span></label>
 													<div class="ui left labeled input">
 														<div class="ui basic label">
 															$
@@ -611,7 +610,7 @@
 											</div>
 											<div class="eight wide column">
 												<div class="field">
-													<label><span data-tooltip="This is the overhead cost for producing each unit" data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="This is the overhead cost to produce one part" data-position="right center">Overhead <i class="help circle outline icon"></i></span></label>
 													<div class="ui left labeled input">
 														<div class="ui basic label">
 															$
@@ -622,7 +621,7 @@
 											</div>
 											<div class="eight wide column">
 												<div class="field">
-													<label><span data-tooltip="This is how much you plan to profit per unit." data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
+													<label><span data-tooltip="This is how much profit you’ll receive for each part" data-position="right center">Profit <i class="help circle outline icon"></i></span></label>
 													<div class="ui left labeled input">
 														<div class="ui basic label">
 															$
@@ -652,7 +651,7 @@
 									<fieldset class="create-offer-fieldset">
 										<legend>&nbsp;<strong>Production Time</strong>&nbsp;</legend><br>
 										<div class="field">
-											<label><span data-tooltip="This is the number of days that you will need to complete production." data-position="right center">Days Until Completion From Production Start<i class="help circle outline icon"></i></span></label>
+											<label><span data-tooltip="After tooling is complete, production will take this many days" data-position="right center">Days Until Completion From Production Start<i class="help circle outline icon"></i></span></label>
 											<div class="ui right labeled input">
 												<input placeholder="e.g. 120" type="number" min="0" max="999" step="1" ng-model="offer.completion" required>
 												<div class="ui basic label">
