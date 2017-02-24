@@ -349,7 +349,7 @@ module.exports = function(jwt_key) {
 			// Validate login data:
 			if (!req.body.email)
 				callback({status: 400, message: "LinkedIn login was unsuccessful"});
-			else
+			else {
 				using(getConnection(), connection => {
 					// Get user by email:
 					var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
@@ -375,6 +375,7 @@ module.exports = function(jwt_key) {
 					else
 						callback({status: 400, message: "Please contact an admin."});
 				});
+			}
 		},
 		sendTicket: function(req, callback){
 			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {

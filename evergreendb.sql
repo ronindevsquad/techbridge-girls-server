@@ -89,10 +89,10 @@ CREATE TABLE `labors` (
   `id` binary(16) NOT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `labor` varchar(255) DEFAULT NULL,
-  `time` decimal(14,7) DEFAULT NULL,
+  `time` decimal(13,5) DEFAULT NULL,
   `yield` decimal(5,2) DEFAULT NULL,
-  `rate` decimal(14,7) DEFAULT NULL,
-  `count` int(11) DEFAULT NULL,
+  `rate` decimal(13,5) DEFAULT NULL,
+  `count` smallint(4) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
@@ -114,8 +114,8 @@ DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `id` binary(16) NOT NULL,
   `material` varchar(255) DEFAULT NULL,
-  `weight` decimal(14,7) DEFAULT NULL,
-  `cost` decimal(14,7) DEFAULT NULL,
+  `weight` decimal(12,7) DEFAULT NULL,
+  `cost` decimal(13,5) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
@@ -160,17 +160,17 @@ DROP TABLE IF EXISTS `offers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `offers` (
   `status` tinyint(1) DEFAULT NULL,
-  `first` decimal(14,7) DEFAULT NULL,
-  `follow` decimal(14,7) DEFAULT NULL,
+  `first` decimal(7,2) DEFAULT NULL,
+  `follow` decimal(7,2) DEFAULT NULL,
   `cavitation` smallint(3) DEFAULT NULL,
   `days` smallint(3) DEFAULT NULL,
-  `life` decimal(10,7) DEFAULT NULL,
-  `sga` decimal(14,7) DEFAULT NULL,
-  `profit` decimal(14,7) DEFAULT NULL,
-  `overhead` decimal(14,7) DEFAULT NULL,
-  `tpp` decimal(14,7) DEFAULT NULL,
-  `total` decimal(14,7) DEFAULT NULL,
-  `completion` int(11) DEFAULT NULL,
+  `life` decimal(9,6) DEFAULT NULL,
+  `sga` decimal(13,5) DEFAULT NULL,
+  `profit` decimal(13,5) DEFAULT NULL,
+  `overhead` decimal(13,5) DEFAULT NULL,
+  `tpp` decimal(13,5) DEFAULT NULL,
+  `total` decimal(13,5) DEFAULT NULL,
+  `completion` smallint(3) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
@@ -345,4 +345,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-20 15:18:42
+-- Dump completed on 2017-02-23 16:25:29
