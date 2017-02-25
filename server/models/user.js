@@ -388,10 +388,11 @@ module.exports = function(jwt_key) {
 					})
 					.spread(data => {
 						var mail = {
-							from: 'Evergreen Admin hello@evergreenmake.com', // replace <from_address>
+							from: 'Evergreen Admin hello@evergreenmake.com',
 							to: 'hello@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
 							subject: `Ticket issued from user ${data[0].contact} at ${data[0].company}`,
-							text: `A ticket was issued.  Reach out to ${data[0].email} for support.`
+							text: `${req.body.text}\n\nReach out to ${data[0].email} for support.`
+							// text: `A ticket was issued.  Reach out to ${data[0].email} for support.`
 						};
 
 						mailgun.messages().send(mail, function (error, body) {
