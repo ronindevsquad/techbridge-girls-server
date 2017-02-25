@@ -398,7 +398,7 @@ module.exports = function(jwt_key) {
 							if (error)
 								console.log(error);
 							else
-								callback(false, "Ticket has been sent.");
+								callback(false, "A ticket has been sent.");
 						});
 					})
 					.catch(err => {

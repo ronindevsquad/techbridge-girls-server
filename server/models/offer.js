@@ -97,7 +97,7 @@ module.exports = function(jwt_key) {
 				else
 					using(getConnection(), connection => {
 						var user_id = (payload.type==0?"offers.user_id":"proposals.user_id")
-						var query = "SELECT offers.*, picture, contact, company, offers.updated_at AS updated_at, " +
+						var query = "SELECT offers.*, users.type, picture, contact, company, offers.updated_at AS updated_at, " +
 						"HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
 						"JOIN users ON users.id = " + user_id +
 						" WHERE (offers.user_id = UNHEX(?) OR " +

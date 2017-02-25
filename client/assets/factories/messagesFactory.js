@@ -28,6 +28,16 @@ app.factory('messagesFactory', function($http, $cookies) {
 			}, function(res) {
 				callback(res);
 			});
+		},
+		contactAdmin: function(callback){
+			$http.get('/api/users/sendTicket', {
+				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
+			})
+			.then(function(res){
+				callback(res.data);
+			}, function(res){
+				callback(res);
+			});
 		}
 	}
 });
