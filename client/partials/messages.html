@@ -59,7 +59,26 @@
 								<p class="message-ad" ng-show="!cur_offer">Click on a supplier on the left to load the conversation.</p>
 								<div ng-show="cur_offer">
 									<div style="height: 550px; overflow-y: auto;" class="messages ui padded basic segment" id="chat">
-										<!-- this is one message -->
+										
+										<!-- Default -->
+										<div class="ui grid" ng-show="messages.length==0">
+											<div class="row ui centered">
+												<div class="twelve wide column">
+													<p style="opacity: 1; text-align: center;" ng-if="type==0">
+														<b style="color: orange">Congratulations on finding a supplier!</b><br><br>
+														Evergreen HQ will be reaching out shortly to coordinate payment.<br><br>
+														If you have any questions in the meantime, reach out to support at 1-800-416-0419.<br><br>
+														Let's say hello to your new supplier below.<br><br>
+													</p>
+													<p style="opacity: 1; text-align: center;" ng-if="type==1">
+														<b style="color: green">Congratulations on winning this proposal!</b><br><br>
+														Evergreen HQ is coordinating payment with you and your client.<br><br>
+														In the meantime, introduce yourself by saying hello!<br><br>	
+													</p>
+												</div>
+											</div>
+										</div>
+
 										<div class="ui grid" ng-repeat="message in messages">
 											<div class="row">
 												<div class="two wide column">
@@ -71,20 +90,20 @@
 												</div>
 											</div>
 										</div>
-									</div> <!-- messages -->
+
+									</div>
 									<div class="send-area ui padded basic segment">
 										<form class="ui fluid action input" ng-submit="createMessage()">
 											<input type="text" placeholder="Enter your message here" ng-model="new_message">
 											<button type="submit" ng-class="color" class="ui evergreen button flat">Send</button>
 										</form>
+										<div style="text-align: center">
 											<small>Have an issue, or need to cancel this contract? <a href="">Click here to contact an admin.</a></small>
 											<br>
 											<small>
-												<span class="tooltip" data-tooltip="Try refreshing the page." data-position="right center" data-variation="basic">
-													Messages not appearing?
-													<i class="help circle outline icon"></i>
-												</span>
+												Messages not appearing? Try refreshing the page.
 											</small>
+											</div>
 									</div> <!-- .send-area -->
 								</div>
 							</div>

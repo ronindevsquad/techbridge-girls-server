@@ -55,7 +55,7 @@
 									<i class="dropdown icon"></i>
 									<div class="default text">Select metric</div>
 									<div class="menu">
-										<div ng-click="changeChartMetricTo('total')" class="item" data-value="Total cost">Total cost</div>
+										<div ng-click="changeChartMetricTo('total')" class="item" data-value="Total Cost">Total Cost</div>
 										<div ng-click="changeChartMetricTo('quality')" class="item" data-value="Quality">Quality</div>
 										<div ng-click="changeChartMetricTo('completion')" class="item" data-value="Delivery">Delivery</div>
 									</div> <!-- .menu -->
@@ -71,8 +71,9 @@
 						<div class="ui horizontal divider"></div>
 						<div class="ui horizontal divider"></div>
 						<div id="chartholder" class="ui very padded segment">
-							<h2 ng-show="offers.length<1">No Offers For this proposal</h2>
-							<h2 ng-show="offers.length>0">Comparing Offers By: {{chartMetric}}</h2>
+							<h5 style="text-align: center" ng-show="offers.length<1">You have a supplier for this proposal.<br><br>
+							Contact them in your messages tab.</h5>
+							<h2 style="text-align: center" ng-show="offers.length>0">Comparing offers by: {{chartMetric}}</h2>
 							<div ng-show="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
 
 							<div ng-if="offers.length>0" class="green-square"></div>

@@ -305,11 +305,13 @@ module.exports = function(jwt_key) {
 				}
 
 				// Validate machines:
+				console.log(req.body.machines)
 				for (var i = 0; i < req.body.machines.length; i++) {
 					var machine = req.body.machines[i];
+					console.log(machine)
 					if (!machine.labor || machine.time === undefined || machine.rate === undefined ||
 						machine.yield === undefined || machine.count === undefined || machine.time < 1 ||
-						machine.rate < 0.01 || machine.yield < 0.01 || machine.count < 1)
+						machine.rate < 0 || machine.yield < 0 || machine.count < 1)
 						return callback({status: 400, message: "Invalid field(s) for machines provided."});
 				}
 
@@ -349,8 +351,11 @@ module.exports = function(jwt_key) {
 						if (data.changedRows == 0)
 							throw {status: 400, message: "Unable to save your offer. Please contact an admin."}
 						else
-							// Insert materials:
 							return Promise.join(using(getConnection(), connection => {
+								if (req.body.materials.length == 0)
+									return;
+
+								// Insert materials:
 								var data = [];
 								for (var i = 0; i < req.body.materials.length; i++) {
 									var material = req.body.materials[i];
@@ -360,8 +365,11 @@ module.exports = function(jwt_key) {
 								var query = "INSERT INTO materials (id, material, weight, cost, created_at, " +
 								"updated_at, proposal_id, user_id) VALUES ?";
 								return connection.query(query, [data]);
-							// Insert machines:
 							}), using(getConnection(), connection => {
+								if (req.body.machines.length == 0)
+									return;
+
+								// Insert machines:
 								var data = [];
 								for (var i = 0; i < req.body.machines.length; i++) {
 									var machine = req.body.machines[i];
@@ -372,8 +380,11 @@ module.exports = function(jwt_key) {
 								var query = "INSERT INTO labors (id, type, labor, time, yield, rate, " +
 								"count, created_at, updated_at, proposal_id, user_id) VALUES ?"
 								return connection.query(query, [data]);
-							// Insert manuals:
 							}), using(getConnection(), connection => {
+								if (req.body.manuals.length == 0)
+									return;
+
+								// Insert manuals:
 								var data = [];
 								for (var i = 0; i < req.body.manuals.length; i++) {
 									var manual = req.body.manuals[i];

@@ -10,7 +10,6 @@
 			<p>Below are the proposals that you have created. Expand each proposal to see its offers. A proposal opened on this page will remain opened when you return.</p>
 			<a ng-class="color" href="#!/create-proposal" class="ui evergreen button">CREATE NEW PROPOSAL</a>
 
-
 			<div class="ui horizontal divider"></div>
 			<div class="ui horizontal divider"></div>
 
@@ -259,6 +258,10 @@
 
 <!-- Modal -->
 <div class="ui small coupled modal sixteen centered grid" id="accept-modal">
+	<div class="sixteen wide column">
+			<a style="float: right;" href="" class="ui cancel"><i class="remove icon"></i></a>
+	</div>
+
 	<div class="five wide column" style="background-color: #47535F">
 		<div class="ui sixteen centered grid">
 			<div class="ui image sixteen wide column">
@@ -273,20 +276,17 @@
 		</div>
 	</div>
 	<div class="ten wide column">
-		<div class="actions" style="float: right">
-			<div class="ui cancel button"><i class="remove icon"></i></div>
+		<div class="header row">
+			<h2 style="text-align: center;">Accept offer</h2>
 		</div>
-		<div class="header six wide column">
-			<h2>Accept offer</h2>
-		</div>
-		<div class="ui ten centered grid">
-			<div class="five wide column">
-				<h5>Deliver Date</h5>
-				<p>{{selected_proposal.completion | date:"dd.MM.y"}}</p>
+		<div class="ui sixteen centered grid">
+			<div class="eight wide column">
+				<h5 style="text-align: center;">Deliver Date</h5>
+				<p style="text-align: center;">{{selected_proposal.completion | date:"d MMM, y"}}</p>
 			</div>
-			<div class="five wide column">
-				<h5>Sub-total</h5>
-				<p>$ {{offerView.total}}</p>
+			<div class="eight wide column">
+				<h5 style="text-align: center;">Sub-total</h5>
+				<p style="text-align: center;">$ {{offerView.total | number:2}}</p>
 			</div>
 		</div>
 		<div class="field sixteen wide column">&nbsp;</div>
@@ -295,16 +295,16 @@
 				<label>You will receive an invoice for the total amount of:</label>
 			</div>
 			<div class="field sixteen wide column">
-				<input type="text" name="input" ng-model="offerView.total" disabled>
+				<input type="text" name="input" ng-model="offerView.total | number:2" readonly="">
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="ui checkbox">
-				<input type="checkbox" name="accept-terms" id="accept-terms">
+				<input type="checkbox" name="accept-terms" id="accept-terms" ng-model="is_agreed">
 				<label for="accept-terms">I have read and accept the Terms &amp; Conditions</label>
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 			<div class="field sixteen wide column">
-				<button ng-click="acceptOffer()" class="fluid ui orange button" type="submit">Accept and Continue</button>
+				<button ng-click="acceptOffer()" class="fluid ui orange button" type="submit" ng-disabled="!is_agreed">Accept and Continue</button>
 			</div>
 			<div class="field sixteen wide column">&nbsp;</div>
 		</form>

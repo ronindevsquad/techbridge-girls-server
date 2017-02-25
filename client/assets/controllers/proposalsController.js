@@ -15,6 +15,15 @@ proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposal
 					scrollToProposal(selectedProposalFactory.get().id)
 			}
 		});
+
+		$scope.selected_proposal = {
+			completion: Date.now()
+		}
+
+		$scope.offerView = {
+			total: 6295200000.00,
+
+		}
 	}
 	else
 		$location.url('/');

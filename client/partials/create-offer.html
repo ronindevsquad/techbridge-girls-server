@@ -33,7 +33,7 @@
 											<div class="ui basic label">
 												$
 											</div> <!-- label -->
-											<input type="number" placeholder="e.g. 50000.00" min="0" max="99999.99" step="0.01" ng-model="offer.first" required>
+											<input type="number" placeholder="e.g. 50000.00" min="0" max="99999.99" ng-model="offer.first" required>
 										</div>
 									</div> <!-- .field -->
 								</div> <!-- .column -->
@@ -45,7 +45,7 @@
 											<div class="ui basic label">
 												$
 											</div> <!-- label -->
-											<input type="number" placeholder="e.g. 40000.00" min="0" max="99999.99" step="0.01" ng-model="offer.follow" required>
+											<input type="number" placeholder="e.g. 40000.00" min="0" max="99999.99" ng-model="offer.follow" required>
 										</div>
 									</div> <!-- .field -->
 								</div> <!-- .column -->
@@ -54,7 +54,7 @@
 									<div class="field">
 										<label><span data-tooltip="This is the number of ..." data-position="right center">Cavitation <i class="help circle outline icon"></i></span></label>
 										<div class="ui labeled input">
-											<input type="number" placeholder="e.g. 64" min="0" max="999" step="1" ng-model="offer.cavitation" required>
+											<input type="number" placeholder="e.g. 64" min="0" max="999" ng-model="offer.cavitation" required>
 										</div>
 									</div> <!-- .field -->
 								</div> <!-- .column -->
@@ -63,7 +63,7 @@
 									<div class="field">
 										<label><span data-tooltip="This is the number of days ..." data-position="right center">Tooling Lead Time <i class="help circle outline icon"></i></span></label>
 										<div class="ui right labeled input">
-											<input type="number" placeholder="e.g. 120" min="0" max="999" step="1" ng-model="offer.days" required>
+											<input type="number" placeholder="e.g. 120" min="0" max="999" ng-model="offer.days" required>
 											<div class="ui basic label">
 												days
 											</div> <!-- label -->
@@ -75,7 +75,7 @@
 									<div class="field">
 										<label><span data-tooltip="This is the lifetime of the tool measured in millions of shots." data-position="right center">Tool Life <i class="help circle outline icon"></i></span></label>
 										<div class="ui right labeled input">
-											<input type="number" placeholder="e.g. 1.5" min="0" max="9.99" step="0.01" ng-model="offer.life" required>
+											<input type="number" placeholder="e.g. 1.5" min="0" max="9.99" ng-model="offer.life" required>
 											<div class="ui basic label">
 												million shots
 											</div> <!-- label -->
@@ -238,7 +238,7 @@
 													<label><span data-tooltip="This is the weight (in kilograms)
 														of how much {{material.material?material.material:'material'}} you'll use to produce each unit." data-position="right center">Weight <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 0.0117375" min="0" max="99999.9999999" step="0.0000001" ng-model="material.weight" required>
+															<input type="number" placeholder="e.g. 0.0117375" min="0" max="99999.9999999" ng-model="material.weight" required>
 															<div class="ui basic label">
 																kg/unit
 															</div> <!-- label -->
@@ -250,7 +250,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the cost of {{material.weight?material.weight:'(e.g.) 2.5'}} kg of {{material.material?material.material:'Aluminum (AL 6061/5052)'}}." data-position="right center">Cost <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 0.030" min="0" max="99999999.99999" step="0.00001" ng-model="material.cost" required>
+															<input type="number" placeholder="e.g. 0.030" min="0" max="99999999.99999" ng-model="material.cost" required>
 															<div class="ui basic label">
 																$/weight
 															</div> <!-- label -->
@@ -451,7 +451,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the time it takes the machine to process the raw material for one product." data-position="right center">Cycle Time <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 5.625" min="0" max="99999999.99999" step="0.00001" ng-model="machine.time" required>
+															<input type="number" placeholder="e.g. 5.625" min="0" max="99999999.99999" ng-model="machine.time" required>
 															<div class="ui basic label">
 																seconds
 															</div> <!-- label -->
@@ -463,7 +463,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the cost of running the machine at an hourly rate." data-position="right center">Operation Cost <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 0.04" min="0" max="99999999.99999" step="0.00001" ng-model="machine.rate" required>
+															<input type="number" placeholder="e.g. 0.04" min="0" max="99999999.99999" ng-model="machine.rate" required>
 															<div class="ui basic label">
 																$/hr
 															</div> <!-- label -->
@@ -475,7 +475,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the yield as a percentage of output products / input raw materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 95.62" min="0" max="100.00" step="0.01" ng-model="machine.yield" required>
+															<input type="number" placeholder="e.g. 95.62" min="0" max="100.00" ng-model="machine.yield" required>
 															<div class="ui basic label">
 																%
 															</div> <!-- label -->
@@ -487,7 +487,7 @@
 													<div class="field">
 														<label>Number of Machines <span data-tooltip="This is the quantity of this machine type that you'll have available for production." data-position="top right"><i class="help circle outline icon"></i></span></label>
 														<div class="ui input">
-															<input type="number" placeholder="e.g. 1" min="1" max="99" step="1" ng-model="machine.count" required>
+															<input type="number" placeholder="e.g. 1" min="1" max="99" ng-model="machine.count" required>
 														</div>
 													</div> <!-- .field -->
 												</div> <!-- .column -->
@@ -543,7 +543,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the time it takes the laborer to complete {{manual.labor?manual.labor:'this labor'}} for one product." data-position="right center">Labor Time <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 1.6" min="0" max="99999999.99999" step="0.00001" ng-model="manual.time" required>
+															<input type="number" placeholder="e.g. 1.6" min="0" max="99999999.99999" ng-model="manual.time" required>
 															<div class="ui basic label">
 																seconds
 															</div> <!-- label -->
@@ -555,7 +555,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the wage of the laborer as an hour rate." data-position="right center">Labor Rate <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 0.01" min="0" max="99999999.99999" step="0.00001" ng-model="manual.rate" required>
+															<input type="number" placeholder="e.g. 0.01" min="0" max="99999999.99999" ng-model="manual.rate" required>
 															<div class="ui basic label">
 																$/hr
 															</div> <!-- label -->
@@ -567,7 +567,7 @@
 													<div class="field">
 														<label><span data-tooltip="This is the yield as a percentage of output products / input materials." data-position="right center">Yield <i class="help circle outline icon"></i></span></label>
 														<div class="ui right labeled input">
-															<input type="number" placeholder="e.g. 100.00" min="0" max="100.00" step="0.01" ng-model="manual.yield" required>
+															<input type="number" placeholder="e.g. 100.00" min="0" max="100.00" ng-model="manual.yield" required>
 															<div class="ui basic label">
 																%
 															</div> <!-- label -->
@@ -579,7 +579,7 @@
 													<div class="field">
 														<label>Number of Laborers <span data-tooltip="This is the number of workers you'll have available for {{manual.labor?manual.labor:'this labor'}}." data-position="top right"><i class="help circle outline icon"></i></span></label>
 														<div class="ui input">
-															<input type="number" placeholder="e.g. 1" min="0" max="99.99" step="0.01" ng-model="manual.count" required>
+															<input type="number" placeholder="e.g. 1" min="0" max="99.99" ng-model="manual.count" required>
 														</div>
 													</div> <!-- .field -->
 												</div> <!-- .column -->
@@ -605,7 +605,7 @@
 														<div class="ui basic label">
 															$
 														</div> <!-- label -->
-														<input placeholder="e.g. 0.05" type="number" min="0" max="99999999.99999" step="0.00001" ng-model="offer.sga" required>
+														<input placeholder="e.g. 0.05" type="number" min="0" max="99999999.99999" ng-model="offer.sga" required>
 													</div>
 												</div>
 											</div>
@@ -616,7 +616,7 @@
 														<div class="ui basic label">
 															$
 														</div> <!-- label -->
-														<input placeholder="e.g. 0.01" type="number" min="0" max="99999999.99999" step="0.00001" ng-model="offer.overhead" required>
+														<input placeholder="e.g. 0.01" type="number" min="0" max="99999999.99999" ng-model="offer.overhead" required>
 													</div>
 												</div> <!-- .field -->
 											</div>
@@ -627,7 +627,7 @@
 														<div class="ui basic label">
 															$
 														</div> <!-- label -->
-														<input placeholder="e.g. 0.06" type="number" min="0" max="99999999.99999" step="0.00001" ng-model="offer.profit" required>
+														<input placeholder="e.g. 0.06" type="number" min="0" max="99999999.99999" ng-model="offer.profit" required>
 													</div>
 												</div> <!-- .field -->
 											</div>
@@ -638,7 +638,7 @@
 														<div class="ui basic label">
 															$
 														</div> <!-- label -->
-														<input placeholder="e.g. 1.2518" type="number" min="0" max="99999999.99999" step="0.00001" ng-model="offer.tpp" required>
+														<input placeholder="e.g. 1.2518" type="number" min="0" max="99999999.99999" ng-model="offer.tpp" required>
 													</div>
 												</div> <!-- .field -->
 											</div>
@@ -654,7 +654,7 @@
 										<div class="field">
 											<label><span data-tooltip="This is the number of days that you will need to complete production." data-position="right center">Days Until Completion From Production Start<i class="help circle outline icon"></i></span></label>
 											<div class="ui right labeled input">
-												<input placeholder="e.g. 120" type="number" min="0" max="999" step="1" ng-model="offer.completion" required>
+												<input placeholder="e.g. 120" type="number" min="0" max="999" ng-model="offer.completion" required>
 												<div class="ui basic label">
 													days
 												</div>
@@ -662,6 +662,7 @@
 										</div> <!-- .field -->
 									</fieldset>
 									<!-- END total costs -->
+						{{offer.sga}}
 
 									<div class="ui grid">
 										<small style="margin-top: 2em;" class="row centered">Click below once you're done to review your offer in the right panel.</small>
@@ -761,7 +762,7 @@
 												Sub-total:
 											</div> <!-- .column -->
 											<div class="column">
-												${{offer.total}}
+												${{offer.total | number:2}}
 											</div> <!-- .column -->
 
 											<div class="ui horizontal divider"></div>
@@ -770,7 +771,7 @@
 												2% EG Service fee:
 											</div> <!-- .column -->
 											<div class="column">
-												${{offer.total*0.02}}
+												${{offer.total*0.02 | number:2}}
 											</div> <!-- .column -->
 
 											<div class="ui horizontal divider"></div>
@@ -779,7 +780,7 @@
 												Total Cost:
 											</div> <!-- .column -->
 											<div class="column larger">
-												${{offer.total*1.02}}
+												${{offer.total*1.02 | number:2}}
 											</div> <!-- .column -->
 										</div> <!-- .row -->
 
