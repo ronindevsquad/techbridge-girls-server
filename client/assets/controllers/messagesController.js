@@ -67,13 +67,23 @@ offersFactory, messagesFactory, socketsFactory) {
 			socketsFactory.emit('send', data);
 
 			messagesFactory.create(data, function(data) {
-			if (data.status == 401)
-				$scope.logout();
-			else if (data.status >= 300)
-				console.log("error:", data.data.message)
-			else
-				$scope.new_message = "";
+				if (data.status == 401)
+					$scope.logout();
+				else if (data.status >= 300)
+					console.log("error:", data.data.message)
+				else
+					$scope.new_message = "";
 			});
 		}
+	}
+
+	$scope.contactAdmin = function(){
+		messagesFactory.contactAdmin(function(data){
+			if (data.status == 401)
+				$scope.logout();
+			else {
+				console.log(data);
+			}
+		});
 	}
 });

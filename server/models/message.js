@@ -14,7 +14,7 @@ module.exports = function(jwt_key) {
 				else {
 					Promise.join(using(getConnection(), connection => {
 						var query = "SELECT message, status, messages.created_at AS created_at, contact, " +
-						"company, picture, HEX(user_id) AS user_id, HEX(messages.id) AS id FROM messages " +
+						"company, users.type, picture, HEX(user_id) AS user_id, HEX(messages.id) AS id FROM messages " +
 						"LEFT JOIN users ON messages.user_id = users.id WHERE proposal_id = " +
 						"(SELECT proposal_id FROM offers LEFT JOIN proposals ON proposal_id = id WHERE " +
 						"proposal_id = UNHEX(?) AND (proposals.user_id = UNHEX(?) OR offers.user_id = UNHEX(?)) " +

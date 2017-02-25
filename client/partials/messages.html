@@ -40,7 +40,8 @@
 										</div>
 										<a ng-style="{'background-color': offer.proposal_id==cur_offer.proposal_id&&type?'#7AC200':offer.proposal_id==cur_offer.proposal_id&&!type?'#F6A623':''}" class="item" data-tab="message1" ng-class="{active: offer.proposal_id==cur_offer.proposal_id}" ng-click="showMessages(offer)">
 											<div class="ui tiny image">
-												<img src="{{offer.picture}}" class="ui centered image" />
+												<img ng-show="offer.type==0" class="ui image" src="{{offer.picture?offer.picture:'static/img/makerdefaultprofilepic.png'}}">
+												<img ng-show="offer.type==1" class="ui image" src="{{offer.picture?offer.picture:'static/img/supplierdefaultprofilepic.png'}}">
 											</div>
 											<div class="middle aligned content">
 												<h4>{{offer.contact}} - {{offer.company}}</h4>
@@ -82,7 +83,9 @@
 										<div class="ui grid" ng-repeat="message in messages">
 											<div class="row">
 												<div class="two wide column">
-													<img ng-src="{{message.picture}}" class="ui tiny centered image">
+													<!-- <img ng-src="{{message.picture}}" class="ui tiny centered image"> -->
+													<img ng-show="message.type==0" class="ui image" src="{{message.picture?message.picture:'static/img/makerdefaultprofilepic.png'}}">
+													<img ng-show="message.type==1" class="ui image" src="{{message.picture?message.picture:'static/img/supplierdefaultprofilepic.png'}}">
 												</div>
 												<div class="fourteen wide column">
 													<b>{{message.contact}} ({{message.company}})</b> - <small class="muted" ng-bind="message.created_at | date:'short'"></small>
@@ -97,13 +100,15 @@
 											<input type="text" placeholder="Enter your message here" ng-model="new_message">
 											<button type="submit" ng-class="color" class="ui evergreen button flat">Send</button>
 										</form>
+
 										<div style="text-align: center">
-											<small>Have an issue, or need to cancel this contract? <a href="">Click here to contact an admin.</a></small>
+											<small>Have an issue, or need to cancel this contract? <a ng-click="contactAdmin()" href="">Click here to contact an admin.</a></small>
+
 											<br>
 											<small>
-												Messages not appearing? Try refreshing the page.
+												If messages are not appearing, try refreshing the page.
 											</small>
-											</div>
+										</div>
 									</div> <!-- .send-area -->
 								</div>
 							</div>
