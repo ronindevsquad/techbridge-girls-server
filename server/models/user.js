@@ -5,7 +5,8 @@ var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var uuid = require("uuid/v1");
 var mailgunKey = require('../../keys/APIkeys.js').mailgunKey
-var domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
+// var domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
+var domain = 'evergreenmake.com';
 var mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: domain});
 
 module.exports = function(jwt_key) {
@@ -207,35 +208,49 @@ module.exports = function(jwt_key) {
 							if (err) {
 								callback({status: 400, message: "Please contact an admin."});
 							} else {
-								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
-									req.body.contact, req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
-									"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
-									return connection.execute(query, data);
-								})
-								.then(() => {
-									return using(getConnection(), connection => {
-										var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-										return connection.execute(query, [req.body.email]);
-									});
-								})
-								.spread(data => {
-									var evergreen_token = jwt.sign({
-										id: data[0].id,
-										type: data[0].type,
+								// Send Welcome Email
+								var mail = {
+									from: 'Evergreen Team hello@evergreenmake.com',
+									to: `${req.body.email}`,
+									subject: 'Evergreen Welcomes You',
+									text: `Welcome ${req.body.contact},\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+								};
 
-										company: data[0].company,
-										contact: data[0].contact,
-										created_at: data[0].created_at
-									}, jwt_key, {expiresIn: "5d"});
-									callback(false, evergreen_token);
-								})
-								.catch(err => {
-									if (err["code"] == "ER_DUP_ENTRY")
-										callback({status: 400, message: "Email already in use, please log in."});
-									else
-										callback({status: 400, message: "Please contact an admin."});
+								mailgun.messages().send(mail, function (error, body) {
+									if (error)
+										callback({status: 400, message: "Email does not exist."});
+									else {
+										using(getConnection(), connection => {
+											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
+											req.body.contact, req.body.email, hash];
+											var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
+											"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
+											return connection.execute(query, data);
+										})
+										.then(() => {
+											return using(getConnection(), connection => {
+												var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+												return connection.execute(query, [req.body.email]);
+											});
+										})
+										.spread(data => {
+											var evergreen_token = jwt.sign({
+												id: data[0].id,
+												type: data[0].type,
+
+												company: data[0].company,
+												contact: data[0].contact,
+												created_at: data[0].created_at
+											}, jwt_key, {expiresIn: "5d"});
+											callback(false, evergreen_token);
+										})
+										.catch(err => {
+											if (err["code"] == "ER_DUP_ENTRY")
+												callback({status: 400, message: "Email already in use, please log in."});
+											else
+												callback({status: 400, message: "Please contact an admin."});
+										});
+									}
 								});
 							}
 						});
@@ -266,35 +281,48 @@ module.exports = function(jwt_key) {
 							if (err) {
 								callback({status: 400, message: "Hash error."});
 							} else {
-								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
-									req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
-									"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
-									return connection.execute(query, data);
-								})
-								.then(() => {
-									return using(getConnection(), connection => {
-										var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-										return connection.execute(query, [req.body.email]);
-									});
-								})
-								.spread(data => {
-									var evergreen_token = jwt.sign({
-										id: data[0].id,
-										type: data[0].type,
+								var mail = {
+									from: 'Evergreen Team hello@evergreenmake.com',
+									to: `${req.body.email}`,
+									subject: 'Evergreen Welcomes You',
+									text: `Welcome ${req.body.contact},\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+								};
 
-										company: data[0].company,
-										contact: data[0].contact,
-										created_at: data[0].created_at
-									}, jwt_key, {expiresIn: "5d"});
-									callback(false, evergreen_token);
-								})
-								.catch(err => {
-									if (err["code"] == "ER_DUP_ENTRY")
-										callback({status: 400, message: "Email already in use, please log in."});
-									else
-										callback({status: 400, message: "Please contact an admin."});
+								mailgun.messages().send(mail, function (error, body) {
+									if (error)
+										callback({status: 400, message: "Email does not exist."});
+									else {
+										using(getConnection(), connection => {
+											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
+											req.body.email, hash];
+											var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
+											"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
+											return connection.execute(query, data);
+										})
+										.then(() => {
+											return using(getConnection(), connection => {
+												var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+												return connection.execute(query, [req.body.email]);
+											});
+										})
+										.spread(data => {
+											var evergreen_token = jwt.sign({
+												id: data[0].id,
+												type: data[0].type,
+
+												company: data[0].company,
+												contact: data[0].contact,
+												created_at: data[0].created_at
+											}, jwt_key, {expiresIn: "5d"});
+											callback(false, evergreen_token);
+										})
+										.catch(err => {
+											if (err["code"] == "ER_DUP_ENTRY")
+												callback({status: 400, message: "Email already in use, please log in."});
+											else
+												callback({status: 400, message: "Please contact an admin."});
+										});
+									}
 								});
 							}
 						});
@@ -392,7 +420,6 @@ module.exports = function(jwt_key) {
 							to: 'hello@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
 							subject: `Ticket issued from user ${data[0].contact} at ${data[0].company}`,
 							text: `${req.body.text}\n\nReach out to ${data[0].email} for support.`
-							// text: `A ticket was issued.  Reach out to ${data[0].email} for support.`
 						};
 
 						mailgun.messages().send(mail, function (error, body) {
