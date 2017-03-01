@@ -29,8 +29,8 @@ app.factory('messagesFactory', function($http, $cookies) {
 				callback(res);
 			});
 		},
-		contactAdmin: function(callback){
-			$http.get('/api/users/sendTicket', {
+		contactAdmin: function(data, callback){
+			$http.post('/api/users/sendTicket', data, {
 				headers: {'Authorization': `Bearer ${$cookies.get('evergreen_token')}`}
 			})
 			.then(function(res){

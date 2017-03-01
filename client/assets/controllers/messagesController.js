@@ -78,12 +78,22 @@ offersFactory, messagesFactory, socketsFactory) {
 	}
 
 	$scope.contactAdmin = function(){
-		messagesFactory.contactAdmin(function(data){
+		messagesFactory.contactAdmin({'text':$scope.ticket_body}, function(data){
 			if (data.status == 401)
 				$scope.logout();
 			else {
-				console.log(data);
+				$('.ui.modal').modal('hide');
+				$scope.ticket_status = 'Your ticket has been sent';
 			}
 		});
+	}
+
+	$scope.ticketCheck = function(){
+		if ($scope.ticket_status){
+			$scope.ticket_status = "Your ticket is already being processed";
+			setTimeout(function(){
+				$('.ui.modal').modal('hide');
+			},500);
+		}
 	}
 });
