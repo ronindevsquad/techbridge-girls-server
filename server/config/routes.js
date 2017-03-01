@@ -6,9 +6,9 @@ var storage = multer.diskStorage({
 	},
 	filename: function (req, file, cb) {
 		cb(null, new Date().toISOString().
-    replace(/T/, ' ').      // replace T with a space
+    replace(/T/, '-').      // replace T with a space
     replace(/\..+/, '').     // delete the dot and everything after)
-    replace(" ", '')  + '-' + file.originalname);
+    replace(/ /g, '_')  + '-' + file.originalname.replace(/ /g, '_'));
 	}
 });
 var upload = multer({storage: storage});
