@@ -5,7 +5,6 @@ var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var uuid = require("uuid/v1");
 var mailgunKey = require('../../keys/APIkeys.js').mailgunKey
-// var domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
 var domain = 'evergreenmake.com';
 var mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: domain});
 
@@ -210,15 +209,22 @@ module.exports = function(jwt_key) {
 							} else {
 								// Send Welcome Email
 								var mail = {
-									from: 'Evergreen Team hello@evergreenmake.com',
+									from: 'Evergreen HQ hello@evergreenmake.com',
 									to: `${req.body.email}`,
-									subject: 'Evergreen Welcomes You',
-									text: `Welcome ${req.body.contact},\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									subject: 'Welcome to Evergreen!',
+									// text: `Greetings from Evergreen HQ,\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									html:'<html><img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_banner.png" width="70%" height="auto">' +
+										'<p>Greetings from Evergreen HQ,</p> ' +
+										'<p>Welcome to the Evergreen community. As a supplier you can connect with consumer goods companies in the US that need high quality suppliers like yourself.</p>' +
+										'<p>Get started by browsing the open proposals section and viewing some of the available RFPs. Makers around the globe are actively submitting bids to create better products.</p>' +
+										'<img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_demo.png" width="70%" height="auto">' +
+										'<p>We are looking for feedback to improve the site. If you have any questions, shoot over an email to <a href="mailto:support@evergreenmake.com">support@evergreenmake.com</a> or call our leadership team directly at 1-800-416-0419.</p></html>'
 								};
 
 								mailgun.messages().send(mail, function (error, body) {
-									if (error)
+									if (error){
 										callback({status: 400, message: "Email does not exist."});
+									}
 									else {
 										using(getConnection(), connection => {
 											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
@@ -282,15 +288,22 @@ module.exports = function(jwt_key) {
 								callback({status: 400, message: "Hash error."});
 							} else {
 								var mail = {
-									from: 'Evergreen Team hello@evergreenmake.com',
+									from: 'Evergreen HQ hello@evergreenmake.com',
 									to: `${req.body.email}`,
-									subject: 'Evergreen Welcomes You',
-									text: `Welcome ${req.body.contact},\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									subject: 'Welcome to Evergreen!',
+									// text: `Greetings from Evergreen HQ,\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									html:'<html><img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_banner.png" width="70%" height="auto">' +
+										'<p>Greetings from Evergreen HQ,</p> ' +
+										'<p>Welcome to the Evergreen community. As a supplier you can connect with consumer goods companies in the US that need high quality suppliers like yourself.</p>' +
+										'<p>Get started by browsing the open proposals section and viewing some of the available RFPs. Makers around the globe are actively submitting bids to create better products.</p>' +
+										'<img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_demo.png" width="70%" height="auto">' +
+										'<p>We are looking for feedback to improve the site. If you have any questions, shoot over an email to <a href="mailto:support@evergreenmake.com">support@evergreenmake.com</a> or call our leadership team directly at 1-800-416-0419.</p></html>'
 								};
 
 								mailgun.messages().send(mail, function (error, body) {
-									if (error)
+									if (error){
 										callback({status: 400, message: "Email does not exist."});
+									}
 									else {
 										using(getConnection(), connection => {
 											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
