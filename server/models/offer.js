@@ -300,7 +300,8 @@ module.exports = function(jwt_key) {
 				for (var i = 0; i < req.body.materials.length; i++) {
 					var material = req.body.materials[i];
 					if (!material.material || material.weight === undefined || material.cost === undefined ||
-						material.weight < 0 || material.cost < 0)
+						material.weight < 0 || material.cost < 0 ||
+						parseFloat(material.weight) == NaN || parseFloat(material.cost) == NaN)
 						return callback({status: 400, message: "Invalid field(s) for materials provided."});
 				}
 
@@ -311,7 +312,9 @@ module.exports = function(jwt_key) {
 					console.log(machine)
 					if (!machine.labor || machine.time === undefined || machine.rate === undefined ||
 						machine.yield === undefined || machine.count === undefined || machine.time < 1 ||
-						machine.rate < 0 || machine.yield < 0 || machine.count < 1)
+						machine.rate < 0 || machine.yield < 0 || machine.count < 1 ||
+						parseFloat(machine.rate) == NaN || parseFloat(machine.yield) == NaN ||
+						parseInt(machine.count) == NaN || parseFloat(machine.time) == NaN)
 						return callback({status: 400, message: "Invalid field(s) for machines provided."});
 				}
 
@@ -320,7 +323,9 @@ module.exports = function(jwt_key) {
 					var manual = req.body.manuals[i];
 					if (!manual.labor || manual.time === undefined || manual.rate === undefined ||
 						manual.yield === undefined || manual.count === undefined || manual.time < 1 ||
-						manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1)
+						manual.rate < 0.01 || manual.yield < 0.01 || manual.count < 1 ||
+						parseFloat(manual.time) == NaN || parseFloat(manual.rate) == NaN ||
+						parseFloat(manual.yield) == NaN || parseInt(manual.count) == NaN)
 						return callback({status: 400, message: "Invalid field(s) for manual labors provided."});
 				}
 
@@ -331,7 +336,10 @@ module.exports = function(jwt_key) {
 					req.body.tpp === undefined || req.body.total === undefined || req.body.completion === undefined ||
 					req.body.first < 0 || req.body.follow < 0 || req.body.cavitation < 0 || req.body.days < 0 ||
 					req.body.life < 0 || req.body.sga < 0  || req.body.profit < 0 || req.body.overhead < 0 || req.body.tpp < 0 ||
-					req.body.total < 0)
+					req.body.total < 0 || parseFloat(req.body.first) == NaN || parseFloat(req.body.follow) == NaN ||
+					parseFloat(req.body.cavitation) == NaN || parseInt(req.body.days) == NaN ||
+					parseFloat(req.body.life) == NaN || parseFloat(req.body.sga) == NaN || parseFloat(req.body.profit) == NaN ||
+					parseFloat(req.body.overhead) == NaN || parseFloat(req.body.tpp) == NaN || parseFloat(req.body.total) == NaN)
 					return callback({status: 400, message: "Invalid form fields."});
 
 				// Validation done, insert into offers:
