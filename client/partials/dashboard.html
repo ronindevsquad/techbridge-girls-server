@@ -71,7 +71,11 @@
 						<div class="ui horizontal divider"></div>
 						<div class="ui horizontal divider"></div>
 						<div id="chartholder" class="ui very padded segment">
-							<h5 style="text-align: center" ng-show="offers.length<1">You have a supplier for this proposal.<br><br>
+							<h5 style="text-align: center" ng-show="offers.length==0">This Proposal is still on the open market. <br> <br> When it recieves offers they can be seen here and on the proposals page.</h5>
+							<h5 style="text-align: center;">
+							<a ng-show="selected_proposal!=undefined&&offers.length==0" class="ui big evergreen uppercase orange button" href="#!/show-proposal/{{selected_proposal.id}}">View this Proposal's details</a>
+						</h5>
+							<h5 style="text-align: center" ng-show="selected_proposal.status==2">You have a supplier for this proposal.<br><br>
 							Contact them in your messages tab.</h5>
 							<h2 style="text-align: center" ng-show="offers.length>0">Comparing offers by: {{chartMetric}}</h2>
 							<div ng-show="offers.length>0" id="chart_div"></div> <!--google uses this div to draw the chart-->
