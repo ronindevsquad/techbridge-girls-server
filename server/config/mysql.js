@@ -10,7 +10,6 @@ function queryFormat(sql, values, timeZone) {
 	.replace(/'UNHEX/g, "UNHEX")
 	.replace(/\\'\)'/g, "')")
 	.replace(/\\/g, "");
-	console.log(sql)
 	return sql;
 };
 

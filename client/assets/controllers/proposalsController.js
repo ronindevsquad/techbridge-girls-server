@@ -160,6 +160,7 @@ proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposal
 	};
 
 	$scope.accept = function() {
+		$scope.closeAcceptOfferModal();
 		var offer = {
 			proposal_id: $scope.offerView.proposal_id,
 			user_id: $scope.offerView.user_id
@@ -176,6 +177,10 @@ proposalsFactory, offersFactory, socketsFactory, chartsFactory, selectedProposal
 			}
 		});
 	};
+
+	$scope.closeAcceptOfferModal = function(){
+		$('.accept-modal').modal('hide');
+	}
 
 	$scope.removeLead = function(lead) {
 		offersFactory.removeLead(lead, function(data) {
