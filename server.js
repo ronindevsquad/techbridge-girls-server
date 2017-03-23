@@ -1,15 +1,13 @@
-const	express  = require('express');
 const bp = require('body-parser');
-const path = require('path');
-const helmet = require('helmet');
-const expressJwt = require('express-jwt');
 const cookieParser = require('cookie-parser');
-const fs = require('fs');
-
+const	express  = require('express');
+const expressJwt = require('express-jwt');
+const helmet = require('helmet');
 const jwtKey = require('./keys').jwtKey;
-const root = __dirname;
-const port = process.env.PORT || 8000;
+const path = require('path');
+
 const app = express();
+const port = process.env.PORT || 8000;
 
 // TEMPORARILY ALLOW CORS
 app.use(function(req, res, next) {
@@ -20,14 +18,14 @@ app.use(function(req, res, next) {
 });
 
 app.use(helmet());
-app.use(express.static(path.join(root, 'client')));
-app.use(express.static(path.join(root, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(bp.json());
+// TEST COOKIES
 app.use(cookieParser());
 app.use('/api', expressJwt({secret: jwtKey}));
 
-require('./server/config/mysql.js');
-require('./server/config/routes.js')(app, jwtKey);
+require('./server/config/routes.js')(app);
 
 const server = app.listen(port, function() {
 	console.log(`server running on port ${ port }`);

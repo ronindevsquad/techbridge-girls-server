@@ -1,14 +1,14 @@
+const messages = require('../controllers/messages');
+const offers = require('../controllers/offers');
+const processes = require('../controllers/processes');
+const proposals = require('../controllers/proposals');
+const reports = require('../controllers/reports');
+const urls = require('../controllers/urls');
+const users = require('../controllers/users');
+
 const upload = require('../services/upload');
 
-module.exports = function(app, jwt_key) {
-	const messages = require('../controllers/messages')(jwt_key);
-	const offers = require('../controllers/offers')(jwt_key);
-	const processes = require('../controllers/processes')(jwt_key);
-	const proposals = require('../controllers/proposals')(jwt_key);
-	const reports = require('../controllers/reports')(jwt_key);
-	const urls = require('../controllers/urls')(jwt_key);
-	const users = require('../controllers/users')(jwt_key);
-
+module.exports = function (app) {
 	// MESSAGES
 	// app.get('/api/messages', messages.index);
 	app.get('/api/messages/:proposal_id', messages.show);
@@ -17,7 +17,6 @@ module.exports = function(app, jwt_key) {
 	// OFFERS
 	app.delete('/api/offers/:proposal_id', offers.delete);
 	app.get('/api/offers/get-accepted-offers', offers.getAcceptedOffers);
-	app.get('/api/offers/get-offers', offers.getOffers);
 	app.get('/api/offers/get-offers-for-proposal/:proposal_id', offers.getOffersForProposal);
 	app.get('/api/offers/:proposal_id', offers.index);
 	app.get('/api/offers/:proposal_id/:user_id', offers.show);
@@ -43,6 +42,10 @@ module.exports = function(app, jwt_key) {
 	app.get('/api/reports', reports.index)
 	app.get('/api/reports/get-reports-for-proposal/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
+	
+	// URLS
+	app.post('/api/urls', urls.create);
+	app.post('/api/urls/upload-picture', upload.single('picture'), urls.uploadPicture);
 
 	// USERS
 	app.delete('/api/users', users.delete);
@@ -55,10 +58,6 @@ module.exports = function(app, jwt_key) {
 	app.post('/users/register-linkedin', users.registerLinkedIn);
 	app.put('/api/users', users.update);
 	app.put('/api/users/change-password', users.changePassword);
-
-	// URLS
-	app.post('/api/urls', urls.create);
-	app.post('/api/urls/upload-picture', upload.single('picture'), urls.uploadPicture);
 
 	app.get('/test', function (req, res) {
 		res.end()

@@ -1,19 +1,20 @@
-const Promise = require('bluebird');
-const using = Promise.using;
 const mysql = require('mysql2/promise');
+const Promise = require('bluebird');
 const SqlString = require('mysql2/node_modules/sqlstring');
 
-// function queryFormat(sql, values, timeZone) {
-// 	console.log(sql)
-// 	sql = SqlString.format(sql, values, false, timeZone);
-// 	sql = sql.replace(/'NOW\(\)'/g, "NOW()")
-// 	.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))")
-// 	.replace(/'UNHEX/g, "UNHEX")
-// 	.replace(/\\'\)'/g, "')")
-// 	.replace(/\\/g, "");
-// 	console.log(sql)
-// 	return sql;
-// };
+const using = Promise.using;
+
+function queryFormat(sql, values, timeZone) {
+	console.log(sql)
+	sql = SqlString.format(sql, values, false, timeZone);
+	sql = sql.replace(/'NOW\(\)'/g, "NOW()")
+	.replace(/'UNHEX\(REPLACE\(UUID\(\), \\'-\\', \\'\\'\)\)'/g, "UNHEX(REPLACE(UUID(), '-', ''))")
+	.replace(/'UNHEX/g, "UNHEX")
+	.replace(/\\'\)'/g, "')")
+	.replace(/\\/g, "");
+	console.log(sql)
+	return sql;
+};
 
 const pool = mysql.createPool({
 	host: 'localhost',
@@ -21,7 +22,7 @@ const pool = mysql.createPool({
 	user: 'root',
 	password: 'root',
 	database: 'evergreendb',
-	// queryFormat : queryFormat,
+	queryFormat : queryFormat,
 	Promise: Promise
 });
 

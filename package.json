@@ -1,5 +1,5 @@
 {
-  "name": "evergreen",
+  "name": "anvyl-server",
   "description": "",
   "dependencies": {
     "amazon-s3-url-signer": "^0.1.0",

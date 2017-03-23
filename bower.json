@@ -1,12 +1,12 @@
 {
-  "name": "evergreen",
+  "name": "anvyl-server",
   "description": "",
   "main": "",
   "authors": [
     "Philip Vo <philiptranbavo@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/ronindevsquad/evergreen",
+  "homepage": "https://github.com/ronindevsquad/anvyl-server",
   "ignore": [
     "**/.*",
     "node_modules",
