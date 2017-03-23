@@ -14,7 +14,7 @@ var s3 = new aws.S3();
 module.exports = function(jwt_key) {
 	return {
 		create: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (req.body.homepage === undefined || req.body.facebook === undefined ||
@@ -56,7 +56,7 @@ module.exports = function(jwt_key) {
 		},
 		uploadPicture: function(req, callback) {
 			var uploadedURL;
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				} else if (!req.file) {
@@ -96,7 +96,7 @@ module.exports = function(jwt_key) {
 				})
 				.then(() => {
 					var picture = unescape(uploadedURL);
-					var evergreen_token = jwt.sign({
+					var anvyl_token = jwt.sign({
 						id: payload.id,
 						type: payload.type,
 						company: payload.company,
@@ -104,7 +104,7 @@ module.exports = function(jwt_key) {
 						picture: picture,
 						created_at: payload.created_at
 					}, jwt_key, {expiresIn: "5d"});
-					callback(false, evergreen_token, picture);
+					callback(false, anvyl_token, picture);
 				})
 				.catch(err => {
 					console.log(err);

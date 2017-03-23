@@ -74,4 +74,9 @@ module.exports = function(app, jwt_key) {
 	// app.get('/api/messages', messages.index);
 	app.get('/api/messages/:proposal_id', messages.show);
 	app.post('/api/messages', messages.create);
+
+	app.get('/test', function(req, res) {
+		res.end()
+	});
+
 }

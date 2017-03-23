@@ -22,7 +22,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.clearCookie('evergreen_token').cookie('evergreen_token', data).end();
+					res.clearCookie('anvyl_token').cookie('anvyl_token', data).end();
 			});
 		},
 		delete: function(req, res) {
@@ -30,7 +30,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.clearCookie('evergreen_token').end();
+					res.clearCookie('anvyl_token').end();
 			});
 		},
 		changePassword: function(req, res) {
@@ -46,7 +46,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.cookie('evergreen_token', data).end();
+					res.cookie('anvyl_token', data).end();
 			});
 		},
 		registerLinkedIn: function(req, res) {
@@ -54,15 +54,17 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.cookie('evergreen_token', data).end();
+					res.cookie('anvyl_token', data).end();
 			});
 		},
 		login: function(req, res) {
 			user.login(req, function(err, data) {
 				if (err)
 					res.status(err.status).json({message: err.message});
-				else
-					res.cookie('evergreen_token', data).end();
+				else {
+					console.log(data)
+					res.json(data);
+				}
 			});
 		},
 		loginLinkedIn: function(req, res) {
@@ -71,7 +73,7 @@ module.exports = function(jwt_key) {
 					res.status(err.status).json({message: err.message});
 				}
 				else {
-					res.cookie('evergreen_token', data).end();
+					res.json(data);
 				}
 			});
 		},
@@ -81,7 +83,7 @@ module.exports = function(jwt_key) {
 					res.status(err.status).json({message: err.message});
 				}
 				else {
-					res.cookie('evergreen_token', data).end();
+					res.cookie('anvyl_token', data).end();
 				}
 			});
 		}

@@ -7,7 +7,7 @@ var uuid = require("uuid/v1");
 module.exports = function(jwt_key) {
 	return {
 		index: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -26,7 +26,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getReportsForProposal: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -47,7 +47,7 @@ module.exports = function(jwt_key) {
 		},
 		create: function(req, callback) {
 			console.log(req.body);
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else

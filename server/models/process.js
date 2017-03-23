@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');
 module.exports = function(jwt_key) {
 	return {
 		set: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 1)

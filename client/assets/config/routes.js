@@ -3,7 +3,8 @@ app.config(function ($routeProvider) {
 	$routeProvider
 	.when("/", {
 		templateUrl: "partials/index.html",
-		controller: "indexController"
+		controller: "indexController",
+		css: "static/css/style.css"
 	})
 	.when("/register/:type", {
 		templateUrl: "partials/register.html",

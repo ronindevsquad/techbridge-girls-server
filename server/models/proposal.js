@@ -21,7 +21,7 @@ var bucket1 = sig.urlSigner('AKIAIFF4LTNLXH75IA2A', 'cH6vNKd7/jsdglxOrNpLm5SkMLs
 module.exports = function(jwt_key) {
 	return {
 		getMyProposals: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -45,7 +45,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getMyApplications: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -62,7 +62,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getPercentCompleted: function(req, callback) { //called in the tracking page to get all proposals and their percentage completed. Makers should be able to track
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -96,7 +96,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		uploadFiles: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err) {
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				} else if (req.files.length < 1) {
@@ -147,7 +147,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		getProposalsForPage: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 1)
@@ -180,7 +180,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		show: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
@@ -240,7 +240,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		create: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)
@@ -293,7 +293,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		delete: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (payload.type != 0)

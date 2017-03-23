@@ -1,6 +1,7 @@
+keys.js
+
 /bower_components
 /node_modules
 /client/static/images/userphotos
-/keys
 /uploads
 /server/config/mysql.js

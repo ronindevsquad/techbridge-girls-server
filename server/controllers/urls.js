@@ -14,7 +14,7 @@ module.exports = function(jwt_key) {
 				if (err)
 					res.status(err.status).json({message: err.message});
 				else
-					res.clearCookie('evergreen_token').cookie('evergreen_token', data).json(picture);
+					res.clearCookie('anvyl_token').cookie('anvyl_token', data).json(picture);
 			});
 		},
 	}

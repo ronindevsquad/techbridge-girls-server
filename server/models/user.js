@@ -1,38 +1,37 @@
-var Promise = require("bluebird");
-var using = Promise.using;
-var getConnection = require("../config/mysql");
-var bcrypt = require("bcrypt");
-var jwt = require("jsonwebtoken");
-var uuid = require("uuid/v1");
-var mailgunKey = require('../../keys/APIkeys.js').mailgunKey
-var domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
-var mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: domain});
+const Promise = require("bluebird");
+const using = Promise.using;
+const getConnection = require("../config/mysql");
+const bcrypt = Promise.promisifyAll(require("bcrypt"));
+const jwt = Promise.promisifyAll(require("jsonwebtoken"));
+const uuid = require("uuid/v1");
+const mailgunKey = require('../../keys').mailgunKey
+const domain = 'sandboxc2f9638ced9f445683d40e1b91c7a19a.mailgun.org';  //  Replace with evergreenmake.com, have to verify first?
+const mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: domain});
 
 module.exports = function(jwt_key) {
 	return {
 		show: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
-				if (err)
-					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
+			jwt.verifyAsync(req.headers.authorization.split('Bearer ')[1], jwt_key)
+			.then(() => {
+				return using(getConnection(), connection => {
+					var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, " +
+					"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE id = UNHEX(?) LIMIT 1";
+					return connection.execute(query, [req.params.id]);
+				});
+			})
+			.spread(data => {
+				if (data.length != 1)
+					callback({status: 400, message: "Could not find user."});
 				else
-					using(getConnection(), connection => {
-						var query = "SELECT company, contact, email, picture, homepage, facebook, instagram, " +
-						"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE id = UNHEX(?) LIMIT 1";
-						return connection.execute(query, [req.params.id]);
-					})
-					.spread(data => {
-						if (data.length != 1)
-							callback({status: 400, message: "Could not find user."});
-						else
-							callback(false, data[0]);
-					})
-					.catch(err => {
-						callback({status: 400, message: "Please contact an admin."});
-					});
-			});
+					callback(false, data[0]);
+			})
+			.catch(error => {
+				callback({status: 400, message: "Please contact an admin."});
+			})
+
 		},
 		notifications: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
@@ -87,7 +86,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		update: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
@@ -105,14 +104,14 @@ module.exports = function(jwt_key) {
 							});
 					})
 					.spread(data => {
-						var evergreen_token = jwt.sign({
+						var anvyl_token = jwt.sign({
 							id: data[0].id,
 							type: data[0].type,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at
 						}, jwt_key, {expiresIn: "5d"});
-						callback(false, evergreen_token);
+						callback(false, anvyl_token);
 					})
 					.catch(err => {
 						callback({status: 400, message: "Please contact an admin."});
@@ -121,7 +120,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		delete: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else
@@ -140,7 +139,7 @@ module.exports = function(jwt_key) {
 			});
 		},
 		changePassword: function(req, callback) {
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
@@ -221,7 +220,7 @@ module.exports = function(jwt_key) {
 									});
 								})
 								.spread(data => {
-									var evergreen_token = jwt.sign({
+									var anvyl_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
 
@@ -229,7 +228,7 @@ module.exports = function(jwt_key) {
 										contact: data[0].contact,
 										created_at: data[0].created_at
 									}, jwt_key, {expiresIn: "5d"});
-									callback(false, evergreen_token);
+									callback(false, anvyl_token);
 								})
 								.catch(err => {
 									if (err["code"] == "ER_DUP_ENTRY")
@@ -280,7 +279,7 @@ module.exports = function(jwt_key) {
 									});
 								})
 								.spread(data => {
-									var evergreen_token = jwt.sign({
+									var anvyl_token = jwt.sign({
 										id: data[0].id,
 										type: data[0].type,
 
@@ -288,7 +287,7 @@ module.exports = function(jwt_key) {
 										contact: data[0].contact,
 										created_at: data[0].created_at
 									}, jwt_key, {expiresIn: "5d"});
-									callback(false, evergreen_token);
+									callback(false, anvyl_token);
 								})
 								.catch(err => {
 									if (err["code"] == "ER_DUP_ENTRY")
@@ -325,7 +324,7 @@ module.exports = function(jwt_key) {
 							else if (!isMatch)
 								callback({status: 400, message: "Email/password does not match."});
 							else {
-								var evergreen_token = jwt.sign({
+								var anvyl_token = jwt.sign({
 									id: data[0].id,
 									type: data[0].type,
 
@@ -334,11 +333,12 @@ module.exports = function(jwt_key) {
 									created_at: data[0].created_at,
 									picture: data[0].picture,
 								}, jwt_key, {expiresIn: "5d"});
-								callback(false, evergreen_token);
+								callback(false, anvyl_token);
 							}
 						});
 				})
 				.catch(err => {
+					console.log(err)
 					if (err.status)
 						callback(err);
 					else
@@ -360,14 +360,14 @@ module.exports = function(jwt_key) {
 						throw {status: 400, message: "Email does not exist, please register."};
 					else
 						// Check valid password:
-						var evergreen_token = jwt.sign({
+						var anvyl_token = jwt.sign({
 							id: data[0].id,
 							type: data[0].type,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at
 						}, jwt_key, {expiresIn: "5d"});
-						callback(false, evergreen_token);
+						callback(false, anvyl_token);
 				})
 				.catch(err => {
 					if (err.status)
@@ -378,7 +378,7 @@ module.exports = function(jwt_key) {
 			}
 		},
 		sendTicket: function(req, callback){
-			jwt.verify(req.cookies.evergreen_token, jwt_key, function(err, payload) {
+			jwt.verify(req.cookies.anvyl_token, jwt_key, function(err, payload) {
 				if (err)
 					callback({status: 401, message: "Invalid token. Your session is ending, please login again."});
 				else {
