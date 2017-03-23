@@ -1,82 +1,66 @@
-var path = require('path');
-var multer = require('multer');
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, `./uploads`)
-	},
-	filename: function (req, file, cb) {
-		cb(null, new Date().toISOString().
-    replace(/T/, ' ').      // replace T with a space
-    replace(/\..+/, '').     // delete the dot and everything after)
-    replace(" ", '')  + '-' + file.originalname);
-	}
-});
-var upload = multer({storage: storage});
-// var upload = multer({dest: 'uploads/'});
+const upload = require('../services/upload');
 
 module.exports = function(app, jwt_key) {
-	var users = require('../controllers/users.js')(jwt_key);
-	var urls = require('../controllers/urls.js')(jwt_key);
-	var proposals = require('../controllers/proposals.js')(jwt_key);
-	var offers = require('../controllers/offers.js')(jwt_key);
-	var processes = require('../controllers/processes')(jwt_key);
-	var offers = require('../controllers/offers')(jwt_key);
-	var reports = require('../controllers/reports')(jwt_key);
-	var messages = require('../controllers/messages')(jwt_key);
-
-	// USERS
-	app.get('/api/users/sendTicket', users.sendTicket);
-	app.get('/api/users/:id', users.show);
-	app.get('/api/users/notifications/:id', users.notifications);
-	app.put('/api/users', users.update);
-	app.delete('/api/users', users.delete);
-	app.put('/api/users/changePassword', users.changePassword);
-	app.post('/users/register', users.register);
-	app.post('/users/register/linkedIn', users.registerLinkedIn);
-	app.post('/users/login', users.login);
-	app.post('/users/login/linkedIn', users.loginLinkedIn);
-
-	// URLS
-	app.post('/api/urls', urls.create);
-	app.post('/uploadPicture', upload.single('picture'), urls.uploadPicture)
-
-	// PROPOSALS
-	app.get('/api/proposals/getMyProposals', proposals.getMyProposals);
-	app.get('/api/proposals/getMyApplications', proposals.getMyApplications);
-	app.get('/api/proposals/getPercentCompleted', proposals.getPercentCompleted);
-	app.get('/api/proposals/getProposalsForPage/:page', proposals.getProposalsForPage)
-	app.get('/api/proposals/:id', proposals.show);
-	app.post('/api/proposals', proposals.create);
-	app.delete('/api/proposals/:id', proposals.delete);
-  app.post('/uploadFiles', upload.array('file'), proposals.uploadFiles)
-
-	// OFFERS
-	app.get('/api/getOffersForProposal/:proposal_id', offers.getOffersForProposal);
-	app.get('/api/getAcceptedOffers', offers.getAcceptedOffers);
-	app.get('/api/getOffers', offers.getOffers);
-	app.get('/api/offers/:proposal_id', offers.index);
-	app.get('/api/offer/:proposal_id/:user_id', offers.show);
-	app.post('/api/offers', offers.create);
-	app.delete('/api/offers/:proposal_id', offers.delete);
-	app.put('/api/offers/nullify', offers.nullify);
-	app.put('/api/offers/send', offers.send);
-	app.put('/api/offers/accept', offers.accept);
-
-	// REPORTS
-	app.get('/api/reports', reports.index)
-	app.get('/api/reports/getReportsForProposal/:id', reports.getReportsForProposal)
-	app.post('/api/reports', reports.create)
-
-	// PROCESSES
-	app.post('/api/processes/set', processes.set);
+	const messages = require('../controllers/messages')(jwt_key);
+	const offers = require('../controllers/offers')(jwt_key);
+	const processes = require('../controllers/processes')(jwt_key);
+	const proposals = require('../controllers/proposals')(jwt_key);
+	const reports = require('../controllers/reports')(jwt_key);
+	const urls = require('../controllers/urls')(jwt_key);
+	const users = require('../controllers/users')(jwt_key);
 
 	// MESSAGES
 	// app.get('/api/messages', messages.index);
 	app.get('/api/messages/:proposal_id', messages.show);
 	app.post('/api/messages', messages.create);
 
-	app.get('/test', function(req, res) {
+	// OFFERS
+	app.delete('/api/offers/:proposal_id', offers.delete);
+	app.get('/api/offers/get-accepted-offers', offers.getAcceptedOffers);
+	app.get('/api/offers/get-offers', offers.getOffers);
+	app.get('/api/offers/get-offers-for-proposal/:proposal_id', offers.getOffersForProposal);
+	app.get('/api/offers/:proposal_id', offers.index);
+	app.get('/api/offers/:proposal_id/:user_id', offers.show);
+	app.post('/api/offers', offers.create);
+	app.put('/api/offers/nullify', offers.nullify);
+	app.put('/api/offers/send', offers.send);
+	app.put('/api/offers/accept', offers.accept);
+	
+	// PROCESSES
+	app.post('/api/processes/set', processes.set);
+
+	// PROPOSALS
+	app.delete('/api/proposals/:id', proposals.delete);
+	app.get('/api/proposals/get-my-applications', proposals.getMyApplications);
+	app.get('/api/proposals/get-my-proposals', proposals.getMyProposals);
+	app.get('/api/proposals/get-percent-completed', proposals.getPercentCompleted);
+	app.get('/api/proposals/get-proposals-for-page/:page', proposals.getProposalsForPage)
+	app.get('/api/proposals/:id', proposals.show);
+	app.post('/api/proposals', proposals.create);
+  app.post('/api/proposals/upload-files', upload.array('file'), proposals.uploadFiles)
+
+	// REPORTS
+	app.get('/api/reports', reports.index)
+	app.get('/api/reports/get-reports-for-proposal/:id', reports.getReportsForProposal)
+	app.post('/api/reports', reports.create)
+
+	// USERS
+	app.delete('/api/users', users.delete);
+	app.get('/api/users/notifications/:id', users.notifications);
+	app.get('/api/users/:id', users.show);
+	app.post('/api/users/send-ticket', users.sendTicket);
+	app.post('/users/login', users.login);
+	app.post('/users/login-linkedin', users.loginLinkedIn);
+	app.post('/users/register', users.register);
+	app.post('/users/register-linkedin', users.registerLinkedIn);
+	app.put('/api/users', users.update);
+	app.put('/api/users/change-password', users.changePassword);
+
+	// URLS
+	app.post('/api/urls', urls.create);
+	app.post('/api/urls/upload-picture', upload.single('picture'), urls.uploadPicture);
+
+	app.get('/test', function (req, res) {
 		res.end()
 	});
-
 }

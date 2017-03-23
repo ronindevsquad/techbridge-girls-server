@@ -36,7 +36,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 	//										HELPER FUNCTIONS
 	//////////////////////////////////////////////////////
 	var chart;
-
+  $scope.selected_proposal;
 	function initializeChart() {
 		if (angular.isDefined(chart))
 			$interval.cancel(chart);
@@ -176,6 +176,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 	//										OFFER
 	//////////////////////////////////////////////////////
 	$scope.getOffersForProposal = function(proposal) {
+    $scope.selected_proposal = proposal; //The HTML will check to see whether the selected proposal has accepted an offer yet.
 		offersFactory.getOffersForProposal(proposal.id, function(data) {
 			if (data.status == 401)
 				$scope.logout();
@@ -211,5 +212,7 @@ app.controller('dashboardController', function ($scope, $location, $interval,
 			}
 		});
 	};
+
+
 
 });

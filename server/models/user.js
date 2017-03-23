@@ -206,35 +206,56 @@ module.exports = function(jwt_key) {
 							if (err) {
 								callback({status: 400, message: "Please contact an admin."});
 							} else {
-								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
-									req.body.contact, req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
-									"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
-									return connection.execute(query, data);
-								})
-								.then(() => {
-									return using(getConnection(), connection => {
-										var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-										return connection.execute(query, [req.body.email]);
-									});
-								})
-								.spread(data => {
-									var anvyl_token = jwt.sign({
-										id: data[0].id,
-										type: data[0].type,
+								// Send Welcome Email
+								var mail = {
+									from: 'Evergreen HQ hello@evergreenmake.com',
+									to: `${req.body.email}`,
+									subject: 'Welcome to Evergreen!',
+									// text: `Greetings from Evergreen HQ,\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									html:'<html><img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_banner.png" width="70%" height="auto">' +
+										'<p>Greetings from Evergreen HQ,</p> ' +
+										'<p>Welcome to the Evergreen community. As a supplier you can connect with consumer goods companies in the US that need high quality suppliers like yourself.</p>' +
+										'<p>Get started by browsing the open proposals section and viewing some of the available RFPs. Makers around the globe are actively submitting bids to create better products.</p>' +
+										'<img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_demo.png" width="70%" height="auto">' +
+										'<p>We are looking for feedback to improve the site. If you have any questions, shoot over an email to <a href="mailto:support@evergreenmake.com">support@evergreenmake.com</a> or call our leadership team directly at 1-800-416-0419.</p></html>'
+								};
 
-										company: data[0].company,
-										contact: data[0].contact,
-										created_at: data[0].created_at
-									}, jwt_key, {expiresIn: "5d"});
-									callback(false, anvyl_token);
-								})
-								.catch(err => {
-									if (err["code"] == "ER_DUP_ENTRY")
-										callback({status: 400, message: "Email already in use, please log in."});
-									else
-										callback({status: 400, message: "Please contact an admin."});
+								mailgun.messages().send(mail, function (error, body) {
+									if (error){
+										callback({status: 400, message: "Email does not exist."});
+									}
+									else {
+										using(getConnection(), connection => {
+											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
+											req.body.contact, req.body.email, hash];
+											var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, "+
+											"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
+											return connection.execute(query, data);
+										})
+										.then(() => {
+											return using(getConnection(), connection => {
+												var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+												return connection.execute(query, [req.body.email]);
+											});
+										})
+										.spread(data => {
+											var evergreen_token = jwt.sign({
+												id: data[0].id,
+												type: data[0].type,
+
+												company: data[0].company,
+												contact: data[0].contact,
+												created_at: data[0].created_at
+											}, jwt_key, {expiresIn: "5d"});
+											callback(false, evergreen_token);
+										})
+										.catch(err => {
+											if (err["code"] == "ER_DUP_ENTRY")
+												callback({status: 400, message: "Email already in use, please log in."});
+											else
+												callback({status: 400, message: "Please contact an admin."});
+										});
+									}
 								});
 							}
 						});
@@ -265,35 +286,55 @@ module.exports = function(jwt_key) {
 							if (err) {
 								callback({status: 400, message: "Hash error."});
 							} else {
-								using(getConnection(), connection => {
-									var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
-									req.body.email, hash];
-									var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
-									"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
-									return connection.execute(query, data);
-								})
-								.then(() => {
-									return using(getConnection(), connection => {
-										var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
-										return connection.execute(query, [req.body.email]);
-									});
-								})
-								.spread(data => {
-									var anvyl_token = jwt.sign({
-										id: data[0].id,
-										type: data[0].type,
+								var mail = {
+									from: 'Evergreen HQ hello@evergreenmake.com',
+									to: `${req.body.email}`,
+									subject: 'Welcome to Evergreen!',
+									// text: `Greetings from Evergreen HQ,\n\nThe Evergreen team would like to welcome you to the platform. If you need anything, feel free to contact us at 1-800-416-0426\n\nThank You,\nEvergreen`
+									html:'<html><img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_banner.png" width="70%" height="auto">' +
+										'<p>Greetings from Evergreen HQ,</p> ' +
+										'<p>Welcome to the Evergreen community. As a supplier you can connect with consumer goods companies in the US that need high quality suppliers like yourself.</p>' +
+										'<p>Get started by browsing the open proposals section and viewing some of the available RFPs. Makers around the globe are actively submitting bids to create better products.</p>' +
+										'<img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_demo.png" width="70%" height="auto">' +
+										'<p>We are looking for feedback to improve the site. If you have any questions, shoot over an email to <a href="mailto:support@evergreenmake.com">support@evergreenmake.com</a> or call our leadership team directly at 1-800-416-0419.</p></html>'
+								};
 
-										company: data[0].company,
-										contact: data[0].contact,
-										created_at: data[0].created_at
-									}, jwt_key, {expiresIn: "5d"});
-									callback(false, anvyl_token);
-								})
-								.catch(err => {
-									if (err["code"] == "ER_DUP_ENTRY")
-										callback({status: 400, message: "Email already in use, please log in."});
-									else
-										callback({status: 400, message: "Please contact an admin."});
+								mailgun.messages().send(mail, function (error, body) {
+									if (error){
+										callback({status: 400, message: "Email does not exist."});
+									}
+									else {
+										using(getConnection(), connection => {
+											var data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
+											req.body.email, hash];
+											var query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
+											"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
+											return connection.execute(query, data);
+										})
+										.then(() => {
+											return using(getConnection(), connection => {
+												var query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+												return connection.execute(query, [req.body.email]);
+											});
+										})
+										.spread(data => {
+											var evergreen_token = jwt.sign({
+												id: data[0].id,
+												type: data[0].type,
+
+												company: data[0].company,
+												contact: data[0].contact,
+												created_at: data[0].created_at
+											}, jwt_key, {expiresIn: "5d"});
+											callback(false, evergreen_token);
+										})
+										.catch(err => {
+											if (err["code"] == "ER_DUP_ENTRY")
+												callback({status: 400, message: "Email already in use, please log in."});
+											else
+												callback({status: 400, message: "Please contact an admin."});
+										});
+									}
 								});
 							}
 						});
@@ -388,10 +429,10 @@ module.exports = function(jwt_key) {
 					})
 					.spread(data => {
 						var mail = {
-							from: 'Evergreen Admin hello@evergreenmake.com', // replace <from_address>
+							from: 'Evergreen Admin hello@evergreenmake.com',
 							to: 'hello@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
 							subject: `Ticket issued from user ${data[0].contact} at ${data[0].company}`,
-							text: `A ticket was issued.  Reach out to ${data[0].email} for support.`
+							text: `${req.body.text}\n\nReach out to ${data[0].email} for support.`
 						};
 
 						mailgun.messages().send(mail, function (error, body) {
