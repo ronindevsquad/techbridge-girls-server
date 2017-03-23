@@ -1,4 +1,5 @@
 const mysql = require('mysql2/promise');
+const password = require('../../keys').mysqlPassword;
 const Promise = require('bluebird');
 const SqlString = require('mysql2/node_modules/sqlstring');
 
@@ -20,7 +21,7 @@ const pool = mysql.createPool({
 	host: 'localhost',
 	port: '8889',
 	user: 'root',
-	password: 'root',
+	password: password,
 	database: 'evergreendb',
 	queryFormat : queryFormat,
 	Promise: Promise

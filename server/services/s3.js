@@ -1,7 +1,7 @@
 const aws = require('aws-sdk');
+const secretAccessKey = require('../../keys').secretAccessKey
 const sig = require('amazon-s3-url-signer');
 
-const secretAccessKey = require('../../keys').secretAccessKey
 aws.config.update({
   secretAccessKey: secretAccessKey,
   accessKeyId: 'AKIAIFF4LTNLXH75IA2A',
