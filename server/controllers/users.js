@@ -29,7 +29,8 @@ module.exports = {
 						else
 							res.json(data[0]);
 					})
-					.catch(error => {
+					.catch(err => {
+						console.log(err)
 						res.status(400).json({ message: "Please contact an admin." });
 					})
 			}
@@ -113,7 +114,7 @@ module.exports = {
 					.spread(data => {
 						let anvyl_token = jwt.sign({
 							id: data[0].id,
-							type: data[0].type,
+							type: req.body.type,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at
@@ -179,7 +180,7 @@ module.exports = {
 		});
 	},
 	register: function (req, res) {
-		if (req.body.type === undefined || !req.body.company || !req.body.contact || !req.body.email
+		if (req.body.type !== 1 && req.body.type !== 0 || !req.body.company || !req.body.contact || !req.body.email
 			|| !req.body.password || !req.body.confirm_password)
 			res.status(400).json({ message: "All form fields are required." });
 		// Validate company:
@@ -199,10 +200,12 @@ module.exports = {
 			res.status(400).json({ message: "Passwords do not match." });
 		// Else valid new user:
 		else {
+			const table = req.body.type === 0 ? 'makers' : 'suppliers';
+
 			// Encrypt password and save:
 			bcrypt.genSaltAsync(10)
 				.then(salt => {
-					return bcrypt.hash(req.body.password, salt)
+					return bcrypt.hashAsync(req.body.password, salt)
 				})
 				.then(hash => {
 					const mail = {
@@ -217,36 +220,38 @@ module.exports = {
 						'<img src="https://s3-us-west-1.amazonaws.com/ronintestbucket/public_assets/Welcome_demo.png" width="70%" height="auto">' +
 						'<p>We are looking for feedback to improve the site. If you have any questions, shoot over an email to <a href="mailto:support@evergreenmake.com">support@evergreenmake.com</a> or call our leadership team directly at 1-800-416-0419.</p></html>'
 					};
-
-					return new Promise((resolve, reject) => {
-						mailgun.messages().send(mail, function (err, body) {
-							if (err) {
-								reject({ status: 400, message: "Email does not exist." });
-							} else {
-								resolve();
-							}
-						});
-					});
+					console.log(hash)
+					return hash;
+					// return new Promise((resolve, reject) => {
+					// 	mailgun.messages().send(mail, function (err, body) {
+					// 		if (err) {
+					// 			reject({ status: 400, message: "Email does not exist." });
+					// 		} else {
+					// 			resolve(hash);
+					// 		}
+					// 	});
+					// });
 				})
-				.then(() => {
+				.then(hash => {
 					return using(getConnection(), connection => {
 						const data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company,
-						req.body.contact, req.body.email, hash];
-						const query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, " +
+							req.body.contact, req.body.email, hash];
+						console.log(data)
+						const query = "INSERT INTO " + table + " SET id = UNHEX(?), type = ?, company = ?, " +
 							"contact = ?, email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
 						return connection.execute(query, data);
 					})
 				})
 				.then(() => {
 					return using(getConnection(), connection => {
-						const query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+						const query = "SELECT *, HEX(id) AS id FROM " + table + " WHERE email = ? LIMIT 1";
 						return connection.execute(query, [req.body.email]);
 					});
 				})
 				.spread(data => {
 					const anvyl_token = jwt.sign({
 						id: data[0].id,
-						type: data[0].type,
+						type: req.body.type,
 						company: data[0].company,
 						contact: data[0].contact,
 						created_at: data[0].created_at
@@ -280,7 +285,7 @@ module.exports = {
 			// Encrypt password and save:
 			bcrypt.genSaltAsync(10)
 				.then(salt => {
-					return bcrypt.hash(uuid().replace(/\-/g, ""), salt);
+					return bcrypt.hashAsync(uuid().replace(/\-/g, ""), salt);
 				})
 				.then(hash => {
 					const mail = {
@@ -324,7 +329,7 @@ module.exports = {
 				.spread(data => {
 					const anvyl_token = jwt.sign({
 						id: data[0].id,
-						type: data[0].type,
+						type: req.body.type,
 						company: data[0].company,
 						contact: data[0].contact,
 						created_at: data[0].created_at
@@ -366,7 +371,7 @@ module.exports = {
 					else {
 						const anvyl_token = jwt.sign({
 							id: data[0].id,
-							type: data[0].type,
+							type: req.body.type,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at,
@@ -402,7 +407,7 @@ module.exports = {
 						// Check valid password:
 						const anvyl_token = jwt.sign({
 							id: data[0].id,
-							type: data[0].type,
+							type: req.body.type,
 							company: data[0].company,
 							contact: data[0].contact,
 							created_at: data[0].created_at

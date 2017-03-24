@@ -22,7 +22,7 @@ const pool = mysql.createPool({
 	port: '8889',
 	user: 'root',
 	password: password,
-	database: 'evergreendb',
+	database: 'anvyldb',
 	queryFormat : queryFormat,
 	Promise: Promise
 });
