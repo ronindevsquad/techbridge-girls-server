@@ -20,12 +20,12 @@ module.exports = {
 			else {
 				using(getConnection(), connection => {
 					const query = "SELECT company, contact, email, picture, homepage, facebook, instagram, " +
-						"linkedin, twitter FROM users LEFT JOIN urls ON users.id = user_id WHERE id = UNHEX(?) LIMIT 1";
+						"linkedin, twitter FROM suppliers LEFT JOIN urls ON suppliers.id = supplier_id WHERE id = UNHEX(?) LIMIT 1";
 					return connection.execute(query, [req.params.id]);
 				})
 					.spread(data => {
 						if (data.length != 1)
-							res.status(400).json({ message: "Could not find user." });
+							res.status(400).json({ message: "Could not find supplier." });
 						else
 							res.json(data[0]);
 					})
@@ -44,41 +44,41 @@ module.exports = {
 				Promise.join(using(getConnection(), connection => {
 					let query;
 					if (payload.type == 0) // maker query
-						// query = "select u.id , COUNT(p.id) as proposals from users u " +
-						// "LEFT OUTER JOIN proposals p on u.id = p.user_id " +
+						// query = "select u.id , COUNT(p.id) as proposals from suppliers u " +
+						// "LEFT OUTER JOIN proposals p on u.id = p.supplier_id " +
 						// "WHERE u.id = UNHEX(?) GROUP BY u.id";
-						query = "SELECT u.id , p.proposals AS proposals, j.jobs AS jobs FROM users u " +
-							"LEFT OUTER JOIN (SELECT user_id, COUNT(id) AS proposals FROM proposals WHERE status = 0 GROUP BY user_id) p " +
-							"ON u.id = p.user_id " +
-							"LEFT OUTER JOIN (SELECT user_id, COUNT(id) AS jobs FROM proposals WHERE status = 2 GROUP BY user_id) j " +
-							"ON j.user_id = u.id " +
+						query = "SELECT u.id , p.proposals AS proposals, j.jobs AS jobs FROM suppliers u " +
+							"LEFT OUTER JOIN (SELECT supplier_id, COUNT(id) AS proposals FROM proposals WHERE status = 0 GROUP BY supplier_id) p " +
+							"ON u.id = p.supplier_id " +
+							"LEFT OUTER JOIN (SELECT supplier_id, COUNT(id) AS jobs FROM proposals WHERE status = 2 GROUP BY supplier_id) j " +
+							"ON j.supplier_id = u.id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id";
 					else //supplier query
-						// query = "select u.id , COUNT(o.user_id) as proposals from users u " +
-						// "LEFT OUTER JOIN offers o on o.user_id = u.id " +
+						// query = "select u.id , COUNT(o.supplier_id) as proposals from suppliers u " +
+						// "LEFT OUTER JOIN offers o on o.supplier_id = u.id " +
 						// "WHERE u.id = UNHEX(?) GROUP BY u.id"
-						query = "SELECT u.id , o.proposals AS proposals, j.jobs AS jobs FROM users u " +
-							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS proposals FROM offers WHERE status > 0 GROUP BY user_id) o " +
-							"ON o.user_id = u.id " +
-							"LEFT OUTER JOIN (SELECT user_id, COUNT(proposal_id) AS jobs FROM offers WHERE status = 2 GROUP BY user_id) j " +
-							"ON j.user_id = u.id " +
+						query = "SELECT u.id , o.proposals AS proposals, j.jobs AS jobs FROM suppliers u " +
+							"LEFT OUTER JOIN (SELECT supplier_id, COUNT(proposal_id) AS proposals FROM offers WHERE status > 0 GROUP BY supplier_id) o " +
+							"ON o.supplier_id = u.id " +
+							"LEFT OUTER JOIN (SELECT supplier_id, COUNT(proposal_id) AS jobs FROM offers WHERE status = 2 GROUP BY supplier_id) j " +
+							"ON j.supplier_id = u.id " +
 							"WHERE u.id = UNHEX(?) GROUP BY u.id"
 					return connection.execute(query, [req.params.id]);
 				}), using(getConnection(), connection => {
 					let query;
 					if (payload.type == 0) //maker query
 						query = "SELECT COUNT(*) as unread FROM messages WHERE proposal_id in " +
-							"(SELECT id FROM proposals WHERE user_id = UNHEX(?)) " +
-							"AND status = 0 AND user_id != UNHEX(?)";
+							"(SELECT id FROM proposals WHERE supplier_id = UNHEX(?)) " +
+							"AND status = 0 AND supplier_id != UNHEX(?)";
 					else // supplier query
 						query = "SELECT COUNT(*) AS unread FROM messages WHERE proposal_id in " +
-							"(SELECT proposal_id FROM offers WHERE user_id = UNHEX(?)) " +
-							"AND status = 0 AND user_id != UNHEX(?)";
+							"(SELECT proposal_id FROM offers WHERE supplier_id = UNHEX(?)) " +
+							"AND status = 0 AND supplier_id != UNHEX(?)";
 					return connection.execute(query, [req.params.id, req.params.id]);
 				}), (proposals, messages) => {
 					let data = {};
 					if (proposals[0].length == 0) {
-						res.status(400).json({ message: "Could not find user." });
+						res.status(400).json({ message: "Could not find supplier." });
 					} else {
 						data.proposals = proposals[0][0].proposals;
 						data.jobs = proposals[0][0].jobs;
@@ -99,7 +99,7 @@ module.exports = {
 				res.status(401).json({ message: "Invalid token. Your session is ending, please login again." });
 			else {
 				using(getConnection(), connection => {
-					let query = "UPDATE users SET ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
+					let query = "UPDATE suppliers SET ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
 					return connection.execute(query, [req.body, payload.id]);
 				})
 					.spread(data => {
@@ -107,7 +107,7 @@ module.exports = {
 							throw { status: 400, message: "Failed to save changes." };
 						else
 							return using(getConnection(), connection => {
-								let query = "SELECT *, HEX(id) AS id FROM users WHERE id = UNHEX(?) LIMIT 1";
+								let query = "SELECT *, HEX(id) AS id FROM suppliers WHERE id = UNHEX(?) LIMIT 1";
 								return connection.execute(query, [payload.id]);
 							});
 					})
@@ -133,7 +133,7 @@ module.exports = {
 				res.status(401).json({ message: "Invalid token. Your session is ending, please login again." });
 			else
 				using(getConnection(), connection => {
-					return connection.execute("DELETE FROM users WHERE id = UNHEX(?) LIMIT 1", [payload.id]);
+					return connection.execute("DELETE FROM suppliers WHERE id = UNHEX(?) LIMIT 1", [payload.id]);
 				})
 					.spread(data => {
 						if (data.affectedRows == 0)
@@ -148,7 +148,7 @@ module.exports = {
 	},
 	changePassword: function (req, res) {
 		jwt.verify(req.headers.authorization.split('Bearer ')[1], jwtKey, function (err, payload) {
-			// GEROGE/ELLIOT: this needs to be refined. AKA check that user knows their current password.
+			// GEROGE/ELLIOT: this needs to be refined. AKA check that supplier knows their current password.
 			if (err)
 				res.status(401).json({ message: "Invalid token. Your session is ending, please login again." });
 			else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&](?=.{7,})/.test(req.body.new))
@@ -160,7 +160,7 @@ module.exports = {
 					})
 					.then(hash => {
 						return using(getConnection(), connection => {
-							const query = "UPDATE users SET password = ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
+							const query = "UPDATE suppliers SET password = ?, updated_at = NOW() WHERE id = UNHEX(?) LIMIT 1";
 							return connection.execute(query, [hash, payload.id]);
 						})
 					})
@@ -198,7 +198,7 @@ module.exports = {
 		// Validate confirm_password:
 		else if (req.body.password != req.body.confirm_password)
 			res.status(400).json({ message: "Passwords do not match." });
-		// Else valid new user:
+		// Else valid new supplier:
 		else {
 			const table = req.body.type === 0 ? 'makers' : 'suppliers';
 
@@ -280,7 +280,7 @@ module.exports = {
 		// Validate email:
 		else if (!/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(req.body.email))
 			res.status(400).json({ message: "Invalid email. Email format should be: email@mailserver.com." });
-		// Else valid new user:
+		// Else valid new supplier:
 		else {
 			// Encrypt password and save:
 			bcrypt.genSaltAsync(10)
@@ -315,14 +315,14 @@ module.exports = {
 					return using(getConnection(), connection => {
 						const data = [uuid().replace(/\-/g, ""), req.body.type, req.body.company, req.body.contact,
 						req.body.email, hash];
-						const query = "INSERT INTO users SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
+						const query = "INSERT INTO suppliers SET id = UNHEX(?), type = ?, company = ?, contact = ?, " +
 							"email = ?, password = ?, created_at = NOW(), updated_at = NOW()";
 						return connection.execute(query, data);
 					})
 				})
 				.then(() => {
 					return using(getConnection(), connection => {
-						const query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+						const query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
 						return connection.execute(query, [req.body.email]);
 					});
 				})
@@ -354,8 +354,8 @@ module.exports = {
 			res.status(400).json({ message: "Invalid password." });
 		else {
 			using(getConnection(), connection => {
-				// Get user by email:
-				const query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+				// Get supplier by email:
+				const query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
 				return connection.execute(query, [req.body.email]);
 			})
 				.spread(data => {
@@ -395,8 +395,8 @@ module.exports = {
 			res.status(400).json({ message: "LinkedIn login was unsuccessful" });
 		else {
 			using(getConnection(), connection => {
-				// Get user by email:
-				const query = "SELECT *, HEX(id) AS id FROM users WHERE email = ? LIMIT 1";
+				// Get supplier by email:
+				const query = "SELECT *, HEX(id) AS id FROM suppliers WHERE email = ? LIMIT 1";
 				return connection.execute(query, [req.body.email]);
 			})
 				.spread(data => {
@@ -429,14 +429,14 @@ module.exports = {
 				res.status(401).json({ message: "Invalid token. Your session is ending, please login again." });
 			else {
 				using(getConnection(), connection => {
-					const query = "SELECT * FROM users WHERE id = UNHEX(?) LIMIT 1";
+					const query = "SELECT * FROM suppliers WHERE id = UNHEX(?) LIMIT 1";
 					return connection.execute(query, [payload.id]);
 				})
 					.spread(data => {
 						const mail = {
 							from: 'Evergreen Admin hello@evergreenmake.com',
 							to: 'hello@evergreenmake.com',  // Recipient Here (need to verify in mailgun free account)
-							subject: `Ticket issued from user ${data[0].contact} at ${data[0].company}`,
+							subject: `Ticket issued from supplier ${data[0].contact} at ${data[0].company}`,
 							text: `${req.body.text}\n\nReach out to ${data[0].email} for support.`
 						};
 

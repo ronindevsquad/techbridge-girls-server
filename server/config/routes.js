@@ -1,14 +1,27 @@
+const makers = require('../controllers/makers');
 const messages = require('../controllers/messages');
 const offers = require('../controllers/offers');
 const processes = require('../controllers/processes');
 const proposals = require('../controllers/proposals');
 const reports = require('../controllers/reports');
+const suppliers = require('../controllers/suppliers');
 const urls = require('../controllers/urls');
-const users = require('../controllers/users');
 
 const upload = require('../services/upload');
 
 module.exports = function (app) {
+	// MAKERS
+	app.delete('/api/makers', makers.delete);
+	app.get('/api/makers/notifications/:id', makers.notifications);
+	app.get('/api/makers/:id', makers.show);
+	app.post('/api/makers/send-ticket', makers.sendTicket);
+	app.post('/makers/login', makers.login);
+	app.post('/makers/login-linkedin', makers.loginLinkedIn);
+	app.post('/makers/register', makers.register);
+	app.post('/makers/register-linkedin', makers.registerLinkedIn);
+	app.put('/api/makers', makers.update);
+	app.put('/api/makers/change-password', makers.changePassword);
+
 	// MESSAGES
 	// app.get('/api/messages', messages.index);
 	app.get('/api/messages/:proposal_id', messages.show);
@@ -43,21 +56,21 @@ module.exports = function (app) {
 	app.get('/api/reports/get-reports-for-proposal/:id', reports.getReportsForProposal)
 	app.post('/api/reports', reports.create)
 	
+	// SUPPLIERS
+	app.delete('/api/suppliers', suppliers.delete);
+	app.get('/api/suppliers/notifications/:id', suppliers.notifications);
+	app.get('/api/suppliers/:id', suppliers.show);
+	app.post('/api/suppliers/send-ticket', suppliers.sendTicket);
+	app.post('/suppliers/login', suppliers.login);
+	app.post('/suppliers/login-linkedin', suppliers.loginLinkedIn);
+	app.post('/suppliers/register', suppliers.register);
+	app.post('/suppliers/register-linkedin', suppliers.registerLinkedIn);
+	app.put('/api/suppliers', suppliers.update);
+	app.put('/api/suppliers/change-password', suppliers.changePassword);
+
 	// URLS
 	app.post('/api/urls', urls.create);
 	app.post('/api/urls/upload-picture', upload.single('picture'), urls.uploadPicture);
-
-	// USERS
-	app.delete('/api/users', users.delete);
-	app.get('/api/users/notifications/:id', users.notifications);
-	app.get('/api/users/:id', users.show);
-	app.post('/api/users/send-ticket', users.sendTicket);
-	app.post('/users/login', users.login);
-	app.post('/users/login-linkedin', users.loginLinkedIn);
-	app.post('/users/register', users.register);
-	app.post('/users/register-linkedin', users.registerLinkedIn);
-	app.put('/api/users', users.update);
-	app.put('/api/users/change-password', users.changePassword);
 
 	app.get('/test', function (req, res) {
 		res.end()
