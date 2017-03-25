@@ -18,8 +18,8 @@ function queryFormat(sql, values, timeZone) {
 };
 
 const pool = mysql.createPool({
-	host: 'localhost',
-	port: '8889',
+	host: 'ronin-rds.crolk7yi2hmw.us-west-1.rds.amazonaws.com',
+	port: '3306',
 	user: 'root',
 	password: password,
 	database: 'anvyldb',

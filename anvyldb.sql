@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `evergreendb` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `evergreendb`;
+CREATE DATABASE  IF NOT EXISTS `anvyldb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `anvyldb`;
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: evergreendb
+-- Host: 127.0.0.1    Database: anvyldb
 -- ------------------------------------------------------
 -- Server version	5.5.49-log
 
@@ -16,47 +16,6 @@ USE `evergreendb`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `banks`
---
-
-DROP TABLE IF EXISTS `banks`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `banks` (
-  `account` varchar(255) DEFAULT NULL,
-  `routing` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  CONSTRAINT `fk_banks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cards`
---
-
-DROP TABLE IF EXISTS `cards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cards` (
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `number` varchar(255) DEFAULT NULL,
-  `ccv` varchar(255) DEFAULT NULL,
-  `expiration` date DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  KEY `fk_creditcards_supplier1_idx` (`user_id`),
-  CONSTRAINT `fk_cards_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `files`
@@ -87,7 +46,6 @@ DROP TABLE IF EXISTS `labors`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `labors` (
   `id` binary(16) NOT NULL,
-  `type` tinyint(1) DEFAULT NULL,
   `labor` varchar(255) DEFAULT NULL,
   `time` decimal(13,5) DEFAULT NULL,
   `yield` decimal(5,2) DEFAULT NULL,
@@ -95,12 +53,64 @@ CREATE TABLE `labors` (
   `count` decimal(4,2) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  `user_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_labors_offers1_idx` (`proposal_id`,`user_id`),
-  CONSTRAINT `fk_labors_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_labors_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_labors_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `machines`
+--
+
+DROP TABLE IF EXISTS `machines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `machines` (
+  `id` binary(16) NOT NULL,
+  `machine` varchar(255) DEFAULT NULL,
+  `time` decimal(13,5) DEFAULT NULL,
+  `yield` decimal(5,2) DEFAULT NULL,
+  `rate` decimal(13,5) DEFAULT NULL,
+  `count` decimal(4,2) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `offer_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_machines_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_machines_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `makers`
+--
+
+DROP TABLE IF EXISTS `makers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `makers` (
+  `id` binary(16) NOT NULL,
+  `tier` tinyint(1) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `homepage` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,12 +128,11 @@ CREATE TABLE `materials` (
   `cost` decimal(13,5) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  `user_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_materials_offers1_idx` (`proposal_id`,`user_id`),
-  CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`proposal_id`, `user_id`) REFERENCES `offers` (`proposal_id`, `user_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_materials_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_materials_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -136,18 +145,16 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `id` binary(16) NOT NULL,
-  `message` text,
+  `sender` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
+  `message` text,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `proposal_id` binary(16) NOT NULL,
-  `user_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_messages_proposals1_idx` (`proposal_id`),
-  KEY `fk_messages_users1_idx` (`user_id`),
-  CONSTRAINT `fk_messages_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_messages_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_messages_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_messages_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -159,6 +166,7 @@ DROP TABLE IF EXISTS `offers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `offers` (
+  `id` binary(16) NOT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `first` decimal(7,2) DEFAULT NULL,
   `follow` decimal(7,2) DEFAULT NULL,
@@ -171,15 +179,18 @@ CREATE TABLE `offers` (
   `tpp` decimal(13,5) DEFAULT NULL,
   `total` decimal(13,5) DEFAULT NULL,
   `completion` smallint(3) DEFAULT NULL,
+  `rating0` tinyint(1) DEFAULT NULL,
+  `rating1` tinyint(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `proposal_id` binary(16) NOT NULL,
-  `user_id` binary(16) NOT NULL,
-  PRIMARY KEY (`proposal_id`,`user_id`),
-  KEY `fk_offer_proposals1_idx` (`proposal_id`),
-  KEY `fk_offer_supplier1_idx` (`user_id`),
-  CONSTRAINT `fk_offer_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_offer_supplier1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  `supplier_id` binary(16) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_offers_proposals1_idx` (`proposal_id`),
+  KEY `fk_offers_suppliers1_idx` (`supplier_id`),
+  CONSTRAINT `fk_offers_proposals1` FOREIGN KEY (`proposal_id`) REFERENCES `proposals` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_offers_suppliers1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,11 +246,11 @@ CREATE TABLE `proposals` (
   `info` text,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
+  `maker_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_proposals_users1_idx` (`user_id`),
-  CONSTRAINT `fk_proposals_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_proposals_makers1_idx` (`maker_id`),
+  CONSTRAINT `fk_proposals_makers1` FOREIGN KEY (`maker_id`) REFERENCES `makers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -259,75 +270,55 @@ CREATE TABLE `reports` (
   `note` varchar(500) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
-  `proposal_id` binary(16) NOT NULL,
+  `offer_id` binary(16) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_reports_offers1_idx` (`user_id`,`proposal_id`),
-  CONSTRAINT `fk_reports_offers1` FOREIGN KEY (`user_id`, `proposal_id`) REFERENCES `offers` (`user_id`, `proposal_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_reports_offers1_idx` (`offer_id`),
+  CONSTRAINT `fk_reports_offers1` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `urls`
+-- Table structure for table `supplier_processes`
 --
 
-DROP TABLE IF EXISTS `urls`;
+DROP TABLE IF EXISTS `supplier_processes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `urls` (
-  `homepage` varchar(255) DEFAULT NULL,
-  `facebook` varchar(255) DEFAULT NULL,
-  `instagram` varchar(255) DEFAULT NULL,
-  `linkedin` varchar(255) DEFAULT NULL,
-  `twitter` varchar(255) DEFAULT NULL,
-  `user_id` binary(16) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `supplier_id_UNIQUE` (`user_id`),
-  KEY `fk_urls_suppliers1_idx` (`user_id`),
-  CONSTRAINT `fk_urls_suppliers1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `user_processes`
---
-
-DROP TABLE IF EXISTS `user_processes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_processes` (
+CREATE TABLE `supplier_processes` (
   `process` varchar(255) NOT NULL,
-  `user_id` binary(16) NOT NULL,
+  `supplier_id` binary(16) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`process`,`user_id`),
-  KEY `fk_processes_has_users_users1_idx` (`user_id`),
+  PRIMARY KEY (`process`,`supplier_id`),
+  KEY `fk_processes_has_users_users1_idx` (`supplier_id`),
   KEY `fk_processes_has_users_processes1_idx` (`process`),
   CONSTRAINT `fk_processes_has_users_processes1` FOREIGN KEY (`process`) REFERENCES `processes` (`process`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `fk_processes_has_users_users1` FOREIGN KEY (`supplier_id`) REFERENCES `suppliers` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `users`
+-- Table structure for table `suppliers`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `suppliers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `suppliers` (
   `id` binary(16) NOT NULL,
-  `type` tinyint(1) DEFAULT NULL,
+  `tier` tinyint(1) DEFAULT NULL,
   `company` varchar(255) DEFAULT NULL,
   `contact` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `picture` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `zip` char(5) DEFAULT NULL,
+  `homepage` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -345,4 +336,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-24 14:58:18
+-- Dump completed on 2017-03-24 17:24:47
