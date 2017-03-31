@@ -2,9 +2,8 @@ module.exports = function (server) {
 	const io = require("socket.io").listen(server);
 
 	io.sockets.on("connection", function (socket) {
-		socket.on('test', () => {
-			console.log('test received');
-			socket.emit('testing');
+		socket.on("disconnect", () => {
+			socket.disconnect();
 		});
 
 		socket.on('join', data => {
@@ -14,10 +13,6 @@ module.exports = function (server) {
 
 		socket.on('send', data => {
 			io.to(data.proposal_id).emit('sent', data);
-		});
-
-		socket.on("logout", () => {
-			socket.disconnect();
 		});
 
 		//////////////////////////////////////////////////////
