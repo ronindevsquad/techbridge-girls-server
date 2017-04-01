@@ -171,11 +171,9 @@ module.exports = {
         return hash;
         // return new Promise((resolve, reject) => {
         // 	mailgun.messages().send(mail, function (err, body) {
-        // 		if (err) {
-        // 			reject({ status: 400, message: "Email does not exist." });
-        // 		} else {
-        // 			resolve(hash);
-        // 		}
+        // 		if (err)
+        // 			return reject({ status: 400, message: "Email does not exist." });
+        // 	  return resolve(hash);
         // 	});
         // });
       })

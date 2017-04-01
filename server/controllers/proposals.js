@@ -8,6 +8,9 @@ const using = Promise.using;
 
 module.exports = {
 	getMyProposals: function (req, res) {
+		if (req.user.type !== 0)
+			return res.status(400).json({ message: 'Only makers can get their proposals.' });
+
 		using(getConnection(), connection => {
 			const query = "SELECT p.*, HEX(p.id) AS id, IFNULL(applications, 0) AS applications, IFNULL(leads, 0) AS leads, " +
 				"COUNT(p.id) AS offers_count FROM proposals p " +
@@ -16,7 +19,7 @@ module.exports = {
 				"ON a.proposal_id = p.id " +
 				"LEFT OUTER JOIN (SELECT proposal_id, COUNT(*) AS leads FROM offers WHERE status = 0 GROUP BY proposal_id) l " +
 				"ON l.proposal_id = p.id " +
-				"WHERE p.user_id = UNHEX(?) AND p.status != 2 GROUP BY p.id"
+				"WHERE p.maker_id = UNHEX(?) AND p.status != 2 GROUP BY p.id"
 			return connection.execute(query, [req.user.id]);
 		})
 			.spread(data => {
@@ -27,8 +30,12 @@ module.exports = {
 			});
 	},
 	getMyApplications: function (req, res) {
+		if (req.user.type !== 1)
+			return res.status(400).json({ message: 'Only suppliers can get their applications.' });
+
 		using(getConnection(), connection => {
-			const query = "SELECT *, HEX(id) AS id FROM proposals WHERE id IN (SELECT proposal_id FROM offers WHERE user_id = UNHEX(?) AND status > 0)"
+			const query = "SELECT *, HEX(id) AS id FROM proposals WHERE id IN (SELECT proposal_id FROM offers " +
+				"WHERE supplier_id = UNHEX(?) AND status > 0)"
 			return connection.execute(query, [req.user.id]);
 		})
 			.spread(data => {

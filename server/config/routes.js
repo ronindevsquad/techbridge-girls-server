@@ -1,3 +1,5 @@
+const upload = require('../services/upload');
+
 const makers = require('../controllers/makers');
 const messages = require('../controllers/messages');
 const offers = require('../controllers/offers');
@@ -6,8 +8,6 @@ const proposals = require('../controllers/proposals');
 const reports = require('../controllers/reports');
 const suppliers = require('../controllers/suppliers');
 const urls = require('../controllers/urls');
-
-const upload = require('../services/upload');
 
 module.exports = function (app) {
 	// MAKERS

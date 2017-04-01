@@ -83,13 +83,21 @@ module.exports = {
 	},
 	getAcceptedOffers: function (req, res) {
 		using(getConnection(), connection => {
-			let user_id = req.user.type == 0 ? "offers.user_id" : "proposals.user_id";
-			const query = "SELECT offers.*, users.type, picture, contact, company, offers.updated_at AS updated_at, " +
-				"HEX(proposal_id) AS proposal_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
-				"JOIN users ON users.id = " + user_id +
-				" WHERE (offers.user_id = UNHEX(?) OR " +
-				"proposals.user_id = UNHEX(?)) AND offers.status > 1";
-			return connection.execute(query, [req.user.id, req.user.id]);
+			let query;
+			if (req.user.type === 0) {
+				query = "SELECT offers.*, picture, contact, company, offers.updated_at AS updated_at, " +
+					"HEX(offers.id) AS offer_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
+					"LEFT JOIN suppliers ON offers.supplier_id = suppliers.id WHERE proposals.maker_id = UNHEX(?) " +
+					"AND offers.status > 1";
+			} else if (req.user.type === 1) {
+				query = "SELECT offers.*, picture, contact, company, offers.updated_at AS updated_at, " +
+					"HEX(offers.id) AS offer_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
+					"LEFT JOIN makers ON proposals.maker_id = makers.id WHERE offers.supplier_id = UNHEX(?) " +
+					"AND offers.status > 1";
+			} else	
+				return res.status(400).json({ message: 'Invalid user type provided.' });
+
+			return connection.execute(query, [req.user.id]);
 		})
 			.spread(data => {
 				return res.json(data);
