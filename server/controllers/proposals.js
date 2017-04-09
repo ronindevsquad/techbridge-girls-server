@@ -193,7 +193,7 @@ module.exports = {
 			.catch(err => {
 				console.log(err);
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	},
@@ -265,7 +265,7 @@ module.exports = {
 			})
 			.catch(err => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	}

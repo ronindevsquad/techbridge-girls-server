@@ -121,7 +121,7 @@ module.exports = {
       })
       .catch(err => {
         if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         return res.status(400).json({ message: "Please contact an admin." });
       });
 
@@ -208,7 +208,7 @@ module.exports = {
         if (err["code"] == "ER_DUP_ENTRY")
           return res.status(400).json({ message: "Email already in use, please log in." });
         else if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         else
           return res.status(400).json({ message: "Please contact an admin." });
       });
@@ -285,7 +285,7 @@ module.exports = {
         if (err["code"] == "ER_DUP_ENTRY")
           return res.status(400).json({ message: "Email already in use, please log in." });
         else if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         else
           return res.status(400).json({ message: "Please contact an admin." });
       });
@@ -326,7 +326,7 @@ module.exports = {
       })
       .catch(err => {
         if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         return res.status(400).json({ message: "Please contact an admin." });
       });
   },
@@ -357,7 +357,7 @@ module.exports = {
       })
       .catch(err => {
         if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         return res.status(400).json({ message: "Please contact an admin." });
       });
   },
@@ -382,7 +382,7 @@ module.exports = {
       })
       .catch(err => {
         if (err.status)
-          return res.status(err.status).json(err.message);
+          return res.status(err.status).json({ message: err.message });
         return res.status(400).json({ message: "Please contact an admin." });
       });
   }

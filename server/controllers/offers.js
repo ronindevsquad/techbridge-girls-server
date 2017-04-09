@@ -94,7 +94,7 @@ module.exports = {
 					"HEX(offers.id) AS offer_id FROM offers LEFT JOIN proposals ON offers.proposal_id = proposals.id " +
 					"LEFT JOIN makers ON proposals.maker_id = makers.id WHERE offers.supplier_id = UNHEX(?) " +
 					"AND offers.status > 1";
-			} else	
+			} else
 				return res.status(400).json({ message: 'Invalid user type provided.' });
 
 			return connection.execute(query, [req.user.id]);
@@ -176,7 +176,7 @@ module.exports = {
 		})
 			.catch(err => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." })
 			});
 	},
@@ -203,7 +203,7 @@ module.exports = {
 			})
 			.catch((err) => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	},
@@ -222,7 +222,7 @@ module.exports = {
 			})
 			.catch(err => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	},
@@ -259,7 +259,7 @@ module.exports = {
 			})
 			.catch(err => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	},
@@ -380,7 +380,7 @@ module.exports = {
 				.catch(err => {
 					console.log(err);
 					if (err.status)
-						return res.status(err.status).json(err.message);
+						return res.status(err.status).json({ message: err.message });
 					return res.status(400).json({ message: "Please contact an admin." });
 				});
 	},
@@ -414,7 +414,7 @@ module.exports = {
 			})
 			.catch(err => {
 				if (err.status)
-					return res.status(err.status).json(err.message);
+					return res.status(err.status).json({ message: err.message });
 				return res.status(400).json({ message: "Please contact an admin." });
 			});
 	}
