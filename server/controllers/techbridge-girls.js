@@ -85,6 +85,35 @@ module.exports = {
     });
 
     res.end();
+  },
+
+  donate: function(req, res){
+    var url = "https://demo.docusign.net/restapi/v2/login_information";
+    var body = "";	// no request body for login api call
+    // set request url, method, body, and headers
+    var options = initializeRequest2(url, "GET", body, 'george92miranda@gmail.com', '1Azkikr2');
+
+    // send the request...
+    request(options, function (err, res, body) {
+      if (!parseResponseBody(err, res, body)) {
+        return;
+      }
+      baseUrl = JSON.parse(body).loginAccounts[0].baseUrl;
+      console.log(baseUrl)
+
+      var url = baseUrl + "/billing_payments";
+
+      body = {
+        paymentAmount: req.body.amount
+      };
+
+      // set request url, method, body, and headers
+      var options = initializeRequest2(url, "POST", body, 'george92miranda@gmail.com', '1Azkikr2');
+      console.log(options);
+    
+  
+    })
+
   }
 }
 
@@ -99,12 +128,34 @@ function initializeRequest(url, method, body, email, password) {
   return options;
 }
 
+function initializeRequest2(url, method, body, email, password) {
+  var options = {
+    "method": method,
+    "uri": url,
+    "body": body,
+    "headers": {}
+  };
+  addRequestHeaders2(options, email, password);
+  return options;
+}
+
 function addRequestHeaders(options, email, password) {
   // JSON formatted authentication header (XML format allowed as well)
   dsAuthHeader = JSON.stringify({
     "Username": email,
     "Password": password,
     "IntegratorKey": '89c72d62-a6e4-497b-ae5a-59a05cdc4cfa'  // global
+  });
+  // DocuSign authorization header
+  options.headers["X-DocuSign-Authentication"] = dsAuthHeader;
+}
+
+function addRequestHeaders2(options, email, password) {
+  // JSON formatted authentication header (XML format allowed as well)
+  dsAuthHeader = JSON.stringify({
+    "Username": email,
+    "Password": password,
+    "IntegratorKey": 'RONI-e4c92590-67bf-43ce-92bb-f0c159cc26d4'  // global
   });
   // DocuSign authorization header
   options.headers["X-DocuSign-Authentication"] = dsAuthHeader;
